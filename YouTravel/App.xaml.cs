@@ -34,16 +34,44 @@ namespace YouTravel
 				db.Locations.Add(hotel1);
 				db.SaveChanges();
 
+				var arr1 = new Arrangement { Description = "Arrangement 1" };
+				arr1.Locations.Add(attr1);
+				arr1.Locations.Add(hotel1);
+				db.Arrangements.Add(arr1);
+				db.SaveChanges();
+
+				var arr2 = new Arrangement { Description = "Arrangement 2" };	
+				arr2.Locations.Add(attr1);
+				arr2.Locations.Add(attr2);
+				db.Arrangements.Add(arr2);
+				db.SaveChanges();
+
+				var arr3 = new Arrangement { Description = "Arrangement 3" };
+				arr3.Locations.Add(attr1);
+				arr3.Locations.Add(attr2);
+				arr3.Locations.Add(hotel1);
+				db.Arrangements.Add(arr3);
+				db.SaveChanges();
+
 				// Query:
 
 				var q = from loc in db.Locations
 						where loc.Type == LocationType.Attraction
 						select loc;
+				var q2 = from arr in db.Arrangements
+						 where arr.Locations.Where(loc => loc.Type == LocationType.Hotel).Count() > 0
+						 select arr;
 
-				Console.WriteLine("Attractions:");
+				Console.WriteLine("\nAttractions:");
 				foreach (var attraction in q)
 				{
 					Console.WriteLine(attraction.Name);
+				}
+
+				Console.WriteLine("\nArrangements with a hotel:");
+				foreach (var arrangement in q2)
+				{
+					Console.WriteLine(arrangement.Description);
 				}
 			}
 		}
