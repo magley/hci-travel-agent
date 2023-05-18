@@ -1,28 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Maps.MapControl.WPF;
+using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using YouTravel.Model;
 
 namespace YouTravel
 {
-	/// <summary>
-	/// Interaction logic for MainWindow.xaml
-	/// </summary>
 	public partial class MainWindow : Window
 	{
 		public MainWindow()
 		{
-			InitializeComponent();
+			InitializeComponent();	
 		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			InitMapsApi();
+		}
+
+#region Helper Funcs
+
+		private void InitMapsApi()
+		{
+			string mapsApiKey = File.ReadAllText("Data/MapsApiKey.txt");
+			this.MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
+		}
+
+#endregion
 	}
 }
