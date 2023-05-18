@@ -25,7 +25,7 @@ namespace YouTravel
 
 		private void InitMapsApi()
 		{
-			string mapsApiKey = File.ReadAllText("Data/MapsApiKey.txt");
+			string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
 			this.MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
 		}
 
