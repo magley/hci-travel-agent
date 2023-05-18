@@ -2,7 +2,7 @@
 
 namespace YouTravel.Model
 {
-	internal class TravelContext : DbContext
+	public class TravelContext : DbContext
 	{
 		public DbSet<Arrangement> Arrangements { get; set; }
 		public DbSet<Location> Locations { get; set; }
