@@ -3,10 +3,43 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+		xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:local="clr-namespace:YouTravel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800" Loaded="Window_Loaded"
+		DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
-    </Grid>
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition/>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+
+		<m:Map
+			Grid.Row="0"
+			x:Name="MyMap" 
+			CredentialsProvider="(This value is set in the code-behind)"
+			Mode="Aerial"/>
+
+		<DataGrid Grid.Row="1"
+				  x:Name="ArrangmentDataGrid"
+				  AutoGenerateColumns="False"
+				  EnableRowVirtualization="True"
+				  RowDetailsVisibilityMode="VisibleWhenSelected">
+			<DataGrid.Columns>
+				<DataGridTextColumn Binding="{Binding Id}"
+									Header="ID"
+									Width="SizeToHeader"
+									IsReadOnly="True" />
+				<DataGridTextColumn Binding="{Binding Description}"
+									Header="Description"
+									Width="SizeToHeader"
+									IsReadOnly="True" />
+			</DataGrid.Columns>
+		</DataGrid>
+
+		<Button Grid.Row="2" Click="Button_Click">Add Arrangement</Button>
+	</Grid>
 </Window>
