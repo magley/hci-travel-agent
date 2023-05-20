@@ -39,5 +39,14 @@ namespace YouTravel.Agent
 
             Console.WriteLine(arr.Description);
         }
+
+        private void ArrangementReport_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            Arrangement arr = (Arrangement)button.DataContext;
+
+            ArrangementReport arrangementReportWindow = new(arr);
+            arrangementReportWindow.Show();
+        }
     }
 }

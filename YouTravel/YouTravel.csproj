@@ -10,6 +10,9 @@
 
   <ItemGroup>
     <None Remove="Res\IcoAdd.png" />
+    <None Remove="Res\IcoBlueBullet.png" />
+    <None Remove="Res\IcoChart.png" />
+    <None Remove="Res\IcoPencil.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -24,6 +27,9 @@
 
   <ItemGroup>
     <Resource Include="Res\IcoAdd.png" />
+    <Resource Include="Res\IcoBlueBullet.png" />
+    <Resource Include="Res\IcoChart.png" />
+    <Resource Include="Res\IcoPencil.png" />
   </ItemGroup>
 
 </Project>

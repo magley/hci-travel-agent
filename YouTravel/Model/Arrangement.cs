@@ -15,5 +15,6 @@ namespace YouTravel.Model
 		public string ImageFname { get; set; } = "";
 
 		public virtual IList<Location> Locations { get; } = new List<Location>();
-	}
+        public IList<Reservation> Reservations { get; } = new List<Reservation>();
+    }
 }

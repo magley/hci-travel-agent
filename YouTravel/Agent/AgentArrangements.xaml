@@ -11,6 +11,8 @@
 
 	<Window.Resources>
 		<BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
+		<BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
+		<BitmapImage x:Key="IcoStats" UriSource="../Res/IcoChart.png"/>
 	</Window.Resources>
 	
 	<Grid>
@@ -35,7 +37,7 @@
 
 			<Button>
 				<DockPanel HorizontalAlignment="Stretch">
-					<Image Source="{StaticResource IcoAdd}" Height="24"/>
+					<Image Source="{StaticResource IcoAdd}" Height="20" Margin="5 0 5 0"/>
 					<Label Content="New"/>
 				</DockPanel>
 			</Button>
@@ -47,16 +49,47 @@
 			x:Name="arrangementsList"
 			ItemsSource="{Binding}"
 			Margin="10 10 10 10">
+
 			<ListView.View>
 				<GridView>
+					<!-- Unpublished changes indicator.  -->
+					<GridViewColumn>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<Image Source="../Res/IcoBlueBullet.png" Height="18"/>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					
+					<!-- Description (name) -->
 					<GridViewColumn
 						DisplayMemberBinding="{Binding Path=Description}"
 						Header="Description"/>
 
+					<!-- Edit button -->
 					<GridViewColumn>
 						<GridViewColumn.CellTemplate>
 							<DataTemplate>
-								<Button Click="ViewArrangement_Click">View</Button>
+								<Button Click="ViewArrangement_Click">
+									<DockPanel HorizontalAlignment="Stretch">
+										<Image Source="{StaticResource IcoEdit}" Height="20" Margin="5 0 5 0"/>
+										<Label Content="Edit"/>
+									</DockPanel>
+								</Button>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+					
+					<!-- Stats button -->
+					<GridViewColumn>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<Button Click="ArrangementReport_Click">
+									<DockPanel HorizontalAlignment="Stretch">
+										<Image Source="{StaticResource IcoStats}" Height="20" Margin="5 0 5 0"/>
+										<Label Content="Report"/>
+									</DockPanel>
+								</Button>
 							</DataTemplate>
 						</GridViewColumn.CellTemplate>
 					</GridViewColumn>

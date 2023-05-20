@@ -6,8 +6,9 @@
     <Application.Resources>
 		<SolidColorBrush x:Key="bg_dark0" Color="#454545"/>
 		<SolidColorBrush x:Key="bg_dark1" Color="#555555"/>
-		<SolidColorBrush x:Key="bg_dark2" Color="#767676"/>
-		<SolidColorBrush x:Key="bg_dark3" Color="#8E8E8E"/>
+		<SolidColorBrush x:Key="bg_dark2" Color="#656565"/>
+		<SolidColorBrush x:Key="bg_dark3" Color="#757575"/>
+		<SolidColorBrush x:Key="bg_dark4" Color="#858585"/>
 		
 		<Style TargetType="{x:Type Window}" x:Key="WinDark">
 			<Setter Property="FontSize" Value="16"/>
@@ -31,12 +32,12 @@
 
 			<Style.Triggers>
 				<Trigger Property="IsMouseOver" Value="True">
-					<Setter Property="Background" Value="{DynamicResource bg_dark2}"/>
+					<Setter Property="Background" Value="{DynamicResource bg_dark3}"/>
 					<Setter Property="Cursor" Value="Hand"/>
 				</Trigger>
 
 				<Trigger Property="IsPressed" Value="True">
-					<Setter Property="Background" Value="{DynamicResource bg_dark3}"/>
+					<Setter Property="Background" Value="{DynamicResource bg_dark4}"/>
 				</Trigger>
 			</Style.Triggers>
 		</Style>
@@ -46,11 +47,11 @@
 		</Style>
 
 		<Style TargetType="{x:Type ListView}">
-			<Setter Property="Background" Value="{DynamicResource bg_dark1}"/>
+			<Setter Property="Background" Value="{DynamicResource bg_dark2}"/>
 
 			<Style.Triggers>
 				<Trigger Property="IsMouseOver" Value="True">
-					<Setter Property="Background" Value="{DynamicResource bg_dark1}"/>
+					<Setter Property="Background" Value="{DynamicResource bg_dark2}"/>
 				</Trigger>
 			</Style.Triggers>
 		</Style>
@@ -64,13 +65,13 @@
 				</Trigger>
 
 				<Trigger Property="IsSelected" Value="True">
-					<Setter Property="Background" Value="{DynamicResource bg_dark3}"/>
+					<Setter Property="Background" Value="{DynamicResource bg_dark4}"/>
 				</Trigger>
 			</Style.Triggers>
 		</Style>
 
 		<Style TargetType="{x:Type GridViewColumnHeader}">
-			<Setter Property="Background" Value="{DynamicResource bg_dark2}"/>
+			<Setter Property="Background" Value="{DynamicResource bg_dark3}"/>
 			<Setter Property="Foreground" Value="White"/>
 
 			<Style.Triggers>
@@ -79,7 +80,7 @@
 				</Trigger>
 
 				<Trigger Property="IsPressed" Value="True">
-					<Setter Property="Background" Value="{DynamicResource bg_dark3}"/>
+					<Setter Property="Background" Value="{DynamicResource bg_dark4}"/>
 				</Trigger>
 			</Style.Triggers>
 		</Style>
