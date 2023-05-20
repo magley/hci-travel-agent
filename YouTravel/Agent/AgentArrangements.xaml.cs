@@ -1,27 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-    /// <summary>
-    /// Interaction logic for AgentArrangements.xaml
-    /// </summary>
     public partial class AgentArrangements : Window
     {
+        public ObservableCollection<Arrangement> Arrangements { get; set; } = new();
+        private TravelContext _ctx = new();
+
         public AgentArrangements()
         {
             InitializeComponent();
+            DataContext = this;
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            InitDbContext();
+        }
+
+        private void InitDbContext()
+        {
+            _ctx.Arrangements.Load();
+            Arrangements = _ctx.Arrangements.Local.ToObservableCollection();
+            arrangementsList.DataContext = Arrangements;
+        }
+
+        private void ViewArrangement_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
+            Arrangement arr= (Arrangement)button.DataContext;
+
+            Console.WriteLine(arr.Description);
         }
     }
 }

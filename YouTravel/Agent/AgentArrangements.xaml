@@ -5,8 +5,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Agent"
         mc:Ignorable="d"
-        Title="AgentArrangements" Height="450" Width="800">
+		Loaded="Window_Loaded"
+        Title="AgentArrangements" Width="960" Height="540">
     <Grid>
-        
+		<Grid.ColumnDefinitions>
+			
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			
+		</Grid.RowDefinitions>
+
+		<ListView
+			x:Name="arrangementsList"
+			ItemsSource="{Binding}">
+			<ListView.View>
+				<GridView>
+					<GridViewColumn
+						DisplayMemberBinding="{Binding Path=Description}"
+						Header="Description"/>
+
+					<GridViewColumn>
+						<GridViewColumn.CellTemplate>
+							<DataTemplate>
+								<Button Click="ViewArrangement_Click">View</Button>
+							</DataTemplate>
+						</GridViewColumn.CellTemplate>
+					</GridViewColumn>
+				</GridView>
+			</ListView.View>
+		</ListView>
     </Grid>
 </Window>
