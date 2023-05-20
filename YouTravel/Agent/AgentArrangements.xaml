@@ -7,17 +7,46 @@
         mc:Ignorable="d"
 		Loaded="Window_Loaded"
         Title="AgentArrangements" Width="960" Height="540">
-    <Grid>
+
+	<Window.Resources>
+		<BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
+	</Window.Resources>
+	
+	<Grid>
+
 		<Grid.ColumnDefinitions>
-			
+			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="7*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			
+			<RowDefinition Height="1*" />
+			<RowDefinition Height="9*" />
 		</Grid.RowDefinitions>
 
+		<StackPanel
+			Grid.Row="0"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
+			HorizontalAlignment="Right"
+			Orientation="Horizontal"
+			VerticalAlignment="Center"
+			Margin="10">
+
+			<Button>
+				<DockPanel HorizontalAlignment="Stretch">
+					<Image Source="{StaticResource IcoAdd}"/>
+					<Label >Add New</Label>
+				</DockPanel>
+
+			</Button>
+		</StackPanel>
+
 		<ListView
+			Grid.Row="1"
+			Grid.Column="1"
 			x:Name="arrangementsList"
-			ItemsSource="{Binding}">
+			ItemsSource="{Binding}"
+			Margin="10 10 10 10">
 			<ListView.View>
 				<GridView>
 					<GridViewColumn
