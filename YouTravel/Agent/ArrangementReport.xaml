@@ -25,6 +25,8 @@
 			Margin="0 16 0 16"
 			x:Name="tbReservations" 
 			AutoGenerateColumns="True" 
+			HeadersVisibility="Column"
+			IsReadOnly="True"
 			ItemsSource="{Binding}">
 		</DataGrid>
 
