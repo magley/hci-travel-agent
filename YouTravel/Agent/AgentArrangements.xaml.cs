@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using YouTravel.Model;
@@ -13,6 +12,10 @@ namespace YouTravel.Agent
     {
         public ObservableCollection<Arrangement> Arrangements { get; set; } = new();
         private TravelContext _ctx = new();
+
+        public bool ShowActive { get; set; } = true;
+        public bool ShowFinished { get; set; } = true;
+        public bool ShowDeleted { get; set; } = false;
 
         public AgentArrangements()
         {
@@ -27,8 +30,16 @@ namespace YouTravel.Agent
 
         private void InitDbContext()
         {
+            LoadArrangements();
+        }
+
+        private void LoadArrangements()
+        {
             _ctx.Arrangements.Load();
             Arrangements = _ctx.Arrangements.Local.ToObservableCollection();
+
+            Arrangements = new(Arrangements.Where(x => ShowActive || x.Id % 2 == 0)); // Testing out filtering observable collections
+            
             arrangementsList.DataContext = Arrangements;
         }
 
@@ -47,6 +58,21 @@ namespace YouTravel.Agent
 
             ArrangementReport arrangementReportWindow = new(arr);
             arrangementReportWindow.Show();
+        }
+
+        private void CbShowActive_Click(object sender, RoutedEventArgs e)
+        {
+            LoadArrangements();
+        }
+
+        private void CbShowFinished_Click(object sender, RoutedEventArgs e)
+        {
+            LoadArrangements();
+        }
+
+        private void CbShowDeleted_Click(object sender, RoutedEventArgs e)
+        {
+            LoadArrangements();
         }
     }
 }

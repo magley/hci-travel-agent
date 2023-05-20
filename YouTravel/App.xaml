@@ -46,6 +46,13 @@
 			<Setter Property="Foreground" Value="White"/>
 		</Style>
 
+		<Style TargetType="{x:Type CheckBox}">
+			<Setter Property="Background" Value="{DynamicResource bg_dark4}"/>
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+		
+		<!-- List/Table/Grid stuff is below -->
+
 		<Style TargetType="{x:Type ListView}">
 			<Setter Property="Background" Value="{DynamicResource bg_dark2}"/>
 
