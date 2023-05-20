@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:YouTravel.Agent"
         mc:Ignorable="d"
 		Loaded="Window_Loaded"
+		Style="{StaticResource WinDark}"
         Title="AgentArrangements" Width="960" Height="540">
 
 	<Window.Resources>
@@ -15,11 +16,11 @@
 	<Grid>
 
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="3*" />
+			<ColumnDefinition Width="2*" />
 			<ColumnDefinition Width="7*" />
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="1*" />
+			<RowDefinition Height="Auto" />
 			<RowDefinition Height="9*" />
 		</Grid.RowDefinitions>
 
@@ -34,10 +35,9 @@
 
 			<Button>
 				<DockPanel HorizontalAlignment="Stretch">
-					<Image Source="{StaticResource IcoAdd}"/>
-					<Label >Add New</Label>
+					<Image Source="{StaticResource IcoAdd}" Height="24"/>
+					<Label Content="New"/>
 				</DockPanel>
-
 			</Button>
 		</StackPanel>
 
