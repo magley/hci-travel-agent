@@ -38,6 +38,7 @@ namespace YouTravel.Agent
             _ctx.Arrangements.Load();
             Arrangements = _ctx.Arrangements.Local.ToObservableCollection();
 
+            // TODO: Utilize a search query (see BtnSearch_Click).
             Arrangements = new(Arrangements.Where(x => ShowActive || x.Id % 2 == 0)); // Testing out filtering observable collections
             
             arrangementsList.DataContext = Arrangements;
@@ -73,6 +74,18 @@ namespace YouTravel.Agent
         private void CbShowDeleted_Click(object sender, RoutedEventArgs e)
         {
             LoadArrangements();
+        }
+
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            string searchQuery = this.searchBox.Text;
+            Console.WriteLine(searchQuery);
+            LoadArrangements();
+        }
+
+        private void BtnClearSearch_Click(object sender, RoutedEventArgs e)
+        {
+            this.searchBox.Text = "";
         }
     }
 }

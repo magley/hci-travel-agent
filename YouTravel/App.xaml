@@ -4,12 +4,36 @@
              xmlns:local="clr-namespace:YouTravel"
              StartupUri="Agent/AgentArrangements.xaml">
     <Application.Resources>
+		<!-- Other styles -->
+
+		<!-- https://stackoverflow.com/questions/13624606-->
+		<Style x:Key="TransparentStyle" TargetType="{x:Type Button}">
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border Background="Transparent">
+							<ContentPresenter/>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="Foreground" Value="White"/>
+
+			<Style.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Cursor" Value="Hand"/>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+
+		<!-- Dark Theme -->
+		
 		<SolidColorBrush x:Key="bg_dark0" Color="#454545"/>
 		<SolidColorBrush x:Key="bg_dark1" Color="#555555"/>
 		<SolidColorBrush x:Key="bg_dark2" Color="#656565"/>
 		<SolidColorBrush x:Key="bg_dark3" Color="#757575"/>
 		<SolidColorBrush x:Key="bg_dark4" Color="#858585"/>
-		
+
 		<Style TargetType="{x:Type Window}" x:Key="WinDark">
 			<Setter Property="FontSize" Value="16"/>
 			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
@@ -50,7 +74,12 @@
 			<Setter Property="Background" Value="{DynamicResource bg_dark4}"/>
 			<Setter Property="Foreground" Value="White"/>
 		</Style>
-		
+
+		<Style TargetType="{x:Type TextBox}">
+			<Setter Property="Background" Value="{DynamicResource bg_dark1}"/>
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+
 		<!-- List/Table/Grid stuff is below -->
 
 		<Style TargetType="{x:Type ListView}">
