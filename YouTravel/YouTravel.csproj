@@ -12,7 +12,9 @@
     <None Remove="Res\IcoAdd.png" />
     <None Remove="Res\IcoBlueBullet.png" />
     <None Remove="Res\IcoChart.png" />
+    <None Remove="Res\IcoDisk.png" />
     <None Remove="Res\IcoMagnifier.png" />
+    <None Remove="Res\IcoPageEdit.png" />
     <None Remove="Res\IcoPencil.png" />
   </ItemGroup>
 
@@ -30,7 +32,9 @@
     <Resource Include="Res\IcoAdd.png" />
     <Resource Include="Res\IcoBlueBullet.png" />
     <Resource Include="Res\IcoChart.png" />
+    <Resource Include="Res\IcoDisk.png" />
     <Resource Include="Res\IcoMagnifier.png" />
+    <Resource Include="Res\IcoPageEdit.png" />
     <Resource Include="Res\IcoPencil.png" />
   </ItemGroup>
 

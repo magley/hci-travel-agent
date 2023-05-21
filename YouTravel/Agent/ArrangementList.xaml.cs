@@ -8,7 +8,7 @@ using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-    public partial class AgentArrangements : Window
+    public partial class ArrangementList : Window
     {
         public ObservableCollection<Arrangement> Arrangements { get; set; } = new();
         private TravelContext _ctx = new();
@@ -17,7 +17,7 @@ namespace YouTravel.Agent
         public bool ShowFinished { get; set; } = true;
         public bool ShowDeleted { get; set; } = false;
 
-        public AgentArrangements()
+        public ArrangementList()
         {
             InitializeComponent();
             DataContext = this;
@@ -44,12 +44,13 @@ namespace YouTravel.Agent
             arrangementsList.DataContext = Arrangements;
         }
 
-        private void ViewArrangement_Click(object sender, RoutedEventArgs e)
+        private void EditArrangement_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
             Arrangement arr= (Arrangement)button.DataContext;
 
-            Console.WriteLine(arr.Description);
+            ArrangementEdit win = new(arr);
+            win.Show();
         }
 
         private void ArrangementReport_Click(object sender, RoutedEventArgs e)

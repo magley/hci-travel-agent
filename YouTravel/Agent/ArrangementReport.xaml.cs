@@ -17,6 +17,9 @@ namespace YouTravel.Agent
         {
             InitializeComponent();
             DataContext = this;
+            WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            Owner = Application.Current.MainWindow;
+
             this.arrangement = arrangement;
         }
 

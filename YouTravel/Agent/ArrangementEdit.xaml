@@ -1,0 +1,52 @@
+﻿<Window x:Class="YouTravel.Agent.ArrangementEdit"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YouTravel.Agent"
+        mc:Ignorable="d"
+		Style="{StaticResource WinDark}"
+        Title="ArrangementEdit" Height="450" Width="800">
+
+	<Window.Resources>
+		<BitmapImage x:Key="IcoSave" UriSource="../Res/IcoPageEdit.png"/>
+		<BitmapImage x:Key="IcoPublish" UriSource="../Res/IcoDisk.png"/>
+	</Window.Resources>
+
+	<Grid Margin="16">
+		<Grid.RowDefinitions>
+			<RowDefinition Height="9*"/>
+			<RowDefinition Height="Auto"/>
+		</Grid.RowDefinitions>
+
+		<GroupBox Grid.Row="0" Margin="5">
+			<TabControl>
+				<TabItem Header="General">
+					
+				</TabItem>
+				<TabItem Header="Activities">
+
+				</TabItem>
+			</TabControl>
+		</GroupBox>
+
+		<Grid Grid.Row="1">
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+				<Button Margin="0 0 10 0">
+					<DockPanel HorizontalAlignment="Stretch">
+						<Image Source="{StaticResource IcoSave}" Height="20" Margin="5 0 5 0"/>
+						<Label Content="Save Draft"/>
+					</DockPanel>
+				</Button>
+
+				<Button>
+					<DockPanel HorizontalAlignment="Stretch">
+						<Image Source="{StaticResource IcoPublish}" Height="20" Margin="5 0 5 0"/>
+						<Label Content="Publish Changes"/>
+					</DockPanel>
+				</Button>
+			</StackPanel>
+		</Grid>
+	</Grid>
+
+</Window>
