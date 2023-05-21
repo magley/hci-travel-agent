@@ -31,17 +31,17 @@ namespace YouTravel
 				var hotel1 = new Location { Name = "Hotel California", Type = LocationType.Hotel };
 				db.Locations.Add(hotel1);
 
-				var arr1 = new Arrangement { Description = "Arrangement 1" };
+				var arr1 = new Arrangement { Description = "Arrangement 1", Price=123 };
 				arr1.Locations.Add(attr1);
 				arr1.Locations.Add(hotel1);
 				db.Arrangements.Add(arr1);
 
-				var arr2 = new Arrangement { Description = "Arrangement 2" };	
+				var arr2 = new Arrangement { Description = "Arrangement 2", Price = 356 };	
 				arr2.Locations.Add(attr1);
 				arr2.Locations.Add(attr2);
 				db.Arrangements.Add(arr2);
 
-				var arr3 = new Arrangement { Description = "Arrangement 3" };
+				var arr3 = new Arrangement { Description = "Arrangement 3", Price = 500 };
 				arr3.Locations.Add(attr1);
 				arr3.Locations.Add(attr2);
 				arr3.Locations.Add(hotel1);
