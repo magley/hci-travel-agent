@@ -24,8 +24,16 @@
 			<Menu>
 				<MenuItem Header="_File">
 					<MenuItem Header="New">
-						<MenuItem Header="Arrangement"/>
-						<MenuItem Header="Place"/>
+						<MenuItem Header="Arrangement">
+							<MenuItem.Icon>
+								<Image Source="{StaticResource IcoAddArrangement}"/>
+							</MenuItem.Icon>
+						</MenuItem>
+						<MenuItem Header="Place">
+							<MenuItem.Icon>
+								<Image Source="{StaticResource IcoAddPlace}"/>
+							</MenuItem.Icon>
+						</MenuItem>
 					</MenuItem>
 					<Separator/>
 					<MenuItem Header="Logout"></MenuItem>

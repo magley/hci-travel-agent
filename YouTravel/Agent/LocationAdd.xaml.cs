@@ -77,11 +77,9 @@ namespace YouTravel.Agent
 			Point mousePos = e.GetPosition(this);
 			Location latLong = MyMap.ViewportPointToLocation(mousePos);
 
-			_latitude = latLong.Latitude; // HACK: If we changed Latitude here, then MoveMapToLocation gets called twice
-										  // but during the first call we still have the old Longitude. This wouldn't be
-										  // so bad if we didn't have to add pins because then 2 pins are added. Although
-										  // if we allow only 1 pin at any given time, the user won't notice this effect,
-										  // but if our method ever has side effects, it can cause nasty bugs.
+			// HACK: These 2 lines are a hack but we don't want MoveMapToLocation() to be called twice.
+			_latitude = latLong.Latitude;
+			DoPropertyChanged(nameof(Latitude));
 			Longitude = latLong.Longitude;
 		}
 
