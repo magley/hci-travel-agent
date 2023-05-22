@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using YouTravel.Model;
+using Location = Microsoft.Maps.MapControl.WPF.Location;
 
 namespace YouTravel.Agent
 {
@@ -74,5 +75,15 @@ namespace YouTravel.Agent
 
             Console.WriteLine($"{start} {end}");
         }
+
+		private void TheMap_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		{
+            e.Handled = true; // Prevent other events from firing up (in this case, zooming in at cursor).
+            Point mousePos = e.GetPosition(this);
+            Location latLong = TheMap.ViewportPointToLocation(mousePos);
+
+            LocationAdd win = new(latLong);
+            win.Show();
+		}
 	}
 }

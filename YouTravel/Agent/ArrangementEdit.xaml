@@ -7,10 +7,10 @@
         xmlns:local="clr-namespace:YouTravel.Agent"
 		xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
 		mc:Ignorable="d"
 		Style="{StaticResource WinDark}"
-		Loaded="Window_Loaded"
-		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+		Loaded="Window_Loaded"	
         Title="ArrangementEdit" Height="640" Width="640">
 
 	<Window.Resources>
@@ -68,6 +68,7 @@
 							Grid.ColumnSpan="2"
 							Margin="5"
 							x:Name="TheMap" 
+							MouseDoubleClick="TheMap_MouseDoubleClick"
 							CredentialsProvider="(This value is set in the code-behind)"
 							Mode="Road"/>
 
