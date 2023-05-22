@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using YouTravel.Model;
 
 namespace YouTravel.Agent
@@ -17,7 +18,9 @@ namespace YouTravel.Agent
         public bool ShowFinished { get; set; } = true;
         public bool ShowDeleted { get; set; } = false;
 
-        public ArrangementList()
+        public bool ToolbarVisible { get; set; } = true;
+
+		public ArrangementList()
         {
             InitializeComponent();
             DataContext = this;
@@ -89,9 +92,11 @@ namespace YouTravel.Agent
             this.searchBox.Text = "";
         }
 
-		private void MenuItem_Click(object sender, RoutedEventArgs e)
+		private void ShowToolbar_Click(object sender, RoutedEventArgs e)
 		{
-
+			MenuItem menuItem = (MenuItem)sender;
+            ToolbarVisible = menuItem.IsChecked;
+            this.toolbarTray.Visibility = ToolbarVisible ? Visibility.Visible : Visibility.Collapsed;
 		}
 	}
 }

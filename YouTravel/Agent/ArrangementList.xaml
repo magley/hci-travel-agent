@@ -14,33 +14,50 @@
 		<BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
 		<BitmapImage x:Key="IcoStats" UriSource="../Res/IcoChart.png"/>
 		<BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
+
+		<BitmapImage x:Key="IcoAddPlace" UriSource="../Res/IcoLocationAdd.png"/>
+		<BitmapImage x:Key="IcoAddArrangement" UriSource="../Res/IcoPlanetAdd.png"/>
 	</Window.Resources>
 
 	<DockPanel>
-		<Menu DockPanel.Dock="Top">
-			<MenuItem Header="_File">
-				<MenuItem Header="New">
-					<MenuItem Header="Arrangement"/>
-					<MenuItem Header="Place"/>
+		<StackPanel DockPanel.Dock="Top">
+			<Menu>
+				<MenuItem Header="_File">
+					<MenuItem Header="New">
+						<MenuItem Header="Arrangement"/>
+						<MenuItem Header="Place"/>
+					</MenuItem>
+					<Separator/>
+					<MenuItem Header="Logout"></MenuItem>
+					<MenuItem Header="Exit"></MenuItem>
 				</MenuItem>
-				<Separator/>
-				<MenuItem Header="Logout"></MenuItem>
-				<MenuItem Header="Exit"></MenuItem>
-			</MenuItem>
-			<MenuItem Header="_View">
-				<MenuItem Header="Arrangements"></MenuItem>
-				<MenuItem Header="Places"></MenuItem>
-				<MenuItem Header="Monthly Reports"></MenuItem>
-			</MenuItem>
-			<MenuItem Header="_Settings">
-				<MenuItem Header="Preferences"></MenuItem>
-				<MenuItem Header="Customize Toolbar"></MenuItem>
-			</MenuItem>
-			<MenuItem Header="_Help">
-				<MenuItem Header="About YouTravel"></MenuItem>
-				<MenuItem Header="Help"></MenuItem>
-			</MenuItem>
-		</Menu>
+				<MenuItem Header="_View">
+					<MenuItem Header="Arrangements"></MenuItem>
+					<MenuItem Header="Places"></MenuItem>
+					<MenuItem Header="Monthly Reports"></MenuItem>
+					<Separator/>
+					<MenuItem Header="Show Toolbar" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=ToolbarVisible}"></MenuItem>
+				</MenuItem>
+				<MenuItem Header="_Settings">
+					<MenuItem Header="Preferences"></MenuItem>
+					<MenuItem Header="Customize Toolbar"></MenuItem>
+				</MenuItem>
+				<MenuItem Header="_Help">
+					<MenuItem Header="About YouTravel"></MenuItem>
+					<MenuItem Header="Help"></MenuItem>
+				</MenuItem>
+			</Menu>
+			<ToolBarTray Background="#FF757575" x:Name="toolbarTray">
+				<ToolBar Template="{DynamicResource ToolBarTemplate1}" Band="0" >
+					<Button>
+						<Image Source="{StaticResource IcoAddArrangement}" Height="20"/>
+					</Button>
+					<Button>
+						<Image Source="{StaticResource IcoAddPlace}" Height="20"/>
+					</Button>
+				</ToolBar>
+			</ToolBarTray>
+		</StackPanel>
 		
 		<Grid DockPanel.Dock="Bottom">
 
