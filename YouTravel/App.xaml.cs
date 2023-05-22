@@ -22,29 +22,29 @@ namespace YouTravel
 			{
 				// Add:
 
-				var attr1 = new Location { Name = "Mt. ABC", Type = LocationType.Attraction };
-				db.Locations.Add(attr1);
+				var attr1 = new Place { Name = "Mt. ABC", Type = PlaceType.Attraction };
+				db.Places.Add(attr1);
 
-				var attr2 = new Location { Name = "DEF's Cave", Type = LocationType.Attraction };
-				db.Locations.Add(attr2);
+				var attr2 = new Place { Name = "DEF's Cave", Type = PlaceType.Attraction };
+				db.Places.Add(attr2);
 
-				var hotel1 = new Location { Name = "Hotel California", Type = LocationType.Hotel };
-				db.Locations.Add(hotel1);
+				var hotel1 = new Place { Name = "Hotel California", Type = PlaceType.Hotel };
+				db.Places.Add(hotel1);
 
 				var arr1 = new Arrangement { Description = "Arrangement 1", Price=123 };
-				arr1.Locations.Add(attr1);
-				arr1.Locations.Add(hotel1);
+				arr1.Places.Add(attr1);
+				arr1.Places.Add(hotel1);
 				db.Arrangements.Add(arr1);
 
 				var arr2 = new Arrangement { Description = "Arrangement 2", Price = 356 };	
-				arr2.Locations.Add(attr1);
-				arr2.Locations.Add(attr2);
+				arr2.Places.Add(attr1);
+				arr2.Places.Add(attr2);
 				db.Arrangements.Add(arr2);
 
 				var arr3 = new Arrangement { Description = "Arrangement 3", Price = 500 };
-				arr3.Locations.Add(attr1);
-				arr3.Locations.Add(attr2);
-				arr3.Locations.Add(hotel1);
+				arr3.Places.Add(attr1);
+				arr3.Places.Add(attr2);
+				arr3.Places.Add(hotel1);
 				db.Arrangements.Add(arr3);
 
 				var res1 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr1 };
@@ -63,11 +63,11 @@ namespace YouTravel
 
 				// Query:
 
-				//var q = from loc in db.Locations
-				//		where loc.Type == LocationType.Attraction
+				//var q = from loc in db.Places
+				//		where loc.Type == PlaceType.Attraction
 				//		select loc;
 				//var q2 = from arr in db.Arrangements
-				//		 where arr.Locations.Where(loc => loc.Type == LocationType.Hotel).Count() > 0
+				//		 where arr.Places.Where(loc => loc.Type == PlaceType.Hotel).Count() > 0
 				//		 select arr;
 
 				//Console.WriteLine("\nAttractions:");

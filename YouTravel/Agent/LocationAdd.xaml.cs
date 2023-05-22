@@ -6,7 +6,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
-using Location = Microsoft.Maps.MapControl.WPF.Location;
 
 namespace YouTravel.Agent
 {
@@ -19,14 +18,13 @@ namespace YouTravel.Agent
 		private double _longitude = 0;
 		private string _name = "New Location";
 		private string _description = "";
-		private LocationType _type = LocationType.Attraction;
-		// TODO: Ambiguous naming between WPF.Location and our Model.Location. Maybe 'Place' would be a good replacement?
+		private PlaceType _type = PlaceType.Attraction;
 
 		public double Latitude { get { return _latitude; } set { _latitude = value; DoPropertyChanged(nameof(Latitude)); MoveMapToLocation(); } }
 		public double Longitude { get { return _longitude; } set { _longitude = value; DoPropertyChanged(nameof(Longitude)); MoveMapToLocation(); } }
 		public string LocName { get { return _name; } set { _name = value; DoPropertyChanged(nameof(LocName)); } }
 		public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
-		public LocationType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); DrawImage(new(Latitude, Longitude)); } }
+		public PlaceType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); DrawImage(new(Latitude, Longitude)); } }
 
 		public LocationAdd(Location? loc = null)
         {
@@ -107,13 +105,13 @@ namespace YouTravel.Agent
 			string fname = "";
 			switch (_type)
 			{
-				case LocationType.Attraction:
+				case PlaceType.Attraction:
 					fname = "ImgAttraction.png";
 					break;
-				case LocationType.Restaurant:
+				case PlaceType.Restaurant:
 					fname = "ImgRestaurant.png";
 					break;
-				case LocationType.Hotel:
+				case PlaceType.Hotel:
 					fname = "ImgHotel.png";
 					break;
 			}

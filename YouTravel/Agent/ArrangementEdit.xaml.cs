@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using YouTravel.Model;
-using Location = Microsoft.Maps.MapControl.WPF.Location;
 
 namespace YouTravel.Agent
 {

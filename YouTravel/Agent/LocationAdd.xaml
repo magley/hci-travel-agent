@@ -82,9 +82,9 @@
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 
-				<RadioButton Grid.Column="0" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:LocationType.Attraction}}">Attraction</RadioButton>
-				<RadioButton Grid.Column="1" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:LocationType.Hotel}}">Hotel</RadioButton>
-				<RadioButton Grid.Column="2" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:LocationType.Restaurant}}">Restaurant</RadioButton>
+				<RadioButton Grid.Column="0" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Attraction}}">Attraction</RadioButton>
+				<RadioButton Grid.Column="1" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Hotel}}">Hotel</RadioButton>
+				<RadioButton Grid.Column="2" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Restaurant}}">Restaurant</RadioButton>
 			</Grid>
 		</Grid>
 		
