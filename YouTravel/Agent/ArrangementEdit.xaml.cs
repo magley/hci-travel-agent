@@ -72,8 +72,6 @@ namespace YouTravel.Agent
                 SetArrangementDates(end, start);
                 return;
             }
-
-            Console.WriteLine($"{start} {end}");
         }
 
 		private void TheMap_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
