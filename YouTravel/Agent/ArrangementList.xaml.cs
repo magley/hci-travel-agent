@@ -9,7 +9,7 @@ using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-    public partial class ArrangementList : Window
+    public partial class ArrangementList : UserControl
     {
         public ObservableCollection<Arrangement> Arrangements { get; set; } = new();
         private TravelContext _ctx = new();
@@ -17,8 +17,6 @@ namespace YouTravel.Agent
         public bool ShowActive { get; set; } = true;
         public bool ShowFinished { get; set; } = true;
         public bool ShowDeleted { get; set; } = false;
-
-        public bool ToolbarVisible { get; set; } = true;
 
 		public ArrangementList()
         {
@@ -89,14 +87,7 @@ namespace YouTravel.Agent
 
         private void BtnClearSearch_Click(object sender, RoutedEventArgs e)
         {
-            this.searchBox.Text = "";
+            searchBox.Text = "";
         }
-
-		private void ShowToolbar_Click(object sender, RoutedEventArgs e)
-		{
-			MenuItem menuItem = (MenuItem)sender;
-            ToolbarVisible = menuItem.IsChecked;
-            this.toolbarTray.Visibility = ToolbarVisible ? Visibility.Visible : Visibility.Collapsed;
-		}
 	}
 }
