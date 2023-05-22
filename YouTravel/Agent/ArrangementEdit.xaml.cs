@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Maps.MapControl.WPF;
+using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -9,19 +11,39 @@ namespace YouTravel.Agent
     public partial class ArrangementEdit : Window
     {
         private Arrangement arrangement;
-        public ArrangementEdit(Arrangement arr)
+
+        public bool ActivitiesViewHotel { get; set; } = true;
+		public bool ActivitiesViewAttraction { get; set; } = true;
+		public bool ActivitiesViewRestaurant { get; set; } = true;
+
+		public ArrangementEdit(Arrangement arr)
         {
             InitializeComponent();
-            WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            Owner = Application.Current.MainWindow;
+            CenterWindow();
 
-            arrangement = arr;
+			arrangement = arr;
             DataContext = arrangement;
+		}
 
-            InitCalendarRange();
-        }
+        private void CenterWindow()
+        {
+			WindowStartupLocation = WindowStartupLocation.CenterOwner;
+			Owner = Application.Current.MainWindow;
+		}
 
-        private void InitCalendarRange()
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			InitCalendarRange();
+			InitMapsApi();
+		}
+
+		private void InitMapsApi()
+		{
+			string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
+			TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
+		}
+
+		private void InitCalendarRange()
         {
             arrangementCalendar.SelectedDates.Add(arrangement.Start);
             arrangementCalendar.SelectedDates.Add(arrangement.End);
@@ -52,5 +74,5 @@ namespace YouTravel.Agent
 
             Console.WriteLine($"{start} {end}");
         }
-    }
+	}
 }
