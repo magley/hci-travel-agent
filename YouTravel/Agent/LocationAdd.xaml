@@ -5,8 +5,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Agent"
-		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
-        mc:Ignorable="d"
+		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF" 
+		xmlns:conv="clr-namespace:YouTravel.Util"
+		xmlns:model="clr-namespace:YouTravel.Model"
+		mc:Ignorable="d"
 		Style="{StaticResource WinDark}"
 		Loaded="Window_Loaded"
         Title="LocationAdd" Height="500" Width="400">
@@ -71,15 +73,18 @@
 			<!-- Type radio group -->
 			<Label Grid.Row="3" Grid.Column="0" Content="Type:"/>
 			<Grid Grid.Row="3" Grid.Column="1">
+				<Grid.Resources>
+					<conv:ComparisonConverter x:Key="comparisonConverter" />
+				</Grid.Resources>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition />
 					<ColumnDefinition />
 					<ColumnDefinition />
 				</Grid.ColumnDefinitions>
 
-				<RadioButton Grid.Column="0" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="True">Attraction</RadioButton>
-				<RadioButton Grid.Column="1" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center">Hotel</RadioButton>
-				<RadioButton Grid.Column="2" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center">Restaurant</RadioButton>
+				<RadioButton Grid.Column="0" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:LocationType.Attraction}}">Attraction</RadioButton>
+				<RadioButton Grid.Column="1" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:LocationType.Hotel}}">Hotel</RadioButton>
+				<RadioButton Grid.Column="2" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:LocationType.Restaurant}}">Restaurant</RadioButton>
 			</Grid>
 		</Grid>
 		

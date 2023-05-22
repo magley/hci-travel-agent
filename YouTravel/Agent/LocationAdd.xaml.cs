@@ -26,6 +26,7 @@ namespace YouTravel.Agent
 		public double Longitude { get { return _longitude; } set { _longitude = value; DoPropertyChanged(nameof(Longitude)); MoveMapToLocation(); } }
 		public string LocName { get { return _name; } set { _name = value; DoPropertyChanged(nameof(LocName)); } }
 		public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
+		public LocationType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); DrawImage(new(Latitude, Longitude)); } }
 
 		public LocationAdd(Location? loc = null)
         {
@@ -89,14 +90,14 @@ namespace YouTravel.Agent
 		private void DrawImage(Location where)
 		{
 			MyMap.Children.Clear();
-			//Pushpin pp = new() { Location = where };
-			//MyMap.Children.Add(pp);
 
-			MapLayer mapLayer = new MapLayer();
-			Image myPushPin = new Image();
-			myPushPin.Source = new BitmapImage(new Uri(GetPinIconUriString(), UriKind.Absolute));
-			myPushPin.Width = 48;
-			myPushPin.Height = 48;
+			MapLayer mapLayer = new();
+			Image myPushPin = new()
+			{
+				Source = new BitmapImage(new Uri(GetPinIconUriString(), UriKind.Absolute)),
+				Width = 48,
+				Height = 48
+			};
 			mapLayer.AddChild(myPushPin, where, PositionOrigin.Center);
 			MyMap.Children.Add(mapLayer);
 		}
