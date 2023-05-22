@@ -3,6 +3,10 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media.Imaging;
+using YouTravel.Model;
+using Location = Microsoft.Maps.MapControl.WPF.Location;
 
 namespace YouTravel.Agent
 {
@@ -15,6 +19,8 @@ namespace YouTravel.Agent
 		private double _longitude = 0;
 		private string _name = "New Location";
 		private string _description = "";
+		private LocationType _type = LocationType.Attraction;
+		// TODO: Ambiguous naming between WPF.Location and our Model.Location. Maybe 'Place' would be a good replacement?
 
 		public double Latitude { get { return _latitude; } set { _latitude = value; DoPropertyChanged(nameof(Latitude)); MoveMapToLocation(); } }
 		public double Longitude { get { return _longitude; } set { _longitude = value; DoPropertyChanged(nameof(Longitude)); MoveMapToLocation(); } }
@@ -49,6 +55,7 @@ namespace YouTravel.Agent
 		private void MoveMapToLocation()
 		{
 			MyMap.Center = new Location(Latitude, Longitude);
+			DrawImage(MyMap.Center);
 		}
 
 		private void CenterWindow()
@@ -71,8 +78,46 @@ namespace YouTravel.Agent
 			Point mousePos = e.GetPosition(this);
 			Location latLong = MyMap.ViewportPointToLocation(mousePos);
 
-			Latitude = latLong.Latitude;
+			_latitude = latLong.Latitude; // HACK: If we changed Latitude here, then MoveMapToLocation gets called twice
+										  // but during the first call we still have the old Longitude. This wouldn't be
+										  // so bad if we didn't have to add pins because then 2 pins are added. Although
+										  // if we allow only 1 pin at any given time, the user won't notice this effect,
+										  // but if our method ever has side effects, it can cause nasty bugs.
 			Longitude = latLong.Longitude;
+		}
+
+		private void DrawImage(Location where)
+		{
+			MyMap.Children.Clear();
+			//Pushpin pp = new() { Location = where };
+			//MyMap.Children.Add(pp);
+
+			MapLayer mapLayer = new MapLayer();
+			Image myPushPin = new Image();
+			myPushPin.Source = new BitmapImage(new Uri(GetPinIconUriString(), UriKind.Absolute));
+			myPushPin.Width = 48;
+			myPushPin.Height = 48;
+			mapLayer.AddChild(myPushPin, where, PositionOrigin.Center);
+			MyMap.Children.Add(mapLayer);
+		}
+
+		private string GetPinIconUriString()
+		{
+			string fname = "";
+			switch (_type)
+			{
+				case LocationType.Attraction:
+					fname = "ImgAttraction.png";
+					break;
+				case LocationType.Restaurant:
+					fname = "ImgRestaurant.png";
+					break;
+				case LocationType.Hotel:
+					fname = "ImgHotel.png";
+					break;
+			}
+
+			return $"pack://application:,,,/Res/{fname}";
 		}
 	}
 }

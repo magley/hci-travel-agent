@@ -17,6 +17,9 @@
     <None Remove="Res\IcoMagnifier.png" />
     <None Remove="Res\IcoPageEdit.png" />
     <None Remove="Res\IcoPencil.png" />
+    <None Remove="Res\ImgAttraction.png" />
+    <None Remove="Res\ImgHotel.png" />
+    <None Remove="Res\ImgRestaurant.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,7 +33,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Res\IcoAdd.png" />
+    <Resource Include="Res\IcoAdd.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Res\IcoBlueBullet.png" />
     <Resource Include="Res\IcoChart.png" />
     <Resource Include="Res\IcoCross.png" />
@@ -38,6 +43,9 @@
     <Resource Include="Res\IcoMagnifier.png" />
     <Resource Include="Res\IcoPageEdit.png" />
     <Resource Include="Res\IcoPencil.png" />
+    <Resource Include="Res\ImgAttraction.png" />
+    <Resource Include="Res\ImgHotel.png" />
+    <Resource Include="Res\ImgRestaurant.png" />
   </ItemGroup>
 
 </Project>
