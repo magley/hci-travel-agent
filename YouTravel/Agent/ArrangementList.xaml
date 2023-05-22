@@ -15,96 +15,122 @@
 		<BitmapImage x:Key="IcoStats" UriSource="../Res/IcoChart.png"/>
 		<BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
 	</Window.Resources>
-	
-	<Grid>
 
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="5*" />
-			<ColumnDefinition Width="14*" />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="9*" />
-		</Grid.RowDefinitions>
+	<DockPanel>
+		<Menu DockPanel.Dock="Top">
+			<MenuItem Header="_File">
+				<MenuItem Header="New">
+					<MenuItem Header="Arrangement"/>
+					<MenuItem Header="Place"/>
+				</MenuItem>
+				<Separator/>
+				<MenuItem Header="Logout"></MenuItem>
+				<MenuItem Header="Exit"></MenuItem>
+			</MenuItem>
+			<MenuItem Header="_View">
+				<MenuItem Header="Arrangements"></MenuItem>
+				<MenuItem Header="Places"></MenuItem>
+				<MenuItem Header="Monthly Reports"></MenuItem>
+			</MenuItem>
+			<MenuItem Header="_Settings">
+				<MenuItem Header="Preferences"></MenuItem>
+				<MenuItem Header="Customize Toolbar"></MenuItem>
+			</MenuItem>
+			<MenuItem Header="_Help">
+				<MenuItem Header="About YouTravel"></MenuItem>
+				<MenuItem Header="Help"></MenuItem>
+			</MenuItem>
+		</Menu>
+		
+		<Grid DockPanel.Dock="Bottom">
 
-		<Grid 
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="5*" />
+				<ColumnDefinition Width="14*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="9*" />
+			</Grid.RowDefinitions>
+
+			<Grid 
 			Grid.Row="1" Grid.Column="0"
 			Margin="10 10 10 10">
 
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-			</Grid.RowDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="Auto"/>
+					<RowDefinition Height="Auto"/>
+				</Grid.RowDefinitions>
 
-			<!-- Visibility checkboxes -->
-			<GroupBox Grid.Row="0" Header="Visibility" Padding="10">
-				<StackPanel Orientation="Vertical">
-					<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-						<Viewbox>
-							<CheckBox 
+				<!-- Visibility checkboxes -->
+				<GroupBox Grid.Row="0" Header="Visibility" Padding="10">
+					<StackPanel Orientation="Vertical">
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+							<Viewbox>
+								<CheckBox 
 								IsChecked="{Binding Path=ShowActive, Mode=TwoWay}" 
 								Click="CbShowActive_Click"/>
-						</Viewbox>
-						<Label Content="Active"/>
-					</StackPanel>
+							</Viewbox>
+							<Label Content="Active"/>
+						</StackPanel>
 
-					<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-						<Viewbox>
-							<CheckBox 
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+							<Viewbox>
+								<CheckBox 
 								IsChecked="{Binding Path=ShowFinished, Mode=TwoWay}" 
 								Click="CbShowFinished_Click"/>
-						</Viewbox>
-						<Label Content="Finished"/>
-					</StackPanel>
+							</Viewbox>
+							<Label Content="Finished"/>
+						</StackPanel>
 
-					<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-						<Viewbox>
-							<CheckBox 
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+							<Viewbox>
+								<CheckBox 
 								IsChecked="{Binding Path=ShowDeleted, Mode=TwoWay}" 
 								Click="CbShowDeleted_Click"/>
-						</Viewbox>
-						<Label Content="Completed"/>
+							</Viewbox>
+							<Label Content="Completed"/>
+						</StackPanel>
+
 					</StackPanel>
+				</GroupBox>
 
-				</StackPanel>
-			</GroupBox>
+				<!-- Search -->
+				<Grid Grid.Row="1" Margin="0 10 0 0">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="1*"/>
+						<ColumnDefinition Width="Auto"/>
+						<ColumnDefinition Width="Auto"/>
+					</Grid.ColumnDefinitions>
 
-			<!-- Search -->
-			<Grid Grid.Row="1" Margin="0 10 0 0">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="1*"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="Auto"/>
-				</Grid.ColumnDefinitions>
+					<TextBox Grid.Column="0" Grid.ColumnSpan="2" x:Name="searchBox"/>
 
-				<TextBox Grid.Column="0" Grid.ColumnSpan="2" x:Name="searchBox"/>
-
-				<Button
+					<Button
 					Click="BtnClearSearch_Click"
 					Grid.Column="1" 
 					Margin="-10 0 0 0"
 					Height="23" VerticalAlignment="Top"
 					Content="x">
-					<Button.Style>
-						<Style BasedOn="{StaticResource TransparentStyle}" TargetType="{x:Type Button}">
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding Text.Length, ElementName=searchBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-									<Setter Property="Visibility" Value="Collapsed"/>
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</Button.Style>
+						<Button.Style>
+							<Style BasedOn="{StaticResource TransparentStyle}" TargetType="{x:Type Button}">
+								<Style.Triggers>
+									<DataTrigger Binding="{Binding Text.Length, ElementName=searchBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+										<Setter Property="Visibility" Value="Collapsed"/>
+									</DataTrigger>
+								</Style.Triggers>
+							</Style>
+						</Button.Style>
 
-				</Button>
+					</Button>
 
-				<Button Grid.Column="2"
+					<Button Grid.Column="2"
 						Click="BtnSearch_Click">
-					<Image Source="{StaticResource IcoMagnifier}" Height="20" Margin="5 0 5 0"/>
-				</Button>
+						<Image Source="{StaticResource IcoMagnifier}" Height="20" Margin="5 0 5 0"/>
+					</Button>
+				</Grid>
 			</Grid>
-		</Grid>
 
-		<StackPanel
+			<StackPanel
 			Grid.Row="0" Grid.Column="0"
 			Grid.ColumnSpan="2"
 			HorizontalAlignment="Right"
@@ -112,66 +138,67 @@
 			VerticalAlignment="Center"
 			Margin="10">
 
-			<Button>
-				<DockPanel HorizontalAlignment="Stretch">
-					<Image Source="{StaticResource IcoAdd}" Height="20" Margin="5 0 5 0"/>
-					<Label Content="New"/>
-				</DockPanel>
-			</Button>
-		</StackPanel>
+				<Button>
+					<DockPanel HorizontalAlignment="Stretch">
+						<Image Source="{StaticResource IcoAdd}" Height="20" Margin="5 0 5 0"/>
+						<Label Content="New"/>
+					</DockPanel>
+				</Button>
+			</StackPanel>
 
-		<ListView
+			<ListView
 			Grid.Row="1"
 			Grid.Column="1"
 			x:Name="arrangementsList"
 			ItemsSource="{Binding}"
 			Margin="10 10 10 10">
 
-			<ListView.View>
-				<GridView>
-					<!-- Unpublished changes indicator.  -->
-					<GridViewColumn>
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Image Source="../Res/IcoBlueBullet.png" Height="18"/>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					
-					<!-- Description (name) -->
-					<GridViewColumn
+				<ListView.View>
+					<GridView>
+						<!-- Unpublished changes indicator.  -->
+						<GridViewColumn>
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<Image Source="../Res/IcoBlueBullet.png" Height="18"/>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+
+						<!-- Description (name) -->
+						<GridViewColumn
 						DisplayMemberBinding="{Binding Path=Description}"
 						Header="Description"/>
 
-					<!-- Edit button -->
-					<GridViewColumn>
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Button Click="EditArrangement_Click">
-									<DockPanel HorizontalAlignment="Stretch">
-										<Image Source="{StaticResource IcoEdit}" Height="20" Margin="5 0 5 0"/>
-										<Label Content="Edit"/>
-									</DockPanel>
-								</Button>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-					
-					<!-- Stats button -->
-					<GridViewColumn>
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Button Click="ArrangementReport_Click">
-									<DockPanel HorizontalAlignment="Stretch">
-										<Image Source="{StaticResource IcoStats}" Height="20" Margin="5 0 5 0"/>
-										<Label Content="Report"/>
-									</DockPanel>
-								</Button>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-				</GridView>
-			</ListView.View>
-		</ListView>
-    </Grid>
+						<!-- Edit button -->
+						<GridViewColumn>
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<Button Click="EditArrangement_Click">
+										<DockPanel HorizontalAlignment="Stretch">
+											<Image Source="{StaticResource IcoEdit}" Height="20" Margin="5 0 5 0"/>
+											<Label Content="Edit"/>
+										</DockPanel>
+									</Button>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+
+						<!-- Stats button -->
+						<GridViewColumn>
+							<GridViewColumn.CellTemplate>
+								<DataTemplate>
+									<Button Click="ArrangementReport_Click">
+										<DockPanel HorizontalAlignment="Stretch">
+											<Image Source="{StaticResource IcoStats}" Height="20" Margin="5 0 5 0"/>
+											<Label Content="Report"/>
+										</DockPanel>
+									</Button>
+								</DataTemplate>
+							</GridViewColumn.CellTemplate>
+						</GridViewColumn>
+					</GridView>
+				</ListView.View>
+			</ListView>
+		</Grid>
+	</DockPanel>
 </Window>

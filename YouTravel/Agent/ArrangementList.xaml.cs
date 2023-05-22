@@ -88,5 +88,10 @@ namespace YouTravel.Agent
         {
             this.searchBox.Text = "";
         }
-    }
+
+		private void MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+
+		}
+	}
 }
