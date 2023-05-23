@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using YouTravel.Model;
 
 namespace YouTravel.Agent
@@ -50,8 +49,7 @@ namespace YouTravel.Agent
             Button button = (Button)sender;
             Arrangement arr= (Arrangement)button.DataContext;
 
-            ArrangementEdit win = new(arr);
-            win.Show();
+			((AgentMainWindow)Window.GetWindow(this)).OpenUserControl(new ArrangementEdit(arr), "Edit Arrangement");
         }
 
         private void ArrangementReport_Click(object sender, RoutedEventArgs e)

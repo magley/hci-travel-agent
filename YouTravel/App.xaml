@@ -149,6 +149,7 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type Thumb}">
+						<!-- The thingy to move toolbars around -->
 						<Border Background="Transparent" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="True">
 							<Rectangle>
 								<Rectangle.Fill>
@@ -180,7 +181,8 @@
 			<Setter Property="Template">
 				<Setter.Value>
 					<ControlTemplate TargetType="{x:Type ToggleButton}">
-						<Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="0,3,3,0" SnapsToDevicePixels="true">
+						<!-- Thingy with the arrow at the end of every toolbar. -->
+						<Border x:Name="Bd" Visibility="Collapsed" Background="{StaticResource bg_dark3}" CornerRadius="0,3,3,0" SnapsToDevicePixels="true">
 							<Canvas HorizontalAlignment="Right" Height="7" Margin="7,2,2,2" SnapsToDevicePixels="true" VerticalAlignment="Bottom" Width="6">
 								<!-- 2 elements were removed here, which effectively draw a shadow for the little arrow thing. -->
 								<Path Data="M 0 0.5 L 5 0.5" Stroke="{TemplateBinding Foreground}"/>

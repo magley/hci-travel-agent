@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,12 +31,15 @@ namespace YouTravel.Agent
 			DataContext = this;
 		}
 
+		public void OpenUserControl(UserControl userControl, string tabName)
+		{
+			UserControls.Add(new(tabName, userControl));
+			MyTabControl.SelectedIndex = UserControls.Count - 1;
+		}
+
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			UserControls.Add(new("Arrangements", new ArrangementList()));
-			UserControls.Add(new("Places", new PlacesList()));
-
-			MyTabControl.SelectedIndex = 0;
+			OpenUserControl(new ArrangementList(), "Arrangements");
 		}
 
 		private void ShowToolbar_Click(object sender, RoutedEventArgs e)
@@ -50,7 +52,7 @@ namespace YouTravel.Agent
 		private void TabClose_Click(object sender, RoutedEventArgs e)
 		{
 			string s = (string)((Button)sender).CommandParameter;
-			var uc = UserControls.Where(uc => uc.Name == s).SingleOrDefault();
+			var uc = UserControls.Where(uc => uc.Name == s).FirstOrDefault();
 			if (uc != null)
 			{
 				UserControls.Remove(uc);

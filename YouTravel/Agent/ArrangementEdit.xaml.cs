@@ -8,7 +8,7 @@ using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-    public partial class ArrangementEdit : Window
+    public partial class ArrangementEdit : UserControl
     {
         private Arrangement arrangement;
 
@@ -19,16 +19,9 @@ namespace YouTravel.Agent
 		public ArrangementEdit(Arrangement arr)
         {
             InitializeComponent();
-            CenterWindow();
 
 			arrangement = arr;
             DataContext = arrangement;
-		}
-
-        private void CenterWindow()
-        {
-			WindowStartupLocation = WindowStartupLocation.CenterOwner;
-			Owner = Application.Current.MainWindow;
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
