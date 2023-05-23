@@ -97,17 +97,57 @@
 		</Style>
 
 		<Style TargetType="{x:Type TabItem}">
-			<Style.Triggers>
-				<Trigger Property="IsSelected" Value="False">
-					<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
-					<Setter Property="BorderBrush" Value="{DynamicResource bg_dark0}"/>
-					<Setter Property="Foreground" Value="White"/>
-					<Setter Property="FontSize" Value="12"/>
-					<Setter Property="FontWeight" Value="Bold"/>
-				</Trigger>
-			</Style.Triggers>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type TabItem}">
+						<Grid>
+							<Border 
+                             Name="Border"
+                             Background="#F0F0F0"
+                             BorderBrush="LightGray" 
+                             BorderThickness="1,1,1,0" 
+                             CornerRadius="4,4,0,0" 
+                             Margin="0,0,2,0" SnapsToDevicePixels="True" >
+								<TextBlock FontSize="15" 
+                                       HorizontalAlignment="Center" 
+                                       Name="TextBlock" 
+                                       Foreground="DarkGray">
+                            <ContentPresenter x:Name="ContentSite"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               ContentSource="Header"
+                                               Margin="12,2,12,2"/>
+								</TextBlock>
+							</Border>
+						</Grid>
+						<ControlTemplate.Triggers>
+							<Trigger Property="IsSelected" Value="True">
+								<Setter TargetName="Border" Property="Background" Value="{DynamicResource bg_dark3}"/>
+								<Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource bg_dark3}"/>
+								<Setter TargetName="TextBlock" Property="Background" Value="{DynamicResource bg_dark2}"/>
+								<Setter TargetName="TextBlock" Property="Foreground" Value="White"/>
+								<Setter TargetName="TextBlock" Property="FontWeight" Value="SemiBold"/>
+								<Setter TargetName="TextBlock" Property="FontSize" Value="14"/>
+								<Setter TargetName="Border" Property="Margin" Value="0,0,2,-1" />
+							</Trigger>
+							<Trigger Property="IsSelected" Value="False">
+								<Setter TargetName="Border" Property="Background" Value="{DynamicResource bg_dark1}"/>
+								<Setter TargetName="Border" Property="BorderBrush" Value="{DynamicResource bg_dark1}"/>
+								<Setter TargetName="TextBlock" Property="Background" Value="{DynamicResource bg_dark0}"/>
+								<Setter TargetName="TextBlock" Property="Foreground" Value="{DynamicResource bg_dark3}"/>
+								<Setter TargetName="TextBlock" Property="FontSize" Value="14"/>
+								<Setter TargetName="Border" Property="Margin" Value="0,0,2,-1" />
+							</Trigger>
+							<Trigger Property="IsMouseOver" Value="True" SourceName="Border" >
+								<Setter TargetName="Border" Property="Background" Value="White" />
+								<Setter TargetName="Border" Property="BorderBrush" Value="DarkGray" />
+							</Trigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
 		</Style>
-		
+
 		<!-- Toolbar Theme -->
 
 		<Style TargetType="{x:Type ToolBar}">
