@@ -7,6 +7,7 @@
         mc:Ignorable="d"
 		Style="{StaticResource WinDark}"
 		Loaded="Window_Loaded"
+		Closed="Window_Closed"
         Title="Settings" Height="400" Width="600">
     <Grid>
 		<Grid.RowDefinitions>

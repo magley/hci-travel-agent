@@ -116,5 +116,10 @@ namespace YouTravel.Agent
 				}
 			}
 		}
+
+		private void Window_Closed(object sender, EventArgs e)
+		{
+			userConfig.Save();
+		}
 	}
 }

@@ -41,10 +41,14 @@ namespace YouTravel.Agent
 			DataContext = this;
 
 			// The idea is to initialize this once at program startup every time...
-			userConfig.PossibleToolbarButtons.Add(new("Add Arrangement", "IcoPlanetAdd.png", On_AddArrangement)); // For now, this dynamically changes the buttons.
+			userConfig.PossibleToolbarButtons.Add(new("Add Arrangement", "IcoPlanetAdd.png", On_AddArrangement));
 			userConfig.PossibleToolbarButtons.Add(new("Add Place", "IcoLocationAdd.png", On_AddPlace));
+			userConfig.PossibleToolbarButtons.Add(new("View Arrangements", "IcoTravel.png", On_OpenArrangementList));
+			userConfig.PossibleToolbarButtons.Add(new("View Places", "IcoLocation.png", On_OpenPlaceList));
 			// ... and update this per need.
-			userConfig.ToolbarButtons.Add(userConfig.PossibleToolbarButtons[0].Button);
+
+			userConfig.LoadToolbarConfig();
+			//userConfig.ToolbarButtons.Add(userConfig.PossibleToolbarButtons[0].Button);
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -87,15 +91,6 @@ namespace YouTravel.Agent
 
 		private void On_AddArrangement(object sender, RoutedEventArgs e)
 		{
-			userConfig.ToolbarButtons.Clear();
-
-			foreach (var toolbarBtn in userConfig.PossibleToolbarButtons)
-			{
-				if (toolbarBtn.Name == "Add Place")
-				{
-					userConfig.ToolbarButtons.Add(toolbarBtn.Button);
-				}
-			}
 		}
 
 		private void On_AddPlace(object sender, RoutedEventArgs e)
