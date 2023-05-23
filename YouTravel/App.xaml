@@ -27,22 +27,22 @@
 		</Style>
 
 		<!-- Dark Theme -->
-		
-		<SolidColorBrush x:Key="bg_dark0" Color="#454545"/>
-		<SolidColorBrush x:Key="bg_dark1" Color="#555555"/>
-		<SolidColorBrush x:Key="bg_dark2" Color="#656565"/>
-		<SolidColorBrush x:Key="bg_dark3" Color="#757575"/>
+
+		<SolidColorBrush x:Key="bg_dark0" Color="#1F1F1F"/>
+		<SolidColorBrush x:Key="bg_dark1" Color="#2E2E2E"/>
+		<SolidColorBrush x:Key="bg_dark2" Color="#383838"/>
+		<SolidColorBrush x:Key="bg_dark3" Color="#666666"/>
 		<SolidColorBrush x:Key="bg_dark4" Color="#858585"/>
 
 		<Style TargetType="{x:Type Window}" x:Key="WinDark">
 			<Setter Property="FontSize" Value="16"/>
-			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
+			<Setter Property="Background" Value="{DynamicResource bg_dark1}"/>
 			<Setter Property="Foreground" Value="White"/>
 		</Style>
 
 		<Style TargetType="{x:Type UserControl}" x:Key="UCDark">
 			<Setter Property="FontSize" Value="16"/>
-			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
+			<Setter Property="Background" Value="{DynamicResource bg_dark1}"/>
 			<Setter Property="Foreground" Value="White"/>
 		</Style>
 
@@ -92,42 +92,42 @@
 		</Style>
 
 		<Style TargetType="{x:Type TabControl}">
-			<Setter Property="Background" Value="{DynamicResource bg_dark1}"/>
+			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
 			<Setter Property="Foreground" Value="White"/>
 		</Style>
 
 		<Style TargetType="{x:Type TabItem}">
 			<Style.Triggers>
 				<Trigger Property="IsSelected" Value="False">
-					<Setter Property="Background" Value="{DynamicResource bg_dark1}"/>
+					<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
+					<Setter Property="BorderBrush" Value="{DynamicResource bg_dark0}"/>
 					<Setter Property="Foreground" Value="White"/>
+					<Setter Property="FontSize" Value="12"/>
+					<Setter Property="FontWeight" Value="Bold"/>
 				</Trigger>
 			</Style.Triggers>
 		</Style>
+		
+		<!-- Toolbar Theme -->
 
 		<Style TargetType="{x:Type ToolBar}">
 			<Setter Property="Padding" Value="4"/>
-			<Setter Property="Background" Value="{DynamicResource bg_dark3}"/>
+			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
 			<Setter Property="Foreground" Value="White"/>
 			<Setter Property="FontSize" Value="16"/>
 		</Style>
 
 		<Style TargetType="{x:Type ToolBarTray}">
-			<Setter Property="Background" Value="{DynamicResource bg_dark3}"/>
+			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
 			<Style.Triggers>
 				<DataTrigger Binding="{Binding Source={x:Static SystemParameters.HighContrast}}" Value="true">
-					<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+					<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
 				</DataTrigger>
 			</Style.Triggers>
 		</Style>
-
 		<Style TargetType="{x:Type ToolBarOverflowPanel}">
 			<Setter Property="Visibility" Value="Collapsed"/>
 		</Style>
-		
-		<!-- TOOLBAR STUFF -->
-		<!-- WE *HAVE* TO OVERRIDE EVERYTHING -->
-		<!-- Just for that one little button. -->
 
 		<SolidColorBrush x:Key="ToolBarButtonHover" Color="#210080FF"/>
 		<SolidColorBrush x:Key="ToolBarMenuBorder" Color="#FFB6BDC5"/>
@@ -156,7 +156,7 @@
 										<DrawingBrush.Drawing>
 											<DrawingGroup>
 												<GeometryDrawing Brush="White" Geometry="M 1 1 L 1 3 L 3 3 L 3 1 z"/>
-												<GeometryDrawing Brush="{StaticResource ToolBarGripper}" Geometry="M 0 0 L 0 2 L 2 2 L 2 0 z"/>
+												<GeometryDrawing Brush="{StaticResource bg_dark0}" Geometry="M 0 0 L 0 2 L 2 2 L 2 0 z"/>
 											</DrawingGroup>
 										</DrawingBrush.Drawing>
 									</DrawingBrush>
@@ -173,6 +173,7 @@
 			</Setter>
 		</Style>
 		<Style x:Key="ToolBarHorizontalOverflowButtonStyle" TargetType="{x:Type ToggleButton}">
+
 			<Setter Property="Background" Value="{StaticResource ToolBarToggleButtonHorizontalBackground}"/>
 			<Setter Property="MinHeight" Value="0"/>
 			<Setter Property="MinWidth" Value="0"/>
@@ -307,7 +308,7 @@
 
 		<Style TargetType="{x:Type Menu}">
 			<Setter Property="Padding" Value="4"/>
-			<Setter Property="Background" Value="{DynamicResource bg_dark3}"/>
+			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
 			<Setter Property="Foreground" Value="White"/>
 			<Setter Property="FontSize" Value="16"/>
 		</Style>
@@ -315,7 +316,7 @@
 		<!-- TODO: Please fix this somehow. Why is this so poorly designed? I hate you, Micro$oft. -->
 		<Style TargetType="{x:Type MenuItem}">
 			<Setter Property="Padding" Value="4"/>
-			<Setter Property="Background" Value="{DynamicResource bg_dark3}"/>
+			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
 			<Setter Property="Foreground" Value="White"/>
 			<Setter Property="FontSize" Value="16"/>
 			<Style.Triggers>
@@ -348,7 +349,7 @@
 											  Margin="3"
                                               Visibility="Collapsed" 
 											  VerticalAlignment="Center" 
-											  Fill="{TemplateBinding Control.Foreground}"/>
+											  Fill="{StaticResource bg_dark0}"/>
 										<ContentPresenter Grid.Column="1" 
 														  ContentSource="Header" 
 														  RecognizesAccessKey="true"
@@ -362,8 +363,8 @@
                                                IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}"
                                                PlacementTarget="{Binding ElementName=templateRoot}">
 											<Border x:Name="SubMenuBorder" 
-													Background="{DynamicResource bg_dark3}" 
-													BorderBrush="{DynamicResource bg_dark3}"
+													Background="{DynamicResource bg_dark0}" 
+													BorderBrush="{DynamicResource bg_dark0}"
                                                     BorderThickness="1" 
 													Padding="2">
 												<ScrollViewer x:Name="SubMenuScrollViewer"
@@ -401,11 +402,11 @@
 										<Setter TargetName="Icon" Property="UIElement.Visibility" Value="Collapsed"/>
 									</Trigger>
 									<Trigger Property="MenuItem.IsHighlighted" Value="true">
-										<Setter TargetName="templateRoot" Value="#3D26A0DA" Property="Border.Background"/>
-										<Setter TargetName="templateRoot" Value="#FF26A0DA" Property="Border.BorderBrush"/>
+										<Setter TargetName="templateRoot" Value="{StaticResource bg_dark3}" Property="Border.Background"/>
+										<Setter TargetName="templateRoot" Value="{StaticResource bg_dark4}" Property="Border.BorderBrush"/>
 									</Trigger>
 									<Trigger Property="UIElement.IsEnabled" Value="false">
-										<Setter TargetName="templateRoot" Value="#FF707070" Property="TextElement.Foreground"/>
+										<Setter TargetName="templateRoot" Value="#FF7F7070" Property="TextElement.Foreground"/>
 										<Setter TargetName="GlyphPanel" Value="#FF707070" Property="Shape.Fill"/>
 									</Trigger>
 									<Trigger SourceName="SubMenuScrollViewer" Property="ScrollViewer.CanContentScroll" Value="false">

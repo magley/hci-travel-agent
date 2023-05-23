@@ -55,8 +55,8 @@
 					<MenuItem Header="Help"></MenuItem>
 				</MenuItem>
 			</Menu>
-			<ToolBarTray Background="#FF757575" x:Name="toolbarTray">
-				<ToolBar Template="{DynamicResource ToolBarTemplate1}" Band="0" >
+			<ToolBarTray x:Name="toolbarTray">
+				<ToolBar Template="{StaticResource ToolBarTemplate1}" Band="0" >
 					<Button>
 						<Image Source="{StaticResource IcoAddArrangement}" Height="20"/>
 					</Button>
@@ -79,7 +79,7 @@
 						<Button Grid.Column="1" Click="TabClose_Click" CommandParameter="{Binding Name}">
 							<Button.Template>
 								<ControlTemplate TargetType="Button">
-									<Path Data="M0,0 L8,8 M8,0 L0,8" StrokeThickness="3" VerticalAlignment="Center" Margin="9,4,0,2" Stroke="Black"/>
+									<Path Data="M0,0 L8,8 M8,0 L0,8" StrokeThickness="3" VerticalAlignment="Center" Margin="9,4,0,2" Stroke="WhiteSmoke"/>
 								</ControlTemplate>
 							</Button.Template>
 						</Button>
