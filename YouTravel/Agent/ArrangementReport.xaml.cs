@@ -3,11 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-    public partial class ArrangementReport : Window
+    public partial class ArrangementReport : UserControl
     {
         public Arrangement arrangement { get; set; }
         private IList<Reservation> Reservations { get; set; } = new List<Reservation>();
@@ -17,9 +18,6 @@ namespace YouTravel.Agent
         {
             InitializeComponent();
             DataContext = this;
-            WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            Owner = Application.Current.MainWindow;
-
             this.arrangement = arrangement;
         }
 

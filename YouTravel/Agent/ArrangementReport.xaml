@@ -1,13 +1,13 @@
-﻿<Window x:Class="YouTravel.Agent.ArrangementReport"
+﻿<UserControl x:Class="YouTravel.Agent.ArrangementReport"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Agent"
         mc:Ignorable="d"
-		Style="{StaticResource WinDark}"
+		Style="{StaticResource UCDark}"
 		Loaded="Window_Loaded"
-        Title="ArrangementReport" Height="450" Width="800">
+        d:Height="450" d:Width="800">
 	<Grid Margin="16">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -42,4 +42,4 @@
 		
 	</Grid>
 
-</Window>
+</UserControl>

@@ -9,7 +9,7 @@ using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-    public partial class LocationAdd : Window, INotifyPropertyChanged
+    public partial class LocationAdd : UserControl, INotifyPropertyChanged
     {
 		public event PropertyChangedEventHandler? PropertyChanged;
 		void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
@@ -29,7 +29,6 @@ namespace YouTravel.Agent
 		public LocationAdd(Location? loc = null)
         {
             InitializeComponent();
-			CenterWindow();
 
 			if (loc != null)
 			{
@@ -55,12 +54,6 @@ namespace YouTravel.Agent
 		{
 			MyMap.Center = new Location(Latitude, Longitude);
 			DrawImage(MyMap.Center);
-		}
-
-		private void CenterWindow()
-		{
-			WindowStartupLocation = WindowStartupLocation.CenterOwner;
-			Owner = Application.Current.MainWindow;
 		}
 
 		private void InitMapsApi()

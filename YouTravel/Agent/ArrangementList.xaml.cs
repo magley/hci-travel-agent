@@ -57,8 +57,7 @@ namespace YouTravel.Agent
             Button button = (Button)sender;
             Arrangement arr = (Arrangement)button.DataContext;
 
-            ArrangementReport arrangementReportWindow = new(arr);
-            arrangementReportWindow.Show();
+			((AgentMainWindow)Window.GetWindow(this)).OpenUserControl(new ArrangementReport(arr), "Arrangement Report");
         }
 
         private void CbShowActive_Click(object sender, RoutedEventArgs e)

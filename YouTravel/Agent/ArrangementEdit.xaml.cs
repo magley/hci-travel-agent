@@ -72,8 +72,7 @@ namespace YouTravel.Agent
             Point mousePos = e.GetPosition(this);
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
-            LocationAdd win = new(latLong);
-            win.Show();
+			((AgentMainWindow)Window.GetWindow(this)).OpenUserControl(new LocationAdd(latLong), "Add Place");
 		}
 	}
 }
