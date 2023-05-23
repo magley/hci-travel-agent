@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
@@ -30,6 +30,8 @@ namespace YouTravel.Agent
 	{
 		// TODO: Move certain properties to global settings.
 
+		public UserConfig userConfig { get; } = UserConfig.Instance;
+
 		public bool ToolbarVisible { get; set; } = true;
 		public ObservableCollection<UserControlInTab> UserControls { get; set; } = new();
 
@@ -37,17 +39,23 @@ namespace YouTravel.Agent
 		{
 			InitializeComponent();
 			DataContext = this;
+
+			// The idea is to initialize this once at program startup every time...
+			userConfig.PossibleToolbarButtons.Add(new("Add Arrangement", "IcoPlanetAdd.png", On_AddArrangement)); // For now, this dynamically changes the buttons.
+			userConfig.PossibleToolbarButtons.Add(new("Add Place", "IcoLocationAdd.png", On_AddPlace));
+			// ... and update this per need.
+			userConfig.ToolbarButtons.Add(userConfig.PossibleToolbarButtons[0].Button);
+		}
+
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			OpenUserControl(new ArrangementList(), "Arrangements");
 		}
 
 		public void OpenUserControl(UserControl userControl, string tabName)
 		{
 			UserControls.Add(new(tabName, userControl));
 			MyTabControl.SelectedIndex = UserControls.Count - 1;
-		}
-
-		private void Window_Loaded(object sender, RoutedEventArgs e)
-		{
-			OpenUserControl(new ArrangementList(), "Arrangements");
 		}
 
 		private void ShowToolbar_Click(object sender, RoutedEventArgs e)
@@ -75,6 +83,19 @@ namespace YouTravel.Agent
 		private void On_OpenPlaceList(object sender, RoutedEventArgs e)
 		{
 			OpenUserControl(new PlacesList(), "Places");
+		}
+
+		private void On_AddArrangement(object sender, RoutedEventArgs e)
+		{
+			userConfig.ToolbarButtons.Clear();
+
+			foreach (var toolbarBtn in userConfig.PossibleToolbarButtons)
+			{
+				if (toolbarBtn.Name == "Add Place")
+				{
+					userConfig.ToolbarButtons.Add(toolbarBtn.Button);
+				}
+			}
 		}
 
 		private void On_AddPlace(object sender, RoutedEventArgs e)

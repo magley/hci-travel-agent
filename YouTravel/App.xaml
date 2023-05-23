@@ -91,6 +91,15 @@
 			<Setter Property="Foreground" Value="White"/>
 		</Style>
 
+		<Style TargetType="{x:Type ListBox}">
+			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+
+		<Style TargetType="{x:Type ListBoxItem}">
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+
 		<Style TargetType="{x:Type TabControl}">
 			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
 			<Setter Property="Foreground" Value="White"/>
