@@ -61,8 +61,8 @@
 					<MenuItem Header="Show Toolbar" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=ToolbarVisible}"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_Settings">
-					<MenuItem Header="Preferences"></MenuItem>
-					<MenuItem Header="Customize Toolbar"></MenuItem>
+					<MenuItem Header="Preferences" Click="On_OpenSettings"/>
+					<MenuItem Header="Customize Toolbar" Click="On_OpenSettings_Toolbar"/>
 				</MenuItem>
 				<MenuItem Header="_Help">
 					<MenuItem Header="About YouTravel"></MenuItem>

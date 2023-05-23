@@ -47,33 +47,24 @@
 			<!-- Visibility checkboxes -->
 			<GroupBox Grid.Row="0" Header="Visibility" Padding="10">
 				<StackPanel Orientation="Vertical">
-					<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-						<Viewbox>
-							<CheckBox 
-								IsChecked="{Binding Path=ShowActive, Mode=TwoWay}" 
-								Click="CbShowActive_Click"/>
-						</Viewbox>
-						<Label Content="Active"/>
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-						<Viewbox>
-							<CheckBox 
-								IsChecked="{Binding Path=ShowFinished, Mode=TwoWay}" 
-								Click="CbShowFinished_Click"/>
-						</Viewbox>
-						<Label Content="Finished"/>
-					</StackPanel>
-
-					<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-						<Viewbox>
-							<CheckBox 
-								IsChecked="{Binding Path=ShowDeleted, Mode=TwoWay}" 
-								Click="CbShowDeleted_Click"/>
-						</Viewbox>
-						<Label Content="Completed"/>
-					</StackPanel>
-
+					<CheckBox VerticalAlignment="Center" 
+							  VerticalContentAlignment="Center" 
+							  Margin="0 6 0 0"
+							  Content="Active" 
+							  IsChecked="{Binding Path=ShowActive, Mode=TwoWay}" 
+							  Click="CbShowActive_Click" />
+					<CheckBox VerticalAlignment="Center" 
+							  VerticalContentAlignment="Center"
+							  Margin="0 6 0 0"
+							  Content="Finished" 
+							  IsChecked="{Binding Path=ShowFinished, Mode=TwoWay}" 
+							  Click="CbShowFinished_Click" />
+					<CheckBox VerticalAlignment="Center" 
+							  VerticalContentAlignment="Center"
+							  Margin="0 6 0 0"
+							  Content="Completed" 
+							  IsChecked="{Binding Path=ShowDeleted, Mode=TwoWay}" 
+							  Click="CbShowDeleted_Click" />
 				</StackPanel>
 			</GroupBox>
 

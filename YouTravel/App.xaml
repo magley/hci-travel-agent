@@ -148,6 +148,15 @@
 			</Setter>
 		</Style>
 
+		<Style TargetType="{x:Type TreeView}">
+			<Setter Property="Background" Value="{DynamicResource bg_dark1}"/>
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+
+		<Style TargetType="{x:Type TreeViewItem}">
+			<Setter Property="Foreground" Value="White"/>
+		</Style>
+
 		<!-- Toolbar Theme -->
 
 		<Style TargetType="{x:Type ToolBar}">

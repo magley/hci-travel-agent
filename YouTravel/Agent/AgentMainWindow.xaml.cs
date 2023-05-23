@@ -82,6 +82,18 @@ namespace YouTravel.Agent
 			OpenUserControl(new LocationAdd(), "Add Place");
 		}
 
+		private void On_OpenSettings(object sender, RoutedEventArgs e)
+		{
+			var win = new Settings(false);
+			win.Show();
+		}
+
+		private void On_OpenSettings_Toolbar(object sender, RoutedEventArgs e)
+		{
+			var win = new Settings(true);
+			win.Show();
+		}
+
 		private void CmdCloseCurrentTab_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
 			int currentTab = MyTabControl.SelectedIndex;
