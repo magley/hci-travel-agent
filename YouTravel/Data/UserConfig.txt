@@ -1,1 +1,1 @@
-ToolbarButtons="Add Arrangement","View Places"
+ToolbarButtons="Add Arrangement","Add Place","View Arrangements","View Places"

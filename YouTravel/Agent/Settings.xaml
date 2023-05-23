@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:YouTravel.Agent"
         mc:Ignorable="d"
 		Style="{StaticResource WinDark}"
+		WindowStartupLocation="CenterOwner"
 		Loaded="Window_Loaded"
 		Closed="Window_Closed"
         Title="Settings" Height="400" Width="600">
@@ -50,7 +51,7 @@
 			<StackPanel>
 				<StackPanel.Style>
 					<Style TargetType="{x:Type StackPanel}">
-						<Setter Property="Visibility" Value="Visible"/>
+						<Setter Property="Visibility" Value="Collapsed"/>
 						<Style.Triggers>
 							<DataTrigger Binding="{Binding Path=SelectedSection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="Toolbar">
 								<Setter Property="Visibility" Value="Visible"/>

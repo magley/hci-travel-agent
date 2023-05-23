@@ -47,7 +47,8 @@ namespace YouTravel.Agent
 			{
 				TreeViewItem_General.IsSelected = true;
 			}
-			DataContext = this;		
+			DataContext = this;
+			this.Owner = App.Current.MainWindow;
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
