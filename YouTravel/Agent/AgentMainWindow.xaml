@@ -76,7 +76,7 @@
 							<ColumnDefinition Width="Auto" />
 						</Grid.ColumnDefinitions>
 						<TextBlock Grid.Column="0" Text="{Binding Name}"/>
-						<Button Grid.Column="1" Click="TabClose_Click">
+						<Button Grid.Column="1" Click="TabClose_Click" CommandParameter="{Binding Name}">
 							<Button.Template>
 								<ControlTemplate TargetType="Button">
 									<Path Data="M0,0 L8,8 M8,0 L0,8" StrokeThickness="3" VerticalAlignment="Center" Margin="9,4,0,2" Stroke="Black"/>

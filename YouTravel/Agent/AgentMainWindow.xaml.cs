@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 namespace YouTravel.Agent
 {
 	public class UserControlInTab
 	{
-		public UserControl UserControl { get; set; }
-		public string Name { get; set; }
+		public UserControl? UserControl { get; set; } = null;
+		public string Name { get; set; } = "";
 
 		public UserControlInTab(string name, UserControl userControl)
 		{
@@ -48,6 +49,12 @@ namespace YouTravel.Agent
 
 		private void TabClose_Click(object sender, RoutedEventArgs e)
 		{
+			string s = (string)((Button)sender).CommandParameter;
+			var uc = UserControls.Where(uc => uc.Name == s).SingleOrDefault();
+			if (uc != null)
+			{
+				UserControls.Remove(uc);
+			}
 		}
 	}
 }
