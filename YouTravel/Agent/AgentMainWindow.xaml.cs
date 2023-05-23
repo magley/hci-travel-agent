@@ -1,7 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+
 namespace YouTravel.Agent
 {
 	public class UserControlInTab
@@ -16,6 +19,11 @@ namespace YouTravel.Agent
 		}
 
 		public UserControlInTab() { }
+	}
+
+	public static class Command
+	{
+		public static readonly RoutedUICommand CmdCloseCurrentTab = new RoutedUICommand("Do something", "DoSomething", typeof(AgentMainWindow));
 	}
 
 	public partial class AgentMainWindow : Window
@@ -57,6 +65,35 @@ namespace YouTravel.Agent
 			{
 				UserControls.Remove(uc);
 			}
+		}
+
+		private void On_OpenArrangementList(object sender, RoutedEventArgs e)
+		{
+			OpenUserControl(new ArrangementList(), "Arrangements");
+		}
+
+		private void On_OpenPlaceList(object sender, RoutedEventArgs e)
+		{
+			OpenUserControl(new PlacesList(), "Places");
+		}
+
+		private void On_AddPlace(object sender, RoutedEventArgs e)
+		{
+			OpenUserControl(new LocationAdd(), "Add Place");
+		}
+
+		private void CmdCloseCurrentTab_Executed(object sender, ExecutedRoutedEventArgs e)
+		{
+			int currentTab = MyTabControl.SelectedIndex;
+			if (currentTab != -1)
+			{
+				UserControls.RemoveAt(currentTab);
+			}
+		}
+
+		private void CmdCloseCurrentTab_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		{
+			e.CanExecute = true;
 		}
 	}
 }

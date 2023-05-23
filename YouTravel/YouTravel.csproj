@@ -14,11 +14,13 @@
     <None Remove="Res\IcoChart.png" />
     <None Remove="Res\IcoCross.png" />
     <None Remove="Res\IcoDisk.png" />
+    <None Remove="Res\IcoLocation.png" />
     <None Remove="Res\IcoLocationAdd.png" />
     <None Remove="Res\IcoMagnifier.png" />
     <None Remove="Res\IcoPageEdit.png" />
     <None Remove="Res\IcoPencil.png" />
     <None Remove="Res\IcoPlanetAdd.png" />
+    <None Remove="Res\IcoTravel.png" />
     <None Remove="Res\ImgAttraction.png" />
     <None Remove="Res\ImgHotel.png" />
     <None Remove="Res\ImgRestaurant.png" />
@@ -42,11 +44,13 @@
     <Resource Include="Res\IcoChart.png" />
     <Resource Include="Res\IcoCross.png" />
     <Resource Include="Res\IcoDisk.png" />
+    <Resource Include="Res\IcoLocation.png" />
     <Resource Include="Res\IcoLocationAdd.png" />
     <Resource Include="Res\IcoMagnifier.png" />
     <Resource Include="Res\IcoPageEdit.png" />
     <Resource Include="Res\IcoPencil.png" />
     <Resource Include="Res\IcoPlanetAdd.png" />
+    <Resource Include="Res\IcoTravel.png" />
     <Resource Include="Res\ImgAttraction.png" />
     <Resource Include="Res\ImgHotel.png" />
     <Resource Include="Res\ImgRestaurant.png" />

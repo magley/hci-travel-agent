@@ -17,7 +17,13 @@
 
 		<BitmapImage x:Key="IcoAddPlace" UriSource="../Res/IcoLocationAdd.png"/>
 		<BitmapImage x:Key="IcoAddArrangement" UriSource="../Res/IcoPlanetAdd.png"/>
+		<BitmapImage x:Key="IcoArrangement" UriSource="../Res/IcoTravel.png"/>
+		<BitmapImage x:Key="IcoPlace" UriSource="../Res/IcoLocation.png"/>
 	</Window.Resources>
+
+	<Window.CommandBindings>
+		<CommandBinding Command="{x:Static local:Command.CmdCloseCurrentTab}" Executed="CmdCloseCurrentTab_Executed" CanExecute="CmdCloseCurrentTab_CanExecute"/>
+	</Window.CommandBindings>
 
 	<DockPanel>
 		<StackPanel DockPanel.Dock="Top">
@@ -29,7 +35,7 @@
 								<Image Source="{StaticResource IcoAddArrangement}"/>
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="Place">
+						<MenuItem Header="Place" Click="On_AddPlace">
 							<MenuItem.Icon>
 								<Image Source="{StaticResource IcoAddPlace}"/>
 							</MenuItem.Icon>
@@ -40,8 +46,16 @@
 					<MenuItem Header="Exit"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_View">
-					<MenuItem Header="Arrangements"></MenuItem>
-					<MenuItem Header="Places"></MenuItem>
+					<MenuItem Header="Arrangements" Click="On_OpenArrangementList">
+						<MenuItem.Icon>
+							<Image Source="{StaticResource IcoArrangement}"/>
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Places" Click="On_OpenPlaceList">
+						<MenuItem.Icon>
+							<Image Source="{StaticResource IcoPlace}"/>
+						</MenuItem.Icon>
+					</MenuItem>
 					<MenuItem Header="Monthly Reports"></MenuItem>
 					<Separator/>
 					<MenuItem Header="Show Toolbar" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=ToolbarVisible}"></MenuItem>
@@ -60,7 +74,7 @@
 					<Button>
 						<Image Source="{StaticResource IcoAddArrangement}" Height="20"/>
 					</Button>
-					<Button>
+					<Button Click="On_AddPlace">
 						<Image Source="{StaticResource IcoAddPlace}" Height="20"/>
 					</Button>
 				</ToolBar>
@@ -68,7 +82,11 @@
 		</StackPanel>
 
 		<TabControl DockPanel.Dock="Bottom" ItemsSource="{Binding UserControls}" x:Name="MyTabControl">
-			<TabControl.ItemTemplate>
+				<TabControl.InputBindings>
+					<KeyBinding Key="W" Modifiers="Ctrl" Command="{x:Static local:Command.CmdCloseCurrentTab}" />
+				</TabControl.InputBindings>
+			
+				<TabControl.ItemTemplate>
 				<DataTemplate DataType="local:MyTab">
 					<Grid>
 						<Grid.ColumnDefinitions>
