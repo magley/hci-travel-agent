@@ -48,7 +48,6 @@ namespace YouTravel.Agent
 			// ... and update this per need.
 
 			userConfig.LoadToolbarConfig();
-			//userConfig.ToolbarButtons.Add(userConfig.PossibleToolbarButtons[0].Button);
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -65,8 +64,8 @@ namespace YouTravel.Agent
 		private void ShowToolbar_Click(object sender, RoutedEventArgs e)
 		{
 			MenuItem menuItem = (MenuItem)sender;
-			ToolbarVisible = menuItem.IsChecked;
-			toolbarTray.Visibility = ToolbarVisible ? Visibility.Visible : Visibility.Collapsed;
+			userConfig.ToolbarVisible = menuItem.IsChecked;
+			userConfig.Save();
 		}
 
 		private void TabClose_Click(object sender, RoutedEventArgs e)

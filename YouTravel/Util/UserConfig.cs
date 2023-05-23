@@ -12,6 +12,7 @@ namespace YouTravel.Util
     {
 		public ObservableCollection<ToolbarButton> PossibleToolbarButtons { get; set; } = new();
 		public ObservableCollection<Button> ToolbarButtons { get; set; } = new();
+		public bool ToolbarVisible { get; set; } = true;
 
 		private static UserConfig _instance = new();
         private UserConfig() { }
@@ -44,6 +45,10 @@ namespace YouTravel.Util
                         }
                     }
                 }
+                if (key == "ToolbarVisible")
+                {
+                    ToolbarVisible = bool.Parse(value.ToString());
+                }
             }
         }
 
@@ -51,8 +56,9 @@ namespace YouTravel.Util
         {
             string s = "";
 
-            s += "ToolbarButtons=";
+            s += $"ToolbarVisible={ToolbarVisible.ToString()}\n";
 
+            s += "ToolbarButtons=";
             var buttonNamesToAdd = new List<string>();
             foreach (var btn in ToolbarButtons)
             {
@@ -64,7 +70,6 @@ namespace YouTravel.Util
 					}
                 }
             }
-
             s += string.Join(",", buttonNamesToAdd.Select(b => $"\"{b}\""));
             s += "\n";
 

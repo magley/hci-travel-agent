@@ -42,7 +42,7 @@
 					</Style>
 				</StackPanel.Style>
 
-				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Show Toolbar"/>
+				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Show Toolbar" IsChecked="{Binding userConfig.ToolbarVisible,Mode=TwoWay}"/>
 				<Label>Default Location Coordinates:</Label><TextBox/>
 			</StackPanel>
 			

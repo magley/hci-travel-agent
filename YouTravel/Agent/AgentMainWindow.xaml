@@ -58,7 +58,7 @@
 					</MenuItem>
 					<MenuItem Header="Monthly Reports"></MenuItem>
 					<Separator/>
-					<MenuItem Header="Show Toolbar" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=ToolbarVisible}"></MenuItem>
+					<MenuItem Header="Show Toolbar" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay}"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_Settings">
 					<MenuItem Header="Preferences" Click="On_OpenSettings"/>
@@ -71,6 +71,16 @@
 			</Menu>
 			
 			<ToolBarTray x:Name="toolbarTray">
+				<ToolBarTray.Style>
+					<Style TargetType="{x:Type ToolBarTray}" BasedOn="{StaticResource {x:Type ToolBarTray}}">
+						<Setter Property="Visibility" Value="Visible"/>
+						<Style.Triggers>
+							<DataTrigger Binding="{Binding userConfig.ToolbarVisible}" Value="False">
+								<Setter Property="Visibility" Value="Collapsed"/>
+							</DataTrigger>
+						</Style.Triggers>
+					</Style>
+				</ToolBarTray.Style>
 				<ToolBar Template="{StaticResource ToolBarTemplate1}" 
 						 ItemsSource="{Binding userConfig.ToolbarButtons}">
 				</ToolBar>
