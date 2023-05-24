@@ -2,10 +2,13 @@
 using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
 
@@ -107,14 +110,28 @@ namespace YouTravel.Agent
 			return $"pack://application:,,,/Res/{fname}";
 		}
 
+
 		private void btnEditPlace_Click(object sender, RoutedEventArgs e)
 		{
+			Button btn = (Button)sender;
+			Place place = (Place)btn.DataContext;
 
+			((AgentMainWindow)Window.GetWindow(this)).OpenUserControl(new LocationAdd(), "Edit Place");
+
+			Refresh(Places);
 		}
 
 		private void btnRemovePlace_Click(object sender, RoutedEventArgs e)
 		{
 
+		}
+
+		public static void Refresh<T>(ObservableCollection<T> value)
+		{
+			// This is for testing.
+			// You would call Refresh(Places) after changing an existing Place in Places.
+			// HACK: This is a terrible hack. I wish WPF had normal binding.
+			CollectionViewSource.GetDefaultView(value).Refresh();
 		}
 	}
 }

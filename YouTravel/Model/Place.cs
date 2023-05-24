@@ -8,7 +8,7 @@ namespace YouTravel.Model
 		Attraction, Restaurant, Hotel
 	}
 
-	public class Place
+	public class Place 
 	{
 		[Key]
 		public int Id { get; set; }

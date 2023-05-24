@@ -58,7 +58,7 @@ namespace YouTravel.Agent
 		public void OpenUserControl(UserControl userControl, string tabName)
 		{
 			UserControls.Add(new(tabName, userControl));
-			MyTabControl.SelectedIndex = UserControls.Count - 1;
+			MyTabControl.SelectedIndex = UserControls.Count - 1;		
 		}
 
 		private void ShowToolbar_Click(object sender, RoutedEventArgs e)
@@ -70,6 +70,7 @@ namespace YouTravel.Agent
 
 		private void TabClose_Click(object sender, RoutedEventArgs e)
 		{
+			// TODO: This always closes the first of its kind => Force unique tabs by Name or figure out which tab it is (use a counter instead of Name?).
 			string s = (string)((Button)sender).CommandParameter;
 			var uc = UserControls.Where(uc => uc.Name == s).FirstOrDefault();
 			if (uc != null)
