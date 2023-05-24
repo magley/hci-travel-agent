@@ -116,7 +116,7 @@ namespace YouTravel.Agent
 			Button btn = (Button)sender;
 			Place place = (Place)btn.DataContext;
 
-			((AgentMainWindow)Window.GetWindow(this)).OpenUserControl(new LocationAdd(), "Edit Place");
+			((AgentMainWindow)Window.GetWindow(this)).OpenUserControl(new LocationAdd(place), "Edit Place");
 
 			Refresh(Places);
 		}

@@ -19,12 +19,26 @@ namespace YouTravel.Agent
 		private string _name = "New Location";
 		private string _description = "";
 		private PlaceType _type = PlaceType.Attraction;
+		private Place _existingPlace;
 
 		public double Latitude { get { return _latitude; } set { _latitude = value; DoPropertyChanged(nameof(Latitude)); MoveMapToLocation(); } }
 		public double Longitude { get { return _longitude; } set { _longitude = value; DoPropertyChanged(nameof(Longitude)); MoveMapToLocation(); } }
 		public string LocName { get { return _name; } set { _name = value; DoPropertyChanged(nameof(LocName)); } }
 		public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
 		public PlaceType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); DrawImage(new(Latitude, Longitude)); } }
+
+		public LocationAdd(Place place)
+		{
+			InitializeComponent();
+
+			Latitude = place.Lat;
+			Longitude = place.Long;
+			LocName = place.Name;
+			Type = place.Type;
+			_existingPlace = place;
+
+			DataContext = this;
+		}
 
 		public LocationAdd(Location? loc = null)
         {
