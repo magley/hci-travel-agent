@@ -3,11 +3,101 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+			 xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF" 
              xmlns:local="clr-namespace:YouTravel.Agent"
              mc:Ignorable="d" 
 			 Style="{StaticResource UCDark}"
+			 Loaded="Window_Loaded"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-		<Label>Testing.</Label>
-    </Grid>
+
+	<UserControl.Resources>
+		<BitmapImage x:Key="ImgAttraction" UriSource="../Res/IcoAttraction2.png"/>
+		<BitmapImage x:Key="ImgRestaurant" UriSource="../Res/IcoRestaurant2.png"/>
+		<BitmapImage x:Key="ImgHotel" UriSource="../Res/IcoHotel2.png"/>
+
+		<BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
+		<BitmapImage x:Key="IcoRemove" UriSource="../Res/IcoCross.png"/>
+	</UserControl.Resources>
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+
+		<m:Map
+				Grid.Column="0"
+				Margin="16"
+				x:Name="MyMap"
+				CredentialsProvider="(This value is set in the code-behind)"/>
+
+		<ListView 
+			x:Name="lstPlaces" 
+			ItemsSource="{Binding}" 
+			Grid.Column="1"
+			SelectionChanged="lstPlaces_SelectionChanged">
+
+			<ListView.ItemContainerStyle>
+				<Style TargetType="ListViewItem">
+					<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+				</Style>
+			</ListView.ItemContainerStyle>
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
+
+						<StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+							<Image Height="24" Width="24" >
+								<Image.Style>
+									<Style TargetType="{x:Type Image}">
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding Path=Type}" Value="0">
+												<Setter Property="Source" Value="{StaticResource ImgAttraction}"/>
+											</DataTrigger>
+											<DataTrigger Binding="{Binding Path=Type}" Value="1">
+												<Setter Property="Source" Value="{StaticResource ImgRestaurant}"/>
+											</DataTrigger>
+											<DataTrigger Binding="{Binding Path=Type}" Value="2">
+												<Setter Property="Source" Value="{StaticResource ImgHotel}"/>
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Image.Style>
+							</Image>
+
+							<Label Content="{Binding Name}"/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+							<Button x:Name="btnRemovePlace" Click="btnRemovePlace_Click" Margin="6 0 0 0">
+								<DockPanel HorizontalAlignment="Stretch">
+									<Image Source="{StaticResource IcoRemove}" Height="20" Margin="5 0 5 0"/>
+								</DockPanel>
+								
+								<Button.Style>
+									<Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+										<Setter Property="Visibility" Value="Hidden" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
+												<Setter Property="Visibility" Value="Visible" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Button.Style>
+							</Button>
+							<Button x:Name="btnEditPlace" Click="btnEditPlace_Click" Margin="6 0 0 0">
+								<DockPanel HorizontalAlignment="Stretch">
+									<Image Source="{StaticResource IcoEdit}" Height="20" Margin="5 0 5 0"/>
+								</DockPanel>
+							</Button>
+						</StackPanel>
+					</Grid>
+				</DataTemplate>
+			</ListView.ItemTemplate>
+		</ListView>
+	</Grid>
 </UserControl>

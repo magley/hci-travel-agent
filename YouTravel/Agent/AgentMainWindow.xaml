@@ -88,11 +88,11 @@
 		</StackPanel>
 
 		<TabControl DockPanel.Dock="Bottom" ItemsSource="{Binding UserControls}" x:Name="MyTabControl">
-				<TabControl.InputBindings>
-					<KeyBinding Key="W" Modifiers="Ctrl" Command="{x:Static local:Command.CmdCloseCurrentTab}" />
-				</TabControl.InputBindings>
+			<TabControl.InputBindings>
+				<KeyBinding Key="W" Modifiers="Ctrl" Command="{x:Static local:Command.CmdCloseCurrentTab}" />
+			</TabControl.InputBindings>
 			
-				<TabControl.ItemTemplate>
+			<TabControl.ItemTemplate>
 				<DataTemplate DataType="local:MyTab">
 					<Grid>
 						<Grid.ColumnDefinitions>

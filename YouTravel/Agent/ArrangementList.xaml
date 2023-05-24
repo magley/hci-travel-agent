@@ -7,15 +7,7 @@
         mc:Ignorable="d"
 		Loaded="Window_Loaded"
 		Style="{StaticResource UCDark}"
-		d:DesignHeight="540" d:DesignWidth="960"
-        >
-	<!-- 
-	To make the UserControl stretch to parent
-	you mustn't set Width and Height there.
-	But if you don't set Width and Height here,
-	then the preview window is messed up.
-	-->
-	
+		d:DesignHeight="540" d:DesignWidth="960">
 
 	<UserControl.Resources>
 		<BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
@@ -25,7 +17,6 @@
 	</UserControl.Resources>
 
 	<Grid>
-
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="5*" />
 			<ColumnDefinition Width="14*" />
@@ -93,7 +84,6 @@
 							</Style.Triggers>
 						</Style>
 					</Button.Style>
-
 				</Button>
 
 				<Button Grid.Column="2"

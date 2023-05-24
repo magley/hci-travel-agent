@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Data;
-using System.Linq;
 using System.Windows;
 using YouTravel.Model;
 
 namespace YouTravel
 {
-	/// <summary>
-	/// Interaction logic for App.xaml
-	/// </summary>
 	public partial class App : Application
 	{
 		public App()
@@ -22,13 +17,13 @@ namespace YouTravel
 			{
 				// Add:
 
-				var attr1 = new Place { Name = "Mt. ABC", Type = PlaceType.Attraction };
+				var attr1 = new Place { Name = "Mt. ABC", Type = PlaceType.Attraction, Lat=45, Long=19 };
 				db.Places.Add(attr1);
 
-				var attr2 = new Place { Name = "DEF's Cave", Type = PlaceType.Attraction };
+				var attr2 = new Place { Name = "DEF's Cave", Type = PlaceType.Attraction, Lat = 45.1, Long = 19.2 };
 				db.Places.Add(attr2);
 
-				var hotel1 = new Place { Name = "Hotel California", Type = PlaceType.Hotel };
+				var hotel1 = new Place { Name = "Hotel California", Type = PlaceType.Hotel, Lat = 45.3, Long = 18.7 };
 				db.Places.Add(hotel1);
 
 				var arr1 = new Arrangement { Description = "Arrangement 1", Price=123 };
