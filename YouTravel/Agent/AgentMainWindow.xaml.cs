@@ -91,6 +91,7 @@ namespace YouTravel.Agent
 
 		private void On_AddArrangement(object sender, RoutedEventArgs e)
 		{
+			OpenUserControl(new ArrangementAdd(), "Add Arrangement");
 		}
 
 		private void On_AddPlace(object sender, RoutedEventArgs e)
