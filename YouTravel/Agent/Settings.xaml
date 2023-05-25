@@ -60,18 +60,9 @@
 					</Style>
 				</StackPanel.Style>
 
-				<ListBox x:Name="Toolbar_ButtonVisibilityList" ItemsSource="{Binding ToolbarCheckboxItems}" d:Height="200">
-					<ListBox.ItemTemplate>
-						<DataTemplate>
-							<CheckBox 
-								VerticalAlignment="Center"
-								VerticalContentAlignment="Center"
-								Content="{Binding Str}"
-								IsChecked="{Binding Bool, Mode=TwoWay}"
-								Click="ToolbarButtonVisibility_Click"/>
-						</DataTemplate>
-					</ListBox.ItemTemplate>
-				</ListBox>
+				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Navigation" IsChecked="{Binding userConfig.ToolbarNav_Visible,Mode=TwoWay}"/>
+				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Arrangement" IsChecked="{Binding userConfig.ToolbarArrangement_Visible,Mode=TwoWay}"/>
+				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Place" IsChecked="{Binding userConfig.ToolbarPlace_Visible,Mode=TwoWay}"/>
 			</StackPanel>
 		</Grid>
     </Grid>

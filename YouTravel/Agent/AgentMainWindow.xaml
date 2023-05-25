@@ -19,6 +19,9 @@
 		<BitmapImage x:Key="IcoAddArrangement" UriSource="../Res/IcoPlanetAdd.png"/>
 		<BitmapImage x:Key="IcoArrangement" UriSource="../Res/IcoTravel.png"/>
 		<BitmapImage x:Key="IcoPlace" UriSource="../Res/IcoLocation.png"/>
+
+		<BitmapImage x:Key="IcoBack" UriSource="../Res/IcoArrowLeft.png"/>
+		<BitmapImage x:Key="IcoForward" UriSource="../Res/IcoArrowRight.png"/>
 	</Window.Resources>
 
 	<Grid>
@@ -82,23 +85,52 @@
 						</Style.Triggers>
 					</Style>
 				</ToolBarTray.Style>
-				<ToolBar Template="{StaticResource ToolBarTemplate1}" 
-						 ItemsSource="{Binding userConfig.ToolbarButtons}">
+
+				<ToolBar Template="{StaticResource ToolBarTemplate1}" ItemsSource="{Binding ToolbarBtn_Nav}">
+					<ToolBar.Style>
+						<Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
+							<Setter Property="Visibility" Value="Visible"/>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding userConfig.ToolbarNav_Visible}" Value="False">
+									<Setter Property="Visibility" Value="Collapsed"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</ToolBar.Style>
+				</ToolBar>
+
+				<ToolBar Template="{StaticResource ToolBarTemplate1}" ItemsSource="{Binding ToolbarBtn_Arrangement}">
+					<ToolBar.Style>
+						<Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
+							<Setter Property="Visibility" Value="Visible"/>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding userConfig.ToolbarArrangement_Visible}" Value="False">
+									<Setter Property="Visibility" Value="Collapsed"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</ToolBar.Style>
+				</ToolBar>
+
+				<ToolBar Template="{StaticResource ToolBarTemplate1}" ItemsSource="{Binding ToolbarBtn_Place}">
+					<ToolBar.Style>
+						<Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
+							<Setter Property="Visibility" Value="Visible"/>
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding userConfig.ToolbarPlace_Visible}" Value="False">
+									<Setter Property="Visibility" Value="Collapsed"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</ToolBar.Style>
 				</ToolBar>
 			</ToolBarTray>
 		</StackPanel>
 
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
 				<RowDefinition/>
 			</Grid.RowDefinitions>
-
-			<StackPanel Orientation="Horizontal" Grid.Row="0">
-				<Button Content="Back" Click="Back_Btn"/>
-				<Button Content="Next" Click="Next_Btn"/>
-			</StackPanel>
-
 			<Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden" Grid.Row="1"/>
 		</Grid>
 	</Grid>

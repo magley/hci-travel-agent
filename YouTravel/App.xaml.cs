@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using YouTravel.Model;
+using YouTravel.Util;
 
 namespace YouTravel
 {
@@ -13,6 +14,8 @@ namespace YouTravel
 
 		private static void FakeMain()
 		{
+			UserConfig.Instance.LoadToolbarConfig();
+
 			using (var db = new TravelContext())
 			{
 				// Add:

@@ -1,2 +1,4 @@
 ToolbarVisible=True
-ToolbarButtons="View Arrangements","View Places","Add Arrangement","Add Place"
+ToolbarNav_Visible=True
+ToolbarArrangement_Visible=False
+ToolbarPlace_Visible=True

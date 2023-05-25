@@ -2,9 +2,6 @@
 using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Data;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -131,6 +128,7 @@ namespace YouTravel.Agent
 			// This is for testing.
 			// You would call Refresh(Places) after changing an existing Place in Places.
 			// HACK: This is a terrible hack. I wish WPF had normal binding.
+			// TODO: Do we need this? Now that we have pages, it'll refresh every time we change somethign.
 			CollectionViewSource.GetDefaultView(value).Refresh();
 		}
 	}

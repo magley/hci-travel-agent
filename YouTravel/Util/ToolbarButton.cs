@@ -7,20 +7,19 @@ namespace YouTravel.Util
 {
     public class ToolbarButton
     {
-		public string Name { get; }
-		public Button Button { get; }
-
-        public ToolbarButton(string name, string filename, RoutedEventHandler onClick) {
-			Name = name;
-			Button = new Button();
+		public static Button NewBtn(string imgName, RoutedEventHandler onClick)
+		{
+			Button Button = new();
 			Image img = new()
 			{
-				Source = new BitmapImage(new Uri($"pack://application:,,,/Res/{filename}", UriKind.Absolute)),
+				Source = new BitmapImage(new Uri($"pack://application:,,,/Res/{imgName}", UriKind.Absolute)),
 				Width = 24,
 				Height = 24
 			};
 			Button.Content = img;
 			Button.Click += onClick;
+
+			return Button;
 		}
     }
 }

@@ -26,7 +26,6 @@ namespace YouTravel.Agent
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             InitDbContext();
-            Console.WriteLine("AAA");
         }
 
         private void InitDbContext()

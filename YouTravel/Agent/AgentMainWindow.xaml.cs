@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using YouTravel.Util;
@@ -13,19 +15,24 @@ namespace YouTravel.Agent
 
 		public bool ToolbarVisible { get; set; } = true;
 
+		public ObservableCollection<Button> ToolbarBtn_Nav { get; set; } = new();
+		public ObservableCollection<Button> ToolbarBtn_Arrangement { get; set; } = new();
+		public ObservableCollection<Button> ToolbarBtn_Place { get; set; } = new();
+
 		public AgentMainWindow()
 		{
 			InitializeComponent();
 			DataContext = this;
 
-			// The idea is to initialize this once at program startup every time...
-			userConfig.PossibleToolbarButtons.Add(new("Add Arrangement", "IcoPlanetAdd.png", On_AddArrangement));
-			userConfig.PossibleToolbarButtons.Add(new("Add Place", "IcoLocationAdd.png", On_AddPlace));
-			userConfig.PossibleToolbarButtons.Add(new("View Arrangements", "IcoTravel.png", On_OpenArrangementList));
-			userConfig.PossibleToolbarButtons.Add(new("View Places", "IcoLocation.png", On_OpenPlaceList));
-			// ... and update this per need.
 
-			userConfig.LoadToolbarConfig();
+			ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn));
+			ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn));
+
+			ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoPlanetAdd.png", On_AddArrangement));
+			ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList));
+
+			ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocationAdd.png", On_AddPlace));
+			ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocation.png", On_OpenPlaceList));
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)

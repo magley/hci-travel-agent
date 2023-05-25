@@ -35,10 +35,6 @@ namespace YouTravel.Agent
                             where res.Arrangement.Id == arrangement.Id
                             select res).ToList();
             tbReservations.DataContext = Reservations;
-
-            Console.WriteLine(Reservations.Count);
-
-            //Console.WriteLine(Reservations.Count + " " + _ctx.Reservations.Local.Count + " " + arrangement.Id);
         }
     }
 }
