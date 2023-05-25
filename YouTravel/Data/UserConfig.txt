@@ -1,2 +1,2 @@
 ToolbarVisible=True
-ToolbarButtons="View Arrangements","View Places","Add Place","Add Arrangement"
+ToolbarButtons="Add Arrangement","Add Place","View Arrangements","View Places"

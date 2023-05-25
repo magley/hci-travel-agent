@@ -57,8 +57,21 @@ namespace YouTravel.Agent
 
 		public void OpenUserControl(UserControl userControl, string tabName)
 		{
-			UserControls.Add(new(tabName, userControl));
-			MyTabControl.SelectedIndex = UserControls.Count - 1;		
+			var existingTab = UserControls.FirstOrDefault(x => x.Name == tabName);
+
+			if (existingTab != null)
+			{
+				int i = UserControls.IndexOf(existingTab);
+				UserControls.RemoveAt(i);
+				UserControls.Insert(i, new(tabName, userControl));
+				MyTabControl.SelectedIndex = i;
+				// TODO: Unsaved changes?
+			} 
+			else
+			{
+				UserControls.Add(new(tabName, userControl));
+				MyTabControl.SelectedIndex = UserControls.Count - 1;
+			}
 		}
 
 		private void ShowToolbar_Click(object sender, RoutedEventArgs e)

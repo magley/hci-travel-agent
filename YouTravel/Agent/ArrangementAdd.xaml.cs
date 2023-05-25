@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 
@@ -9,9 +10,14 @@ namespace YouTravel.Agent
         private List<Grid> pages = new();
         public int PageIndex { get; set; } = 0;
 
+		public string ArrName { get; set; } = "New Arrangement";
+		public string Description { get; set; } = "";
+		public double Price { get; set; } = 0;
+
         public ArrangementAdd()
         {
             InitializeComponent();
+			DataContext = this;
 
             pages.Add(Page1);
 			pages.Add(Page2);
@@ -28,6 +34,7 @@ namespace YouTravel.Agent
 
 			btnPrev.IsEnabled = PageIndex > 0;
 			btnNext.IsEnabled = PageIndex < pages.Count - 1;
+			btnFinish.IsEnabled = PageIndex == pages.Count - 1;
 
 			for (int i = 0; i < pages.Count; i++)
 			{
@@ -42,14 +49,19 @@ namespace YouTravel.Agent
 			}
 		}
 
-		private void btnPrev_Click(object sender, System.Windows.RoutedEventArgs e)
+		private void btnPrev_Click(object sender, RoutedEventArgs e)
 		{
 			MovePageIndex(-1);
 		}
 
-		private void btnNext_Click(object sender, System.Windows.RoutedEventArgs e)
+		private void btnNext_Click(object sender, RoutedEventArgs e)
 		{
 			MovePageIndex(1);
+		}
+
+		private void btnFinish_Click(object sender, RoutedEventArgs e)
+		{
+
 		}
 	}
 }

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+		xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:local="clr-namespace:YouTravel.Agent"
         mc:Ignorable="d"
         Style="{StaticResource UCDark}"
@@ -13,33 +14,61 @@
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
-		<Grid Grid.Row="0" x:Name="Page1">
-			<Grid.RowDefinitions>
-				<RowDefinition/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-			
-			<Label Grid.Row="0">Name</Label>
-			<Label Grid.Row="1">Desc</Label>
-		</Grid>
-		<Grid Grid.Row="0" x:Name="Page2">
-			<Grid.RowDefinitions>
-				<RowDefinition/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="2*"/>
+			<ColumnDefinition Width="3"/>
+			<ColumnDefinition Width="5*"/>
+		</Grid.ColumnDefinitions>
 
-			<Label Grid.Row="0">Image</Label>
-		</Grid>
-		<Grid Grid.Row="0" x:Name="Page3">
-			<Label Grid.Row="0">Locations</Label>
-		</Grid>
-		<Grid Grid.Row="0" x:Name="Page4">
-			<Label Grid.Row="0">Confirm</Label>
-		</Grid>
-		
-		<StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-			<Button x:Name="btnPrev" Content="Back" Margin="8 0 0 0" Click="btnPrev_Click"/>
-			<Button x:Name="btnNext" Content="Next" Margin="8 0 0 0" Click="btnNext_Click"/>
+		<StackPanel Grid.Row="0" Grid.Column="0">
+			<Label FontWeight="Bold">Create an Arrangement.</Label>
+			<TextBlock TextWrapping="WrapWithOverflow" Margin="0 10 0 0" HorizontalAlignment="Center">This wizard will guide you through creating a new arrangement.</TextBlock>
 		</StackPanel>
-    </Grid>
+
+		<Rectangle Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" Fill="LightGray" Width="1"/>
+
+		<Grid Grid.Row="0" Grid.Column="2">
+			<Grid Grid.Row="0" x:Name="Page1">
+				<StackPanel Margin="5">
+					<StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+						<Label Width="150" Content="Name"/>
+						<TextBox Width="200" Text="{Binding ArrName, Mode=TwoWay}"/>
+					</StackPanel>
+					<DockPanel LastChildFill="True" Margin="0 10 0 0">
+						<Label Width="150" Content="Description"/>
+						<TextBox Text="{Binding Description, Mode=TwoWay}"/>
+					</DockPanel>
+					<StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+						<Label Width="150" Content="Price (€)"/>
+						<TextBox TextAlignment="Right" Width="100"
+										 Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}"/>
+					</StackPanel>
+				</StackPanel>
+			</Grid>
+			<Grid Grid.Row="0" x:Name="Page2">
+				<Grid.RowDefinitions>
+					<RowDefinition/>
+					<RowDefinition/>
+				</Grid.RowDefinitions>
+
+				<Label Grid.Row="0">Image</Label>
+			</Grid>
+			<Grid Grid.Row="0" x:Name="Page3">
+				<Label Grid.Row="0">Locations</Label>
+			</Grid>
+			<Grid Grid.Row="0" x:Name="Page4">
+				<Label Grid.Row="0">Confirm</Label>
+			</Grid>
+		</Grid>
+
+
+		<StackPanel Grid.Row="1" Grid.ColumnSpan="3">
+			<Separator/>
+			<StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+				<Button x:Name="btnPrev" Content="Back" Margin="8 0 0 0" Click="btnPrev_Click" Width="60" Height="32"/>
+				<Button x:Name="btnNext" Content="Next" Margin="8 0 0 0" Click="btnNext_Click" Width="60" Height="32"/>
+				<Button x:Name="btnFinish" Content="Finish" Margin="8 0 0 0" Click="btnFinish_Click" Width="60" Height="32"/>
+			</StackPanel>
+		</StackPanel>
+	</Grid>
 </UserControl>

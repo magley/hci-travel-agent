@@ -69,6 +69,11 @@
 				<Trigger Property="IsPressed" Value="True">
 					<Setter Property="Background" Value="{DynamicResource bg_dark4}"/>
 				</Trigger>
+
+				<Trigger Property="IsEnabled" Value="False">
+					<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
+					<Setter Property="Foreground" Value="LightGray"/>
+				</Trigger>
 			</Style.Triggers>
 		</Style>
 
