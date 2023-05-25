@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
@@ -34,7 +35,12 @@ namespace YouTravel.Agent
 
 		public void OpenPage(Page page)
 		{
-			myFrame.Navigate(page);
+			myFrame.NavigationService.Navigate(page);
+		}
+
+		public void CloseMostRecentPage()
+		{
+			myFrame.NavigationService.RemoveBackEntry();
 		}
 
 		private void ShowToolbar_Click(object sender, RoutedEventArgs e)
@@ -76,5 +82,16 @@ namespace YouTravel.Agent
 			win.Show();
 		}
 
+		private void Next_Btn(object sender, RoutedEventArgs e)
+		{
+			if (myFrame.NavigationService.CanGoForward)
+				myFrame.NavigationService.GoForward();
+		}
+
+		private void Back_Btn(object sender, RoutedEventArgs e)
+		{
+			if (myFrame.NavigationService.CanGoBack)
+				myFrame.NavigationService.GoBack();
+		}
 	}
 }

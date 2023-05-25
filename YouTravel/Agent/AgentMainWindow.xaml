@@ -21,8 +21,13 @@
 		<BitmapImage x:Key="IcoPlace" UriSource="../Res/IcoLocation.png"/>
 	</Window.Resources>
 
-	<DockPanel>
-		<StackPanel DockPanel.Dock="Top">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+
+		<StackPanel Grid.Row="0">
 			<Menu>
 				<MenuItem Header="_File">
 					<MenuItem Header="New">
@@ -65,7 +70,7 @@
 					<MenuItem Header="Help"></MenuItem>
 				</MenuItem>
 			</Menu>
-			
+
 			<ToolBarTray x:Name="toolbarTray">
 				<ToolBarTray.Style>
 					<Style TargetType="{x:Type ToolBarTray}" BasedOn="{StaticResource {x:Type ToolBarTray}}">
@@ -83,7 +88,18 @@
 			</ToolBarTray>
 		</StackPanel>
 
-		<Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden"/>
+		<Grid Grid.Row="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
 
-	</DockPanel>
+			<StackPanel Orientation="Horizontal" Grid.Row="0">
+				<Button Content="Back" Click="Back_Btn"/>
+				<Button Content="Next" Click="Next_Btn"/>
+			</StackPanel>
+
+			<Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden" Grid.Row="1"/>
+		</Grid>
+	</Grid>
 </Window>
