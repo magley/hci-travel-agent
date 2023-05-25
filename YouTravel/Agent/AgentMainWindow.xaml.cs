@@ -1,31 +1,9 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
-	public class UserControlInTab
-	{
-		public UserControl? UserControl { get; set; } = null;
-		public string Name { get; set; } = "";
-
-		public UserControlInTab(string name, UserControl userControl)
-		{
-			Name = name;
-			UserControl = userControl;
-		}
-
-		public UserControlInTab() { }
-	}
-
-	public static class Command
-	{
-		public static readonly RoutedUICommand CmdCloseCurrentTab = new RoutedUICommand("Do something", "DoSomething", typeof(AgentMainWindow));
-	}
-
 	public partial class AgentMainWindow : Window
 	{
 		// TODO: Move certain properties to global settings.
@@ -33,7 +11,6 @@ namespace YouTravel.Agent
 		public UserConfig userConfig { get; } = UserConfig.Instance;
 
 		public bool ToolbarVisible { get; set; } = true;
-		public ObservableCollection<UserControlInTab> UserControls { get; set; } = new();
 
 		public AgentMainWindow()
 		{
@@ -52,26 +29,12 @@ namespace YouTravel.Agent
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
-			OpenUserControl(new ArrangementList(), "Arrangements");
+			OpenPage(new ArrangementList());
 		}
 
-		public void OpenUserControl(UserControl userControl, string tabName)
+		public void OpenPage(Page page)
 		{
-			var existingTab = UserControls.FirstOrDefault(x => x.Name == tabName);
-
-			if (existingTab != null)
-			{
-				int i = UserControls.IndexOf(existingTab);
-				UserControls.RemoveAt(i);
-				UserControls.Insert(i, new(tabName, userControl));
-				MyTabControl.SelectedIndex = i;
-				// TODO: Unsaved changes?
-			} 
-			else
-			{
-				UserControls.Add(new(tabName, userControl));
-				MyTabControl.SelectedIndex = UserControls.Count - 1;
-			}
+			myFrame.Navigate(page);
 		}
 
 		private void ShowToolbar_Click(object sender, RoutedEventArgs e)
@@ -81,35 +44,24 @@ namespace YouTravel.Agent
 			userConfig.Save();
 		}
 
-		private void TabClose_Click(object sender, RoutedEventArgs e)
-		{
-			// TODO: This always closes the first of its kind => Force unique tabs by Name or figure out which tab it is (use a counter instead of Name?).
-			string s = (string)((Button)sender).CommandParameter;
-			var uc = UserControls.Where(uc => uc.Name == s).FirstOrDefault();
-			if (uc != null)
-			{
-				UserControls.Remove(uc);
-			}
-		}
-
 		private void On_OpenArrangementList(object sender, RoutedEventArgs e)
 		{
-			OpenUserControl(new ArrangementList(), "Arrangements");
+			OpenPage(new ArrangementList());
 		}
 
 		private void On_OpenPlaceList(object sender, RoutedEventArgs e)
 		{
-			OpenUserControl(new PlacesList(), "Places");
+			OpenPage(new PlacesList());
 		}
 
 		private void On_AddArrangement(object sender, RoutedEventArgs e)
 		{
-			OpenUserControl(new ArrangementAdd(), "Add Arrangement");
+			OpenPage(new ArrangementAdd());
 		}
 
 		private void On_AddPlace(object sender, RoutedEventArgs e)
 		{
-			OpenUserControl(new LocationAdd(), "Add Place");
+			OpenPage(new LocationAdd());
 		}
 
 		private void On_OpenSettings(object sender, RoutedEventArgs e)
@@ -124,18 +76,5 @@ namespace YouTravel.Agent
 			win.Show();
 		}
 
-		private void CmdCloseCurrentTab_Executed(object sender, ExecutedRoutedEventArgs e)
-		{
-			int currentTab = MyTabControl.SelectedIndex;
-			if (currentTab != -1)
-			{
-				UserControls.RemoveAt(currentTab);
-			}
-		}
-
-		private void CmdCloseCurrentTab_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-		{
-			e.CanExecute = true;
-		}
 	}
 }

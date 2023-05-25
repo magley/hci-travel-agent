@@ -8,8 +8,8 @@ using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-    public partial class ArrangementReport : UserControl
-    {
+    public partial class ArrangementReport : Page
+	{
         public Arrangement arrangement { get; set; }
         private IList<Reservation> Reservations { get; set; } = new List<Reservation>();
         private TravelContext _ctx = new();

@@ -8,8 +8,8 @@ using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-    public partial class ArrangementEdit : UserControl
-    {
+    public partial class ArrangementEdit : Page
+	{
         private Arrangement arrangement;
 
         public bool ActivitiesViewHotel { get; set; } = true;
@@ -72,7 +72,7 @@ namespace YouTravel.Agent
             Point mousePos = e.GetPosition(this);
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
-			((AgentMainWindow)Window.GetWindow(this)).OpenUserControl(new LocationAdd(latLong), "Add Place");
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong));
 		}
 	}
 }

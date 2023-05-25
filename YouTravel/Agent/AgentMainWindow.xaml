@@ -21,10 +21,6 @@
 		<BitmapImage x:Key="IcoPlace" UriSource="../Res/IcoLocation.png"/>
 	</Window.Resources>
 
-	<Window.CommandBindings>
-		<CommandBinding Command="{x:Static local:Command.CmdCloseCurrentTab}" Executed="CmdCloseCurrentTab_Executed" CanExecute="CmdCloseCurrentTab_CanExecute"/>
-	</Window.CommandBindings>
-
 	<DockPanel>
 		<StackPanel DockPanel.Dock="Top">
 			<Menu>
@@ -87,35 +83,7 @@
 			</ToolBarTray>
 		</StackPanel>
 
-		<TabControl DockPanel.Dock="Bottom" ItemsSource="{Binding UserControls}" x:Name="MyTabControl">
-			<TabControl.InputBindings>
-				<KeyBinding Key="W" Modifiers="Ctrl" Command="{x:Static local:Command.CmdCloseCurrentTab}" />
-			</TabControl.InputBindings>
-			
-			<TabControl.ItemTemplate>
-				<DataTemplate DataType="local:MyTab">
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="Auto" />
-						</Grid.ColumnDefinitions>
-						<TextBlock Grid.Column="0" Text="{Binding Name}"/>
-						<Button Grid.Column="1" Click="TabClose_Click" CommandParameter="{Binding Name}">
-							<Button.Template>
-								<ControlTemplate TargetType="Button">
-									<Path Data="M0,0 L8,8 M8,0 L0,8" StrokeThickness="3" VerticalAlignment="Center" Margin="9,4,0,2" Stroke="WhiteSmoke"/>
-								</ControlTemplate>
-							</Button.Template>
-						</Button>
-					</Grid>
-				</DataTemplate>
-			</TabControl.ItemTemplate>
-			
-			<TabControl.ContentTemplate>
-				<DataTemplate DataType="local:MyTab">
-					<ContentControl Content="{Binding UserControl}"/>
-				</DataTemplate>
-			</TabControl.ContentTemplate>
-		</TabControl>
+		<Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden"/>
+
 	</DockPanel>
 </Window>

@@ -8,7 +8,7 @@ using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-    public partial class ArrangementList : UserControl
+    public partial class ArrangementList : Page
     {
         public ObservableCollection<Arrangement> Arrangements { get; set; } = new();
         private TravelContext _ctx = new();
@@ -49,7 +49,7 @@ namespace YouTravel.Agent
             Button button = (Button)sender;
             Arrangement arr= (Arrangement)button.DataContext;
 
-			((AgentMainWindow)Window.GetWindow(this)).OpenUserControl(new ArrangementEdit(arr), "Edit Arrangement");
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementEdit(arr));
         }
 
         private void ArrangementReport_Click(object sender, RoutedEventArgs e)
@@ -57,7 +57,7 @@ namespace YouTravel.Agent
             Button button = (Button)sender;
             Arrangement arr = (Arrangement)button.DataContext;
 
-			((AgentMainWindow)Window.GetWindow(this)).OpenUserControl(new ArrangementReport(arr), "Arrangement Report");
+			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementReport(arr));
         }
 
         private void CbShowActive_Click(object sender, RoutedEventArgs e)

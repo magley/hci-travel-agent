@@ -9,7 +9,7 @@ using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-    public partial class LocationAdd : UserControl, INotifyPropertyChanged
+    public partial class LocationAdd : Page, INotifyPropertyChanged
     {
 		public event PropertyChangedEventHandler? PropertyChanged;
 		void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));

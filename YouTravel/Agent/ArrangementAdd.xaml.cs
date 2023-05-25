@@ -5,8 +5,8 @@ using System.Windows.Documents;
 
 namespace YouTravel.Agent
 {
-    public partial class ArrangementAdd : UserControl
-    {
+    public partial class ArrangementAdd : Page
+	{
         private List<Grid> pages = new();
         public int PageIndex { get; set; } = 0;
 

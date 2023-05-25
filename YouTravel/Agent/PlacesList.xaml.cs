@@ -14,7 +14,7 @@ using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
-	public partial class PlacesList : UserControl
+	public partial class PlacesList : Page
 	{
 		private TravelContext _ctx = new();
 		public ObservableCollection<Place> Places { get; set; } = new();
@@ -116,7 +116,7 @@ namespace YouTravel.Agent
 			Button btn = (Button)sender;
 			Place place = (Place)btn.DataContext;
 
-			((AgentMainWindow)Window.GetWindow(this)).OpenUserControl(new LocationAdd(place), "Edit Place");
+			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(place));
 
 			Refresh(Places);
 		}

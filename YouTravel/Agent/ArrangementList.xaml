@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="YouTravel.Agent.ArrangementList"
+﻿<Page x:Class="YouTravel.Agent.ArrangementList"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,15 +6,15 @@
         xmlns:local="clr-namespace:YouTravel.Agent"
         mc:Ignorable="d"
 		Loaded="Window_Loaded"
-		Style="{StaticResource UCDark}"
+		Style="{StaticResource PageDark}"
 		d:DesignHeight="540" d:DesignWidth="960">
 
-	<UserControl.Resources>
+	<Page.Resources>
 		<BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
 		<BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
 		<BitmapImage x:Key="IcoStats" UriSource="../Res/IcoChart.png"/>
 		<BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
-	</UserControl.Resources>
+	</Page.Resources>
 
 	<Grid>
 		<Grid.ColumnDefinitions>
@@ -163,4 +163,4 @@
 			</ListView.View>
 		</ListView>
 	</Grid>
-</UserControl>
+</Page>
