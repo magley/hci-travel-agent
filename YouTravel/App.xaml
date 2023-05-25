@@ -748,6 +748,45 @@
 				</Setter.Value>
 			</Setter>
 		</Style>
+		
+		<!-- Calendar -->
+
+		<Style TargetType="{x:Type Calendar}">
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="Background">
+				<Setter.Value>
+					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+						<!-- Header gradient -->
+						<GradientStop Color="Black" Offset="0"/>
+						<GradientStop Color="Black" Offset="0.16"/>
+						<!-- Body Gradient -->
+						<GradientStop Color="Black" Offset="0.16"/>
+						<GradientStop Color="Black" Offset="1"/>
+					</LinearGradientBrush>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="BorderBrush">
+				<Setter.Value>
+					<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+						<!-- Border gradient -->
+						<GradientStop Color="Transparent" Offset="0"/>
+						<GradientStop Color="Transparent" Offset="0.375"/>
+						<GradientStop Color="Transparent" Offset="0.375"/>
+						<GradientStop Color="Transparent" Offset="1"/>
+					</LinearGradientBrush>
+				</Setter.Value>
+			</Setter>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type Calendar}">
+						<StackPanel x:Name="PART_Root" HorizontalAlignment="Center">
+							<CalendarItem x:Name="PART_CalendarItem" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Style="{TemplateBinding CalendarItemStyle}"/>
+						</StackPanel>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
 
 	</Application.Resources>
 </Application>
