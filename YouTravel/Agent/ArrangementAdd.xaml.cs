@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.Maps.MapControl.WPF;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -37,7 +39,12 @@ namespace YouTravel.Agent
 			MovePageIndex(0);
 		}
 
-		private void MovePageIndex(int delta)
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+			InitMapsApi();
+        }
+
+        private void MovePageIndex(int delta)
 		{
 			PageIndex += delta;
 
@@ -97,5 +104,20 @@ namespace YouTravel.Agent
 			image.Freeze();
 			imgImage.Source = image;
 		}
-	}
+
+        private void InitMapsApi()
+        {
+            string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
+            TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
+        }
+
+        private void TheMap_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            e.Handled = true; // Prevent other events from firing up (in this case, zooming in at cursor).
+            Point mousePos = e.GetPosition(this);
+            Location latLong = TheMap.ViewportPointToLocation(mousePos);
+
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong));
+        }
+    }
 }

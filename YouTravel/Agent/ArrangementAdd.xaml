@@ -4,8 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib"
+		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         xmlns:local="clr-namespace:YouTravel.Agent"
         mc:Ignorable="d"
+		Loaded="Page_Loaded"
         Style="{StaticResource PageDark}"
         d:Height="450" d:Width="800">
     <Grid Margin="5">
@@ -29,26 +31,28 @@
 
 		<Grid Grid.Row="0" Grid.Column="2">
 			<Grid Grid.Row="0" x:Name="Page1" Visibility="Hidden">
-				<StackPanel Margin="5">
-					<StackPanel Margin="0 10 0 0" Orientation="Horizontal">
-						<Label Width="150" Content="Name"/>
-						<TextBox Width="200" Text="{Binding ArrName, Mode=TwoWay}"/>
-					</StackPanel>
-					<DockPanel LastChildFill="True" Margin="0 10 0 0">
-						<Label Width="150" Content="Description"/>
-						<TextBox Text="{Binding Description, Mode=TwoWay}" Height="200" TextWrapping="Wrap" AcceptsReturn="True"/>
-					</DockPanel>
-					<StackPanel Margin="0 30 0 0" Orientation="Horizontal">
-						<Label Width="150" Content="Price (€)"/>
-						<TextBox x:Name="TextBox_Price"  TextAlignment="Right" Width="100"
+				<ScrollViewer>
+					<StackPanel Margin="5">
+						<StackPanel Margin="0 10 0 0" Orientation="Horizontal">
+							<Label Width="150" Content="Name"/>
+							<TextBox Width="200" Text="{Binding ArrName, Mode=TwoWay}"/>
+						</StackPanel>
+						<DockPanel LastChildFill="True" Margin="0 10 0 0">
+							<Label Width="150" Content="Description"/>
+							<TextBox Text="{Binding Description, Mode=TwoWay}" Height="200" TextWrapping="Wrap" AcceptsReturn="True"/>
+						</DockPanel>
+						<StackPanel Margin="0 30 0 0" Orientation="Horizontal">
+							<Label Width="150" Content="Price (€)"/>
+							<TextBox x:Name="TextBox_Price"  TextAlignment="Right" Width="100"
 										 Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}"/>
+						</StackPanel>
 					</StackPanel>
-				</StackPanel>
+				</ScrollViewer>
 			</Grid>
-			<Grid Grid.Row="0" x:Name="Page2">
+			<Grid Grid.Row="0" x:Name="Page2" Visibility="Hidden">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="Auto"/>
-					<RowDefinition Height="Auto"/>
+					<RowDefinition />
 				</Grid.RowDefinitions>
 
 				<Label Grid.Row="0">Select an image:</Label>
@@ -75,8 +79,61 @@
 				</StackPanel>
 				
 			</Grid>
-			<Grid Grid.Row="0" x:Name="Page3" Visibility="Hidden">
-				<Label Grid.Row="0">Locations</Label>
+			<Grid Grid.Row="0" x:Name="Page3" Visibility="Visible">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="13*" MinHeight="50"/>
+						<RowDefinition Height="12*" MinHeight="50"/>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+
+					<m:Map
+							Grid.Row="0"
+							Grid.ColumnSpan="2"
+							Margin="5"
+							x:Name="TheMap" 
+							CredentialsProvider="(This value is set in the code-behind)"
+							MouseDoubleClick="TheMap_MouseDoubleClick"
+							Mode="Road"/>
+
+					<Grid Grid.Row="1" Grid.Column="0" Margin="5">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="Auto"/>
+							<RowDefinition Height="10*"/>
+						</Grid.RowDefinitions>
+
+						<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5" DataContext="{Binding ElementName=selfWin}">
+							<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+								<Viewbox>
+									<CheckBox IsChecked="{Binding Path=ActivitiesViewHotel, Mode=TwoWay}" />
+								</Viewbox>
+								<Label Content="Hotel"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+								<Viewbox>
+									<CheckBox IsChecked="{Binding Path=ActivitiesViewAttraction, Mode=TwoWay}" />
+								</Viewbox>
+								<Label Content="Attraction"/>
+							</StackPanel>
+							<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+								<Viewbox>
+									<CheckBox IsChecked="{Binding Path=ActivitiesViewRestaurant, Mode=TwoWay}" />
+								</Viewbox>
+								<Label Content="Restaurant"/>
+							</StackPanel>
+						</StackPanel>
+						<ListBox Grid.Row="1">
+
+						</ListBox>
+					</Grid>
+
+					<ListBox Grid.Row="1" Grid.Column="1" Margin="5">
+
+					</ListBox>
+				</Grid>
 			</Grid>
 			<Grid Grid.Row="0" x:Name="Page4" Visibility="Hidden">
 				<Label Grid.Row="0">Confirm</Label>
