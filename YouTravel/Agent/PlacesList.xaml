@@ -93,6 +93,17 @@
 								<DockPanel HorizontalAlignment="Stretch">
 									<Image Source="{StaticResource IcoEdit}" Height="20" Margin="5 0 5 0"/>
 								</DockPanel>
+
+								<Button.Style>
+									<Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+										<Setter Property="Visibility" Value="Hidden" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
+												<Setter Property="Visibility" Value="Visible" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Button.Style>
 							</Button>
 						</StackPanel>
 					</Grid>

@@ -1,20 +1,29 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Media.Imaging;
 
 namespace YouTravel.Agent
 {
-    public partial class ArrangementAdd : Page
+    public partial class ArrangementAdd : Page, INotifyPropertyChanged
 	{
-        private List<Grid> pages = new();
+		public event PropertyChangedEventHandler? PropertyChanged;
+		void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+
+		private List<Grid> pages = new();
         public int PageIndex { get; set; } = 0;
 
 		public string ArrName { get; set; } = "New Arrangement";
 		public string Description { get; set; } = "";
 		public double Price { get; set; } = 0;
 
-        public ArrangementAdd()
+		private string _filename = "No File Selected.";
+		public string Filename { get { return _filename; } set { _filename = value; DoPropertyChanged(nameof(Filename)); } }
+
+		public ArrangementAdd()
         {
             InitializeComponent();
 			DataContext = this;
@@ -62,6 +71,31 @@ namespace YouTravel.Agent
 		private void btnFinish_Click(object sender, RoutedEventArgs e)
 		{
 
+		}
+
+		private void btn_SelectImage_Click(object sender, RoutedEventArgs e)
+		{
+			Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+			dlg.DefaultExt = ".jpeg";
+			dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg";
+
+			Nullable<bool> result = dlg.ShowDialog();
+
+			if (result == true)
+			{
+				string filename = dlg.FileName;
+				SetImage(filename);
+			}
+		}
+
+		private void SetImage(string fnameFull)
+		{
+			Filename = fnameFull;
+
+			BitmapImage image = new(new Uri(fnameFull, UriKind.Absolute));
+			image.CacheOption = BitmapCacheOption.OnLoad;
+			image.Freeze();
+			imgImage.Source = image;
 		}
 	}
 }
