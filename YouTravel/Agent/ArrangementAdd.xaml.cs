@@ -1,12 +1,13 @@
 ﻿using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Media.Imaging;
+using YouTravel.Model;
 
 namespace YouTravel.Agent
 {
@@ -18,14 +19,19 @@ namespace YouTravel.Agent
 		private List<Grid> pages = new();
         public int PageIndex { get; set; } = 0;
 
-		public string ArrName { get; set; } = "New Arrangement";
-		public string Description { get; set; } = "";
-		public double Price { get; set; } = 0;
+        private string _arrName = "New Arrangement";
+        private string _description = "";
+        private double _price = 100;
+        private string _filename = "No File Selected.";
 
-		private string _filename = "No File Selected.";
+        public string ArrName { get { return _arrName; } set { _arrName = value; DoPropertyChanged(nameof(ArrName)); } }
+        public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
+        public double Price { get { return _price; } set { _price = value; DoPropertyChanged(nameof(Price)); } }
 		public string Filename { get { return _filename; } set { _filename = value; DoPropertyChanged(nameof(Filename)); } }
 
-		public ArrangementAdd()
+		public ObservableCollection<Place> ArrActivities { get; set; } = new();
+
+        public ArrangementAdd()
         {
             InitializeComponent();
 			DataContext = this;
@@ -37,11 +43,16 @@ namespace YouTravel.Agent
             PageIndex = 0;
 
 			MovePageIndex(0);
-		}
+        }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
 			InitMapsApi();
+
+
+            ArrActivities.Add(new Place() { Name = "dsjdhsj" });
+            ArrActivities.Add(new Place() { Name = "hrkw799" });
+            ArrActivities.Add(new Place() { Name = "hhrhjl3r3" });
         }
 
         private void MovePageIndex(int delta)
