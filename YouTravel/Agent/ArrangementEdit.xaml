@@ -36,7 +36,7 @@
 						<StackPanel Margin="5">
 							<StackPanel Margin="0 10 0 0" Orientation="Horizontal">
 								<Label Width="150" Content="Name"/>
-								<TextBox Width="200" Text="{Binding Name, Mode=TwoWay}"/>
+								<TextBox Width="200" Text="{Binding ArrName, Mode=TwoWay}"/>
 							</StackPanel>
 							<DockPanel LastChildFill="True" Margin="0 10 0 0">
 								<Label Width="150" Content="Description"/>
@@ -132,14 +132,14 @@
 
 		<Grid Grid.Row="1" Grid.Column="1">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button Margin="0 0 10 0">
+				<Button Margin="0 0 10 0" x:Name="btn_SaveDraft" Click="btn_SaveDraft_Click"> 
 					<DockPanel HorizontalAlignment="Stretch">
 						<Image Source="{StaticResource IcoSave}" Height="20" Margin="5 0 5 0"/>
 						<Label Content="Save Draft"/>
 					</DockPanel>
 				</Button>
 
-				<Button>
+				<Button  x:Name="btn_PublishChanges" Click="btn_PublishChanges_Click">
 					<DockPanel HorizontalAlignment="Stretch">
 						<Image Source="{StaticResource IcoPublish}" Height="20" Margin="5 0 5 0"/>
 						<Label Content="Publish Changes"/>

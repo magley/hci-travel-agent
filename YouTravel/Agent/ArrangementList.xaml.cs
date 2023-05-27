@@ -11,7 +11,7 @@ namespace YouTravel.Agent
     public partial class ArrangementList : Page
     {
         public ObservableCollection<Arrangement> Arrangements { get; set; } = new();
-        private TravelContext _ctx = new();
+        //private TravelContext _ctx = new();
 
         public bool ShowActive { get; set; } = true;
         public bool ShowFinished { get; set; } = true;
@@ -35,13 +35,16 @@ namespace YouTravel.Agent
 
         private void LoadArrangements()
         {
-            _ctx.Arrangements.Load();
-            Arrangements = _ctx.Arrangements.Local.ToObservableCollection();
+            using (var ctx = new TravelContext())
+            {
+                ctx.Arrangements.Load();
+                Arrangements = ctx.Arrangements.Local.ToObservableCollection();
 
-            // TODO: Utilize a search query (see BtnSearch_Click).
-            Arrangements = new(Arrangements.Where(x => ShowActive || x.Id % 2 == 0)); // Testing out filtering observable collections
-            
-            arrangementsList.DataContext = Arrangements;
+                // TODO: Utilize a search query (see BtnSearch_Click).
+                Arrangements = new(Arrangements.Where(x => ShowActive || x.Id % 2 == 0)); // Testing out filtering observable collections
+
+                arrangementsList.DataContext = Arrangements;
+            }
         }
 
         private void EditArrangement_Click(object sender, RoutedEventArgs e)
