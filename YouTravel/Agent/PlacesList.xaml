@@ -31,12 +31,13 @@
 				x:Name="MyMap"
 				CredentialsProvider="(This value is set in the code-behind)"/>
 
+
+
 		<ListView 
 			x:Name="lstPlaces" 
 			ItemsSource="{Binding}" 
 			Grid.Column="1"
 			SelectionChanged="lstPlaces_SelectionChanged">
-
 			<ListView.ItemContainerStyle>
 				<Style TargetType="ListViewItem">
 					<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -110,5 +111,9 @@
 				</DataTemplate>
 			</ListView.ItemTemplate>
 		</ListView>
+
+		<TextBlock x:Name="txtNoPlaces" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center">
+			No places in the database. Add one to get started.
+		</TextBlock>
 	</Grid>
 </Page>
