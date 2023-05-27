@@ -19,7 +19,6 @@ namespace YouTravel.Agent
 		private string _name = "New Location";
 		private string _description = "";
 		private PlaceType _type = PlaceType.Attraction;
-		private Place _existingPlace;
 
 		public double Latitude { get { return _latitude; } set { _latitude = value; DoPropertyChanged(nameof(Latitude)); MoveMapToLocation(); } }
 		public double Longitude { get { return _longitude; } set { _longitude = value; DoPropertyChanged(nameof(Longitude)); MoveMapToLocation(); } }
@@ -35,7 +34,6 @@ namespace YouTravel.Agent
 			Longitude = place.Long;
 			LocName = place.Name;
 			Type = place.Type;
-			_existingPlace = place;
 
 			DataContext = this;
 		}
@@ -123,5 +121,28 @@ namespace YouTravel.Agent
 
 			return $"pack://application:,,,/Res/{fname}";
 		}
-	}
+
+        private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
+        {
+			CreateNewPlace();
+        }
+
+		private void CreateNewPlace()
+		{
+			using (var ctx = new TravelContext())
+			{
+				Place place = new();
+				place.Name = LocName;
+				place.Lat = Latitude;
+				place.Long = Longitude;
+				place.Type = Type;
+				// Description. Do we need it?
+
+				ctx.Places.Add(place);
+				ctx.SaveChanges();
+			}
+
+			((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+        }
+    }
 }
