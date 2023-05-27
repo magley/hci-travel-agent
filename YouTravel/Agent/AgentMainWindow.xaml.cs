@@ -47,10 +47,23 @@ namespace YouTravel.Agent
 
 		public void CloseMostRecentPage()
 		{
+			PageBack();
 			myFrame.NavigationService.RemoveBackEntry();
 		}
 
-		private void ShowToolbar_Click(object sender, RoutedEventArgs e)
+        public void PageBack()
+        {
+            if (myFrame.NavigationService.CanGoBack)
+                myFrame.NavigationService.GoBack();
+        }
+
+        public void PageNext()
+        {
+            if (myFrame.NavigationService.CanGoForward)
+                myFrame.NavigationService.GoForward();
+        }
+
+        private void ShowToolbar_Click(object sender, RoutedEventArgs e)
 		{
 			MenuItem menuItem = (MenuItem)sender;
 			userConfig.ToolbarVisible = menuItem.IsChecked;
@@ -91,14 +104,14 @@ namespace YouTravel.Agent
 
 		private void Next_Btn(object sender, RoutedEventArgs e)
 		{
-			if (myFrame.NavigationService.CanGoForward)
-				myFrame.NavigationService.GoForward();
-		}
+			PageNext();
+
+        }
 
 		private void Back_Btn(object sender, RoutedEventArgs e)
 		{
-			if (myFrame.NavigationService.CanGoBack)
-				myFrame.NavigationService.GoBack();
-		}
+			PageBack();
+
+        }
 	}
 }
