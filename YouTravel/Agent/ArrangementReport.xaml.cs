@@ -12,7 +12,6 @@ namespace YouTravel.Agent
 	{
         public Arrangement arrangement { get; set; }
         private IList<Reservation> Reservations { get; set; } = new List<Reservation>();
-        private TravelContext _ctx = new();
 
         public ArrangementReport(Arrangement arrangement)
         {
@@ -28,13 +27,16 @@ namespace YouTravel.Agent
 
         private void InitDbContext()
         {
-            _ctx.Arrangements.Load();
-            _ctx.Reservations.Load();
+            using (var ctx = new TravelContext())
+            {
+                ctx.Arrangements.Load();
+                ctx.Reservations.Load();
 
-            Reservations = (from res in _ctx.Reservations.Local.ToObservableCollection()
-                            where res.Arrangement.Id == arrangement.Id
-                            select res).ToList();
-            tbReservations.DataContext = Reservations;
+                Reservations = (from res in ctx.Reservations.Local.ToObservableCollection()
+                                where res.Arrangement.Id == arrangement.Id
+                                select res).ToList();
+                tbReservations.DataContext = Reservations;
+            }
         }
     }
 }

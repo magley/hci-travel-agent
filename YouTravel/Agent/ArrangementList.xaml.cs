@@ -11,7 +11,6 @@ namespace YouTravel.Agent
     public partial class ArrangementList : Page
     {
         public ObservableCollection<Arrangement> Arrangements { get; set; } = new();
-        //private TravelContext _ctx = new();
 
         public bool ShowActive { get; set; } = true;
         public bool ShowFinished { get; set; } = true;

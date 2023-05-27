@@ -6,6 +6,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
 
@@ -13,7 +14,6 @@ namespace YouTravel.Agent
 {
 	public partial class PlacesList : Page
 	{
-		private TravelContext _ctx = new();
 		public ObservableCollection<Place> Places { get; set; } = new();
 
 		public PlacesList()
@@ -35,16 +35,19 @@ namespace YouTravel.Agent
 
 		private void LoadPlaces()
 		{
-			_ctx.Places.Load();
-			Places = _ctx.Places.Local.ToObservableCollection();
-			lstPlaces.DataContext = Places;
-
-			if (Places.Count > 0)
+			using (var ctx = new TravelContext())
 			{
-				lstPlaces.SelectedIndex = 0;
-			}
+                ctx.Places.Load();
+				Places = ctx.Places.Local.ToObservableCollection();
+				lstPlaces.DataContext = Places;
 
-			PinToSelectedListItem();
+				if (Places.Count > 0)
+				{
+					lstPlaces.SelectedIndex = 0;
+				}
+
+				PinToSelectedListItem();
+			}
 		}
 
 		private void InitMapsApi()
