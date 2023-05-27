@@ -49,7 +49,14 @@
 							</StackPanel>
 							<StackPanel Margin="0 10 0 0" Orientation="Horizontal">
 								<Label Width="150" Content="When"/>
-								<Calendar x:Name="arrangementCalendar" SelectionMode="SingleRange" SelectedDatesChanged="Calendar_SelectedDatesChanged" IsTodayHighlighted="True" DisplayDateStart="{x:Static sys:DateTime.Today}"/>
+								<Calendar 
+									x:Name="arrangementCalendar" 
+									SelectionMode="SingleRange" 
+									SelectedDatesChanged="Calendar_SelectedDatesChanged" 
+									IsTodayHighlighted="True" 
+									DisplayDateStart="{x:Static sys:DateTime.Today}"
+									CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
+									/>
 							</StackPanel>
 						</StackPanel>
 					</ScrollViewer>

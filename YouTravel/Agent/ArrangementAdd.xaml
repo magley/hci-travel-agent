@@ -158,19 +158,15 @@
 						<Label Grid.Row="4" Grid.Column="0">Activities: </Label>
 
 						<Border Margin="0 5 0 0" Grid.Row="0" Grid.Column="1" BorderThickness="1" BorderBrush="Gray" Width="300" HorizontalAlignment="Left">
-							<ScrollViewer>
-								<TextBlock Padding="5" Text="{Binding ArrName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-							</ScrollViewer>
+							<TextBlock Padding="5" Text="{Binding ArrName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 						</Border>
 						<Border Margin="0 5 0 0" Grid.Row="1" Grid.Column="1" BorderThickness="1" BorderBrush="Gray">
 							<ScrollViewer>
-								<TextBlock Padding="5" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MaxHeight="150"/>
+								<TextBlock Padding="5" Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.CanContentScroll="True" ScrollViewer.VerticalScrollBarVisibility="Auto" Height="170"/>
 							</ScrollViewer>
 						</Border>
 						<Border Margin="0 5 0 0" Grid.Row="2" Grid.Column="1" BorderThickness="1" BorderBrush="Gray" Width="100" HorizontalAlignment="Left">
-							<ScrollViewer>
-								<TextBlock Padding="5" Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}" HorizontalAlignment="Right" />
-							</ScrollViewer>
+							<TextBlock Padding="5" Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}" HorizontalAlignment="Right" />
 						</Border>
 
 						<Image Margin="0 5 0 0" Grid.Row="3" Grid.Column="1" Source="{Binding Filename, Mode=TwoWay}" MaxHeight="600"/>
