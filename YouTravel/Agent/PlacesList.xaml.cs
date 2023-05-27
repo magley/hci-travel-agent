@@ -14,7 +14,7 @@ namespace YouTravel.Agent
 {
 	public partial class PlacesList : Page
 	{
-		public ObservableCollection<Place> Places { get; set; } = new();
+		public ObservableCollection<Place> Places { get; } = new();
 
 		public PlacesList()
 		{
