@@ -16,7 +16,7 @@ namespace YouTravel.Agent
 		public bool ActivitiesViewAttraction { get; set; } = true;
 		public bool ActivitiesViewRestaurant { get; set; } = true;
 
-		public ArrangementEdit(Arrangement arr)
+        public ArrangementEdit(Arrangement arr)
         {
             InitializeComponent();
 

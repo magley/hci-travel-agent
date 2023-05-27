@@ -29,7 +29,7 @@
 			<ColumnDefinition/>
 		</Grid.ColumnDefinitions>
 
-		<GroupBox Grid.Row="0" Grid.ColumnSpan="2" Margin="5">
+		<GroupBox Grid.Row="0" Grid.ColumnSpan="2" Margin="5" Padding="5">
 			<TabControl>
 				<TabItem Header="General">
 					<ScrollViewer>

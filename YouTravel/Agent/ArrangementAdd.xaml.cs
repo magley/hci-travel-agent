@@ -24,13 +24,18 @@ namespace YouTravel.Agent
         private string _description = "";
         private double _price = 100;
         private string _filename = "No File Selected.";
+		private string _durationText = "No Dates Set.";
 
         public string ArrName { get { return _arrName; } set { _arrName = value; DoPropertyChanged(nameof(ArrName)); } }
         public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
         public double Price { get { return _price; } set { _price = value; DoPropertyChanged(nameof(Price)); } }
 		public string Filename { get { return _filename; } set { _filename = value; DoPropertyChanged(nameof(Filename)); } }
+		public string DurationText { get { return _durationText; } set { _durationText = value; DoPropertyChanged(nameof(DurationText)); } }
 
-		public ObservableCollection<Place> ArrActivities { get; set; } = new();
+		private DateTime? _start = null;
+		private DateTime? _end = null;
+
+        public ObservableCollection<Place> ArrActivities { get; set; } = new();
 
         public ArrangementAdd()
         {
@@ -41,6 +46,7 @@ namespace YouTravel.Agent
 			pages.Add(Page2);
 			pages.Add(Page3);
 			pages.Add(Page4);
+            pages.Add(Page5);
             PageIndex = 0;
 
 			MovePageIndex(0);
@@ -133,8 +139,51 @@ namespace YouTravel.Agent
             ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong));
         }
 
-		private void CreateArrangement()
+        private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Calendar calendar = (Calendar)sender;
+
+            try
+            {
+                DateTime d1 = calendar.SelectedDates[0];
+                DateTime d2 = calendar.SelectedDates.Last();
+                SetArrangementDates(d1, d2);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return;
+            }
+        }
+
+        private void SetArrangementDates(DateTime start, DateTime end)
+        {
+            if (start > end)
+            {
+                SetArrangementDates(end, start);
+                return;
+            }
+
+            _start = start;
+            _end = end;
+			if (_start != null && _end != null)
+			{
+                DurationText = $"{_start?.ToLongDateString()} - {_end?.ToLongDateString()}";
+            } 
+			else
+			{
+				DurationText = "No Dates Set.";
+            }
+        }
+
+        private void CreateArrangement()
 		{
+			if (_start == null || _end == null)
+			{
+				// Please set the date.
+				Console.WriteLine("Please set the date.");
+				return;
+			}
+
             using (var db = new TravelContext())
 			{
 				Arrangement arr = new Arrangement();
@@ -142,8 +191,8 @@ namespace YouTravel.Agent
 				arr.Description = Description;
 				arr.Price = Price;
 				arr.ImageFname = Filename;
-				//arr.Start = null;
-				//arr.End = null;
+				arr.Start = (DateTime)_start;
+				arr.End = (DateTime)_end;
 
                 /*
 				 * NOTE: Pay good attention as to what's going on here.
