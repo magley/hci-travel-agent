@@ -56,11 +56,20 @@ namespace YouTravel.Agent
         {
 			InitMapsApi();
 
-            using (var db = new TravelContext())
+			// TODO: This is just for testing.
+			try
 			{
-				ArrActivities.Add(db.Places.Where(x => x.Id == 1).First());
-                ArrActivities.Add(db.Places.Where(x => x.Id == 2).First());
-            }
+				using (var db = new TravelContext())
+				{
+
+					ArrActivities.Add(db.Places.Where(x => x.Id == 1).First());
+					ArrActivities.Add(db.Places.Where(x => x.Id == 2).First());
+				}
+			}
+			catch (System.InvalidOperationException)
+			{
+
+			}
         }
 
         private void MovePageIndex(int delta)
@@ -226,6 +235,11 @@ namespace YouTravel.Agent
             }
 
 			((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
     }
 }

@@ -165,5 +165,10 @@ namespace YouTravel.Agent
 
 			((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+        }
     }
 }

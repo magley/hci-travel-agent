@@ -142,5 +142,10 @@ namespace YouTravel.Agent
                 db.SaveChanges();
             }
         }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+        }
     }
 }

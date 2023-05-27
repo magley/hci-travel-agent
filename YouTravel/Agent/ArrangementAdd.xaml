@@ -211,8 +211,8 @@
 		</Grid>
 
 
-		<StackPanel Grid.Row="1" Grid.ColumnSpan="3">
-			<Separator/>
+		<Button Grid.Row="1" Grid.Column="0" Margin="8 0 0 0" x:Name="btnCancel" Content="Cancel" Click="btnCancel_Click" Width="60" Height="32" HorizontalAlignment="Left"/>
+		<StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
 			<StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
 				<Button x:Name="btnPrev" Content="Back" Margin="8 0 0 0" Click="btnPrev_Click" Width="60" Height="32"/>
 				<Button x:Name="btnNext" Content="Next" Margin="8 0 0 0" Click="btnNext_Click" Width="60" Height="32"/>
