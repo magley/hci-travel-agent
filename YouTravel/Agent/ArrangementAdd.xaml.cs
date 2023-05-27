@@ -90,13 +90,12 @@ namespace YouTravel.Agent
 
 		private void btnFinish_Click(object sender, RoutedEventArgs e)
 		{
-			Console.WriteLine("AAA");
 			CreateArrangement();
 		}
 
 		private void btn_SelectImage_Click(object sender, RoutedEventArgs e)
 		{
-			Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+			Microsoft.Win32.OpenFileDialog dlg = new();
 			dlg.DefaultExt = ".jpeg";
 			dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg";
 

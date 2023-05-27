@@ -60,6 +60,11 @@ namespace YouTravel.Agent
 			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementReport(arr));
         }
 
+        private void RemoveArrangement_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void CbShowActive_Click(object sender, RoutedEventArgs e)
         {
             LoadArrangements();

@@ -13,6 +13,7 @@
 		<BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
 		<BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
 		<BitmapImage x:Key="IcoStats" UriSource="../Res/IcoChart.png"/>
+		<BitmapImage x:Key="IcoRemove" UriSource="../Res/IcoCross.png"/>
 		<BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
 	</Page.Resources>
 
@@ -108,59 +109,89 @@
 				</DockPanel>
 			</Button>
 		</StackPanel>
+		
+		
 
 		<ListView
 			Grid.Row="1"
 			Grid.Column="1"
 			x:Name="arrangementsList"
 			ItemsSource="{Binding}"
-			Margin="10 10 10 10">
+			Margin="10">
 
-			<ListView.View>
-				<GridView>
-					<!-- Unpublished changes indicator.  -->
-					<GridViewColumn>
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Image Source="../Res/IcoBlueBullet.png" Height="18"/>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
+			<ListView.ItemContainerStyle>
+				<Style TargetType="ListViewItem">
+					<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+				</Style>
+			</ListView.ItemContainerStyle>
 
-					<!-- Description (name) -->
-					<GridViewColumn
-						DisplayMemberBinding="{Binding Path=Description}"
-						Header="Description"/>
+			<ListView.ItemTemplate>
+				<DataTemplate>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition Width="Auto" />
+						</Grid.ColumnDefinitions>
 
-					<!-- Edit button -->
-					<GridViewColumn>
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Button Click="EditArrangement_Click">
-									<DockPanel HorizontalAlignment="Stretch">
-										<Image Source="{StaticResource IcoEdit}" Height="20" Margin="5 0 5 0"/>
-										<Label Content="Edit"/>
-									</DockPanel>
-								</Button>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
+						<StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+							<Image Source="../Res/IcoBlueBullet.png" Height="24"/>
+							<Label Content="{Binding Name}"/>
+						</StackPanel>
 
-					<!-- Stats button -->
-					<GridViewColumn>
-						<GridViewColumn.CellTemplate>
-							<DataTemplate>
-								<Button Click="ArrangementReport_Click">
-									<DockPanel HorizontalAlignment="Stretch">
-										<Image Source="{StaticResource IcoStats}" Height="20" Margin="5 0 5 0"/>
-										<Label Content="Report"/>
-									</DockPanel>
-								</Button>
-							</DataTemplate>
-						</GridViewColumn.CellTemplate>
-					</GridViewColumn>
-				</GridView>
-			</ListView.View>
+						<StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+							<Button Click="RemoveArrangement_Click" Margin="6 0 0 0">
+								<DockPanel HorizontalAlignment="Stretch">
+									<Image Source="{StaticResource IcoRemove}" Height="20" Margin="5 0 5 0"/>
+								</DockPanel>
+
+								<Button.Style>
+									<Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+										<Setter Property="Visibility" Value="Hidden" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
+												<Setter Property="Visibility" Value="Visible" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Button.Style>
+							</Button>
+							
+							<Button Click="ArrangementReport_Click" Margin="16 0 0 0">
+								<DockPanel HorizontalAlignment="Stretch">
+									<Image Source="{StaticResource IcoStats}" Height="20" Margin="5 0 5 0"/>
+								</DockPanel>
+
+								<Button.Style>
+									<Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+										<Setter Property="Visibility" Value="Hidden" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
+												<Setter Property="Visibility" Value="Visible" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Button.Style>
+							</Button>
+							<Button Click="EditArrangement_Click" Margin="6 0 0 0">
+								<DockPanel HorizontalAlignment="Stretch">
+									<Image Source="{StaticResource IcoEdit}" Height="20" Margin="5 0 5 0"/>
+								</DockPanel>
+
+								<Button.Style>
+									<Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+										<Setter Property="Visibility" Value="Hidden" />
+										<Style.Triggers>
+											<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
+												<Setter Property="Visibility" Value="Visible" />
+											</DataTrigger>
+										</Style.Triggers>
+									</Style>
+								</Button.Style>
+							</Button>
+						</StackPanel>
+					</Grid>
+				</DataTemplate>
+			</ListView.ItemTemplate>
 		</ListView>
 	</Grid>
 </Page>
