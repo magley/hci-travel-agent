@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -49,10 +50,11 @@ namespace YouTravel.Agent
         {
 			InitMapsApi();
 
-
-            ArrActivities.Add(new Place() { Name = "dsjdhsj" });
-            ArrActivities.Add(new Place() { Name = "hrkw799" });
-            ArrActivities.Add(new Place() { Name = "hhrhjl3r3" });
+            using (var db = new TravelContext())
+			{
+				ArrActivities.Add(db.Places.Where(x => x.Id == 1).First());
+                ArrActivities.Add(db.Places.Where(x => x.Id == 2).First());
+            }
         }
 
         private void MovePageIndex(int delta)
@@ -67,11 +69,11 @@ namespace YouTravel.Agent
 			{
 				if (i == PageIndex)
 				{
-					pages[i].Visibility = System.Windows.Visibility.Visible;
+					pages[i].Visibility = Visibility.Visible;
 				}
 				else
 				{
-					pages[i].Visibility = System.Windows.Visibility.Hidden;
+					pages[i].Visibility = Visibility.Hidden;
 				}
 			}
 		}
@@ -88,7 +90,8 @@ namespace YouTravel.Agent
 
 		private void btnFinish_Click(object sender, RoutedEventArgs e)
 		{
-
+			Console.WriteLine("AAA");
+			CreateArrangement();
 		}
 
 		private void btn_SelectImage_Click(object sender, RoutedEventArgs e)
@@ -97,7 +100,7 @@ namespace YouTravel.Agent
 			dlg.DefaultExt = ".jpeg";
 			dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg";
 
-			Nullable<bool> result = dlg.ShowDialog();
+            bool? result = dlg.ShowDialog();
 
 			if (result == true)
 			{
@@ -129,6 +132,52 @@ namespace YouTravel.Agent
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
             ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong));
+        }
+
+		private void CreateArrangement()
+		{
+            using (var db = new TravelContext())
+			{
+				Arrangement arr = new Arrangement();
+				arr.Name = ArrName;
+				arr.Description = Description;
+				arr.Price = Price;
+				arr.ImageFname = Filename;
+				//arr.Start = null;
+				//arr.End = null;
+
+                /*
+				 * NOTE: Pay good attention as to what's going on here.
+				 * We use 'place', fetch its ID, fetch the entity based
+				 * on that ID, and put that in arr.Places.
+				 * Here's why: every Place object in ArrActivities
+				 * was fetched under a different TravelContext, see
+				 * Page_Loaded(). The entity itself has all the correct
+				 * data, but it isn't TRACKED by THIS TravelContext (the
+				 * one used in this function), so it doesn't know that
+				 * ArrActivities[0] is in the context itself. It thinks
+				 * it's a Place and will try to insert it into the database
+				 * when we do SaveChanges(). But since that untracked entity
+				 * has a primary key that already exists in the table
+				 * (obviously), we get a primary key constraint violation.
+				 * There are 2 ways to deal with this: one is to fetch the
+				 * entity under the same TravelContext that does SaveChanges,
+				 * the other way I'm not sure how it works.
+				 * This isn't Spring Boot.
+				 * 
+				 * https://stackoverflow.com/questions/43500403
+				 */
+                foreach (var place in ArrActivities)
+				{
+                    Place placeTracked = db.Places.Find(place.Id)!;
+                    arr.Places.Add(placeTracked);
+				}
+			
+				db.Arrangements.Add(arr);
+				db.SaveChanges();
+            }
+
+			((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
     }
 }
