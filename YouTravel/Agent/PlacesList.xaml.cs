@@ -5,8 +5,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
 
@@ -66,7 +64,8 @@ namespace YouTravel.Agent
 		{
 			if (Places.Count == 0 || lstPlaces.SelectedIndex == -1)
 			{
-				return;
+				DrawImage(null);
+                return;
 			}
 
 			var selectedPlace = Places[lstPlaces.SelectedIndex];
@@ -75,11 +74,17 @@ namespace YouTravel.Agent
 			MyMap.Center = location;
 		}
 
-		private void DrawImage(Place place)
+		private void DrawImage(Place? place)
 		{
-			var location = new Location(place.Lat, place.Long);
 			MyMap.Children.Clear();
 
+			if (place == null)
+            {
+				// Setting place to null removes the pin.
+                return;
+			}
+
+			var location = new Location(place.Lat, place.Long);
 			MapLayer mapLayer = new();
 			Image myPushPin = new()
 			{
@@ -110,29 +115,33 @@ namespace YouTravel.Agent
 			return $"pack://application:,,,/Res/{fname}";
 		}
 
-
 		private void btnEditPlace_Click(object sender, RoutedEventArgs e)
 		{
 			Button btn = (Button)sender;
 			Place place = (Place)btn.DataContext;
 
 			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(place));
-
-			Refresh(Places);
 		}
 
 		private void btnRemovePlace_Click(object sender, RoutedEventArgs e)
 		{
+			using (var ctx = new TravelContext())
+			{
+                Button btn = (Button)sender;
+                int placeId = ((Place)btn.DataContext).Id;
 
-		}
+				Place? place = ctx.Places.Find(placeId);
+				if (place == null)
+				{
+					Console.WriteLine("I can't do it.");
+					return;
+				}
 
-		public static void Refresh<T>(ObservableCollection<T> value)
-		{
-			// This is for testing.
-			// You would call Refresh(Places) after changing an existing Place in Places.
-			// HACK: This is a terrible hack. I wish WPF had normal binding.
-			// TODO: Do we need this? Now that we have pages, it'll refresh every time we change somethign.
-			CollectionViewSource.GetDefaultView(value).Refresh();
+				ctx.Places.Remove(place);
+				ctx.SaveChanges();
+
+				LoadPlaces();
+            }
 		}
 	}
 }
