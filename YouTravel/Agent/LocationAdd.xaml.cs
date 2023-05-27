@@ -19,6 +19,7 @@ namespace YouTravel.Agent
 		private string _name = "New Location";
 		private string _description = "";
 		private PlaceType _type = PlaceType.Attraction;
+		private int placeId = -1;
 
 		public double Latitude { get { return _latitude; } set { _latitude = value; DoPropertyChanged(nameof(Latitude)); MoveMapToLocation(); } }
 		public double Longitude { get { return _longitude; } set { _longitude = value; DoPropertyChanged(nameof(Longitude)); MoveMapToLocation(); } }
@@ -30,6 +31,7 @@ namespace YouTravel.Agent
 		{
 			InitializeComponent();
 
+			placeId = place.Id;
 			Latitude = place.Lat;
 			Longitude = place.Long;
 			LocName = place.Name;
@@ -124,21 +126,40 @@ namespace YouTravel.Agent
 
         private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
-			CreateNewPlace();
+			SaveChanges();
         }
 
-		private void CreateNewPlace()
+		private void SaveChanges()
 		{
+			bool creatingNew = placeId == -1;
+
 			using (var ctx = new TravelContext())
 			{
-				Place place = new();
+				Place place;
+				if (creatingNew)
+				{
+                    place = new();           
+				}
+				else
+				{
+                    place = ctx.Places.Find(placeId)!;
+                }
+
 				place.Name = LocName;
 				place.Lat = Latitude;
 				place.Long = Longitude;
 				place.Type = Type;
 				// Description. Do we need it?
 
-				ctx.Places.Add(place);
+				if (creatingNew)
+				{
+                    ctx.Places.Add(place);
+                }
+				else
+				{
+                    ctx.Places.Update(place);
+                }
+
 				ctx.SaveChanges();
 			}
 
