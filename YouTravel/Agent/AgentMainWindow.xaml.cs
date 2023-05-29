@@ -147,5 +147,10 @@ namespace YouTravel.Agent
 				HelpProvider.ShowHelp(str, this);
 			}
 		}
+
+		private void ExitApp_Click(object sender, RoutedEventArgs e)
+		{
+			Application.Current.Shutdown();
+		}
 	}
 }

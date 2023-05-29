@@ -65,7 +65,7 @@
 					</MenuItem>
 					<Separator/>
 					<MenuItem Header="Logout"></MenuItem>
-					<MenuItem Header="Exit"></MenuItem>
+					<MenuItem Header="Exit" Click="ExitApp_Click" InputGestureText="Alt+F4"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_View">
 					<MenuItem Header="Arrangements" Click="On_OpenArrangementList" InputGestureText="Ctrl+A">
@@ -88,7 +88,7 @@
 				</MenuItem>
 				<MenuItem Header="_Help">
 					<MenuItem Header="About YouTravel"></MenuItem>
-					<MenuItem Header="Help"></MenuItem>
+					<MenuItem Header="Help" Command="ApplicationCommands.Help" InputGestureText="F1"></MenuItem>
 				</MenuItem>
 			</Menu>
 
