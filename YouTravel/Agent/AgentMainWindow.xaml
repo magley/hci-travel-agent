@@ -52,12 +52,12 @@
 			<Menu>
 				<MenuItem Header="_File">
 					<MenuItem Header="New">
-						<MenuItem Header="Arrangement">
+						<MenuItem Header="Arrangement" Click="On_AddArrangement" InputGestureText="Ctrl+N">
 							<MenuItem.Icon>
 								<Image Source="{StaticResource IcoAddArrangement}"/>
 							</MenuItem.Icon>
 						</MenuItem>
-						<MenuItem Header="Place" Click="On_AddPlace">
+						<MenuItem Header="Place" Click="On_AddPlace" InputGestureText="Ctrl+Shift+T">
 							<MenuItem.Icon>
 								<Image Source="{StaticResource IcoAddPlace}"/>
 							</MenuItem.Icon>
@@ -68,19 +68,19 @@
 					<MenuItem Header="Exit"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_View">
-					<MenuItem Header="Arrangements" Click="On_OpenArrangementList">
+					<MenuItem Header="Arrangements" Click="On_OpenArrangementList" InputGestureText="Ctrl+A">
 						<MenuItem.Icon>
 							<Image Source="{StaticResource IcoArrangement}"/>
 						</MenuItem.Icon>
 					</MenuItem>
-					<MenuItem Header="Places" Click="On_OpenPlaceList">
+					<MenuItem Header="Places" Click="On_OpenPlaceList" InputGestureText="Ctrl+P">
 						<MenuItem.Icon>
 							<Image Source="{StaticResource IcoPlace}"/>
 						</MenuItem.Icon>
 					</MenuItem>
 					<MenuItem Header="Monthly Reports"></MenuItem>
 					<Separator/>
-					<MenuItem Header="Show Toolbar" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></MenuItem>
+					<MenuItem Header="Show Toolbar" InputGestureText="Ctrl+T" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_Settings">
 					<MenuItem Header="Preferences" Click="On_OpenSettings"/>
