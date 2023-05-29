@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Util;
 
@@ -77,6 +78,7 @@ namespace YouTravel.Agent
 			InitCalendarRange();
 			InitMapsApi();
             LoadPlaces();
+			SetImage(Filename);
 		}
 
 		private void InitMapsApi()
@@ -265,6 +267,39 @@ namespace YouTravel.Agent
 			{
 				AllActivities.Add(place);
 			}
+		}
+
+		private void btn_SelectImage_Click(object sender, RoutedEventArgs e)
+		{
+			Microsoft.Win32.OpenFileDialog dlg = new();
+			dlg.DefaultExt = ".jpeg";
+			dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg";
+
+			bool? result = dlg.ShowDialog();
+
+			if (result == true)
+			{
+				string filename = dlg.FileName;
+				SetImage(filename);
+			}
+		}
+
+		private void SetImage(string fnameFull)
+		{
+			Filename = fnameFull;
+
+			try
+			{
+				BitmapImage image = new(new Uri(fnameFull, UriKind.Absolute));
+				image.CacheOption = BitmapCacheOption.OnLoad;
+				image.Freeze();
+				imgImage.Source = image;
+			}
+			catch (UriFormatException) {
+				Filename = "No File Selected.";
+				imgImage.Source = null;
+			}
+
 		}
 	}
 }
