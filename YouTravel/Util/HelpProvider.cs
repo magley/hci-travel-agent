@@ -27,9 +27,10 @@ namespace YouTravel.Util
 		{
 		}
 
-		public static void ShowHelp(string key, AgentMainWindow originator)
+		public static void ShowHelp(string key, Window originator)
 		{
 			HelpViewer hh = new HelpViewer(key, originator);
+			hh.Owner = originator;
 			hh.Show();
 		}
 	}

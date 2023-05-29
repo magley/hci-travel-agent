@@ -21,6 +21,7 @@ namespace YouTravel.Agent
 		public ICommand CmdViewArrangements { get; private set; }
 		public ICommand CmdNewPlace { get; private set; }
 		public ICommand CmdViewPlaces { get; private set; }
+		public ICommand CmdToggleToolbar { get; private set; }
 
 		public AgentMainWindow()
 		{
@@ -41,6 +42,8 @@ namespace YouTravel.Agent
 
 		private void InitCommands()
 		{
+			CmdToggleToolbar = new RelayCommand(o => ToggleToolbar(), o => true);
+
 			CmdNavigateBack = new RelayCommand(o => PageBack(), o => true);
 			CmdNavigateForward = new RelayCommand(o => PageNext(), o => true);
 
@@ -81,12 +84,15 @@ namespace YouTravel.Agent
 
         private void ShowToolbar_Click(object sender, RoutedEventArgs e)
 		{
-			ToggleToolbar();
+			// userConfig.ToolbarVisible is changed by the binding so we don't have to.
+			// Don't call ToggleToolbar() here!
+			userConfig.Save();
 		}
 
 		private void ToggleToolbar()
 		{
-			userConfig.ToolbarVisible = !userConfig.ToolbarVisible;
+			userConfig.ToolbarVisible ^= true;
+			toolbarTray.Visibility = userConfig.ToolbarVisible ? Visibility.Visible : Visibility.Collapsed; // HACK: Because 2 way binding doesn't work.
 			userConfig.Save();
 		}
 

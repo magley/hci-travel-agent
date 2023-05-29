@@ -1,0 +1,13 @@
+body {
+	background: #1F1F1F;
+	color: white;
+	margin: 2%;
+	font-size: 120%;
+	font-family: sans-serif;
+}
+
+h1 {
+	border-bottom: 1px solid #858585;
+	padding-bottom: 10px;
+}
+

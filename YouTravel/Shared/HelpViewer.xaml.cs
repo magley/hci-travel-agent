@@ -8,12 +8,14 @@ namespace YouTravel.Shared
 {
 	public partial class HelpViewer : Window
 	{
-		public HelpViewer(string key, AgentMainWindow originator)
+		public HelpViewer(string key, Window originator)
 		{
 			InitializeComponent();
 
+
+
 			string currentDirectory = Directory.GetCurrentDirectory();
-			string path = $"{currentDirectory}/Help/{key}.htm";
+			string path = $"{currentDirectory}/Help/{key}.html";
 
 			Console.WriteLine($"Searching:{path}");
 
@@ -21,7 +23,7 @@ namespace YouTravel.Shared
 			{
 				key = "error";
 			}
-			path = $"{currentDirectory}/Help/{key}.htm";
+			path = $"{currentDirectory}/Help/{key}.html";
 
 			Uri uri = new($"file:///{path}");
 			wbHelp.Navigate(uri);

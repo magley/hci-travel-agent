@@ -23,6 +23,8 @@
 
 		<KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding CmdNewPlace}"/>
 		<KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding CmdViewPlaces}"/>
+
+		<KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding CmdToggleToolbar}"/>
 	</Window.InputBindings>
 
 	<Window.Resources>
@@ -90,7 +92,7 @@
 				</MenuItem>
 			</Menu>
 
-			<ToolBarTray x:Name="toolbarTray">
+			<ToolBarTray x:Name="toolbarTray" u:HelpProvider.HelpKey="toolbar">
 				<ToolBarTray.Style>
 					<Style TargetType="{x:Type ToolBarTray}" BasedOn="{StaticResource {x:Type ToolBarTray}}">
 						<Setter Property="Visibility" Value="Visible"/>
@@ -146,10 +148,8 @@
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
 				<RowDefinition/>
-				<RowDefinition/>
 			</Grid.RowDefinitions>
 			<Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden" Grid.Row="0"/>
-			<Button Grid.Row="1" Content="AAA" u:HelpProvider.HelpKey="test"/>
 		</Grid>
 	</Grid>
 </Window>
