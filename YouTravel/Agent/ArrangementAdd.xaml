@@ -11,6 +11,13 @@
 		Loaded="Page_Loaded"
         Style="{StaticResource PageDark}"
         d:Height="450" d:Width="800">
+
+	<Page.Resources>
+		<BitmapImage x:Key="ImgAttraction" UriSource="../Res/IcoAttraction2.png"/>
+		<BitmapImage x:Key="ImgRestaurant" UriSource="../Res/IcoRestaurant2.png"/>
+		<BitmapImage x:Key="ImgHotel" UriSource="../Res/IcoHotel2.png"/>
+	</Page.Resources>
+	
     <Grid Margin="5">
 		<Grid.RowDefinitions>
 			<RowDefinition/>
@@ -31,7 +38,6 @@
 		<Rectangle Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" Fill="LightGray" Width="1"/>
 
 		<Grid Grid.Row="0" Grid.Column="2">
-
 			<Grid Grid.Row="0" x:Name="Page1" Visibility="Hidden">
 				<ScrollViewer>
 					<StackPanel Margin="5">
@@ -51,7 +57,7 @@
 					</StackPanel>
 				</ScrollViewer>
 			</Grid>
-			<Grid Grid.Row="0" x:Name="Page2" Visibility="Visible">
+			<Grid Grid.Row="0" x:Name="Page2" Visibility="Hidden">
 				<StackPanel Margin="0 10 0 0" Orientation="Vertical">
 					<Label Content="Set the duration of this travel."/>
 					<Calendar
@@ -97,7 +103,7 @@
 				</StackPanel>
 				
 			</Grid>
-			<Grid Grid.Row="0" x:Name="Page4" Visibility="Hidden">
+			<Grid Grid.Row="0" x:Name="Page4" Visibility="Visible">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="13*" MinHeight="50"/>
@@ -143,13 +149,44 @@
 								<Label Content="Restaurant"/>
 							</StackPanel>
 						</StackPanel>
-						<ListBox Grid.Row="1">
-
+						<ListBox x:Name="lstAllPlaces" Grid.Row="1" ItemsSource="{Binding AllActivities}" SelectionChanged="lstAllPlaces_SelectionChanged">
+							<ListBox.ItemTemplate>
+								<DataTemplate>
+									<StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+										<!-- Icon -->
+										<Image Height="24" Width="24" >
+											<Image.Style>
+												<Style TargetType="{x:Type Image}">
+													<Style.Triggers>
+														<DataTrigger Binding="{Binding Path=Type}" Value="0">
+															<Setter Property="Source" Value="{StaticResource ImgAttraction}"/>
+														</DataTrigger>
+														<DataTrigger Binding="{Binding Path=Type}" Value="1">
+															<Setter Property="Source" Value="{StaticResource ImgRestaurant}"/>
+														</DataTrigger>
+														<DataTrigger Binding="{Binding Path=Type}" Value="2">
+															<Setter Property="Source" Value="{StaticResource ImgHotel}"/>
+														</DataTrigger>
+													</Style.Triggers>
+												</Style>
+											</Image.Style>
+										</Image>
+										<!-- Name -->
+										<Label Content="{Binding Name}"/>
+									</StackPanel>
+								</DataTemplate>
+							</ListBox.ItemTemplate>
 						</ListBox>
 					</Grid>
 
-					<ListBox Grid.Row="1" Grid.Column="1" Margin="5">
-
+					<ListBox x:Name="lstArrPlaces" Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding ArrActivities}" SelectionChanged="lstArrPlaces_SelectionChanged">
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel>
+									<Label Content="{Binding Name}"/>
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
 					</ListBox>
 				</Grid>
 			</Grid>

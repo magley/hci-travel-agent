@@ -1,10 +1,12 @@
-﻿using Microsoft.Maps.MapControl.WPF;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -35,6 +37,7 @@ namespace YouTravel.Agent
 		private DateTime? _start = null;
 		private DateTime? _end = null;
 
+		public ObservableCollection<Place> AllActivities { get; set; } = new();
         public ObservableCollection<Place> ArrActivities { get; set; } = new();
 
         public ArrangementAdd()
@@ -61,7 +64,6 @@ namespace YouTravel.Agent
 			{
 				using (var db = new TravelContext())
 				{
-
 					ArrActivities.Add(db.Places.Where(x => x.Id == 1).First());
 					ArrActivities.Add(db.Places.Where(x => x.Id == 2).First());
 				}
@@ -70,7 +72,42 @@ namespace YouTravel.Agent
 			{
 
 			}
-        }
+
+			LoadPlaces();
+		}
+
+		private void LoadPlaces()
+		{
+			// This is called even when we navigate back,
+			// so some of the Place entities may have been
+			// removed in the meantime.
+
+			AllActivities.Clear();
+			using (var db = new TravelContext())
+			{
+				db.Places.Load();
+				foreach (var place in db.Places.Local)
+				{
+					AllActivities.Add(place);
+				}
+			}
+
+			// Remove places in ArrActivities that don't exist anymore.
+
+			var okayCopy = new List<Place>();
+			foreach (var place in ArrActivities)
+			{
+				if (AllActivities.Where(p => p.Id == place.Id).Count() > 0) // Can't do Contains(), why not?
+				{
+					okayCopy.Add(place);
+				}
+			}
+			ArrActivities.Clear();
+			foreach (var place in okayCopy)
+			{
+				ArrActivities.Add(place);
+			}
+		}
 
         private void MovePageIndex(int delta)
 		{
@@ -241,5 +278,84 @@ namespace YouTravel.Agent
         {
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
-    }
+
+		private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			PinToSelectedListItemAllPlaces();
+		}
+
+		private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			PinToSelectedListItemArrPlaces();
+		}
+
+		private void PinToSelectedListItemAllPlaces()
+		{
+			if (AllActivities.Count == 0 || lstAllPlaces.SelectedIndex == -1)
+			{
+				DrawImage(null);
+				return;
+			}
+
+			var selectedPlace = AllActivities[lstAllPlaces.SelectedIndex];
+			var location = new Location(selectedPlace.Lat, selectedPlace.Long);
+			DrawImage(selectedPlace);
+			TheMap.Center = location;
+		}
+
+		private void PinToSelectedListItemArrPlaces()
+		{
+			if (ArrActivities.Count == 0 || lstArrPlaces.SelectedIndex == -1)
+			{
+				DrawImage(null);
+				return;
+			}
+
+			var selectedPlace = ArrActivities[lstArrPlaces.SelectedIndex];
+			var location = new Location(selectedPlace.Lat, selectedPlace.Long);
+			DrawImage(selectedPlace);
+			TheMap.Center = location;
+		}
+
+		private void DrawImage(Place? place)
+		{
+			TheMap.Children.Clear();
+
+			if (place == null)
+			{
+				// Setting place to null removes the pin.
+				return;
+			}
+
+			var location = new Location(place.Lat, place.Long);
+			MapLayer mapLayer = new();
+			Image myPushPin = new()
+			{
+				Source = new BitmapImage(new Uri(GetPinIconUriString(place.Type), UriKind.Absolute)),
+				Width = 48,
+				Height = 48
+			};
+			mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
+			TheMap.Children.Add(mapLayer);
+		}
+
+		private string GetPinIconUriString(PlaceType type)
+		{
+			string fname = "";
+			switch (type)
+			{
+				case PlaceType.Attraction:
+					fname = "ImgAttraction.png";
+					break;
+				case PlaceType.Restaurant:
+					fname = "ImgRestaurant.png";
+					break;
+				case PlaceType.Hotel:
+					fname = "ImgHotel.png";
+					break;
+			}
+
+			return $"pack://application:,,,/Res/{fname}";
+		}
+	}
 }
