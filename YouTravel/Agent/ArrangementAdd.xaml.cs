@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -59,21 +58,6 @@ namespace YouTravel.Agent
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
 			InitMapsApi();
-
-			// TODO: This is just for testing.
-			try
-			{
-				using (var db = new TravelContext())
-				{
-					ArrActivities.Add(db.Places.Where(x => x.Id == 1).First());
-					ArrActivities.Add(db.Places.Where(x => x.Id == 2).First());
-				}
-			}
-			catch (System.InvalidOperationException)
-			{
-
-			}
-
 			LoadPlaces();
 		}
 
@@ -107,6 +91,22 @@ namespace YouTravel.Agent
 			foreach (var place in okayCopy)
 			{
 				ArrActivities.Add(place);
+			}
+
+			// For all activities in ArrActivities, remove those from AllActivities.
+
+			okayCopy = new List<Place>();
+			foreach (var place in AllActivities)
+			{
+				if (ArrActivities.Where(p => p.Id == place.Id).Count() == 0)
+				{
+					okayCopy.Add(place);
+				}
+			}
+			AllActivities.Clear();
+			foreach (var place in okayCopy)
+			{
+				AllActivities.Add(place);
 			}
 		}
 

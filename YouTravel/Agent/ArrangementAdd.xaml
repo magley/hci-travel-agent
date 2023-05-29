@@ -7,6 +7,7 @@
 		xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib"
 		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         xmlns:local="clr-namespace:YouTravel.Agent"
+		xmlns:dd="urn:gong-wpf-dragdrop"
         mc:Ignorable="d"
 		Loaded="Page_Loaded"
         Style="{StaticResource PageDark}"
@@ -149,7 +150,13 @@
 								<Label Content="Restaurant"/>
 							</StackPanel>
 						</StackPanel>
-						<ListBox x:Name="lstAllPlaces" Grid.Row="1" ItemsSource="{Binding AllActivities}" SelectionChanged="lstAllPlaces_SelectionChanged">
+						<ListBox 
+							x:Name="lstAllPlaces" 
+							Grid.Row="1" 
+							ItemsSource="{Binding AllActivities}" 
+							SelectionChanged="lstAllPlaces_SelectionChanged"
+							dd:DragDrop.IsDragSource="True"
+							dd:DragDrop.IsDropTarget="True">
 							<ListBox.ItemTemplate>
 								<DataTemplate>
 									<StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
@@ -179,10 +186,37 @@
 						</ListBox>
 					</Grid>
 
-					<ListBox x:Name="lstArrPlaces" Grid.Row="1" Grid.Column="1" Margin="5" ItemsSource="{Binding ArrActivities}" SelectionChanged="lstArrPlaces_SelectionChanged">
-						<ListBox.ItemTemplate>
+					<ListBox 
+						x:Name="lstArrPlaces" 
+						Grid.Row="1" 
+						Grid.Column="1" 
+						Margin="5" 
+						ItemsSource="{Binding ArrActivities}" 
+						SelectionChanged="lstArrPlaces_SelectionChanged"
+						dd:DragDrop.IsDragSource="True"
+						dd:DragDrop.IsDropTarget="True">
+					<ListBox.ItemTemplate>
 							<DataTemplate>
-								<StackPanel>
+								<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+									<!-- Icon -->
+									<Image Height="24" Width="24" >
+										<Image.Style>
+											<Style TargetType="{x:Type Image}">
+												<Style.Triggers>
+													<DataTrigger Binding="{Binding Path=Type}" Value="0">
+														<Setter Property="Source" Value="{StaticResource ImgAttraction}"/>
+													</DataTrigger>
+													<DataTrigger Binding="{Binding Path=Type}" Value="1">
+														<Setter Property="Source" Value="{StaticResource ImgRestaurant}"/>
+													</DataTrigger>
+													<DataTrigger Binding="{Binding Path=Type}" Value="2">
+														<Setter Property="Source" Value="{StaticResource ImgHotel}"/>
+													</DataTrigger>
+												</Style.Triggers>
+											</Style>
+										</Image.Style>
+									</Image>
+									<!-- Name -->
 									<Label Content="{Binding Name}"/>
 								</StackPanel>
 							</DataTemplate>
