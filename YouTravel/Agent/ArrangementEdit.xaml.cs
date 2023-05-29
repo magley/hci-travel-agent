@@ -1,12 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Maps.MapControl.WPF;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using YouTravel.Model;
+using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
@@ -38,7 +41,10 @@ namespace YouTravel.Agent
         public DateTime Start { get { return _start; } set { _start = value; DoPropertyChanged(nameof(Start)); } }
         public DateTime End { get { return _end; } set { _end = value; DoPropertyChanged(nameof(End)); } }
 
-        public ArrangementEdit(Arrangement arr)
+		public ObservableCollection<Place> AllActivities { get; set; } = new();
+		public ObservableCollection<Place> ArrActivities { get; set; } = new();
+
+		public ArrangementEdit(Arrangement arr)
         {
             InitializeComponent();
             this.DataContext = this;
@@ -50,13 +56,26 @@ namespace YouTravel.Agent
             Filename = arr.ImageFname;
             Start = arr.Start;
             End = arr.End;
-            // Locations
-        }
+
+
+            using (var db = new TravelContext())
+            {
+                // NOTE: This is an issue with lazy loading: you have to explicitly
+                // tell the context to fetch the other entity, too.
+                var arrangement = db.Arrangements.Include(a => a.Places).Where(a => a.Id == arrangementId).First();
+
+                foreach (var place in arrangement.Places)
+                {
+                    ArrActivities.Add(place);
+                }
+            }
+		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			InitCalendarRange();
 			InitMapsApi();
+            LoadPlaces();
 		}
 
 		private void InitMapsApi()
@@ -122,9 +141,12 @@ namespace YouTravel.Agent
         {
             using (var db = new TravelContext())
             {
-                var arrangement = db.Arrangements.Find(arrangementId);
+                db.Arrangements.Load();
+                db.Places.Load();
 
-                if (arrangement == null)
+                var arrangement = db.Arrangements.Include(a => a.Places).Where(a => a.Id == arrangementId).FirstOrDefault();
+
+				if (arrangement == null)
                 {
                     Console.WriteLine("Can't do it.");
                     return;
@@ -136,7 +158,13 @@ namespace YouTravel.Agent
                 arrangement.ImageFname = Filename;
                 arrangement.Start = Start;
                 arrangement.End = End;
-                // Locations
+                arrangement.Places.Clear();
+
+                foreach (var place in ArrActivities)
+                {
+                    Place placeTracked = db.Places.Find(place.Id)!;
+                    arrangement.Places.Add(placeTracked);
+                }
 
                 db.Arrangements.Update(arrangement);
                 db.SaveChanges();
@@ -147,5 +175,89 @@ namespace YouTravel.Agent
         {
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
-    }
+
+
+		private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			MapUtil.DrawPinOnMapBasedOnList(AllActivities, lstAllPlaces, TheMap);
+		}
+
+		private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			MapUtil.DrawPinOnMapBasedOnList(ArrActivities, lstArrPlaces, TheMap);
+		}
+
+		private void btnAddArr_Click(object sender, RoutedEventArgs e)
+		{
+			int selectedAvailablePlace = lstAllPlaces.SelectedIndex;
+
+			if (selectedAvailablePlace != -1)
+			{
+				Place p = AllActivities[selectedAvailablePlace];
+				AllActivities.Remove(p);
+				ArrActivities.Add(p);
+			}
+		}
+
+		private void btnRemArr_Click(object sender, RoutedEventArgs e)
+		{
+			int selectedAddedPlace = lstArrPlaces.SelectedIndex;
+
+			if (selectedAddedPlace != -1)
+			{
+				Place p = ArrActivities[selectedAddedPlace];
+				ArrActivities.Remove(p);
+				AllActivities.Add(p);
+			}
+		}
+
+		private void LoadPlaces()
+		{
+			// This is called even when we navigate back,
+			// so some of the Place entities may have been
+			// removed in the meantime.
+
+			AllActivities.Clear();
+			using (var db = new TravelContext())
+			{
+				db.Places.Load();
+				foreach (var place in db.Places.Local)
+				{
+					AllActivities.Add(place);
+				}
+			}
+
+			// Remove places in ArrActivities that don't exist anymore.
+
+			var okayCopy = new List<Place>();
+			foreach (var place in ArrActivities)
+			{
+				if (AllActivities.Where(p => p.Id == place.Id).Count() > 0) // Can't do Contains(), why not?
+				{
+					okayCopy.Add(place);
+				}
+			}
+			ArrActivities.Clear();
+			foreach (var place in okayCopy)
+			{
+				ArrActivities.Add(place);
+			}
+
+			// For all activities in ArrActivities, remove those from AllActivities.
+
+			okayCopy = new List<Place>();
+			foreach (var place in AllActivities)
+			{
+				if (ArrActivities.Where(p => p.Id == place.Id).Count() == 0)
+				{
+					okayCopy.Add(place);
+				}
+			}
+			AllActivities.Clear();
+			foreach (var place in okayCopy)
+			{
+				AllActivities.Add(place);
+			}
+		}
+	}
 }

@@ -7,6 +7,7 @@
         xmlns:local="clr-namespace:YouTravel.Agent"
 		xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib"
 		xmlns:sys="clr-namespace:System;assembly=mscorlib"
+		xmlns:dd="urn:gong-wpf-dragdrop"
 		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
 		mc:Ignorable="d"
 		Style="{StaticResource PageDark}"
@@ -17,6 +18,10 @@
 		<BitmapImage x:Key="IcoSave" UriSource="../Res/IcoPageEdit.png"/>
 		<BitmapImage x:Key="IcoPublish" UriSource="../Res/IcoDisk.png"/>
 		<BitmapImage x:Key="IcoCancel" UriSource="../Res/IcoCross.png"/>
+
+		<BitmapImage x:Key="ImgAttraction" UriSource="../Res/IcoAttraction2.png"/>
+		<BitmapImage x:Key="ImgRestaurant" UriSource="../Res/IcoRestaurant2.png"/>
+		<BitmapImage x:Key="ImgHotel" UriSource="../Res/IcoHotel2.png"/>
 	</Page.Resources>
 
 	<Grid Margin="16">
@@ -64,21 +69,22 @@
 				<TabItem Header="Activities">
 					<Grid>
 						<Grid.RowDefinitions>
-							<RowDefinition Height="13*" MinHeight="100"/>
-							<RowDefinition Height="12*" MinHeight="100"/>
+							<RowDefinition Height="13*" MinHeight="50"/>
+							<RowDefinition Height="12*" MinHeight="50"/>
 						</Grid.RowDefinitions>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition/>
+							<ColumnDefinition Width="Auto"/>
 							<ColumnDefinition/>
 						</Grid.ColumnDefinitions>
 
 						<m:Map
 							Grid.Row="0"
-							Grid.ColumnSpan="2"
+							Grid.ColumnSpan="3"
 							Margin="5"
 							x:Name="TheMap" 
-							MouseDoubleClick="TheMap_MouseDoubleClick"
 							CredentialsProvider="(This value is set in the code-behind)"
+							MouseDoubleClick="TheMap_MouseDoubleClick"
 							Mode="Road"/>
 
 						<Grid Grid.Row="1" Grid.Column="0" Margin="5">
@@ -107,15 +113,88 @@
 									<Label Content="Restaurant"/>
 								</StackPanel>
 							</StackPanel>
-							<ListBox Grid.Row="1">
+							<ListBox 
+								x:Name="lstAllPlaces" 
+								Grid.Row="1" 
+								ItemsSource="{Binding AllActivities}" 
+								SelectionChanged="lstAllPlaces_SelectionChanged"
+								dd:DragDrop.IsDragSource="True"
+								dd:DragDrop.IsDropTarget="True">
+										<ListBox.ItemTemplate>
+											<DataTemplate>
+												<StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+													<!-- Icon -->
+													<Image Height="24" Width="24" >
+														<Image.Style>
+															<Style TargetType="{x:Type Image}">
+																<Style.Triggers>
+																	<DataTrigger Binding="{Binding Path=Type}" Value="0">
+																		<Setter Property="Source" Value="{StaticResource ImgAttraction}"/>
+																	</DataTrigger>
+																	<DataTrigger Binding="{Binding Path=Type}" Value="1">
+																		<Setter Property="Source" Value="{StaticResource ImgRestaurant}"/>
+																	</DataTrigger>
+																	<DataTrigger Binding="{Binding Path=Type}" Value="2">
+																		<Setter Property="Source" Value="{StaticResource ImgHotel}"/>
+																	</DataTrigger>
+																</Style.Triggers>
+															</Style>
+														</Image.Style>
+													</Image>
+													<!-- Name -->
+													<Label Content="{Binding Name}"/>
+												</StackPanel>
+											</DataTemplate>
+										</ListBox.ItemTemplate>
+									</ListBox>
+							</Grid>
 
+						<StackPanel
+							Grid.Row="1"
+							Margin="6"
+							VerticalAlignment="Center"
+							Grid.Column="1">
+							<Button Content="&gt;" Height="30" Width="30" Margin="0 10 0 10" x:Name="btnAddArr" Click="btnAddArr_Click"/>
+							<Button Content="&lt;" Height="30" Width="30" x:Name="btnRemArr" Click="btnRemArr_Click"/>
+						</StackPanel>
+
+						<ListBox 
+							x:Name="lstArrPlaces" 
+							Grid.Row="1" 
+							Grid.Column="2" 
+							Margin="5" 
+							ItemsSource="{Binding ArrActivities}" 
+							SelectionChanged="lstArrPlaces_SelectionChanged"
+							dd:DragDrop.IsDragSource="True"
+							dd:DragDrop.IsDropTarget="True">
+							<ListBox.ItemTemplate>
+									<DataTemplate>
+										<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+											<!-- Icon -->
+											<Image Height="24" Width="24" >
+												<Image.Style>
+													<Style TargetType="{x:Type Image}">
+														<Style.Triggers>
+															<DataTrigger Binding="{Binding Path=Type}" Value="0">
+																<Setter Property="Source" Value="{StaticResource ImgAttraction}"/>
+															</DataTrigger>
+															<DataTrigger Binding="{Binding Path=Type}" Value="1">
+																<Setter Property="Source" Value="{StaticResource ImgRestaurant}"/>
+															</DataTrigger>
+															<DataTrigger Binding="{Binding Path=Type}" Value="2">
+																<Setter Property="Source" Value="{StaticResource ImgHotel}"/>
+															</DataTrigger>
+														</Style.Triggers>
+													</Style>
+												</Image.Style>
+											</Image>
+											<!-- Name -->
+											<Label Content="{Binding Name}"/>
+										</StackPanel>
+									</DataTemplate>
+								</ListBox.ItemTemplate>
 							</ListBox>
 						</Grid>
-
-						<ListBox Grid.Row="1" Grid.Column="1" Margin="5">
-
-						</ListBox>
-					</Grid>
 				</TabItem>
 			</TabControl>
 		</GroupBox>
