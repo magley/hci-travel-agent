@@ -289,5 +289,29 @@ namespace YouTravel.Agent
 		{
 			MapUtil.DrawPinOnMapBasedOnList(ArrActivities, lstArrPlaces, TheMap);
 		}
+
+		private void btnAddArr_Click(object sender, RoutedEventArgs e)
+		{
+			int selectedAvailablePlace = lstAllPlaces.SelectedIndex;
+
+			if (selectedAvailablePlace != -1)
+			{
+				Place p = AllActivities[selectedAvailablePlace];
+				AllActivities.Remove(p);
+				ArrActivities.Add(p);
+			}
+		}
+
+		private void btnRemArr_Click(object sender, RoutedEventArgs e)
+		{
+			int selectedAddedPlace = lstArrPlaces.SelectedIndex;
+
+			if (selectedAddedPlace != -1)
+			{
+				Place p = ArrActivities[selectedAddedPlace];
+				ArrActivities.Remove(p);
+				AllActivities.Add(p);
+			}
+		}
 	}
 }
