@@ -9,6 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Shared;
+using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
@@ -92,57 +93,7 @@ namespace YouTravel.Agent
 
 		private void PinToSelectedListItem()
 		{
-			if (Places.Count == 0 || lstPlaces.SelectedIndex == -1)
-			{
-				DrawImage(null);
-                return;
-			}
-
-			var selectedPlace = Places[lstPlaces.SelectedIndex];
-			var location = new Location(selectedPlace.Lat, selectedPlace.Long);
-			DrawImage(selectedPlace);
-			MyMap.Center = location;
-		}
-
-		private void DrawImage(Place? place)
-		{
-			MyMap.Children.Clear();
-
-			if (place == null)
-            {
-				// Setting place to null removes the pin.
-                return;
-			}
-
-			var location = new Location(place.Lat, place.Long);
-			MapLayer mapLayer = new();
-			Image myPushPin = new()
-			{
-				Source = new BitmapImage(new Uri(GetPinIconUriString(place.Type), UriKind.Absolute)),
-				Width = 48,
-				Height = 48
-			};
-			mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
-			MyMap.Children.Add(mapLayer);
-		}
-
-		private string GetPinIconUriString(PlaceType type)
-		{
-			string fname = "";
-			switch (type)
-			{
-				case PlaceType.Attraction:
-					fname = "ImgAttraction.png";
-					break;
-				case PlaceType.Restaurant:
-					fname = "ImgRestaurant.png";
-					break;
-				case PlaceType.Hotel:
-					fname = "ImgHotel.png";
-					break;
-			}
-
-			return $"pack://application:,,,/Res/{fname}";
+			MapUtil.DrawPinOnMapBasedOnList(Places, lstPlaces, MyMap);
 		}
 
 		private void btnEditPlace_Click(object sender, RoutedEventArgs e)

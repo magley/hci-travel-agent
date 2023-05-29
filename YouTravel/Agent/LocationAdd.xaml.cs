@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
+using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
@@ -25,7 +26,7 @@ namespace YouTravel.Agent
 		public double Longitude { get { return _longitude; } set { _longitude = value; DoPropertyChanged(nameof(Longitude)); MoveMapToLocation(); } }
 		public string LocName { get { return _name; } set { _name = value; DoPropertyChanged(nameof(LocName)); } }
 		public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
-		public PlaceType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); DrawImage(new(Latitude, Longitude)); } }
+		public PlaceType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); MoveMapToLocation(); } }
 
 		public LocationAdd(Place place)
 		{
@@ -66,8 +67,8 @@ namespace YouTravel.Agent
 
 		private void MoveMapToLocation()
 		{
-			MyMap.Center = new Location(Latitude, Longitude);
-			DrawImage(MyMap.Center);
+			Place anonymous = new() { Lat = Latitude, Long = Longitude, Type = Type };
+			MapUtil.DrawPin(anonymous, MyMap);
 		}
 
 		private void InitMapsApi()
@@ -88,40 +89,6 @@ namespace YouTravel.Agent
 			_latitude = latLong.Latitude;
 			DoPropertyChanged(nameof(Latitude));
 			Longitude = latLong.Longitude;
-		}
-
-		private void DrawImage(Location where)
-		{
-			MyMap.Children.Clear();
-
-			MapLayer mapLayer = new();
-			Image myPushPin = new()
-			{
-				Source = new BitmapImage(new Uri(GetPinIconUriString(), UriKind.Absolute)),
-				Width = 48,
-				Height = 48
-			};
-			mapLayer.AddChild(myPushPin, where, PositionOrigin.Center);
-			MyMap.Children.Add(mapLayer);
-		}
-
-		private string GetPinIconUriString()
-		{
-			string fname = "";
-			switch (_type)
-			{
-				case PlaceType.Attraction:
-					fname = "ImgAttraction.png";
-					break;
-				case PlaceType.Restaurant:
-					fname = "ImgRestaurant.png";
-					break;
-				case PlaceType.Hotel:
-					fname = "ImgHotel.png";
-					break;
-			}
-
-			return $"pack://application:,,,/Res/{fname}";
 		}
 
         private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
