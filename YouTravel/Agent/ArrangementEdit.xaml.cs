@@ -29,8 +29,9 @@ namespace YouTravel.Agent
         private double _price = 100;
         private string _filename = "No File Selected.";
         private string _durationText = "No Dates Set.";
-        private DateTime _start = DateTime.Now;
-        private DateTime _end = DateTime.Now.AddDays(1);
+
+		private DateTime _start = DateTime.Now;
+		private DateTime _end = DateTime.Now.AddDays(1);
 
         public string ArrName { get { return _arrName; } set { _arrName = value; DoPropertyChanged(nameof(ArrName)); } }
         public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
@@ -62,7 +63,7 @@ namespace YouTravel.Agent
             {
                 // NOTE: This is an issue with lazy loading: you have to explicitly
                 // tell the context to fetch the other entity, too.
-                var arrangement = db.Arrangements.Include(a => a.Places).Where(a => a.Id == arrangementId).First();
+				var arrangement = db.Arrangements.Include(a => a.Places).Where(a => a.Id == arrangementId).First();
 
                 foreach (var place in arrangement.Places)
                 {
@@ -87,7 +88,9 @@ namespace YouTravel.Agent
 		private void InitCalendarRange()
         {
             arrangementCalendar.SelectedDates.AddRange(Start, End);
-        }
+			arrangementCalendar.DisplayDateStart = Start;
+
+		}
 
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -114,7 +117,11 @@ namespace YouTravel.Agent
 
             Start = start;
             End = end;
-        }
+
+			_start = start;
+			_end = end;
+			DurationText = $"{_start.ToLongDateString()} - {_end.ToLongDateString()}";
+		}
 
 		private void TheMap_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
 		{

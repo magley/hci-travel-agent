@@ -52,9 +52,13 @@
 								<TextBox TextAlignment="Right" Width="100"
 										 Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}"/>
 							</StackPanel>
-							<StackPanel Margin="0 10 0 0" Orientation="Horizontal">
-								<Label Width="150" Content="When"/>
-								<Calendar 
+						</StackPanel>
+					</ScrollViewer>
+				</TabItem>
+				<TabItem Header="Duration">
+					<StackPanel Margin="0 10 0 0" Orientation="Vertical" HorizontalAlignment="Center"> 
+						<Label Width="150" Content="Duration" HorizontalContentAlignment="Center"/>
+						<Calendar 
 									x:Name="arrangementCalendar" 
 									SelectionMode="SingleRange" 
 									SelectedDatesChanged="Calendar_SelectedDatesChanged" 
@@ -62,9 +66,8 @@
 									DisplayDateStart="{x:Static sys:DateTime.Today}"
 									CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
 									/>
-							</StackPanel>
-						</StackPanel>
-					</ScrollViewer>
+						<Label Content="{Binding DurationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center"/>
+					</StackPanel>
 				</TabItem>
 				<TabItem Header="Activities">
 					<Grid>

@@ -15,7 +15,7 @@ namespace YouTravel.Model
 		public DateTime End { get; set; } = DateTime.Now.AddDays(3);
         public string ImageFname { get; set; } = "";
 
-		public virtual IList<Place> Places { get; } = new List<Place>();
+		public IList<Place> Places { get; } = new List<Place>();
         public IList<Reservation> Reservations { get; } = new List<Reservation>();
     }
 }

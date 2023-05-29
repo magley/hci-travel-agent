@@ -17,6 +17,6 @@ namespace YouTravel.Model
 		public double Long { get; set; }
 		public PlaceType Type { get; set; }
 
-		public virtual IList<Arrangement> Arrangements { get; } = new List<Arrangement>();
+		public IList<Arrangement> Arrangements { get; } = new List<Arrangement>();
 	}
 }
