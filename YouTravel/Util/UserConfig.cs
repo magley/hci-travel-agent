@@ -11,6 +11,8 @@ namespace YouTravel.Util
         public bool ToolbarNav_Visible { get; set; } = true;
         public bool ToolbarArrangement_Visible { get; set; } = true;
         public bool ToolbarPlace_Visible { get; set; } = true;
+		public double StartLocation_Lat { get; set; } = 45.2;
+		public double StartLocation_Long { get; set; } = 19;
 
 		private static UserConfig _instance = new();
         private UserConfig() { }
@@ -42,9 +44,15 @@ namespace YouTravel.Util
 				{
 					ToolbarPlace_Visible = bool.Parse(value.ToString());
 				}
+				if (key == "StartLocation_Lat")
+				{
+					StartLocation_Lat = double.Parse(value.ToString());
+				}
+				if (key == "StartLocation_Long")
+				{
+					StartLocation_Long = double.Parse(value.ToString());
+				}
 			}
-
-            Console.WriteLine(ToolbarVisible);
 		}
 
 		public void Save()
@@ -56,7 +64,10 @@ namespace YouTravel.Util
 			s += $"ToolbarArrangement_Visible={ToolbarArrangement_Visible}\n";
 			s += $"ToolbarPlace_Visible={ToolbarPlace_Visible}\n";
 
-            File.WriteAllText("./Data/UserConfig.txt", s);
+			s += $"StartLocation_Lat={StartLocation_Lat}\n";
+			s += $"StartLocation_Long={StartLocation_Long}\n";
+
+			File.WriteAllText("./Data/UserConfig.txt", s);
         }
     }
 }

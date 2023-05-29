@@ -42,7 +42,6 @@ namespace YouTravel.Agent
 		{
 			var newVal = ((TreeViewItem)e.NewValue).Header.ToString();
 			SelectedSection = newVal;
-			Console.WriteLine($"{newVal} {SelectedSection}");
 		}
 
 		private void Window_Closed(object sender, EventArgs e)

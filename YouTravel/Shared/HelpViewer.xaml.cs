@@ -12,12 +12,8 @@ namespace YouTravel.Shared
 		{
 			InitializeComponent();
 
-
-
 			string currentDirectory = Directory.GetCurrentDirectory();
 			string path = $"{currentDirectory}/Help/{key}.html";
-
-			Console.WriteLine($"Searching:{path}");
 
 			if (!File.Exists(path))
 			{

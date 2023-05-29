@@ -73,6 +73,9 @@ namespace YouTravel.Agent
 
 		private void InitMapsApi()
 		{
+			Latitude = UserConfig.Instance.StartLocation_Lat;
+			Longitude = UserConfig.Instance.StartLocation_Long;
+
 			string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
 			MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
 			MyMap.ZoomLevel = 8;
