@@ -93,14 +93,13 @@ namespace YouTravel.Util
 		public static void DrawPin(Place place, Map map)
 		{
 			var location = new Location(place.Lat, place.Long);
+			map.Children.Clear();
 			DrawImage(place, map);
 			map.Center = location;
 		}
 
 		private static void DrawImage(Place? place, Map map)
 		{
-			// map.Children.Clear();
-
 			if (place == null)
 			{
 				// Setting place to null removes the pin.
