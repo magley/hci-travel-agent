@@ -9,6 +9,17 @@
         Title="YouTravel Agent" Width="960" Height="600"
 		Loaded="Window_Loaded">
 
+	<Window.InputBindings>
+		<KeyBinding Modifiers="Ctrl" Key="Left" Command="{Binding CmdNavigateBack}"/>
+		<KeyBinding Modifiers="Ctrl" Key="Right" Command="{Binding CmdNavigateForward}"/>
+
+		<KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding CmdNewArrangement}"/>
+		<KeyBinding Modifiers="Ctrl" Key="A" Command="{Binding CmdViewArrangements}"/>
+
+		<KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding CmdNewPlace}"/>
+		<KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding CmdViewPlaces}"/>
+	</Window.InputBindings>
+
 	<Window.Resources>
 		<BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
 		<BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
@@ -62,7 +73,7 @@
 					</MenuItem>
 					<MenuItem Header="Monthly Reports"></MenuItem>
 					<Separator/>
-					<MenuItem Header="Show Toolbar" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay}"></MenuItem>
+					<MenuItem Header="Show Toolbar" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_Settings">
 					<MenuItem Header="Preferences" Click="On_OpenSettings"/>

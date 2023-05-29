@@ -16,7 +16,6 @@ namespace YouTravel.Util
         private UserConfig() { }
         public static UserConfig Instance { get { return _instance; } }
 
-
         public void LoadToolbarConfig()
         {
             var lines = File.ReadAllLines("./Data/UserConfig.txt").ToList();

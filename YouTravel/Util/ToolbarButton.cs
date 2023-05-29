@@ -7,7 +7,7 @@ namespace YouTravel.Util
 {
     public class ToolbarButton
     {
-		public static Button NewBtn(string imgName, RoutedEventHandler onClick)
+		public static Button NewBtn(string imgName, RoutedEventHandler onClick, string tooltipHelp)
 		{
 			Button Button = new();
 			Image img = new()
@@ -18,6 +18,8 @@ namespace YouTravel.Util
 			};
 			Button.Content = img;
 			Button.Click += onClick;
+
+			Button.ToolTip = new Label() { Content = tooltipHelp };
 
 			return Button;
 		}

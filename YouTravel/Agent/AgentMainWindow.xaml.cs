@@ -1,38 +1,54 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
+using System.Windows.Input;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
 	public partial class AgentMainWindow : Window
 	{
-		// TODO: Move certain properties to global settings.
-
 		public UserConfig userConfig { get; } = UserConfig.Instance;
-
-		public bool ToolbarVisible { get; set; } = true;
 
 		public ObservableCollection<Button> ToolbarBtn_Nav { get; set; } = new();
 		public ObservableCollection<Button> ToolbarBtn_Arrangement { get; set; } = new();
 		public ObservableCollection<Button> ToolbarBtn_Place { get; set; } = new();
+
+		public ICommand CmdNavigateBack { get; private set; }
+		public ICommand CmdNavigateForward { get; private set; }
+		public ICommand CmdNewArrangement { get; private set; }
+		public ICommand CmdViewArrangements { get; private set; }
+		public ICommand CmdNewPlace { get; private set; }
+		public ICommand CmdViewPlaces { get; private set; }
 
 		public AgentMainWindow()
 		{
 			InitializeComponent();
 			DataContext = this;
 
+			ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn, "Navigate Backward (Ctrl+Left arrow)"));
+			ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
 
-			ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn));
-			ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn));
+			ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoPlanetAdd.png", On_AddArrangement, "New Arrangement (Ctrl+N)"));
+			ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList, "View Arrangements (Ctrl+A)"));
 
-			ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoPlanetAdd.png", On_AddArrangement));
-			ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList));
+			ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocationAdd.png", On_AddPlace, "New Place (Ctrl+Shift+N)"));
+			ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocation.png", On_OpenPlaceList, "View Places (Ctrl+P)"));
 
-			ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocationAdd.png", On_AddPlace));
-			ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocation.png", On_OpenPlaceList));
+			InitCommands();
+		}
+
+		private void InitCommands()
+		{
+			CmdNavigateBack = new RelayCommand(o => PageBack(), o => true);
+			CmdNavigateForward = new RelayCommand(o => PageNext(), o => true);
+
+			CmdNewArrangement = new RelayCommand(o => OpenPage(new ArrangementAdd()), o => true);
+			CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+
+			CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd()), o => true);
+			CmdViewPlaces = new RelayCommand(o => OpenPage(new PlacesList()), o => true);
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -65,8 +81,12 @@ namespace YouTravel.Agent
 
         private void ShowToolbar_Click(object sender, RoutedEventArgs e)
 		{
-			MenuItem menuItem = (MenuItem)sender;
-			userConfig.ToolbarVisible = menuItem.IsChecked;
+			ToggleToolbar();
+		}
+
+		private void ToggleToolbar()
+		{
+			userConfig.ToolbarVisible = !userConfig.ToolbarVisible;
 			userConfig.Save();
 		}
 
@@ -105,13 +125,11 @@ namespace YouTravel.Agent
 		private void Next_Btn(object sender, RoutedEventArgs e)
 		{
 			PageNext();
-
         }
 
 		private void Back_Btn(object sender, RoutedEventArgs e)
 		{
 			PageBack();
-
         }
 	}
 }
