@@ -4,10 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Agent"
+		xmlns:u="clr-namespace:YouTravel.Util"
         mc:Ignorable="d"
 		Style="{StaticResource WinDark}"
         Title="YouTravel Agent" Width="960" Height="600"
 		Loaded="Window_Loaded">
+
+	<Window.CommandBindings>
+		<CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
+	</Window.CommandBindings>
 
 	<Window.InputBindings>
 		<KeyBinding Modifiers="Ctrl" Key="Left" Command="{Binding CmdNavigateBack}"/>
@@ -141,8 +146,10 @@
 		<Grid Grid.Row="1">
 			<Grid.RowDefinitions>
 				<RowDefinition/>
+				<RowDefinition/>
 			</Grid.RowDefinitions>
-			<Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden" Grid.Row="1"/>
+			<Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden" Grid.Row="0"/>
+			<Button Grid.Row="1" Content="AAA" u:HelpProvider.HelpKey="test"/>
 		</Grid>
 	</Grid>
 </Window>
