@@ -8,7 +8,9 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using YouTravel.Model;
 using YouTravel.Util;
 
@@ -34,8 +36,12 @@ namespace YouTravel.Agent
 		public string Filename { get { return _filename; } set { _filename = value; DoPropertyChanged(nameof(Filename)); } }
 		public string DurationText { get { return _durationText; } set { _durationText = value; DoPropertyChanged(nameof(DurationText)); } }
 
+		private MapPolyline MapPolyline = new();
+
 		private DateTime? _start = null;
 		private DateTime? _end = null;
+
+		private MapBundle mapBundle = new();
 
 		public ObservableCollection<Place> AllActivities { get; set; } = new();
         public ObservableCollection<Place> ArrActivities { get; set; } = new();
@@ -53,7 +59,10 @@ namespace YouTravel.Agent
             PageIndex = 0;
 
 			MovePageIndex(0);
-        }
+
+			mapBundle.Map = TheMap;
+			ArrActivities.CollectionChanged += (a, b) => DrawMap();
+		}
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -175,7 +184,17 @@ namespace YouTravel.Agent
         {
             string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
             TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
-        }
+			
+			DrawMap();
+		}
+
+		private void DrawMap()
+		{
+			mapBundle.RouteLocations = ArrActivities.Select(m => new Location(m.Lat, m.Long)).ToList();
+			// TODO: Fetch the actual route using Bing Maps' API.
+
+			MapUtil.Redraw(mapBundle);
+		}
 
         private void TheMap_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
@@ -282,12 +301,14 @@ namespace YouTravel.Agent
 
 		private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			MapUtil.DrawPinOnMapBasedOnList(AllActivities, lstAllPlaces, TheMap);
+			mapBundle.Pin = (Place)lstAllPlaces.SelectedItem;
+			MapUtil.Redraw(mapBundle);
 		}
 
 		private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			MapUtil.DrawPinOnMapBasedOnList(ArrActivities, lstArrPlaces, TheMap);
+			mapBundle.Pin = (Place)lstArrPlaces.SelectedItem;
+			MapUtil.Redraw(mapBundle);
 		}
 
 		private void btnAddArr_Click(object sender, RoutedEventArgs e)
