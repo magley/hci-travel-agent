@@ -4,6 +4,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
@@ -16,6 +17,9 @@ namespace YouTravel.Agent
 	public partial class PlacesList : Page
 	{
 		public ObservableCollection<Place> Places { get; } = new();
+		public bool ShowHotel { get; set; } = true;
+		public bool ShowAttraction { get; set; } = true;
+		public bool ShowRestaurant { get; set; } = true;
 
 		public PlacesList()
 		{
@@ -66,15 +70,31 @@ namespace YouTravel.Agent
 				foreach (var v in ctx.Places.Local)
 				{
 					Places.Add(v);
-                }
+				}
 
-                lstPlaces.DataContext = Places;
+				// SEARCH
+
+				var afterSearch = Places
+					.Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
+					.Where(x => (ShowHotel && x.Type == PlaceType.Hotel) || 
+								(ShowAttraction &&  x.Type == PlaceType.Attraction) || 
+								(ShowRestaurant && x.Type == PlaceType.Restaurant)
+					)
+					.ToList();
+				Places.Clear();
+				foreach (var v in afterSearch)
+				{
+					Places.Add(v);
+				}
+
+				// -SEARCH	
+
+				lstPlaces.DataContext = Places;
 
 				if (Places.Count > 0)
 				{
 					lstPlaces.SelectedIndex = 0;
                 }
-
                 PinToSelectedListItem();
 			}
 		}
@@ -134,6 +154,24 @@ namespace YouTravel.Agent
 
 				LoadPlaces();
             }
+		}
+
+		private void BtnSearch_Click(object sender, RoutedEventArgs e)
+		{
+			string searchQuery = searchBox.Text;
+			Console.WriteLine(searchQuery);
+			LoadPlaces();
+		}
+
+		private void BtnClearSearch_Click(object sender, RoutedEventArgs e)
+		{
+			searchBox.Text = "";
+			LoadPlaces();
+		}
+
+		private void CheckBox_Click(object sender, RoutedEventArgs e)
+		{
+			LoadPlaces();
 		}
 	}
 }

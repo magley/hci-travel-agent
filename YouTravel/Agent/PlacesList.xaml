@@ -17,9 +17,15 @@
 
 		<BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
 		<BitmapImage x:Key="IcoRemove" UriSource="../Res/IcoCross.png"/>
+
+		<BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
 	</Page.Resources>
 
 	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
 			<ColumnDefinition/>
@@ -27,16 +33,79 @@
 
 		<m:Map
 				Grid.Column="0"
+				Grid.RowSpan="2"
 				Margin="16"
 				x:Name="MyMap"
 				CredentialsProvider="(This value is set in the code-behind)"/>
 
+		<Grid Grid.Row="0" Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition Height="Auto"/>
+			</Grid.RowDefinitions>
+			<!-- Search -->
+			<Grid Grid.Row="0" Margin="0 10 0 0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
 
+				<TextBox Grid.Column="0" Grid.ColumnSpan="2" Height="23" VerticalAlignment="Top" x:Name="searchBox"/>
 
+				<Button
+					Click="BtnClearSearch_Click"
+					Grid.Column="1" 
+					Margin="-10 0 0 0"
+					Height="23" VerticalAlignment="Top"
+					Content="x">
+					<Button.Style>
+						<Style BasedOn="{StaticResource TransparentStyle}" TargetType="{x:Type Button}">
+							<Style.Triggers>
+								<DataTrigger Binding="{Binding Text.Length, ElementName=searchBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+									<Setter Property="Visibility" Value="Collapsed"/>
+								</DataTrigger>
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+				</Button>
+
+				<Button Grid.Column="2"
+						Click="BtnSearch_Click">
+					<Image Source="{StaticResource IcoMagnifier}" Height="20" Margin="5 0 5 0"/>
+				</Button>
+			</Grid>
+
+			<!-- Visibility checkboxes -->
+			<GroupBox Grid.Row="1" Header="Visibility" Padding="6" Margin="4">
+				<StackPanel Grid.Row="0" Orientation="Horizontal">
+					<CheckBox
+						Margin="12 0 0 0"
+						VerticalContentAlignment="Center"
+						Content="Hotel"
+						IsChecked="{Binding ShowHotel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						Click="CheckBox_Click"/>
+					<CheckBox
+						Margin="12 0 0 0"
+						VerticalContentAlignment="Center"
+						Content="Attraction"
+						IsChecked="{Binding ShowAttraction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						Click="CheckBox_Click"/>
+					<CheckBox
+						Margin="12 0 0 0"
+						VerticalContentAlignment="Center"
+						Content="Restaurant"
+						IsChecked="{Binding ShowRestaurant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+						Click="CheckBox_Click"/>
+				</StackPanel>
+			</GroupBox>
+		</Grid>
+		
 		<ListView 
 			x:Name="lstPlaces" 
 			ItemsSource="{Binding}" 
 			Grid.Column="1"
+			Grid.Row="1"
 			SelectionChanged="lstPlaces_SelectionChanged">
 			<ListView.ItemContainerStyle>
 				<Style TargetType="ListViewItem">
@@ -112,7 +181,7 @@
 			</ListView.ItemTemplate>
 		</ListView>
 
-		<TextBlock x:Name="txtNoPlaces" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center">
+		<TextBlock x:Name="txtNoPlaces" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center">
 			No places in the database. Add one to get started.
 		</TextBlock>
 	</Grid>

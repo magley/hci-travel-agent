@@ -36,39 +36,15 @@
 				<RowDefinition Height="Auto"/>
 			</Grid.RowDefinitions>
 
-			<!-- Visibility checkboxes -->
-			<GroupBox Grid.Row="0" Header="Visibility" Padding="10">
-				<StackPanel Orientation="Vertical">
-					<CheckBox VerticalAlignment="Center" 
-							  VerticalContentAlignment="Center" 
-							  Margin="0 6 0 0"
-							  Content="Active" 
-							  IsChecked="{Binding Path=ShowActive, Mode=TwoWay}" 
-							  Click="CbShowActive_Click" />
-					<CheckBox VerticalAlignment="Center" 
-							  VerticalContentAlignment="Center"
-							  Margin="0 6 0 0"
-							  Content="Finished" 
-							  IsChecked="{Binding Path=ShowFinished, Mode=TwoWay}" 
-							  Click="CbShowFinished_Click" />
-					<CheckBox VerticalAlignment="Center" 
-							  VerticalContentAlignment="Center"
-							  Margin="0 6 0 0"
-							  Content="Completed" 
-							  IsChecked="{Binding Path=ShowDeleted, Mode=TwoWay}" 
-							  Click="CbShowDeleted_Click" />
-				</StackPanel>
-			</GroupBox>
-
 			<!-- Search -->
-			<Grid Grid.Row="1" Margin="0 10 0 0">
+			<Grid Grid.Row="0" Margin="0 10 0 0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="1*"/>
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
 
-				<TextBox Grid.Column="0" Grid.ColumnSpan="2" x:Name="searchBox"/>
+				<TextBox Grid.Column="0" Grid.ColumnSpan="2" Height="23" VerticalAlignment="Top" x:Name="searchBox"/>
 
 				<Button
 					Click="BtnClearSearch_Click"
@@ -92,6 +68,30 @@
 					<Image Source="{StaticResource IcoMagnifier}" Height="20" Margin="5 0 5 0"/>
 				</Button>
 			</Grid>
+
+			<!-- Visibility checkboxes -->
+			<GroupBox Grid.Row="1" Header="Visibility" Padding="10">
+				<StackPanel Orientation="Vertical">
+					<CheckBox VerticalAlignment="Center" 
+							  VerticalContentAlignment="Center" 
+							  Margin="0 6 0 0"
+							  Content="Active" 
+							  IsChecked="{Binding Path=ShowActive, Mode=TwoWay}" 
+							  Click="CbShowActive_Click" />
+					<CheckBox VerticalAlignment="Center" 
+							  VerticalContentAlignment="Center"
+							  Margin="0 6 0 0"
+							  Content="Finished" 
+							  IsChecked="{Binding Path=ShowFinished, Mode=TwoWay}" 
+							  Click="CbShowFinished_Click" />
+					<CheckBox VerticalAlignment="Center" 
+							  VerticalContentAlignment="Center"
+							  Margin="0 6 0 0"
+							  Content="Completed" 
+							  IsChecked="{Binding Path=ShowDeleted, Mode=TwoWay}" 
+							  Click="CbShowDeleted_Click" />
+				</StackPanel>
+			</GroupBox>
 		</Grid>
 
 		<StackPanel
