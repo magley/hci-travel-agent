@@ -37,6 +37,7 @@ namespace YouTravel.Agent
 			Longitude = place.Long;
 			LocName = place.Name;
 			Type = place.Type;
+			Description = place.Description;
 
 			DataContext = this;
 		}
@@ -119,7 +120,7 @@ namespace YouTravel.Agent
 				place.Lat = Latitude;
 				place.Long = Longitude;
 				place.Type = Type;
-				// Description. Do we need it?
+				place.Description = Description;
 
 				if (creatingNew)
 				{
