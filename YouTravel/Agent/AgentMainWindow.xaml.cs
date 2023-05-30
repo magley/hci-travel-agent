@@ -91,8 +91,8 @@ namespace YouTravel.Agent
 
 		private void ToggleToolbar()
 		{
-			userConfig.ToolbarVisible ^= true;
-			toolbarTray.Visibility = userConfig.ToolbarVisible ? Visibility.Visible : Visibility.Collapsed; // HACK: Because 2 way binding doesn't work.
+			Btn_ToolbarShowToolbar.IsChecked ^= true;
+			// This is ugly but it fixes inconsistency.
 			userConfig.Save();
 		}
 

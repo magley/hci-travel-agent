@@ -80,7 +80,7 @@
 					</MenuItem>
 					<MenuItem Header="Monthly Reports" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
 					<Separator/>
-					<MenuItem Header="Show Toolbar" InputGestureText="Ctrl+T" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
+					<MenuItem x:Name="Btn_ToolbarShowToolbar" Header="Show Toolbar" InputGestureText="Ctrl+T" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_Settings">
 					<MenuItem Header="Preferences" Click="On_OpenSettings" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
