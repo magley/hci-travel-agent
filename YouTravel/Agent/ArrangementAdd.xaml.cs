@@ -9,6 +9,7 @@ using System.Linq;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -23,7 +24,8 @@ namespace YouTravel.Agent
 		void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
 		private List<Grid> pages = new();
-        public int PageIndex { get; set; } = 0;
+		private List<Label> steps = new();
+		public int PageIndex { get; set; } = 0;
 
         private string _arrName = "New Arrangement";
         private string _description = "";
@@ -61,7 +63,13 @@ namespace YouTravel.Agent
 			pages.Add(Page3);
 			pages.Add(Page4);
             pages.Add(Page5);
-            PageIndex = 0;
+			PageIndex = 0;
+
+			steps.Add(Step1);
+			steps.Add(Step2);
+			steps.Add(Step3);
+			steps.Add(Step4);
+			steps.Add(Step5);
 
 			MovePageIndex(0);
 
@@ -157,10 +165,12 @@ namespace YouTravel.Agent
 				if (i == PageIndex)
 				{
 					pages[i].Visibility = Visibility.Visible;
+					steps[i].FontWeight = FontWeights.Bold;
 				}
 				else
 				{
 					pages[i].Visibility = Visibility.Hidden;
+					steps[i].FontWeight = FontWeights.Normal;
 				}
 			}
 		}

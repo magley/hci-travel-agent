@@ -26,14 +26,20 @@
 		</Grid.RowDefinitions>
 
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="2*"/>
-			<ColumnDefinition Width="3"/>
-			<ColumnDefinition Width="5*"/>
+			<ColumnDefinition Width="3*"/>
+			<ColumnDefinition Width="6"/>
+			<ColumnDefinition Width="10*"/>
 		</Grid.ColumnDefinitions>
 
 		<StackPanel Grid.Row="0" Grid.Column="0">
 			<Label FontWeight="Bold">Create an Arrangement.</Label>
-			<TextBlock TextWrapping="WrapWithOverflow" Margin="0 10 0 0" HorizontalAlignment="Center">This wizard will guide you through creating a new arrangement.</TextBlock>
+			<StackPanel Margin="8 16 0 0">
+				<Label x:Name="Step1" Content="Basic Info"/>
+				<Label x:Name="Step2" Content="Arrangement Duration"/>
+				<Label x:Name="Step3" Content="Photograph"/>
+				<Label x:Name="Step4" Content="Activities and Hotels"/>
+				<Label x:Name="Step5" Content="Complete"/>
+			</StackPanel>
 		</StackPanel>
 
 		<Rectangle Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" Fill="LightGray" Width="1"/>
@@ -280,7 +286,7 @@
 
 						<Image Margin="0 5 0 0" Grid.Row="4" Grid.Column="1" Source="{Binding Filename, Mode=TwoWay}" MaxHeight="600"/>
 
-						<ListView Margin="0 5 0 15" Grid.Row="5" Grid.Column="1" ItemsSource="{Binding ArrActivities, Mode=TwoWay}">
+						<ListView Margin="0 5 0 15" Grid.Row="5" Grid.Column="1" MinHeight="32" ItemsSource="{Binding ArrActivities, Mode=TwoWay}">
 							<ListView.ItemTemplate>
 								<DataTemplate>
 									<Grid>
