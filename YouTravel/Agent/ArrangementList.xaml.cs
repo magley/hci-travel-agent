@@ -82,7 +82,7 @@ namespace YouTravel.Agent
         private void EditArrangement_Click(object sender, RoutedEventArgs e)
         {
             Button button = (Button)sender;
-            Arrangement arr= (Arrangement)button.DataContext;
+            Arrangement arr = (Arrangement)button.DataContext;
 
             ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementEdit(arr));
         }
@@ -153,5 +153,12 @@ namespace YouTravel.Agent
         {
             searchBox.Text = "";
         }
-	}
+
+		private void BtnNewArrangement_Click(object sender, RoutedEventArgs e)
+		{
+			Button button = (Button)sender;
+
+			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd());
+		}
+    }
 }

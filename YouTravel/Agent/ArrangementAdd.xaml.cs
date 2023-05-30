@@ -41,9 +41,7 @@ namespace YouTravel.Agent
         public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
         public double Price { get { return _price; } set { _price = value; DoPropertyChanged(nameof(Price)); } }
 		public string Filename { get { return _filename; } set { _filename = value; DoPropertyChanged(nameof(Filename)); } }
-		public string DurationText { get { return _durationText; } set { _durationText = value; DoPropertyChanged(nameof(DurationText)); } }
-
-		private MapPolyline MapPolyline = new();
+		public string DurationText { get { return _durationText; } set { _durationText = value; DoPropertyChanged(nameof(DurationText)); UpdateCanMoveToNextPage(); } }
 
 		private DateTime? _start = null;
 		private DateTime? _end = null;
@@ -173,7 +171,35 @@ namespace YouTravel.Agent
 					steps[i].FontWeight = FontWeights.Normal;
 				}
 			}
+
+			UpdateCanMoveToNextPage();
 		}
+
+		private void UpdateCanMoveToNextPage()
+		{
+			// Disable "Next" button if form isn't satisfied.
+			btnNext.IsEnabled = CanMoveToNextPage();
+		}
+
+		private bool CanMoveToNextPage()
+		{
+			if (PageIndex == 1) // Calendar page.
+			{
+				try
+				{
+					DateTime d1 = arrangementCalendar.SelectedDates[0];
+					DateTime d2 = arrangementCalendar.SelectedDates.Last();
+					return true;
+				}
+				catch (ArgumentOutOfRangeException)
+				{
+					return false;
+				}
+			}
+
+			return PageIndex < pages.Count - 1;
+		}
+
 
 		private void btnPrev_Click(object sender, RoutedEventArgs e)
 		{

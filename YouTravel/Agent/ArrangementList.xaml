@@ -102,7 +102,7 @@
 			VerticalAlignment="Center"
 			Margin="10">
 
-			<Button>
+			<Button Click="BtnNewArrangement_Click">
 				<DockPanel HorizontalAlignment="Stretch">
 					<Image Source="{StaticResource IcoAdd}" Height="20" Margin="5 0 5 0"/>
 					<Label Content="New"/>
