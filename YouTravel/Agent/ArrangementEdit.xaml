@@ -129,25 +129,25 @@
 								<RowDefinition Height="10*"/>
 							</Grid.RowDefinitions>
 
-							<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5" DataContext="{Binding ElementName=selfWin}">
-								<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-									<Viewbox>
-										<CheckBox IsChecked="{Binding Path=ActivitiesViewHotel, Mode=TwoWay}" />
-									</Viewbox>
-									<Label Content="Hotel"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-									<Viewbox>
-										<CheckBox IsChecked="{Binding Path=ActivitiesViewAttraction, Mode=TwoWay}" />
-									</Viewbox>
-									<Label Content="Attraction"/>
-								</StackPanel>
-								<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
-									<Viewbox>
-										<CheckBox IsChecked="{Binding Path=ActivitiesViewRestaurant, Mode=TwoWay}" />
-									</Viewbox>
-									<Label Content="Restaurant"/>
-								</StackPanel>
+							<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
+								<CheckBox
+									Margin="12 0 0 0"
+									VerticalContentAlignment="Center"
+									Content="Hotel"
+									IsChecked="{Binding ActivitiesViewHotel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									Click="CbActivity_Filter"/>
+								<CheckBox
+									Margin="12 0 0 0"
+									VerticalContentAlignment="Center"
+									Content="Attraction"
+									IsChecked="{Binding ActivitiesViewAttraction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									Click="CbActivity_Filter"/>
+								<CheckBox
+									Margin="12 0 0 0"
+									VerticalContentAlignment="Center"
+									Content="Restaurant"
+									IsChecked="{Binding ActivitiesViewRestaurant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+									Click="CbActivity_Filter"/>
 							</StackPanel>
 							<ListBox 
 								x:Name="lstAllPlaces" 

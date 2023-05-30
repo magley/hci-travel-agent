@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -30,7 +31,11 @@ namespace YouTravel.Agent
         private string _filename = "No File Selected.";
 		private string _durationText = "No Dates Set.";
 
-        public string ArrName { get { return _arrName; } set { _arrName = value; DoPropertyChanged(nameof(ArrName)); } }
+		public bool ActivitiesViewHotel { get; set; } = true;
+		public bool ActivitiesViewAttraction { get; set; } = true;
+		public bool ActivitiesViewRestaurant { get; set; } = true;
+
+		public string ArrName { get { return _arrName; } set { _arrName = value; DoPropertyChanged(nameof(ArrName)); } }
         public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
         public double Price { get { return _price; } set { _price = value; DoPropertyChanged(nameof(Price)); } }
 		public string Filename { get { return _filename; } set { _filename = value; DoPropertyChanged(nameof(Filename)); } }
@@ -117,9 +122,29 @@ namespace YouTravel.Agent
 			{
 				AllActivities.Add(place);
 			}
+
+			// Filter which activities are visible.
+			// TODO: There's a bug where the filter doesn't apply to elements that are added back to
+			// the AllActivities list through drag and drop (obviously, because we need to call LoadPlaces()
+			// again, but we can't do it in a ArrActivities.CollectionChanged event because that happens before
+			// AllActivities gets the new element, and we can't do it in AllActivities.CollectionChanged because
+			// we can't modify the collection in its CollectionChange events. An idea is to have another list
+			// which acts as a proxy but I don't know if it'll work.
+
+			var afterSearch = AllActivities
+					.Where(x => (ActivitiesViewHotel && x.Type == PlaceType.Hotel) ||
+								(ActivitiesViewAttraction && x.Type == PlaceType.Attraction) ||
+								(ActivitiesViewRestaurant && x.Type == PlaceType.Restaurant)
+			)
+					.ToList();
+			AllActivities.Clear();
+			foreach (var v in afterSearch)
+			{
+				AllActivities.Add(v);
+			}
 		}
 
-        private void MovePageIndex(int delta)
+		private void MovePageIndex(int delta)
 		{
 			PageIndex += delta;
 
@@ -333,6 +358,11 @@ namespace YouTravel.Agent
 				ArrActivities.Remove(p);
 				AllActivities.Add(p);
 			}
+		}
+
+		private void CbActivity_Filter(object sender, RoutedEventArgs e)
+		{
+			LoadPlaces();
 		}
 	}
 }

@@ -267,6 +267,20 @@ namespace YouTravel.Agent
 			{
 				AllActivities.Add(place);
 			}
+
+			// Filter which activities are visible. TODO: Same bug as in ArrangementAdd::LoadPlaces().
+
+			var afterSearch = AllActivities
+					.Where(x => (ActivitiesViewHotel && x.Type == PlaceType.Hotel) ||
+								(ActivitiesViewAttraction && x.Type == PlaceType.Attraction) ||
+								(ActivitiesViewRestaurant && x.Type == PlaceType.Restaurant)
+			)
+					.ToList();
+			AllActivities.Clear();
+			foreach (var v in afterSearch)
+			{
+				AllActivities.Add(v);
+			}
 		}
 
 		private void btn_SelectImage_Click(object sender, RoutedEventArgs e)
@@ -299,7 +313,11 @@ namespace YouTravel.Agent
 				Filename = "No File Selected.";
 				imgImage.Source = null;
 			}
+		}
 
+		private void CbActivity_Filter(object sender, RoutedEventArgs e)
+		{
+			LoadPlaces();
 		}
 	}
 }
