@@ -70,36 +70,37 @@
 					</StackPanel>
 				</TabItem>
 				<TabItem Header="Image">
-					<Grid>
-						<Grid.RowDefinitions>
-							<RowDefinition Height="Auto"/>
-							<RowDefinition />
-						</Grid.RowDefinitions>
+					<ScrollViewer>
+						<Grid>
+							<Grid.RowDefinitions>
+								<RowDefinition Height="Auto"/>
+								<RowDefinition />
+							</Grid.RowDefinitions>
 
-						<Label Grid.Row="0">Select an image:</Label>
+							<Label Grid.Row="0">Select an image:</Label>
 
-						<StackPanel Grid.Row="1" Margin="0 30 0 0">
-							<Grid>
-								<Grid.RowDefinitions>
-									<RowDefinition Height="Auto"/>
-									<RowDefinition Height="Auto"/>
-								</Grid.RowDefinitions>
+							<StackPanel Grid.Row="1" Margin="0 30 0 0">
+								<Grid>
+									<Grid.RowDefinitions>
+										<RowDefinition Height="Auto"/>
+										<RowDefinition Height="Auto"/>
+									</Grid.RowDefinitions>
 
-								<Grid.ColumnDefinitions>
-									<ColumnDefinition />
-									<ColumnDefinition Width="Auto"/>
-								</Grid.ColumnDefinitions>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition />
+										<ColumnDefinition Width="Auto"/>
+									</Grid.ColumnDefinitions>
 
-								<Label Grid.Row="0" Grid.Column="0" Content="{Binding Filename, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="32" Margin="10 0 0 0"/>
-								<Button Grid.Row="0" Grid.Column="1" Margin="8" Height="32" x:Name="btn_SelectImage" Click="btn_SelectImage_Click">Select a file</Button>
+									<Label Grid.Row="0" Grid.Column="0" Content="{Binding Filename, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="32" Margin="10 0 0 0"/>
+									<Button Grid.Row="0" Grid.Column="1" Margin="8" Height="32" x:Name="btn_SelectImage" Click="btn_SelectImage_Click">Select a file</Button>
 
-								<ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Margin="30">
-									<Image x:Name="imgImage" Stretch="UniformToFill"/>
-								</ScrollViewer>
-							</Grid>
-						</StackPanel>
-
-					</Grid>
+									<ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Margin="30">
+										<Image x:Name="imgImage" Stretch="UniformToFill"/>
+									</ScrollViewer>
+								</Grid>
+							</StackPanel>
+						</Grid>
+					</ScrollViewer>
 				</TabItem>
 				<TabItem Header="Activities">
 					<Grid>

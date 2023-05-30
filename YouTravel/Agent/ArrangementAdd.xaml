@@ -74,37 +74,39 @@
 					<Label Content="{Binding DurationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalContentAlignment="Center"/>
 				</StackPanel>
 			</Grid>
-			<Grid Grid.Row="0" x:Name="Page3" Visibility="Hidden">
-				<Grid.RowDefinitions>
-					<RowDefinition Height="Auto"/>
-					<RowDefinition />
-				</Grid.RowDefinitions>
-
-				<Label Grid.Row="0">Select an image:</Label>
-
-				<StackPanel Grid.Row="1" Margin="0 30 0 0">
+			<Grid Grid.Row="0" x:Name="Page3" Visibility="Visible">
+				<ScrollViewer>
 					<Grid>
 						<Grid.RowDefinitions>
 							<RowDefinition Height="Auto"/>
-							<RowDefinition Height="Auto"/>
+							<RowDefinition />
 						</Grid.RowDefinitions>
 
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition />
-							<ColumnDefinition Width="Auto"/>
-						</Grid.ColumnDefinitions>
+						<Label Grid.Row="0">Select an image:</Label>
 
-						<Label Grid.Row="0" Grid.Column="0" Content="{Binding Filename, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="32" Margin="10 0 0 0"/>
-						<Button  Grid.Row="0" Grid.Column="1" Margin="8" Height="32" x:Name="btn_SelectImage" Click="btn_SelectImage_Click">Select a file</Button>
+						<StackPanel Grid.Row="1" Margin="0 30 0 0">
+							<Grid>
+								<Grid.RowDefinitions>
+									<RowDefinition Height="Auto"/>
+									<RowDefinition />
+								</Grid.RowDefinitions>
 
-						<ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Margin="30">
-							<Image x:Name="imgImage" Stretch="UniformToFill"/> 
-						</ScrollViewer>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition />
+									<ColumnDefinition Width="Auto"/>
+								</Grid.ColumnDefinitions>
+
+								<Label Grid.Row="0" Grid.Column="0" Content="{Binding Filename, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="32" Margin="10 0 0 0"/>
+								<Button  Grid.Row="0" Grid.Column="1" Margin="8" Height="32" x:Name="btn_SelectImage" Click="btn_SelectImage_Click">Select a file</Button>
+
+								<Image Grid.Row="1" Grid.ColumnSpan="2" Margin="30" x:Name="imgImage"/>
+							</Grid>
+						</StackPanel>
 					</Grid>
-				</StackPanel>
+				</ScrollViewer>
 				
 			</Grid>
-			<Grid Grid.Row="0" x:Name="Page4" Visibility="Visible">
+			<Grid Grid.Row="0" x:Name="Page4" Visibility="Hidden">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition Height="13*" MinHeight="50"/>
