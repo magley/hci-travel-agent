@@ -37,21 +37,17 @@
 		<GroupBox Grid.Row="0" Grid.ColumnSpan="2" Margin="5" Padding="5">
 			<TabControl>
 				<TabItem Header="General">
-					<ScrollViewer>
+					<ScrollViewer Margin="16 0 0 0">
 						<StackPanel Margin="5">
-							<StackPanel Margin="0 10 0 0" Orientation="Horizontal">
-								<Label Width="150" Content="Name"/>
-								<TextBox Width="200" Text="{Binding ArrName, Mode=TwoWay}"/>
-							</StackPanel>
-							<DockPanel LastChildFill="True" Margin="0 10 0 0">
-								<Label Width="150" Content="Description"/>
-								<TextBox Text="{Binding Description, Mode=TwoWay}" Height="150" TextWrapping="Wrap" AcceptsReturn="True"/>
-							</DockPanel>
-							<StackPanel Margin="0 10 0 0" Orientation="Horizontal">
-								<Label Width="150" Content="Price (€)"/>
-								<TextBox TextAlignment="Right" Width="100"
-										 Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}"/>
-							</StackPanel>
+							<Label Margin="0 8 0 0" Content="Name"/>
+							<TextBox MinHeight="32" Text="{Binding ArrName, Mode=TwoWay}" VerticalContentAlignment="Center" Width="250" HorizontalAlignment="Left" />
+
+							<Label Margin="0 8 0 0" Content="Description"/>
+							<TextBox Text="{Binding Description, Mode=TwoWay}" Height="150" TextWrapping="Wrap" Width="500" HorizontalAlignment="Left"  AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+
+							<Label Margin="0 8 0 0" Content="Price (€)"/>
+							<TextBox MinHeight="32" x:Name="TextBox_Price"  TextAlignment="Right" Width="100" HorizontalAlignment="Left" VerticalContentAlignment="Center"
+								Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}"/>
 						</StackPanel>
 					</ScrollViewer>
 				</TabItem>
