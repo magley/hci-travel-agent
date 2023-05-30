@@ -11,53 +11,47 @@
 		mc:Ignorable="d"
 		Style="{StaticResource PageDark}"
 		Loaded="Window_Loaded"
-        d:Height="500" d:Width="400">
+        d:Height="540" d:Width="960">
 
 	<Page.Resources>
 		<BitmapImage x:Key="IcoSave" UriSource="../Res/IcoPageEdit.png"/>
 		<BitmapImage x:Key="IcoPublish" UriSource="../Res/IcoDisk.png"/>
 		<BitmapImage x:Key="IcoCancel" UriSource="../Res/IcoCross.png"/>
 	</Page.Resources>
-	
+
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="3*"/>
 			<RowDefinition Height="Auto"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
-		
+
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+
 		<!-- Map -->
 		<m:Map
-				Grid.Row="0"
+				Grid.Column="0"
+				Grid.RowSpan="2"
 				Margin="5"
 				x:Name="MyMap" 
 				MouseDoubleClick="MyMap_MouseDoubleClick"
 				CredentialsProvider="(This value is set in the code-behind)"/>
 
 		<!-- Form -->
-		<Grid Grid.Row="1" Margin="5">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<Grid.RowDefinitions>
-				<RowDefinition/>
-				<RowDefinition/>
-				<RowDefinition/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-
+		<StackPanel Grid.Column="1" Grid.Row="0" Margin="5">
 			<!-- Name -->
-			<Label Grid.Row="0" Grid.Column="0" Content="Name:"/>
-			<TextBox x:Name="textboxName" Grid.Row="0" Grid.Column="1" Text="{Binding Path=LocName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" VerticalContentAlignment="Center"/>
+			<Label Content="Name:"/>
+			<TextBox MinHeight="32" x:Name="textboxName" Width="250" HorizontalAlignment="Left" Text="{Binding Path=LocName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" VerticalContentAlignment="Center"/>
 
 			<!-- Description -->
-			<Label Grid.Row="1" Grid.Column="0" Content="Description:" Margin="0 5 0 0"/>
-			<TextBox Grid.Row="1" Grid.Column="1" Margin="0 5 0 0" Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" VerticalContentAlignment="Center"/>
+			<Label Content="Description:" Margin="0 10 0 0"/>
+			<TextBox MinHeight="150" TextWrapping="Wrap" Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
 			<!-- Lat-long (the first label is outside the grid for hor-alignment with the rest of the form). -->
-			<Label Grid.Row="2" Grid.Column="0" Content="Latitude:" Margin="0 5 0 0"/>
-			<Grid Grid.Row="2" Grid.Column="1" Margin="0 5 0 0">
+			<Grid Grid.Row="2" Grid.Column="1" Margin="0 20 0 0">
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="Auto"/>
 					<ColumnDefinition Width="1*"/>
@@ -65,31 +59,30 @@
 					<ColumnDefinition Width="1*"/>
 				</Grid.ColumnDefinitions>
 
+				<Label Grid.Column="0" Content="Latitude:" />
 				<TextBox Grid.Column="1" Text="{Binding Path=Latitude, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.0000'}" TextAlignment="Right" VerticalContentAlignment="Center"/>
 				<Label Grid.Column="2" Content="Longitude:"/>
 				<TextBox Grid.Column="3" Text="{Binding Path=Longitude, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.0000'}" TextAlignment="Right" VerticalContentAlignment="Center"/>
 			</Grid>
 
 			<!-- Type radio group -->
-			<Label Grid.Row="3" Grid.Column="0" Content="Type:"/>
-			<Grid Grid.Row="3" Grid.Column="1">
-				<Grid.Resources>
-					<conv:ComparisonConverter x:Key="comparisonConverter" />
-				</Grid.Resources>
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition />
-					<ColumnDefinition />
-					<ColumnDefinition />
-				</Grid.ColumnDefinitions>
+			<StackPanel Orientation="Horizontal">
+				<Label Grid.Row="3" Grid.Column="0" Content="Type:"/>
+				<StackPanel Grid.Row="3" Grid.Column="1" HorizontalAlignment="Left" Margin="10 10 0 0">
+					<StackPanel.Resources>
+						<conv:ComparisonConverter x:Key="comparisonConverter" />
+					</StackPanel.Resources>
+					<RadioButton GroupName="Type" VerticalContentAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Attraction}}">Attraction</RadioButton>
+					<RadioButton GroupName="Type" VerticalContentAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Hotel}}">Hotel</RadioButton>
+					<RadioButton GroupName="Type" VerticalContentAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Restaurant}}">Restaurant</RadioButton>
+				</StackPanel>
 
-				<RadioButton Grid.Column="0" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Attraction}}">Attraction</RadioButton>
-				<RadioButton Grid.Column="1" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Hotel}}">Hotel</RadioButton>
-				<RadioButton Grid.Column="2" GroupName="Type" VerticalContentAlignment="Center" HorizontalAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Restaurant}}">Restaurant</RadioButton>
-			</Grid>
-		</Grid>
-		
+			</StackPanel>
+
+		</StackPanel>
+
 		<!-- Footer buttons -->
-		<Grid Grid.Row="2" Margin="5 15 5 5">
+		<Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="5 15 5 5">
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="Auto"/>
 				<ColumnDefinition Width="10*"/>
@@ -110,5 +103,7 @@
 				</DockPanel>
 			</Button>
 		</Grid>
+
+
 	</Grid>
 </Page>

@@ -43,7 +43,7 @@
 							<TextBox MinHeight="32" Text="{Binding ArrName, Mode=TwoWay}" VerticalContentAlignment="Center" Width="250" HorizontalAlignment="Left" />
 
 							<Label Margin="0 8 0 0" Content="Description"/>
-							<TextBox Text="{Binding Description, Mode=TwoWay}" Height="150" TextWrapping="Wrap" Width="500" HorizontalAlignment="Left"  AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+							<TextBox Text="{Binding Description, Mode=TwoWay}" Height="150" TextWrapping="Wrap" Width="500" HorizontalAlignment="Left" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
 							<Label Margin="0 8 0 0" Content="Price (€)"/>
 							<TextBox MinHeight="32" x:Name="TextBox_Price"  TextAlignment="Right" Width="100" HorizontalAlignment="Left" VerticalContentAlignment="Center"
