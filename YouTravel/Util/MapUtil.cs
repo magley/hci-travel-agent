@@ -114,7 +114,7 @@ namespace YouTravel.Util
 				Width = 48,
 				Height = 48
 			};
-			mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
+			mapLayer.AddChild(myPushPin, location, PositionOrigin.BottomCenter);
 			map.Children.Add(mapLayer);
 		}
 
