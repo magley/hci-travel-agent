@@ -6,6 +6,7 @@
 	  <StartWorkingDirectory>$(MSBuildProjectDirectory)</StartWorkingDirectory>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Res\IcoAttraction2.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +30,10 @@
     <None Remove="Res\ImgAttraction.png" />
     <None Remove="Res\ImgHotel.png" />
     <None Remove="Res\ImgRestaurant.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Res\IcoAttraction2.ico" />
   </ItemGroup>
 
   <ItemGroup>
