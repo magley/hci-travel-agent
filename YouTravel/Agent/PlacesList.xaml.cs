@@ -49,7 +49,7 @@ namespace YouTravel.Agent
 
 		private void OnPlaceCurrentPageCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
-			OnPlacesCollectionChanged();
+			ToggleNoPagesText();
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -63,7 +63,7 @@ namespace YouTravel.Agent
 			LoadPlaces();
 		}
 
-		private void OnPlacesCollectionChanged()
+		private void ToggleNoPagesText()
 		{
             if (Places.Count > 0)
             {

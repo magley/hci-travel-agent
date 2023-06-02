@@ -18,7 +18,7 @@ namespace YouTravel.Agent
 		void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
 		public ObservableCollection<Arrangement> Arrangements { get; } = new();
-		public ObservableCollection<Arrangement> ArrangementsVisible { get; } = new();
+		public ObservableCollection<Arrangement> ArrangementsCurrentPage { get; } = new();
 
         private int _pageIndex = 0;
         private int _pageCount = 0;
@@ -35,7 +35,7 @@ namespace YouTravel.Agent
             InitializeComponent();
             DataContext = this;
             Arrangements.CollectionChanged += OnArrangementCollectionChanged;
-			ArrangementsVisible.CollectionChanged += OnArrangementVisibleCollectionChanged;
+			ArrangementsCurrentPage.CollectionChanged += OnArrangementVisibleCollectionChanged;
 		}
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -92,21 +92,21 @@ namespace YouTravel.Agent
 			int L = Math.Max(0, (PageIndex-1) * pageSize);
             int R = Math.Min((PageIndex) * pageSize - 1, Arrangements.Count - 1);
 
-			ArrangementsVisible.Clear();
+			ArrangementsCurrentPage.Clear();
             if (Arrangements.Count != 0)
             {
 				for (int i = L; i <= R; i++)
                 {
-                    ArrangementsVisible.Add(Arrangements[i]);
+                    ArrangementsCurrentPage.Add(Arrangements[i]);
 				}
 			}
 
-			arrangementsList.DataContext = ArrangementsVisible;
+			arrangementsList.DataContext = ArrangementsCurrentPage;
 		}
 
         private void OnArrangementVisibleCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-			OnArrangementCollectionChanged();
+			ToggleNoArrangementsText();
 		}
 
         private void OnArrangementCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -114,9 +114,9 @@ namespace YouTravel.Agent
 			LoadArrangementsPage();
 		}
 
-        private void OnArrangementCollectionChanged()
+        private void ToggleNoArrangementsText()
         {
-            if (ArrangementsVisible.Count > 0)
+            if (ArrangementsCurrentPage.Count > 0)
             {
                 txtNoArrangements.Visibility = Visibility.Collapsed;
                 arrangementsList.Visibility = Visibility.Visible;
