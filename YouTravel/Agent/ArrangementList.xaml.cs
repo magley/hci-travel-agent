@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using YouTravel.Model;
@@ -23,7 +22,6 @@ namespace YouTravel.Agent
 
         private int _pageIndex = 0;
         private int _pageCount = 0;
-
         public int PageIndex { get { return _pageIndex; } set { _pageIndex = value; DoPropertyChanged(nameof(PageIndex)); SetPageNavButtonsEnabled(); } }
 		public int PageCount { get { return _pageCount; } set { _pageCount = value; DoPropertyChanged(nameof(PageCount)); SetPageNavButtonsEnabled(); } }
         int pageSize = 2;

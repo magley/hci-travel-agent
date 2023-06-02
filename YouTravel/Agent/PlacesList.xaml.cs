@@ -3,6 +3,7 @@ using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -14,12 +15,23 @@ using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
-	public partial class PlacesList : Page
+	public partial class PlacesList : Page, INotifyPropertyChanged
 	{
+		public event PropertyChangedEventHandler? PropertyChanged;
+		void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+
 		public ObservableCollection<Place> Places { get; } = new();
+		public ObservableCollection<Place> PlacesCurrentPage { get; } = new();
+
 		public bool ShowHotel { get; set; } = true;
 		public bool ShowAttraction { get; set; } = true;
 		public bool ShowRestaurant { get; set; } = true;
+
+		private int _pageIndex = 0;
+		private int _pageCount = 0;
+		public int PageIndex { get { return _pageIndex; } set { _pageIndex = value; DoPropertyChanged(nameof(PageIndex)); SetPageNavButtonsEnabled(); } }
+		public int PageCount { get { return _pageCount; } set { _pageCount = value; DoPropertyChanged(nameof(PageCount)); SetPageNavButtonsEnabled(); } }
+		int pageSize = 2;
 
 		public PlacesList()
 		{
@@ -27,15 +39,20 @@ namespace YouTravel.Agent
 			DataContext = this;
 
 			Places.CollectionChanged += OnPlaceCollectionChanged;
-        }
+			PlacesCurrentPage.CollectionChanged += OnPlaceCurrentPageCollectionChanged;
+		}
 
         private void OnPlaceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
+			LoadPlacesCurrentPage();
+		}
+
+		private void OnPlaceCurrentPageCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+		{
 			OnPlacesCollectionChanged();
-        }
+		}
 
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
+		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			InitDbContext();
 			InitMapsApi();
@@ -89,14 +106,39 @@ namespace YouTravel.Agent
 
 				// -SEARCH	
 
-				lstPlaces.DataContext = Places;
-
 				if (Places.Count > 0)
 				{
 					lstPlaces.SelectedIndex = 0;
                 }
                 PinToSelectedListItem();
 			}
+		}
+
+		private void LoadPlacesCurrentPage()
+		{
+			PageCount = (int)Math.Ceiling((double)(Places.Count / (double)pageSize));
+			if (PageIndex > PageCount)
+			{
+				PageIndex = PageCount;
+			}
+			if (PageIndex <= 0 && PageCount > 0)
+			{
+				PageIndex = 1;
+			}
+
+			int L = Math.Max(0, (PageIndex - 1) * pageSize);
+			int R = Math.Min((PageIndex) * pageSize - 1, Places.Count - 1);
+
+			PlacesCurrentPage.Clear();
+			if (Places.Count != 0)
+			{
+				for (int i = L; i <= R; i++)
+				{
+					PlacesCurrentPage.Add(Places[i]);
+				}
+			}
+
+			lstPlaces.DataContext = PlacesCurrentPage;
 		}
 
 		private void InitMapsApi()
@@ -172,6 +214,24 @@ namespace YouTravel.Agent
 		private void CheckBox_Click(object sender, RoutedEventArgs e)
 		{
 			LoadPlaces();
+		}
+
+		private void btnPrevPage_Click(object sender, RoutedEventArgs e)
+		{
+			PageIndex--;
+			LoadPlacesCurrentPage();
+		}
+
+		private void btnNextPage_Click(object sender, RoutedEventArgs e)
+		{
+			PageIndex++;
+			LoadPlacesCurrentPage();
+		}
+
+		private void SetPageNavButtonsEnabled()
+		{
+			btnPrevPage.IsEnabled = PageIndex > 1;
+			btnNextPage.IsEnabled = PageIndex < PageCount;
 		}
 	}
 }
