@@ -17,5 +17,20 @@ namespace YouTravel.Model
 
 		public IList<Place> Places { get; } = new List<Place>();
         public IList<Reservation> Reservations { get; } = new List<Reservation>();
-    }
+
+		public bool IsFinished()
+		{
+			return End < DateTime.Now;
+		}
+
+		public bool IsActive()
+		{
+			return Start < DateTime.Now && DateTime.Now < End;
+		}
+
+		public bool IsUpcoming()
+		{
+			return DateTime.Now < End;
+		}
+	}
 }

@@ -29,17 +29,17 @@ namespace YouTravel
 				var hotel1 = new Place { Name = "Hotel California", Type = PlaceType.Hotel, Lat = 45.3, Long = 18.7 };
 				db.Places.Add(hotel1);
 
-				var arr1 = new Arrangement { Description = "Arrangement 1", Price=123 };
+				var arr1 = new Arrangement { Name = "Upcoming Arrangement", Price = 123, Start = DateTime.Now.AddDays(2), End = DateTime.Now.AddDays(4) };
 				arr1.Places.Add(attr1);
 				arr1.Places.Add(hotel1);
 				db.Arrangements.Add(arr1);
 
-				var arr2 = new Arrangement { Description = "Arrangement 2", Price = 356 };	
+				var arr2 = new Arrangement { Name = "Travel in Progress", Price = 356, Start = DateTime.Now.AddDays(-2), End = DateTime.Now.AddDays(2) };	
 				arr2.Places.Add(attr1);
 				arr2.Places.Add(attr2);
 				db.Arrangements.Add(arr2);
 
-				var arr3 = new Arrangement { Description = "Arrangement 3", Price = 500 };
+				var arr3 = new Arrangement { Name = "Old, Finished Arrangement", Price = 500, Start = DateTime.Now.AddDays(-2), End = DateTime.Now.AddDays(-1) };
 				arr3.Places.Add(attr1);
 				arr3.Places.Add(attr2);
 				arr3.Places.Add(hotel1);

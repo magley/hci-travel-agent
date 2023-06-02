@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using YouTravel.Model;
 using YouTravel.Shared;
+using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
@@ -16,8 +17,8 @@ namespace YouTravel.Agent
         public ObservableCollection<Arrangement> Arrangements { get; } = new();
 
         public bool ShowActive { get; set; } = true;
-        public bool ShowFinished { get; set; } = true;
-        public bool ShowDeleted { get; set; } = false;
+        public bool ShowFinished { get; set; } = false;
+        public bool ShowUpcoming { get; set; } = true;
 
 		public ArrangementList()
         {
@@ -48,13 +49,20 @@ namespace YouTravel.Agent
                     Arrangements.Add(v);
                 }
 
-                // TODO: Utilize a search query (see BtnSearch_Click).
-                var li = Arrangements.Where(x => ShowActive || x.Id % 2 == 0).ToList();
-                Arrangements.Clear();
-                foreach (var v in li)
-                {
-                    Arrangements.Add(v);
-                }
+				// SEARCH
+
+				var afterSearch = Arrangements
+					.Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
+					.Where(x => (ShowActive && x.IsActive()) ||
+								(ShowFinished && x.IsFinished()) ||
+								(ShowUpcoming && x.IsUpcoming())
+					)
+					.ToList();
+				Arrangements.Clear();
+				foreach (var v in afterSearch)
+				{
+					Arrangements.Add(v);
+				}
 
                 arrangementsList.DataContext = Arrangements;
             }
@@ -137,7 +145,7 @@ namespace YouTravel.Agent
             LoadArrangements();
         }
 
-        private void CbShowDeleted_Click(object sender, RoutedEventArgs e)
+        private void CbShowUpcoming_Click(object sender, RoutedEventArgs e)
         {
             LoadArrangements();
         }
@@ -145,14 +153,14 @@ namespace YouTravel.Agent
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
             string searchQuery = this.searchBox.Text;
-            Console.WriteLine(searchQuery);
             LoadArrangements();
         }
 
         private void BtnClearSearch_Click(object sender, RoutedEventArgs e)
         {
             searchBox.Text = "";
-        }
+            LoadArrangements();
+		}
 
 		private void BtnNewArrangement_Click(object sender, RoutedEventArgs e)
 		{

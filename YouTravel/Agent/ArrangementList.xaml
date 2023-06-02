@@ -81,15 +81,15 @@
 					<CheckBox VerticalAlignment="Center" 
 							  VerticalContentAlignment="Center"
 							  Margin="0 6 0 0"
-							  Content="Finished" 
-							  IsChecked="{Binding Path=ShowFinished, Mode=TwoWay}" 
-							  Click="CbShowFinished_Click" />
+							  Content="Upcoming" 
+							  IsChecked="{Binding Path=ShowUpcoming, Mode=TwoWay}" 
+							  Click="CbShowUpcoming_Click" />
 					<CheckBox VerticalAlignment="Center" 
 							  VerticalContentAlignment="Center"
 							  Margin="0 6 0 0"
-							  Content="Completed" 
-							  IsChecked="{Binding Path=ShowDeleted, Mode=TwoWay}" 
-							  Click="CbShowDeleted_Click" />
+							  Content="Finished" 
+							  IsChecked="{Binding Path=ShowFinished, Mode=TwoWay}" 
+							  Click="CbShowFinished_Click" />
 				</StackPanel>
 			</GroupBox>
 		</Grid>
