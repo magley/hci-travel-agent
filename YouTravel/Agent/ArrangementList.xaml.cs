@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
 using System.Numerics;
 using System.Windows;
@@ -12,11 +13,22 @@ using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
-    public partial class ArrangementList : Page
+    public partial class ArrangementList : Page, INotifyPropertyChanged
     {
-        public ObservableCollection<Arrangement> Arrangements { get; } = new();
+		public event PropertyChangedEventHandler? PropertyChanged;
+		void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
-        public bool ShowActive { get; set; } = true;
+		public ObservableCollection<Arrangement> Arrangements { get; } = new();
+		public ObservableCollection<Arrangement> ArrangementsVisible { get; } = new();
+
+        private int _pageIndex = 0;
+        private int _pageCount = 0;
+
+        public int PageIndex { get { return _pageIndex; } set { _pageIndex = value; DoPropertyChanged(nameof(PageIndex)); SetPageNavButtonsEnabled(); } }
+		public int PageCount { get { return _pageCount; } set { _pageCount = value; DoPropertyChanged(nameof(PageCount)); SetPageNavButtonsEnabled(); } }
+        int pageSize = 2;
+
+		public bool ShowActive { get; set; } = true;
         public bool ShowFinished { get; set; } = false;
         public bool ShowUpcoming { get; set; } = true;
 
@@ -25,7 +37,8 @@ namespace YouTravel.Agent
             InitializeComponent();
             DataContext = this;
             Arrangements.CollectionChanged += OnArrangementCollectionChanged;
-        }
+			ArrangementsVisible.CollectionChanged += OnArrangementVisibleCollectionChanged;
+		}
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -62,20 +75,50 @@ namespace YouTravel.Agent
 				foreach (var v in afterSearch)
 				{
 					Arrangements.Add(v);
-				}
-
-                arrangementsList.DataContext = Arrangements;
+				}   
             }
-        }
+		}
+
+		private void LoadArrangementsPage()
+        {
+			PageCount = (int)Math.Ceiling((double)(Arrangements.Count / (double)pageSize));
+			if (PageIndex > PageCount)
+			{
+				PageIndex = PageCount;
+			}
+            if (PageIndex <= 0 && PageCount > 0)
+            {
+                PageIndex = 1;
+            }
+
+			int L = Math.Max(0, (PageIndex-1) * pageSize);
+            int R = Math.Min((PageIndex) * pageSize - 1, Arrangements.Count - 1);
+
+			ArrangementsVisible.Clear();
+            if (Arrangements.Count != 0)
+            {
+				for (int i = L; i <= R; i++)
+                {
+                    ArrangementsVisible.Add(Arrangements[i]);
+				}
+			}
+
+			arrangementsList.DataContext = ArrangementsVisible;
+		}
+
+        private void OnArrangementVisibleCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+			OnArrangementCollectionChanged();
+		}
 
         private void OnArrangementCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            OnArrangementCollectionChanged();
-        }
+			LoadArrangementsPage();
+		}
 
         private void OnArrangementCollectionChanged()
         {
-            if (Arrangements.Count > 0)
+            if (ArrangementsVisible.Count > 0)
             {
                 txtNoArrangements.Visibility = Visibility.Collapsed;
                 arrangementsList.Visibility = Visibility.Visible;
@@ -168,5 +211,23 @@ namespace YouTravel.Agent
 
 			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd());
 		}
-    }
+
+		private void btnPrevPage_Click(object sender, RoutedEventArgs e)
+		{
+			PageIndex--;
+			LoadArrangementsPage();
+		}
+
+		private void btnNextPage_Click(object sender, RoutedEventArgs e)
+		{
+			PageIndex++;
+			LoadArrangementsPage();
+		}
+
+        private void SetPageNavButtonsEnabled()
+        {
+			btnPrevPage.IsEnabled = PageIndex > 1;
+			btnNextPage.IsEnabled = PageIndex < PageCount;
+		}
+	}
 }

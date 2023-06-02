@@ -25,6 +25,7 @@
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto" />
 			<RowDefinition Height="9*" />
+			<RowDefinition Height="Auto" />
 		</Grid.RowDefinitions>
 
 		<Grid 
@@ -109,8 +110,6 @@
 				</DockPanel>
 			</Button>
 		</StackPanel>
-		
-		
 
 		<ListView
 			Grid.Row="1"
@@ -197,5 +196,13 @@
 		<TextBlock x:Name="txtNoArrangements" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center">
 			No arrangements in the database. Add one to get started.
 		</TextBlock>
+
+		<StackPanel Margin="10 0 10 10" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
+			<Button x:Name="btnPrevPage" Click="btnPrevPage_Click" MinWidth="30">&lt;</Button>
+			<Label Content="{Binding Path=PageIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+			<Label Content="/"/>
+			<Label Content="{Binding Path=PageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+			<Button x:Name="btnNextPage" Click="btnNextPage_Click"  MinWidth="30">&gt;</Button>
+		</StackPanel>
 	</Grid>
 </Page>
