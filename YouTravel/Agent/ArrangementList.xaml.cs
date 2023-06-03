@@ -46,6 +46,7 @@ namespace YouTravel.Agent
         private void FocusSearch()
         {
             this.searchBox.Focus();
+            this.searchBox.SelectAll();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)

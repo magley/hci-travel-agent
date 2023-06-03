@@ -21,6 +21,10 @@
 		<BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
 	</Page.Resources>
 
+	<Page.InputBindings>
+		<KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding CmdFocusSearch}"/>
+	</Page.InputBindings>
+
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>

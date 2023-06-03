@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Shared;
@@ -33,14 +34,24 @@ namespace YouTravel.Agent
 		public int PageCount { get { return _pageCount; } set { _pageCount = value; DoPropertyChanged(nameof(PageCount)); SetPageNavButtonsEnabled(); } }
 		int pageSize = 2;
 
-		public PlacesList()
+        public ICommand CmdFocusSearch { get; private set; }
+
+        public PlacesList()
 		{
 			InitializeComponent();
 			DataContext = this;
 
 			Places.CollectionChanged += OnPlaceCollectionChanged;
 			PlacesCurrentPage.CollectionChanged += OnPlaceCurrentPageCollectionChanged;
-		}
+
+            CmdFocusSearch = new RelayCommand(o => FocusSearch(), o => true);
+        }
+
+        private void FocusSearch()
+        {
+            this.searchBox.Focus();
+			this.searchBox.SelectAll();
+        }
 
         private void OnPlaceCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
 		{
