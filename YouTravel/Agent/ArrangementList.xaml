@@ -17,7 +17,12 @@
 		<BitmapImage x:Key="IcoStats" UriSource="../Res/IcoChart.png"/>
 		<BitmapImage x:Key="IcoRemove" UriSource="../Res/IcoCross.png"/>
 		<BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
+
 	</Page.Resources>
+
+	<Page.InputBindings>
+		<KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding CmdFocusSearch}"/>
+	</Page.InputBindings>
 
 	<Grid>
 		<Grid.ColumnDefinitions>

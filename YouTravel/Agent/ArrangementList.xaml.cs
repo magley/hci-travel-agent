@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
@@ -30,13 +31,22 @@ namespace YouTravel.Agent
         public bool ShowFinished { get; set; } = false;
         public bool ShowUpcoming { get; set; } = true;
 
-		public ArrangementList()
+        public ICommand CmdFocusSearch { get; private set; }
+
+        public ArrangementList()
         {
             InitializeComponent();
             DataContext = this;
             Arrangements.CollectionChanged += OnArrangementCollectionChanged;
 			ArrangementsCurrentPage.CollectionChanged += OnArrangementVisibleCollectionChanged;
-		}
+
+            CmdFocusSearch = new RelayCommand(o => FocusSearch(), o => true);
+        }
+
+        private void FocusSearch()
+        {
+            this.searchBox.Focus();
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
