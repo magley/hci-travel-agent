@@ -8,7 +8,7 @@
 		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         xmlns:local="clr-namespace:YouTravel.Agent"
 		xmlns:dd="urn:gong-wpf-dragdrop"
-	  xmlns:u="clr-namespace:YouTravel.Util"
+		xmlns:u="clr-namespace:YouTravel.Util"
         mc:Ignorable="d"
 		Loaded="Page_Loaded"
         Style="{StaticResource PageDark}"

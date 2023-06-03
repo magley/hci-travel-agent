@@ -10,6 +10,7 @@
 		xmlns:dd="urn:gong-wpf-dragdrop"
 		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
 		mc:Ignorable="d"
+		xmlns:u="clr-namespace:YouTravel.Util"
 		Style="{StaticResource PageDark}"
 		Loaded="Window_Loaded"	
         d:DesignHeight="540" d:DesignWidth="960">
@@ -40,13 +41,13 @@
 					<ScrollViewer Margin="16 0 0 0">
 						<StackPanel Margin="5">
 							<Label Margin="0 8 0 0" Content="Name"/>
-							<TextBox MinHeight="32" Text="{Binding ArrName, Mode=TwoWay}" VerticalContentAlignment="Center" Width="250" HorizontalAlignment="Left" />
+							<TextBox u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Arrangement name" MinHeight="32" Text="{Binding ArrName, Mode=TwoWay}" VerticalContentAlignment="Center" Width="250" HorizontalAlignment="Left" />
 
 							<Label Margin="0 8 0 0" Content="Description"/>
-							<TextBox Text="{Binding Description, Mode=TwoWay}" Height="150" TextWrapping="Wrap" Width="500" HorizontalAlignment="Left" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+							<TextBox u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Arrangement description" Text="{Binding Description, Mode=TwoWay}" Height="150" TextWrapping="Wrap" Width="500" HorizontalAlignment="Left" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
 							<Label Margin="0 8 0 0" Content="Price (€)"/>
-							<TextBox MinHeight="32" x:Name="TextBox_Price"  TextAlignment="Right" Width="100" HorizontalAlignment="Left" VerticalContentAlignment="Center"
+							<TextBox u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Arrangement price" MinHeight="32" x:Name="TextBox_Price"  TextAlignment="Right" Width="100" HorizontalAlignment="Left" VerticalContentAlignment="Center"
 								Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}"/>
 						</StackPanel>
 					</ScrollViewer>
@@ -55,6 +56,7 @@
 					<StackPanel Margin="0 10 0 0" Orientation="Vertical" HorizontalAlignment="Center">
 						<Label Width="150" Content="Duration" HorizontalContentAlignment="Center"/>
 						<Calendar 
+									u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Set start and end date for this arrangement"
 									x:Name="arrangementCalendar" 
 									SelectionMode="SingleRange" 
 									SelectedDatesChanged="Calendar_SelectedDatesChanged" 
@@ -88,7 +90,7 @@
 									</Grid.ColumnDefinitions>
 
 									<Label Grid.Row="0" Grid.Column="0" Content="{Binding Filename, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="32" Margin="10 0 0 0"/>
-									<Button Grid.Row="0" Grid.Column="1" Margin="8" Height="32" x:Name="btn_SelectImage" Click="btn_SelectImage_Click">Select a file</Button>
+									<Button u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Select a file" Grid.Row="0" Grid.Column="1" Margin="8" Height="32" x:Name="btn_SelectImage" Click="btn_SelectImage_Click">Select a file</Button>
 
 									<ScrollViewer Grid.Row="1" Grid.ColumnSpan="2" Margin="30">
 										<Image x:Name="imgImage" Stretch="UniformToFill"/>
@@ -127,18 +129,21 @@
 
 							<StackPanel Grid.Row="0" Orientation="Horizontal" Margin="5">
 								<CheckBox
+									u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Toggle hotels"
 									Margin="12 0 0 0"
 									VerticalContentAlignment="Center"
 									Content="Hotel"
 									IsChecked="{Binding ActivitiesViewHotel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									Click="CbActivity_Filter"/>
 								<CheckBox
+									u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Toggle attractions"
 									Margin="12 0 0 0"
 									VerticalContentAlignment="Center"
 									Content="Attraction"
 									IsChecked="{Binding ActivitiesViewAttraction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									Click="CbActivity_Filter"/>
 								<CheckBox
+									u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Toggle restaurants"
 									Margin="12 0 0 0"
 									VerticalContentAlignment="Center"
 									Content="Restaurant"
@@ -149,6 +154,7 @@
 								x:Name="lstAllPlaces" 
 								Grid.Row="1" 
 								ItemsSource="{Binding AllActivities}" 
+								u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Available places"
 								SelectionChanged="lstAllPlaces_SelectionChanged"
 								dd:DragDrop.IsDragSource="True"
 								dd:DragDrop.IsDropTarget="True">
@@ -187,14 +193,15 @@
 						Margin="6"
 						Orientation="Horizontal"
 						HorizontalAlignment="Center">
-							<Button Content="v" Height="30" Width="30" Margin="10 0 10 0" x:Name="btnAddArr" Click="btnAddArr_Click"/>
-							<Button Content="^" Height="30" Width="30" x:Name="btnRemArr" Click="btnRemArr_Click"/>
+							<Button Content="v" u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Add to arrangement" Height="30" Width="30" Margin="10 0 10 0" x:Name="btnAddArr" Click="btnAddArr_Click"/>
+							<Button Content="^" u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Remove from arrangement" Height="30" Width="30" x:Name="btnRemArr" Click="btnRemArr_Click"/>
 						</StackPanel>
 
 						<ListBox 
 							x:Name="lstArrPlaces" 
-						Grid.Row="2" 
-						Grid.Column="1" 
+							u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Places included in this arrangement"
+							Grid.Row="2" 
+							Grid.Column="1" 
 							Margin="5" 
 							ItemsSource="{Binding ArrActivities}" 
 							SelectionChanged="lstArrPlaces_SelectionChanged"
@@ -244,14 +251,14 @@
 
 		<Grid Grid.Row="1" Grid.Column="1">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button Margin="0 0 10 0" x:Name="btn_SaveDraft" Click="btn_SaveDraft_Click"> 
+				<Button u:HelpProvider.HelpKey="arrangement_edit" Margin="0 0 10 0" x:Name="btn_SaveDraft" Click="btn_SaveDraft_Click"> 
 					<DockPanel HorizontalAlignment="Stretch">
 						<Image Source="{StaticResource IcoSave}" Height="20" Margin="5 0 5 0"/>
 						<Label Content="Save Draft"/>
 					</DockPanel>
 				</Button>
 
-				<Button  x:Name="btn_PublishChanges" Click="btn_PublishChanges_Click">
+				<Button u:HelpProvider.HelpKey="arrangement_edit" x:Name="btn_PublishChanges" Click="btn_PublishChanges_Click">
 					<DockPanel HorizontalAlignment="Stretch">
 						<Image Source="{StaticResource IcoPublish}" Height="20" Margin="5 0 5 0"/>
 						<Label Content="Publish Changes"/>
