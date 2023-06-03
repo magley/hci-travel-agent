@@ -4,10 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Agent"
+		xmlns:u="clr-namespace:YouTravel.Util"
         mc:Ignorable="d"
 		Loaded="Window_Loaded"
 		Style="{StaticResource PageDark}"
-		d:DesignHeight="540" d:DesignWidth="960">
+		d:DesignHeight="540" d:DesignWidth="960"
+		>
 
 	<Page.Resources>
 		<BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
@@ -116,7 +118,9 @@
 			Grid.Column="1"
 			x:Name="arrangementsList"
 			ItemsSource="{Binding}"
-			Margin="10">
+			Margin="10"
+			u:HelpProvider.HelpKey="arrangement"
+			>
 
 			<ListView.ItemContainerStyle>
 				<Style TargetType="ListViewItem">

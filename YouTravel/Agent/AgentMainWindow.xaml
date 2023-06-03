@@ -8,7 +8,8 @@
         mc:Ignorable="d"
 		Style="{StaticResource WinDark}"
         Title="YouTravel Agent" Width="960" Height="600"
-		Loaded="Window_Loaded">
+		Loaded="Window_Loaded"
+		>
 
 	<Window.CommandBindings>
 		<CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>

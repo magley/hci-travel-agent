@@ -1,9 +1,10 @@
 body {
 	background: #1F1F1F;
-	color: white;
+	color: #eaeaea;
 	margin: 2%;
 	font-size: 120%;
 	font-family: sans-serif;
+	line-height: 1.4em;
 }
 
 h1 {
@@ -11,3 +12,19 @@ h1 {
 	padding-bottom: 10px;
 }
 
+a {
+	color: forestgreen;
+}
+
+a:visited {
+	color: mediumpurple;
+}
+
+p {
+	margin-top: 2em;
+	margin-bottom: 2em;
+}
+
+figcaption {
+	color: #aaaaaa;
+}

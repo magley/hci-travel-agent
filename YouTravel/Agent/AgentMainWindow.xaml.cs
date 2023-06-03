@@ -140,12 +140,16 @@ namespace YouTravel.Agent
 
 		private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
 		{
-			IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
 			if (focusedControl is DependencyObject)
 			{
 				string str = HelpProvider.GetHelpKey((DependencyObject)focusedControl);
 				HelpProvider.ShowHelp(str, this);
 			}
+			//else
+			//{
+   //             HelpProvider.ShowHelp("index", this);
+   //         }
 		}
 
 		private void ExitApp_Click(object sender, RoutedEventArgs e)
