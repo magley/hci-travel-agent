@@ -68,6 +68,7 @@ namespace YouTravel.Agent
 								(ShowFinished && x.IsFinished()) ||
 								(ShowUpcoming && x.IsUpcoming())
 					)
+                    .Reverse()
 					.ToList();
 				Arrangements.Clear();
 				foreach (var v in afterSearch)

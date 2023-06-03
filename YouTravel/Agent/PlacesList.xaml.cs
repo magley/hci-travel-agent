@@ -97,7 +97,8 @@ namespace YouTravel.Agent
 								(ShowAttraction &&  x.Type == PlaceType.Attraction) || 
 								(ShowRestaurant && x.Type == PlaceType.Restaurant)
 					)
-					.ToList();
+                    .Reverse()
+                    .ToList();
 				Places.Clear();
 				foreach (var v in afterSearch)
 				{
