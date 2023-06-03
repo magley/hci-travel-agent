@@ -47,12 +47,13 @@
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
 
-				<TextBox u:HelpProvider.HelpKey="arrangement_filter" Grid.Column="0" Grid.ColumnSpan="2" Height="23" VerticalAlignment="Top" x:Name="searchBox"/>
+				<TextBox u:HelpProvider.HelpKey="arrangement_filter" ToolTip="Enter a search query" Grid.Column="0" Grid.ColumnSpan="2" Height="23" VerticalAlignment="Top" x:Name="searchBox"/>
 
 				<Button
 					Click="BtnClearSearch_Click"
 					Grid.Column="1" 
 					Margin="-10 0 0 0"
+					ToolTip="Clear search"
 					Height="23" VerticalAlignment="Top"
 					Content="x">
 					<Button.Style>
@@ -67,6 +68,7 @@
 				</Button>
 
 				<Button Grid.Column="2"
+						ToolTip="Apply your search query"
 						u:HelpProvider.HelpKey="arrangement_filter"
 						Click="BtnSearch_Click">
 					<Image Source="{StaticResource IcoMagnifier}" Height="20" Margin="5 0 5 0"/>
@@ -78,6 +80,7 @@
 				<StackPanel Orientation="Vertical">
 					<CheckBox VerticalAlignment="Center" 
 							  u:HelpProvider.HelpKey="arrangement_filter"
+							  ToolTip="Toggle in-progress arrangements"
 							  VerticalContentAlignment="Center" 
 							  Margin="0 6 0 0"
 							  Content="Active" 
@@ -85,6 +88,7 @@
 							  Click="CbShowActive_Click" />
 					<CheckBox VerticalAlignment="Center" 
 							  VerticalContentAlignment="Center"
+							  ToolTip="Toggle upcoming arrangements"
 							  u:HelpProvider.HelpKey="arrangement_filter"
 							  Margin="0 6 0 0"
 							  Content="Upcoming" 
@@ -92,6 +96,7 @@
 							  Click="CbShowUpcoming_Click" />
 					<CheckBox VerticalAlignment="Center" 
 							  VerticalContentAlignment="Center"
+							  ToolTip="Toggle completed arrangements"
 							  u:HelpProvider.HelpKey="arrangement_filter"
 							  Margin="0 6 0 0"
 							  Content="Finished" 
@@ -109,7 +114,7 @@
 			VerticalAlignment="Center"
 			Margin="10">
 
-			<Button Click="BtnNewArrangement_Click">
+			<Button Click="BtnNewArrangement_Click" ToolTip="Add a new Arrangement">
 				<DockPanel HorizontalAlignment="Stretch">
 					<Image Source="{StaticResource IcoAdd}" Height="20" Margin="5 0 5 0"/>
 					<Label Content="New"/>
