@@ -46,11 +46,11 @@ namespace YouTravel.Util
 				}
 				if (key == "StartLocation_Lat")
 				{
-					StartLocation_Lat = double.Parse(value.ToString());
+					StartLocation_Lat = double.Parse(value.ToString(), System.Globalization.CultureInfo.InvariantCulture);
 				}
 				if (key == "StartLocation_Long")
 				{
-					StartLocation_Long = double.Parse(value.ToString());
+					StartLocation_Long = double.Parse(value.ToString(), System.Globalization.CultureInfo.InvariantCulture);
 				}
 			}
 		}
@@ -64,8 +64,8 @@ namespace YouTravel.Util
 			s += $"ToolbarArrangement_Visible={ToolbarArrangement_Visible}\n";
 			s += $"ToolbarPlace_Visible={ToolbarPlace_Visible}\n";
 
-			s += $"StartLocation_Lat={StartLocation_Lat}\n";
-			s += $"StartLocation_Long={StartLocation_Long}\n";
+			s += $"StartLocation_Lat={StartLocation_Lat.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)}\n";
+			s += $"StartLocation_Long={StartLocation_Long.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)}\n";
 
 			File.WriteAllText("./Data/UserConfig.txt", s);
         }

@@ -2,5 +2,5 @@ ToolbarVisible=True
 ToolbarNav_Visible=True
 ToolbarArrangement_Visible=True
 ToolbarPlace_Visible=True
-StartLocation_Lat=45,2565
-StartLocation_Long=19,8263
+StartLocation_Lat=45.26
+StartLocation_Long=19.83
