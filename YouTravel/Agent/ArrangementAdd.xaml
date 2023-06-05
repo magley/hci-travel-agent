@@ -19,6 +19,7 @@
 		<BitmapImage x:Key="ImgAttraction" UriSource="../Res/IcoAttraction2.png"/>
 		<BitmapImage x:Key="ImgRestaurant" UriSource="../Res/IcoRestaurant2.png"/>
 		<BitmapImage x:Key="ImgHotel" UriSource="../Res/IcoHotel2.png"/>
+		<BitmapImage x:Key="IcoCancel" UriSource="../Res/IcoCross.png"/>
 	</Page.Resources>
 	
     <Grid Margin="5">
@@ -335,7 +336,19 @@
 			</Grid>
 		</Grid>
 
-		<Button u:HelpProvider.HelpKey="arrangement_add" Grid.Row="1" Grid.Column="0" Margin="8 0 0 0" x:Name="btnCancel" Content="Cancel" Click="btnCancel_Click" Width="60" Height="32" HorizontalAlignment="Left"/>
+		<Button 
+			u:HelpProvider.HelpKey="arrangement_add" 
+			Grid.Row="1" Grid.Column="0" 
+			Margin="8 0 0 0" 
+			x:Name="btnCancel" 
+			Click="btnCancel_Click" 
+			Height="32" 
+			HorizontalAlignment="Left">
+			<DockPanel HorizontalAlignment="Left">
+				<Image Source="{StaticResource IcoCancel}" Height="20" Margin="5 0 5 0"/>
+				<Label Content="Cancel"/>
+			</DockPanel>
+		</Button>
 		<StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
 			<StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
 				<Button x:Name="btnPrev" Content="Back" u:HelpProvider.HelpKey="arrangement_add" Margin="8 0 0 0" Click="btnPrev_Click" Width="60" Height="32"/>
