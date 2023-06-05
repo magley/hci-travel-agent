@@ -6,12 +6,16 @@ namespace YouTravel.Shared
     {
         public bool Result { get; private set; } = false;
         public string MessageBody { get; set; }
+        public string YesText { get; set; }
+        public string NoText { get; set; }
 
-        public ConfirmBox(string messageBody, string windowTitle)
+        public ConfirmBox(string messageBody, string windowTitle, string yesText, string noText)
         {
             InitializeComponent();
             DataContext = this;
             MessageBody = messageBody;
+            YesText = yesText;
+            NoText = noText;
             Title = windowTitle;
 
             Application curApp = Application.Current;
