@@ -8,6 +8,7 @@
         mc:Ignorable="d"
 		Loaded="Window_Loaded"
 		Style="{StaticResource PageDark}"
+		x:Name="ArrangementHome"
 		d:DesignHeight="540" d:DesignWidth="960"
 		>
 
