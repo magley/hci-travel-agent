@@ -1,18 +1,29 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 
 namespace YouTravel.Util
 {
     // Singleton.
-    public class UserConfig
+    public class UserConfig : INotifyPropertyChanged
     {
-        public bool ToolbarVisible { get; set; } = true;
-        public bool ToolbarNav_Visible { get; set; } = true;
-        public bool ToolbarArrangement_Visible { get; set; } = true;
-        public bool ToolbarPlace_Visible { get; set; } = true;
-		public double StartLocation_Lat { get; set; } = 45.2;
-		public double StartLocation_Long { get; set; } = 19;
+		public event PropertyChangedEventHandler? PropertyChanged;
+		void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+
+		private bool _ToolbarVisible = true;
+		private bool _ToolbarNav_Visible = true;
+		private bool _ToolbarArrangement_Visible = true;
+		private bool _ToolbarPlace_Visible = true;
+		private double _StartLocation_Lat = 45.2;
+		private double _StartLocation_Long = 19;
+
+		public bool ToolbarVisible { get { return _ToolbarVisible; } set { _ToolbarVisible = value; DoPropertyChanged("ToolbarVisible"); } }
+		public bool ToolbarNav_Visible { get { return _ToolbarNav_Visible; } set { _ToolbarNav_Visible = value; DoPropertyChanged("ToolbarNav_Visible"); } }
+		public bool ToolbarArrangement_Visible { get { return _ToolbarArrangement_Visible; } set { _ToolbarArrangement_Visible = value; DoPropertyChanged("ToolbarArrangement_Visible"); } }
+		public bool ToolbarPlace_Visible { get { return _ToolbarPlace_Visible; } set { _ToolbarPlace_Visible = value; DoPropertyChanged("ToolbarPlace_Visible"); } }
+		public double StartLocation_Lat { get { return _StartLocation_Lat; } set { _StartLocation_Lat = value; DoPropertyChanged("StartLocation_Lat"); } }
+		public double StartLocation_Long { get { return _StartLocation_Long; } set { _StartLocation_Long = value; DoPropertyChanged("StartLocation_Long"); } }
 
 		private static UserConfig _instance = new();
         private UserConfig() { }

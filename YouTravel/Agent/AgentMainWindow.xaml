@@ -87,8 +87,8 @@
 					<MenuItem x:Name="Btn_ToolbarShowToolbar" Header="Show Toolbar" InputGestureText="Ctrl+T" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
 				</MenuItem>
 				<MenuItem Header="_Settings">
-					<MenuItem Header="Preferences" Click="On_OpenSettings" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
-					<MenuItem Header="Customize Toolbar" Click="On_OpenSettings_Toolbar" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
+					<MenuItem Header="General" Click="On_OpenSettings" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
+					<MenuItem Header="Toolbar" Click="On_OpenSettings_Toolbar" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
 				</MenuItem>
 				<MenuItem Header="_Help">
 					<MenuItem Header="About YouTravel" Template="{DynamicResource FinalSubMenuItemTemplate}">
@@ -109,7 +109,7 @@
 					<Style TargetType="{x:Type ToolBarTray}" BasedOn="{StaticResource {x:Type ToolBarTray}}">
 						<Setter Property="Visibility" Value="Visible"/>
 						<Style.Triggers>
-							<DataTrigger Binding="{Binding userConfig.ToolbarVisible}" Value="False">
+							<DataTrigger Binding="{Binding userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
 								<Setter Property="Visibility" Value="Collapsed"/>
 							</DataTrigger>
 						</Style.Triggers>

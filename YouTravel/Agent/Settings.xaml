@@ -8,11 +8,11 @@
 		Style="{StaticResource WinDark}"
 		WindowStartupLocation="CenterOwner"
 		Loaded="Window_Loaded"
-		Closed="Window_Closed"
         Title="Settings" Height="400" Width="600">
     <Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
+			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
 
 		<Grid.ColumnDefinitions>
@@ -42,7 +42,7 @@
 					</Style>
 				</StackPanel.Style>
 
-				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Show Toolbar" IsChecked="{Binding userConfig.ToolbarVisible,Mode=TwoWay}"/>
+				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Show Toolbar" IsChecked="{Binding ToolbarVisible,Mode=TwoWay}"/>
 				<Label>Default Location Coordinates:</Label>
 				<Grid>
 					<Grid.ColumnDefinitions>
@@ -53,9 +53,9 @@
 					</Grid.ColumnDefinitions>
 
 					<Label Grid.Column="0" Content="Latitude:"/>
-					<TextBox Grid.Column="1" Text="{Binding userConfig.StartLocation_Lat, Mode=TwoWay, StringFormat=N4 }" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+					<TextBox Grid.Column="1" Text="{Binding Latitude, Mode=TwoWay, StringFormat=N4 }" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
 					<Label Grid.Column="2" Content="Longitude:"/>
-					<TextBox Grid.Column="30" Text="{Binding userConfig.StartLocation_Long, Mode=TwoWay, StringFormat=N4 }" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+					<TextBox Grid.Column="30" Text="{Binding Longitude, Mode=TwoWay, StringFormat=N4 }" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
 				</Grid>
 			</StackPanel>
 			
@@ -73,10 +73,15 @@
 					</Style>
 				</StackPanel.Style>
 
-				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Navigation" IsChecked="{Binding userConfig.ToolbarNav_Visible,Mode=TwoWay}"/>
-				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Arrangement" IsChecked="{Binding userConfig.ToolbarArrangement_Visible,Mode=TwoWay}"/>
-				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Place" IsChecked="{Binding userConfig.ToolbarPlace_Visible,Mode=TwoWay}"/>
+				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Navigation" IsChecked="{Binding ToolbarShowNav,Mode=TwoWay}"/>
+				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Arrangement" IsChecked="{Binding ToolbarShowArrangement,Mode=TwoWay}"/>
+				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Place" IsChecked="{Binding ToolbarShowPlace,Mode=TwoWay}"/>
 			</StackPanel>
 		</Grid>
-    </Grid>
+
+		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12">
+			<Button Content="Save" x:Name="BtnSaveConfig" Height="32" Width="64" Click="BtnSaveConfig_Click"/>
+			<Button Content="Cancel" x:Name="BtnCancel" Height="32" Width="64" Margin="10 0 0 0" Click="BtnCancel_Click"/>
+		</StackPanel>
+	</Grid>
 </Window>
