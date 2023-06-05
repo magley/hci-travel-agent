@@ -81,15 +81,30 @@ namespace YouTravel.Agent
 
         public void PageBack()
         {
-            if (myFrame.NavigationService.CanGoBack)
-                myFrame.NavigationService.GoBack();
-        }
+			if (myFrame.NavigationService.CanGoBack)
+			{
+				myFrame.NavigationService.GoBack();
+			}
+		}
 
         public void PageNext()
         {
             if (myFrame.NavigationService.CanGoForward)
+			{
                 myFrame.NavigationService.GoForward();
-        }
+			}
+		}
+
+		private void RefreshNavButtonEnabledStatus()
+		{
+			// TODO: Hardcoded everything...
+
+			ToolbarBtn_Nav[0].IsEnabled = myFrame.NavigationService.CanGoBack;
+			((Image)ToolbarBtn_Nav[0].Content).Opacity = myFrame.CanGoBack ? 1 : 0.5;
+
+			ToolbarBtn_Nav[1].IsEnabled = myFrame.NavigationService.CanGoForward;
+			((Image)ToolbarBtn_Nav[1].Content).Opacity = myFrame.CanGoForward ? 1 : 0.5;
+		}
 
         private void ShowToolbar_Click(object sender, RoutedEventArgs e)
 		{
@@ -164,6 +179,11 @@ namespace YouTravel.Agent
 		private void ExitApp_Click(object sender, RoutedEventArgs e)
 		{
 			Application.Current.Shutdown();
+		}
+
+		private void myFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+		{
+			RefreshNavButtonEnabledStatus();
 		}
 	}
 }
