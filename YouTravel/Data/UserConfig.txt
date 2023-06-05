@@ -1,6 +1,0 @@
-ToolbarVisible=True
-ToolbarNav_Visible=True
-ToolbarArrangement_Visible=True
-ToolbarPlace_Visible=True
-StartLocation_Lat=46.26
-StartLocation_Long=19.83

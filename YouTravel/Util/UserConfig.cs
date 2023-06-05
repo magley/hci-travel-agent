@@ -31,7 +31,7 @@ namespace YouTravel.Util
 
         public void LoadToolbarConfig()
         {
-            var lines = File.ReadAllLines("./Data/UserConfig.txt").ToList();
+            var lines = File.ReadAllLines("./Data/UserConfig.preferences").ToList();
 
             foreach (var line in lines)
             {
@@ -78,7 +78,7 @@ namespace YouTravel.Util
 			s += $"StartLocation_Lat={StartLocation_Lat.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)}\n";
 			s += $"StartLocation_Long={StartLocation_Long.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)}\n";
 
-			File.WriteAllText("./Data/UserConfig.txt", s);
+			File.WriteAllText("./Data/UserConfig.preferences", s);
         }
     }
 }
