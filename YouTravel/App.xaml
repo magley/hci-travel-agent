@@ -27,6 +27,10 @@
 			</Style.Triggers>
 		</Style>
 
+		<Style TargetType="{x:Type Image}">
+			<Setter Property="RenderOptions.BitmapScalingMode" Value="Fant" />
+		</Style>
+
 		<!-- Dark Theme -->
 
 		<SolidColorBrush x:Key="bg_dark0" Color="#1F1F1F"/>
