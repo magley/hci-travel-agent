@@ -11,6 +11,7 @@ namespace YouTravel.Shared
 		public HelpViewer(string key, Window originator)
 		{
 			InitializeComponent();
+			UpdateNavButtonEnabled();
 
 			string currentDirectory = Directory.GetCurrentDirectory();
 			string path = $"{currentDirectory}/Help/{key}.html";
@@ -24,28 +25,34 @@ namespace YouTravel.Shared
 			Uri uri = new($"file:///{path}");
 			wbHelp.Navigate(uri);
 		}
-		private void BrowseBack_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+
+		private void GoBack(object sender, RoutedEventArgs e)
 		{
-			e.CanExecute = (wbHelp != null) && wbHelp.CanGoBack;
+			if (wbHelp.CanGoBack)
+			{
+				wbHelp.GoBack();
+			}
+			UpdateNavButtonEnabled();
 		}
 
-		private void BrowseBack_Executed(object sender, ExecutedRoutedEventArgs e)
+		private void GoForward(object sender, RoutedEventArgs e)
 		{
-			wbHelp.GoBack();
+			if (wbHelp.CanGoForward)
+			{
+				wbHelp.GoForward();
+			}
+			UpdateNavButtonEnabled();
 		}
 
-		private void BrowseForward_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+		private void UpdateNavButtonEnabled()
 		{
-			e.CanExecute = (wbHelp != null) && wbHelp.CanGoForward;
+			BtnBack.IsEnabled = (wbHelp != null) && wbHelp.CanGoBack;
+			BtnForward.IsEnabled = (wbHelp != null) && wbHelp.CanGoForward;
 		}
 
-		private void BrowseForward_Executed(object sender, ExecutedRoutedEventArgs e)
+		private void wbHelp_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
 		{
-			wbHelp.GoForward();
-		}
-
-		private void wbHelp_Navigating(object sender, System.Windows.Navigation.NavigatingCancelEventArgs e)
-		{
+			UpdateNavButtonEnabled();
 		}
 	}
 }
