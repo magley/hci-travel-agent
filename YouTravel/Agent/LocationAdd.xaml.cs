@@ -39,6 +39,7 @@ namespace YouTravel.Agent
 			Type = place.Type;
 			Description = place.Description;
 
+			MyMap.Center = new(Latitude, Longitude);
 			DataContext = this;
 		}
 
@@ -57,6 +58,7 @@ namespace YouTravel.Agent
                 Longitude = UserConfig.Instance.StartLocation_Long;
             }
 
+			MyMap.Center = new(Latitude, Longitude);
 			DataContext = this;
         }
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -74,7 +76,7 @@ namespace YouTravel.Agent
 		private void MoveMapToLocation()
 		{
 			Place anonymous = new() { Lat = Latitude, Long = Longitude, Type = Type };
-			MapUtil.DrawPin(anonymous, MyMap);
+			MapUtil.DrawPin(anonymous, MyMap, false);
 		}
 
 		private void InitMapsApi()

@@ -195,12 +195,12 @@ namespace YouTravel.Agent
 
 		private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			MapUtil.DrawPinOnMapBasedOnList(AllActivities, lstAllPlaces, TheMap);
+			MapUtil.DrawPinOnMapBasedOnList(AllActivities, lstAllPlaces, TheMap, true);
 		}
 
 		private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			MapUtil.DrawPinOnMapBasedOnList(ArrActivities, lstArrPlaces, TheMap);
+			MapUtil.DrawPinOnMapBasedOnList(ArrActivities, lstArrPlaces, TheMap, true);
 		}
 
 		private void btnAddArr_Click(object sender, RoutedEventArgs e)

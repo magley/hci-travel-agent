@@ -167,7 +167,7 @@ namespace YouTravel.Agent
 
 		private void PinToSelectedListItem()
 		{
-			MapUtil.DrawPinOnMapBasedOnList(Places, lstPlaces, MyMap);
+			MapUtil.DrawPinOnMapBasedOnList(Places, lstPlaces, MyMap, true);
 		}
 
 		private void btnEditPlace_Click(object sender, RoutedEventArgs e)

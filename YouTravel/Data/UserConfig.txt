@@ -1,4 +1,4 @@
-ToolbarVisible=False
+ToolbarVisible=True
 ToolbarNav_Visible=True
 ToolbarArrangement_Visible=True
 ToolbarPlace_Visible=True

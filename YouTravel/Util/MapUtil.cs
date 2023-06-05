@@ -78,7 +78,7 @@ namespace YouTravel.Util
 			}
 		}
 
-		public static void DrawPinOnMapBasedOnList(Collection<Place> places, ListBox viewList, Map map)
+		public static void DrawPinOnMapBasedOnList(Collection<Place> places, ListBox viewList, Map map, bool moveMapToPin)
 		{
 			if (places.Count == 0 || viewList.SelectedIndex == -1)
 			{
@@ -87,15 +87,18 @@ namespace YouTravel.Util
 			}
 
 			var selectedPlace = places[viewList.SelectedIndex];
-			DrawPin(selectedPlace, map);
+			DrawPin(selectedPlace, map, moveMapToPin);
 		}
 
-		public static void DrawPin(Place place, Map map)
+		public static void DrawPin(Place place, Map map, bool moveMapToPin)
 		{
 			var location = new Location(place.Lat, place.Long);
 			map.Children.Clear();
 			DrawImage(place, map);
-			map.Center = location;
+			if (moveMapToPin)
+			{
+				map.Center = location;
+			}
 		}
 
 		private static void DrawImage(Place? place, Map map)
