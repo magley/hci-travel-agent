@@ -8,6 +8,7 @@
 		xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF" 
 		xmlns:conv="clr-namespace:YouTravel.Util"
 		xmlns:model="clr-namespace:YouTravel.Model"
+		xmlns:u="clr-namespace:YouTravel.Util"
 		mc:Ignorable="d"
 		Style="{StaticResource PageDark}"
 		Loaded="Window_Loaded"
@@ -44,11 +45,11 @@
 		<StackPanel Grid.Column="1" Grid.Row="0" Margin="5">
 			<!-- Name -->
 			<Label Content="Name:"/>
-			<TextBox MinHeight="32" x:Name="textboxName" Width="250" HorizontalAlignment="Left" Text="{Binding Path=LocName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" VerticalContentAlignment="Center"/>
+			<TextBox u:HelpProvider.HelpKey="place_add" ToolTip="Place name" MinHeight="32" x:Name="textboxName" Width="250" HorizontalAlignment="Left" Text="{Binding Path=LocName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" VerticalContentAlignment="Center"/>
 
 			<!-- Description -->
 			<Label Content="Description:" Margin="0 10 0 0"/>
-			<TextBox MinHeight="150" TextWrapping="Wrap" Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+			<TextBox u:HelpProvider.HelpKey="place_add" ToolTip="Place description" MinHeight="150" TextWrapping="Wrap" Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
 
 			<!-- Lat-long (the first label is outside the grid for hor-alignment with the rest of the form). -->
 			<Grid Grid.Row="2" Grid.Column="1" Margin="0 20 0 0">
@@ -60,9 +61,9 @@
 				</Grid.ColumnDefinitions>
 
 				<Label Grid.Column="0" Content="Latitude:" />
-				<TextBox Grid.Column="1" Text="{Binding Path=Latitude, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.0000'}" TextAlignment="Right" VerticalContentAlignment="Center"/>
+				<TextBox u:HelpProvider.HelpKey="place_add" ToolTip="Latitude (double-click on the map to set automatically)" Grid.Column="1" Text="{Binding Path=Latitude, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.0000'}" TextAlignment="Right" VerticalContentAlignment="Center"/>
 				<Label Grid.Column="2" Content="Longitude:"/>
-				<TextBox Grid.Column="3" Text="{Binding Path=Longitude, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.0000'}" TextAlignment="Right" VerticalContentAlignment="Center"/>
+				<TextBox u:HelpProvider.HelpKey="place_add" ToolTip="Longitude (double-click on the map to set automatically)" Grid.Column="3" Text="{Binding Path=Longitude, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.0000'}" TextAlignment="Right" VerticalContentAlignment="Center"/>
 			</Grid>
 
 			<!-- Type radio group -->
@@ -72,9 +73,9 @@
 					<StackPanel.Resources>
 						<conv:ComparisonConverter x:Key="comparisonConverter" />
 					</StackPanel.Resources>
-					<RadioButton GroupName="Type" VerticalContentAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Attraction}}">Attraction</RadioButton>
-					<RadioButton GroupName="Type" VerticalContentAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Hotel}}">Hotel</RadioButton>
-					<RadioButton GroupName="Type" VerticalContentAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Restaurant}}">Restaurant</RadioButton>
+					<RadioButton u:HelpProvider.HelpKey="place_add" ToolTip="Tourist attraction" GroupName="Type" VerticalContentAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Attraction}}">Attraction</RadioButton>
+					<RadioButton u:HelpProvider.HelpKey="place_add" ToolTip="Hotel" GroupName="Type" VerticalContentAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Hotel}}">Hotel</RadioButton>
+					<RadioButton u:HelpProvider.HelpKey="place_add" ToolTip="Restaurant" GroupName="Type" VerticalContentAlignment="Center" IsChecked="{Binding Path=Type, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource comparisonConverter}, ConverterParameter={x:Static model:PlaceType.Restaurant}}">Restaurant</RadioButton>
 				</StackPanel>
 
 			</StackPanel>
@@ -89,14 +90,14 @@
 				<ColumnDefinition Width="Auto"/>
 			</Grid.ColumnDefinitions>
 
-			<Button Grid.Column="0" Margin="0 0 10 0" x:Name="btnCancel" Click="btnCancel_Click">
+			<Button u:HelpProvider.HelpKey="arrangement_add" Grid.Column="0" Margin="0 0 10 0" x:Name="btnCancel" Click="btnCancel_Click">
 				<DockPanel HorizontalAlignment="Stretch">
 					<Image Source="{StaticResource IcoCancel}" Height="20" Margin="5 0 5 0"/>
 					<Label Content="Cancel"/>
 				</DockPanel>
 			</Button>
 
-			<Button Grid.Column="2" Margin="0 0 5 0" x:Name="btnSaveChanges" Click="btnSaveChanges_Click">
+			<Button u:HelpProvider.HelpKey="arrangement_add" Grid.Column="2" Margin="0 0 5 0" x:Name="btnSaveChanges" Click="btnSaveChanges_Click">
 				<DockPanel HorizontalAlignment="Stretch">
 					<Image Source="{StaticResource IcoSave}" Height="20" Margin="5 0 5 0"/>
 					<Label Content="Save"/>
