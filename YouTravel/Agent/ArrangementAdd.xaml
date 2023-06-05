@@ -82,7 +82,7 @@
 				<ScrollViewer>
 					<StackPanel Margin="5">
 						<Label Margin="0 8 0 0" Content="Name"/>
-						<TextBox u:HelpProvider.HelpKey="arrangement_add" ToolTip="Arrangement name" MinHeight="32" Text="{Binding ArrName, Mode=TwoWay}" VerticalContentAlignment="Center" Width="250" HorizontalAlignment="Left" />
+						<TextBox x:Name="textboxName" u:HelpProvider.HelpKey="arrangement_add" ToolTip="Arrangement name" MinHeight="32" Text="{Binding ArrName, Mode=TwoWay}" VerticalContentAlignment="Center" Width="250" HorizontalAlignment="Left" />
 						
 						<Label Margin="0 8 0 0" Content="Description"/>
 						<TextBox u:HelpProvider.HelpKey="arrangement_add" ToolTip="Arrangement description" Text="{Binding Description, Mode=TwoWay}" Height="150" TextWrapping="Wrap" Width="500" HorizontalAlignment="Left"  AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>

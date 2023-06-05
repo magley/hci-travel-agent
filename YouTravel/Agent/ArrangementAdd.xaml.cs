@@ -9,6 +9,7 @@ using System.Linq;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -78,8 +79,15 @@ namespace YouTravel.Agent
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+			InitForm();
 			InitMapsApi();
 			LoadPlaces();
+		}
+
+		private void InitForm()
+		{
+			textboxName.Focus();
+			textboxName.SelectAll();
 		}
 
 		private void LoadPlaces()

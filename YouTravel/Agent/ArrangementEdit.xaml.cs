@@ -75,10 +75,17 @@ namespace YouTravel.Agent
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			InitForm();
 			InitCalendarRange();
 			InitMapsApi();
             LoadPlaces();
 			SetImage(Filename);
+		}
+
+		private void InitForm()
+		{
+			textboxName.Focus();
+			textboxName.SelectAll();
 		}
 
 		private void InitMapsApi()
