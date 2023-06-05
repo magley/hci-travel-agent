@@ -202,7 +202,7 @@
 		<!-- Toolbar Theme -->
 
 		<Style TargetType="{x:Type ToolBar}">
-			<Setter Property="Padding" Value="4"/>
+			<Setter Property="Padding" Value="0"/>
 			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
 			<Setter Property="Foreground" Value="White"/>
 			<Setter Property="FontSize" Value="16"/>
@@ -285,7 +285,7 @@
 								<Setter Property="Background" TargetName="Bd" Value="{StaticResource bg_dark2}"/>
 							</Trigger>
 							<Trigger Property="IsEnabled" Value="false">
-								<Setter Property="Foreground" Value="Red"/>
+								<Setter Property="Visibility" Value="Collapsed"/>
 							</Trigger>
 						</ControlTemplate.Triggers>
 					</ControlTemplate>
