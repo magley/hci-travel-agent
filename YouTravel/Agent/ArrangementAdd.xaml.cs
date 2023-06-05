@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using YouTravel.Model;
+using YouTravel.Shared;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
@@ -24,7 +25,7 @@ namespace YouTravel.Agent
 		void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
 		private List<Grid> pages = new();
-		private List<Label> steps = new();
+		private List<Button> steps = new();
 		public int PageIndex { get; set; } = 0;
 
         private string _arrName = "New Arrangement";
@@ -41,7 +42,7 @@ namespace YouTravel.Agent
         public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
         public double Price { get { return _price; } set { _price = value; DoPropertyChanged(nameof(Price)); } }
 		public string Filename { get { return _filename; } set { _filename = value; DoPropertyChanged(nameof(Filename)); } }
-		public string DurationText { get { return _durationText; } set { _durationText = value; DoPropertyChanged(nameof(DurationText)); UpdateCanMoveToNextPage(); } }
+		public string DurationText { get { return _durationText; } set { _durationText = value; DoPropertyChanged(nameof(DurationText)); } }
 
 		private DateTime? _start = null;
 		private DateTime? _end = null;
@@ -150,13 +151,12 @@ namespace YouTravel.Agent
 			}
 		}
 
-		private void MovePageIndex(int delta)
+		private void MoveToPage(int pageIndex)
 		{
-			PageIndex += delta;
-
+			PageIndex = pageIndex; // We need this.
 			btnPrev.IsEnabled = PageIndex > 0;
 			btnNext.IsEnabled = PageIndex < pages.Count - 1;
-			btnFinish.IsEnabled = PageIndex == pages.Count - 1;
+			btnFinish.IsEnabled = (PageIndex == pages.Count - 1) && CanFinish();
 
 			for (int i = 0; i < pages.Count; i++)
 			{
@@ -172,34 +172,29 @@ namespace YouTravel.Agent
 				}
 			}
 
-			UpdateCanMoveToNextPage();
 		}
 
-		private void UpdateCanMoveToNextPage()
+		private void MovePageIndex(int delta)
 		{
-			// Disable "Next" button if form isn't satisfied.
-			btnNext.IsEnabled = CanMoveToNextPage();
+			PageIndex += delta;
+			MoveToPage(PageIndex);
 		}
 
-		private bool CanMoveToNextPage()
+		private bool CanFinish()
 		{
-			if (PageIndex == 1) // Calendar page.
+			try
 			{
-				try
-				{
-					DateTime d1 = arrangementCalendar.SelectedDates[0];
-					DateTime d2 = arrangementCalendar.SelectedDates.Last();
-					return true;
-				}
-				catch (ArgumentOutOfRangeException)
-				{
-					return false;
-				}
+				DateTime d1 = arrangementCalendar.SelectedDates[0];
+				DateTime d2 = arrangementCalendar.SelectedDates.Last();
+				this.TxtConfirmDate.ClearValue(TextBox.ForegroundProperty);
+				return true;
 			}
-
-			return PageIndex < pages.Count - 1;
+			catch (ArgumentOutOfRangeException)
+			{
+				this.TxtConfirmDate.Foreground = new SolidColorBrush(new Color { R = 236, G = 64, B = 45, A = 255});
+				return false;
+			}
 		}
-
 
 		private void btnPrev_Click(object sender, RoutedEventArgs e)
 		{
@@ -400,5 +395,17 @@ namespace YouTravel.Agent
 		{
 			LoadPlaces();
 		}
-	}
+
+		private void Step1_Click(object sender, RoutedEventArgs e)
+		{
+			Button stepButton = (Button)sender;
+			for (int i = 0; i < steps.Count; i++)
+			{
+				if (steps[i] == stepButton)
+				{
+					MoveToPage(i);
+				}
+			}
+        }
+    }
 }

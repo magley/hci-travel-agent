@@ -36,11 +36,41 @@
 		<StackPanel Grid.Row="0" Grid.Column="0">
 			<Label FontWeight="Bold">Create an Arrangement.</Label>
 			<StackPanel Margin="8 16 0 0">
-				<Label x:Name="Step1" Content="Basic Info"/>
-				<Label x:Name="Step2" Content="Travel Duration"/>
-				<Label x:Name="Step3" Content="Photograph"/>
-				<Label x:Name="Step4" Content="Activities and Hotels"/>
-				<Label x:Name="Step5" Content="Complete"/>
+				<Button x:Name="Step1" Content="Basic Info" Margin="0 15 0 0" Click="Step1_Click">
+					<Button.Template>
+						<ControlTemplate TargetType="{x:Type Button}">
+							<ContentPresenter />
+						</ControlTemplate>
+					</Button.Template>
+				</Button>
+				<Button x:Name="Step2" Content="Travel Duration" Margin="0 15 0 0" Click="Step1_Click">
+					<Button.Template>
+						<ControlTemplate TargetType="{x:Type Button}">
+							<ContentPresenter />
+						</ControlTemplate>
+					</Button.Template>
+				</Button>
+				<Button x:Name="Step3" Content="Photograph" Margin="0 15 0 0" Click="Step1_Click">
+					<Button.Template>
+						<ControlTemplate TargetType="{x:Type Button}">
+							<ContentPresenter />
+						</ControlTemplate>
+					</Button.Template>
+				</Button>
+				<Button x:Name="Step4" Content="Activities and Hotels" Margin="0 15 0 0" Click="Step1_Click">
+					<Button.Template>
+						<ControlTemplate TargetType="{x:Type Button}">
+							<ContentPresenter />
+						</ControlTemplate>
+					</Button.Template>
+				</Button>
+				<Button x:Name="Step5" Content="Complete" Margin="0 15 0 0" Click="Step1_Click">
+					<Button.Template>
+						<ControlTemplate TargetType="{x:Type Button}">
+							<ContentPresenter />
+						</ControlTemplate>
+					</Button.Template>
+				</Button>
 			</StackPanel>
 		</StackPanel>
 
@@ -282,7 +312,7 @@
 						</Border>
 
 						<Border Margin="0 5 0 0" Grid.Row="2" Grid.Column="1" BorderThickness="1" BorderBrush="Gray">
-							<TextBlock Padding="5" Text="{Binding DurationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+							<TextBlock x:Name="TxtConfirmDate" Padding="5" Text="{Binding DurationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 						</Border>
 
 						<Border Margin="0 5 0 0" Grid.Row="3" Grid.Column="1" BorderThickness="1" BorderBrush="Gray" Width="100" HorizontalAlignment="Left">
