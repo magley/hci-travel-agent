@@ -52,7 +52,15 @@
 					<ColumnDefinition Width="Auto"/>
 				</Grid.ColumnDefinitions>
 
-				<TextBox u:HelpProvider.HelpKey="arrangement_filter" ToolTip="Enter a search query" Grid.Column="0" Grid.ColumnSpan="2" Height="23" VerticalAlignment="Top" x:Name="searchBox"/>
+				<TextBox 
+					u:HelpProvider.HelpKey="arrangement_filter" 
+					ToolTip="Enter a search query" 
+					Grid.Column="0"
+					Grid.ColumnSpan="2" 
+					Height="23" 
+					VerticalAlignment="Top" 
+					x:Name="searchBox"
+					KeyDown="searchBox_KeyDown"/>
 
 				<Button
 					Click="BtnClearSearch_Click"

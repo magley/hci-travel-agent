@@ -239,5 +239,14 @@ namespace YouTravel.Agent
 			btnPrevPage.IsEnabled = PageIndex > 1;
 			btnNextPage.IsEnabled = PageIndex < PageCount;
 		}
-	}
+
+		private void searchBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Return)
+			{
+				string searchQuery = searchBox.Text;
+				LoadArrangements();
+			}
+		}
+    }
 }

@@ -41,6 +41,9 @@
 
 		<BitmapImage x:Key="IcoBack" UriSource="../Res/IcoArrowLeft.png"/>
 		<BitmapImage x:Key="IcoForward" UriSource="../Res/IcoArrowRight.png"/>
+
+		<BitmapImage x:Key="IcoHelp" UriSource="../Res/IcoHelp.png"/>
+		<BitmapImage x:Key="IcoInfo" UriSource="../Res/IcoInfo.png"/>
 	</Window.Resources>
 
 	<Grid>
@@ -88,8 +91,16 @@
 					<MenuItem Header="Customize Toolbar" Click="On_OpenSettings_Toolbar" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
 				</MenuItem>
 				<MenuItem Header="_Help">
-					<MenuItem Header="About YouTravel" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
-					<MenuItem Header="Help" Command="ApplicationCommands.Help" InputGestureText="F1" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
+					<MenuItem Header="About YouTravel" Template="{DynamicResource FinalSubMenuItemTemplate}">
+						<MenuItem.Icon>
+							<Image Source="{StaticResource IcoInfo}"/>
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Help" Command="ApplicationCommands.Help" InputGestureText="F1" Template="{DynamicResource FinalSubMenuItemTemplate}">
+						<MenuItem.Icon>
+							<Image Source="{StaticResource IcoHelp}"/>
+						</MenuItem.Icon>
+					</MenuItem>
 				</MenuItem>
 			</Menu>
 

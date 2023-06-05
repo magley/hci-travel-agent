@@ -18,7 +18,9 @@
     <None Remove="Res\IcoChart.png" />
     <None Remove="Res\IcoCross.png" />
     <None Remove="Res\IcoDisk.png" />
+    <None Remove="Res\IcoHelp.png" />
     <None Remove="Res\IcoHotel2.png" />
+    <None Remove="Res\IcoInfo.png" />
     <None Remove="Res\IcoLocation.png" />
     <None Remove="Res\IcoLocationAdd.png" />
     <None Remove="Res\IcoMagnifier.png" />
@@ -59,7 +61,9 @@
     <Resource Include="Res\IcoChart.png" />
     <Resource Include="Res\IcoCross.png" />
     <Resource Include="Res\IcoDisk.png" />
+    <Resource Include="Res\IcoHelp.png" />
     <Resource Include="Res\IcoHotel2.png" />
+    <Resource Include="Res\IcoInfo.png" />
     <Resource Include="Res\IcoLocation.png" />
     <Resource Include="Res\IcoLocationAdd.png" />
     <Resource Include="Res\IcoMagnifier.png" />
