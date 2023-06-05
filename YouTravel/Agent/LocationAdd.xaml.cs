@@ -90,7 +90,7 @@ namespace YouTravel.Agent
 		{
 			e.Handled = true;
 
-			Point mousePos = e.GetPosition(this);
+			Point mousePos = e.GetPosition(MyMap);
 			Location latLong = MyMap.ViewportPointToLocation(mousePos);
 
 			// HACK: These 2 lines are a hack but we don't want MoveMapToLocation() to be called twice.

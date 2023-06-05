@@ -162,7 +162,7 @@
 							x:Name="TheMap" 
 							CredentialsProvider="(This value is set in the code-behind)"
 							MouseDoubleClick="TheMap_MouseDoubleClick"
-							Mode="Road"/>
+							/>
 
 					<Grid Grid.Row="0" Grid.Column="1" Margin="5">
 						<Grid.RowDefinitions>

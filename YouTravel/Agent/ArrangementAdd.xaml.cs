@@ -263,7 +263,7 @@ namespace YouTravel.Agent
         private void TheMap_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             e.Handled = true; // Prevent other events from firing up (in this case, zooming in at cursor).
-            Point mousePos = e.GetPosition(this);
+            Point mousePos = e.GetPosition(TheMap);
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
             ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong));
