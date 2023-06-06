@@ -141,6 +141,7 @@
 			Grid.Column="1"
 			x:Name="arrangementsList"
 			ItemsSource="{Binding}"
+			SelectionChanged="arrangementsList_SelectionChanged"
 			Margin="10"
 			u:HelpProvider.HelpKey="arrangement"
 			>

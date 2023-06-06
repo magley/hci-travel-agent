@@ -33,6 +33,8 @@ namespace YouTravel.Agent
 
         public ICommand CmdFocusSearch { get; private set; }
 
+        private Arrangement? _selectedArrangement = null;
+
         public ArrangementList()
         {
             InitializeComponent();
@@ -86,7 +88,7 @@ namespace YouTravel.Agent
 				foreach (var v in afterSearch)
 				{
 					Arrangements.Add(v);
-				}   
+				}
             }
 		}
 
@@ -115,6 +117,27 @@ namespace YouTravel.Agent
 			}
 
 			arrangementsList.DataContext = ArrangementsCurrentPage;
+            ReselectArrangement();
+		}
+
+        private void ReselectArrangement()
+        {
+			if (_selectedArrangement != null)
+            {
+                int index = -1;
+                for (int i = 0; i < ArrangementsCurrentPage.Count; i++)
+                {
+                    if (ArrangementsCurrentPage[i].Id == _selectedArrangement.Id)
+                    {
+						index = i;
+                    }
+                }
+
+                if (index > -1)
+                {
+                    arrangementsList.SelectedIndex = index;
+				}
+			}
 		}
 
         private void OnArrangementVisibleCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -250,5 +273,16 @@ namespace YouTravel.Agent
 				LoadArrangements();
 			}
 		}
-    }
+
+		private void arrangementsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+            try
+            {
+                _selectedArrangement = ArrangementsCurrentPage[arrangementsList.SelectedIndex];
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+		}
+	}
 }
