@@ -5,7 +5,8 @@ namespace YouTravel.Model
 	public class TravelContext : DbContext
 	{
 		public DbSet<Arrangement> Arrangements { get; set; }
-		public DbSet<Location> Locations { get; set; }
+		public DbSet<Place> Places { get; set; }
+		public DbSet<Reservation> Reservations { get; set; }
 
 		private static bool _created = false;
 		public TravelContext()
