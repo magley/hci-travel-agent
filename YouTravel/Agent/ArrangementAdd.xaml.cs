@@ -167,8 +167,8 @@ namespace YouTravel.Agent
 		{
 			PageIndex = pageIndex; // We need this.
 			btnPrev.IsEnabled = PageIndex > 0;
-			btnNext.IsEnabled = PageIndex < pages.Count - 1;
-			btnFinish.IsEnabled = (PageIndex == pages.Count - 1) && CanFinish();
+			btnNext.IsEnabled = PageIndex < pages.Count - 1 && CanGoNext();
+			btnFinish.IsEnabled = (PageIndex == pages.Count - 1);
 
 			for (int i = 0; i < pages.Count; i++)
 			{
@@ -184,6 +184,7 @@ namespace YouTravel.Agent
 				}
 			}
 
+			UpdateNavList();
 		}
 
 		private void MovePageIndex(int delta)
@@ -192,19 +193,42 @@ namespace YouTravel.Agent
 			MoveToPage(PageIndex);
 		}
 
-		private bool CanFinish()
+		private bool CanGoNext()
 		{
+			if (PageIndex == 1) // Calendar page.
+			{
+				try
+				{
+					DateTime d1 = arrangementCalendar.SelectedDates[0];
+					DateTime d2 = arrangementCalendar.SelectedDates.Last();
+					return true;
+				}
+				catch (ArgumentOutOfRangeException)
+				{
+					return false;
+				}
+			}
+
+			return PageIndex < pages.Count - 1;
+		}
+
+		private void UpdateNavList()
+		{
+			bool calendarFilledIn = false;
 			try
 			{
 				DateTime d1 = arrangementCalendar.SelectedDates[0];
 				DateTime d2 = arrangementCalendar.SelectedDates.Last();
-				this.TxtConfirmDate.ClearValue(TextBox.ForegroundProperty);
-				return true;
+				calendarFilledIn = true;
 			}
 			catch (ArgumentOutOfRangeException)
 			{
-				this.TxtConfirmDate.Foreground = new SolidColorBrush(new Color { R = 236, G = 64, B = 45, A = 255});
-				return false;
+				calendarFilledIn = false;
+			}
+
+			for (int i = 2; i < steps.Count; i++)
+			{
+				steps[i].IsEnabled = calendarFilledIn;
 			}
 		}
 
@@ -287,7 +311,9 @@ namespace YouTravel.Agent
                 DateTime d1 = calendar.SelectedDates[0];
                 DateTime d2 = calendar.SelectedDates.Last();
                 SetArrangementDates(d1, d2);
-            }
+				UpdateNavList();
+				btnNext.IsEnabled = PageIndex < pages.Count - 1 && CanGoNext();
+			}
             catch (ArgumentOutOfRangeException)
             {
                 return;
