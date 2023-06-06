@@ -252,7 +252,11 @@ namespace YouTravel.Agent
         {
             string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
             TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
-			
+			TheMap.ZoomLevel = 8;
+			var lat = UserConfig.Instance.StartLocation_Lat;
+			var lon = UserConfig.Instance.StartLocation_Long;
+			TheMap.Center = new(lat, lon);
+
 			DrawMap();
 		}
 

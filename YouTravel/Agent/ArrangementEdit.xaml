@@ -61,6 +61,7 @@
 									SelectionMode="SingleRange" 
 									SelectedDatesChanged="Calendar_SelectedDatesChanged" 
 									IsTodayHighlighted="True" 
+									PreviewMouseUp="arrangementCalendar_PreviewMouseUp"
 									DisplayDateStart="{x:Static sys:DateTime.Today}"
 									CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
 									/>

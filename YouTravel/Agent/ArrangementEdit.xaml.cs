@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
@@ -94,6 +95,10 @@ namespace YouTravel.Agent
 		{
 			string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
 			TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
+			TheMap.ZoomLevel = 8;
+			var lat = UserConfig.Instance.StartLocation_Lat;
+			var lon = UserConfig.Instance.StartLocation_Long;
+			TheMap.Center = new(lat, lon);
 		}
 
 		private void InitCalendarRange()
@@ -290,6 +295,13 @@ namespace YouTravel.Agent
 			{
 				AllActivities.Add(v);
 			}
+
+			// Select first if possible.
+
+			if (lstArrPlaces.SelectedIndex == -1 && ArrActivities.Count > 0)
+			{
+				lstArrPlaces.SelectedIndex = 0;
+			}
 		}
 
 		private void btn_SelectImage_Click(object sender, RoutedEventArgs e)
@@ -327,6 +339,15 @@ namespace YouTravel.Agent
 		private void CbActivity_Filter(object sender, RoutedEventArgs e)
 		{
 			LoadPlaces();
+		}
+
+		private void arrangementCalendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+		{
+			base.OnPreviewMouseUp(e);
+			if (Mouse.Captured is Calendar || Mouse.Captured is CalendarItem)
+			{
+				Mouse.Capture(null);
+			}
 		}
 	}
 }
