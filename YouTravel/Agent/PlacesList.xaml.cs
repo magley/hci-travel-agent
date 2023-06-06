@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.ObjectModel;
@@ -47,6 +48,10 @@ namespace YouTravel.Agent
 			PlacesCurrentPage.CollectionChanged += OnPlaceCurrentPageCollectionChanged;
 
             CmdFocusSearch = new RelayCommand(o => FocusSearch(), o => true);
+
+			var lat = UserConfig.Instance.StartLocation_Lat;
+			var lon = UserConfig.Instance.StartLocation_Long;
+			MyMap.Center = new (lat, lon);
         }
 
         private void FocusSearch()
@@ -172,6 +177,11 @@ namespace YouTravel.Agent
 					lstPlaces.SelectedIndex = index;
 				}
 			}
+
+			if (PlacesCurrentPage.Count > 0 && _selectedPlace == null)
+			{
+				lstPlaces.SelectedIndex = 0;
+			}
 		}
 
 		private void InitMapsApi()
@@ -242,6 +252,11 @@ namespace YouTravel.Agent
 				{
 					lstPlaces.SelectedIndex = 0;
 				}
+				if (Places.Count == 0)
+				{
+					MapUtil.ClearPins(MyMap);
+					MapUtil.DrawPinOnMapBasedOnList(Places, lstPlaces, MyMap, true);
+				}
 			}
 		}
 
@@ -283,7 +298,7 @@ namespace YouTravel.Agent
 
 		private void searchBox_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Key == Key.Return)
+			if (e.Key == System.Windows.Input.Key.Return)
 			{
 				string searchQuery = searchBox.Text;
 				LoadPlaces();

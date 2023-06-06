@@ -78,6 +78,11 @@ namespace YouTravel.Util
 			}
 		}
 
+		public static void ClearPins(Map map)
+		{
+			map.Children.Clear();
+		}
+
 		public static void DrawPinOnMapBasedOnList(Collection<Place> places, ListBox viewList, Map map, bool moveMapToPin)
 		{
 			if (places.Count == 0 || viewList.SelectedIndex == -1)
