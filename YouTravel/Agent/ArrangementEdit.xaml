@@ -251,17 +251,10 @@
 
 		<Grid Grid.Row="1" Grid.Column="1">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button u:HelpProvider.HelpKey="arrangement_edit" Margin="0 0 10 0" x:Name="btn_SaveDraft" Click="btn_SaveDraft_Click"> 
-					<DockPanel HorizontalAlignment="Stretch">
-						<Image Source="{StaticResource IcoSave}" Height="20" Margin="5 0 5 0"/>
-						<Label Content="Save Draft"/>
-					</DockPanel>
-				</Button>
-
 				<Button u:HelpProvider.HelpKey="arrangement_edit" x:Name="btn_PublishChanges" Click="btn_PublishChanges_Click">
 					<DockPanel HorizontalAlignment="Stretch">
 						<Image Source="{StaticResource IcoPublish}" Height="20" Margin="5 0 5 0"/>
-						<Label Content="Publish Changes"/>
+						<Label Content="Save"/>
 					</DockPanel>
 				</Button>
 			</StackPanel>
