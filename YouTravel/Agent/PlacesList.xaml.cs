@@ -36,7 +36,9 @@ namespace YouTravel.Agent
 
         public ICommand CmdFocusSearch { get; private set; }
 
-        public PlacesList()
+		private Place? _selectedPlace = null;
+
+		public PlacesList()
 		{
 			InitializeComponent();
 			DataContext = this;
@@ -119,10 +121,6 @@ namespace YouTravel.Agent
 
 				// -SEARCH	
 
-				if (Places.Count > 0)
-				{
-					lstPlaces.SelectedIndex = 0;
-                }
                 PinToSelectedListItem();
 			}
 		}
@@ -152,6 +150,28 @@ namespace YouTravel.Agent
 			}
 
 			lstPlaces.DataContext = PlacesCurrentPage;
+
+			ReselectPlace();
+		}
+
+		private void ReselectPlace()
+		{
+			if (_selectedPlace != null)
+			{
+				int index = -1;
+				for (int i = 0; i < PlacesCurrentPage.Count; i++)
+				{
+					if (PlacesCurrentPage[i].Id == _selectedPlace.Id)
+					{
+						index = i;
+					}
+				}
+
+				if (index > -1)
+				{
+					lstPlaces.SelectedIndex = index;
+				}
+			}
 		}
 
 		private void InitMapsApi()
@@ -164,6 +184,14 @@ namespace YouTravel.Agent
 		private void lstPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			PinToSelectedListItem();
+
+			try
+			{
+				_selectedPlace = PlacesCurrentPage[lstPlaces.SelectedIndex];
+			}
+			catch (ArgumentOutOfRangeException)
+			{
+			}
 		}
 
 		private void PinToSelectedListItem()
@@ -209,7 +237,12 @@ namespace YouTravel.Agent
 
 				SoundUtil.PlaySound("snd_delete.wav");
 				LoadPlaces();
-            }
+
+				if (lstPlaces.SelectedIndex == -1 && Places.Count > 0)
+				{
+					lstPlaces.SelectedIndex = 0;
+				}
+			}
 		}
 
 		private void BtnSearch_Click(object sender, RoutedEventArgs e)
