@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -271,7 +272,8 @@ namespace YouTravel.Agent
 
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            Calendar calendar = (Calendar)sender;
+			Mouse.Capture(null);
+			Calendar calendar = (Calendar)sender;
 
             try
             {
@@ -415,5 +417,14 @@ namespace YouTravel.Agent
 				}
 			}
         }
-    }
+
+		private void arrangementCalendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+		{
+			base.OnPreviewMouseUp(e);
+			if (Mouse.Captured is Calendar || Mouse.Captured is System.Windows.Controls.Primitives.CalendarItem)
+			{
+				Mouse.Capture(null);
+			}
+		}
+	}
 }

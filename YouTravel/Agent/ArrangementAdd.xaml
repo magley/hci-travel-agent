@@ -104,6 +104,7 @@
 								x:Name="arrangementCalendar" 
 								SelectionMode="SingleRange" 
 								SelectedDatesChanged="Calendar_SelectedDatesChanged" 
+								PreviewMouseUp="arrangementCalendar_PreviewMouseUp"
 								IsTodayHighlighted="True" 
 								DisplayDateStart="{x:Static sys:DateTime.Today}"
 								CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
