@@ -207,6 +207,7 @@ namespace YouTravel.Agent
 				ctx.Places.Remove(place);
 				ctx.SaveChanges();
 
+				SoundUtil.PlaySound("snd_delete.wav");
 				LoadPlaces();
             }
 		}

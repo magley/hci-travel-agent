@@ -185,8 +185,9 @@ namespace YouTravel.Agent
                 ctx.Arrangements.Remove(arr);
                 ctx.SaveChanges();
 
+				SoundUtil.PlaySound("snd_delete.wav");
                 LoadArrangements();
-            }
+			}
         }
 
         private void CbShowActive_Click(object sender, RoutedEventArgs e)
