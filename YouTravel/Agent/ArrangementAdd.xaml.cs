@@ -360,6 +360,8 @@ namespace YouTravel.Agent
 				db.SaveChanges();
             }
 
+			new ConfirmBox($"Arrangement \"{ArrName}\" added.", "Add arrangement", "OK", null, ConfirmBox.ConfirmBoxIcon.INFO).ShowDialog();
+
 			if (returnToDashboard)
 			{
 				((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementList());

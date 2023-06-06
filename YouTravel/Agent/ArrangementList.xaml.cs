@@ -160,7 +160,7 @@ namespace YouTravel.Agent
         private void RemoveArrangement_Click(object sender, RoutedEventArgs e)
         {
             bool confirmed = false;
-            ConfirmBox confirmBox = new("Are you sure you want to delete this arrangement?", "Delete Confirmation", "Delete", "Cancel");
+            ConfirmBox confirmBox = new("Are you sure you want to delete this arrangement?", "Delete confirmation", "Delete", "Cancel", ConfirmBox.ConfirmBoxIcon.QUESTION);
             if (confirmBox.ShowDialog() == false)
             {
                 confirmed = confirmBox.Result;

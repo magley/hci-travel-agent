@@ -182,7 +182,7 @@ namespace YouTravel.Agent
 		private void btnRemovePlace_Click(object sender, RoutedEventArgs e)
 		{
 			bool confirmed = false;
-            ConfirmBox confirmBox = new("Are you sure you want to delete this place?", "Delete Confirmation", "Delete", "Cancel");
+            ConfirmBox confirmBox = new("Are you sure you want to delete this place?", "Delete confirmation", "Delete", "Cancel", ConfirmBox.ConfirmBoxIcon.QUESTION);
 			if (confirmBox.ShowDialog() == false)
             {
 				confirmed = confirmBox.Result;

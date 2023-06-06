@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
+using YouTravel.Shared;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
@@ -143,7 +144,9 @@ namespace YouTravel.Agent
 
 				ctx.SaveChanges();
 			}
-		
+
+			new ConfirmBox($"Place \"{LocName}\" added.", "Add place", "OK", null, ConfirmBox.ConfirmBoxIcon.INFO).ShowDialog();
+
 			if (shouldReturnToPlacesList)
 			{
 				((AgentMainWindow)Window.GetWindow(this)).OpenPage(new PlacesList());

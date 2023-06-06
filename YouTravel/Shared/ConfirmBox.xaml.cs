@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Media;
+using System.Windows;
 
 namespace YouTravel.Shared
 {
@@ -8,19 +9,68 @@ namespace YouTravel.Shared
         public string MessageBody { get; set; }
         public string YesText { get; set; }
         public string NoText { get; set; }
+        private ConfirmBoxIcon icon;
 
-        public ConfirmBox(string messageBody, string windowTitle, string yesText, string noText)
+		public enum ConfirmBoxIcon
+        {
+            QUESTION,
+            INFO
+        }
+
+        public ConfirmBox(string messageBody, string windowTitle, string? yesText, string? noText, ConfirmBoxIcon icon)
         {
             InitializeComponent();
             DataContext = this;
             MessageBody = messageBody;
-            YesText = yesText;
-            NoText = noText;
+
+            this.icon = icon;
+
+            if (yesText == null)
+            {
+                btnYes.Visibility = Visibility.Collapsed;
+			}
+            else
+            {
+                YesText = yesText;
+
+			}
+
+			if (noText == null)
+			{
+				btnNo.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				NoText = noText;
+			}
+			
             Title = windowTitle;
 
             Application curApp = Application.Current;
             Window mainWindow = curApp.MainWindow;
             this.Owner = mainWindow;
+
+            SetIcon();
+        }
+
+        private void SetIcon()
+        {
+            imgIconInfo.Visibility = Visibility.Collapsed;
+            imgIcoQuestion.Visibility = Visibility.Collapsed;
+
+            switch (icon)
+            {
+                case ConfirmBoxIcon.INFO:
+                    SystemSounds.Beep.Play();
+					imgIconInfo.Visibility = Visibility.Visible;
+                    break;
+				case ConfirmBoxIcon.QUESTION:
+					SystemSounds.Asterisk.Play();
+					imgIcoQuestion.Visibility = Visibility.Visible;
+					break;
+                default:
+                    return;
+            }
         }
 
         private void btnYes_Click(object sender, RoutedEventArgs e)
