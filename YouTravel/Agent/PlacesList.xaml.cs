@@ -67,7 +67,8 @@ namespace YouTravel.Agent
 		{
 			InitDbContext();
 			InitMapsApi();
-        }
+			Mouse.OverrideCursor = null;
+		}
 
 		private void InitDbContext()
 		{

@@ -52,7 +52,8 @@ namespace YouTravel.Agent
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             InitDbContext();
-        }
+			Mouse.OverrideCursor = null;
+		}
 
         private void InitDbContext()
         {

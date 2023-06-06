@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Util;
@@ -80,6 +81,7 @@ namespace YouTravel.Agent
 			InitMapsApi();
             LoadPlaces();
 			SetImage(Filename);
+			Mouse.OverrideCursor = null;
 		}
 
 		private void InitForm()

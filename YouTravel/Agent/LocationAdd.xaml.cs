@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Util;
@@ -65,6 +66,7 @@ namespace YouTravel.Agent
 		{
 			InitMapsApi();
 			InitForm();
+			Mouse.OverrideCursor = null;
 		}
 
 		private void InitForm()

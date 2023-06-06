@@ -83,6 +83,7 @@ namespace YouTravel.Agent
 			InitForm();
 			InitMapsApi();
 			LoadPlaces();
+			Mouse.OverrideCursor = null;
 		}
 
 		private void InitForm()

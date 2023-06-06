@@ -62,6 +62,7 @@ namespace YouTravel.Agent
 
 		public void OpenPage(Page page)
 		{
+			Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
 			myFrame.NavigationService.Navigate(page);
 
 			// HACK: This is kinda ugly but the alternative is create an abstract class for this one single thing which is worse.
