@@ -220,7 +220,7 @@ namespace YouTravel.Agent
 		{
 			Button button = (Button)sender;
 
-			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd());
+			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd(true));
 		}
 
 		private void btnPrevPage_Click(object sender, RoutedEventArgs e)

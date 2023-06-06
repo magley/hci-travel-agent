@@ -29,7 +29,9 @@ namespace YouTravel.Agent
 		public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
 		public PlaceType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); MoveMapToLocation(); } }
 
-		public LocationAdd(Place place)
+		private bool shouldReturnToPlacesList;
+
+		public LocationAdd(Place place, bool shouldReturnToPlacesList)
 		{
 			InitializeComponent();
 
@@ -41,10 +43,11 @@ namespace YouTravel.Agent
 			Description = place.Description;
 
 			MyMap.Center = new(Latitude, Longitude);
+			this.shouldReturnToPlacesList = shouldReturnToPlacesList;
 			DataContext = this;
 		}
 
-		public LocationAdd(Location? loc = null)
+		public LocationAdd(Location? loc, bool shouldReturnToPlacesList)
         {
             InitializeComponent();
 
@@ -60,8 +63,9 @@ namespace YouTravel.Agent
             }
 
 			MyMap.Center = new(Latitude, Longitude);
+			this.shouldReturnToPlacesList = shouldReturnToPlacesList;
 			DataContext = this;
-        }
+		}
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			InitMapsApi();
@@ -139,13 +143,17 @@ namespace YouTravel.Agent
 
 				ctx.SaveChanges();
 			}
-
+		
+			if (shouldReturnToPlacesList)
+			{
+				((AgentMainWindow)Window.GetWindow(this)).OpenPage(new PlacesList());
+			}
 			((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
-        }
+		}
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
-        }
+		}
     }
 }

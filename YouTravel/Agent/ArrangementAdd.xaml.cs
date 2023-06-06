@@ -49,12 +49,13 @@ namespace YouTravel.Agent
 		private DateTime? _start = null;
 		private DateTime? _end = null;
 
+		private bool returnToDashboard = false;
 		private MapBundle mapBundle = new();
 
 		public ObservableCollection<Place> AllActivities { get; set; } = new();
         public ObservableCollection<Place> ArrActivities { get; set; } = new();
 
-        public ArrangementAdd()
+        public ArrangementAdd(bool returnToMainView)
         {
             InitializeComponent();
 			DataContext = this;
@@ -74,6 +75,7 @@ namespace YouTravel.Agent
 
 			MovePageIndex(0);
 
+			returnToDashboard = returnToMainView;
 			mapBundle.Map = TheMap;
 			ArrActivities.CollectionChanged += (a, b) => DrawMap();
 		}
@@ -268,7 +270,7 @@ namespace YouTravel.Agent
             Point mousePos = e.GetPosition(TheMap);
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong));
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong, false));
         }
 
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -358,13 +360,17 @@ namespace YouTravel.Agent
 				db.SaveChanges();
             }
 
+			if (returnToDashboard)
+			{
+				((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementList());
+			}
 			((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
-        }
+		}
 
 		private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
@@ -422,7 +428,7 @@ namespace YouTravel.Agent
 		private void arrangementCalendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
 		{
 			base.OnPreviewMouseUp(e);
-			if (Mouse.Captured is Calendar || Mouse.Captured is System.Windows.Controls.Primitives.CalendarItem)
+			if (Mouse.Captured is Calendar || Mouse.Captured is CalendarItem)
 			{
 				Mouse.Capture(null);
 			}

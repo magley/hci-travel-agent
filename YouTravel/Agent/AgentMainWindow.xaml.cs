@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Maps.MapControl.WPF;
+using System;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -48,10 +49,10 @@ namespace YouTravel.Agent
 			CmdNavigateBack = new RelayCommand(o => PageBack(), o => true);
 			CmdNavigateForward = new RelayCommand(o => PageNext(), o => true);
 
-			CmdNewArrangement = new RelayCommand(o => OpenPage(new ArrangementAdd()), o => true);
+			CmdNewArrangement = new RelayCommand(o => OpenPage(new ArrangementAdd(true)), o => true);
 			CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
 
-			CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd()), o => true);
+			CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd((Location)null, true)), o => true);
 			CmdViewPlaces = new RelayCommand(o => OpenPage(new PlacesList()), o => true);
 		}
 
@@ -133,12 +134,12 @@ namespace YouTravel.Agent
 
 		private void On_AddArrangement(object sender, RoutedEventArgs e)
 		{
-			OpenPage(new ArrangementAdd());
+			OpenPage(new ArrangementAdd(true));
 		}
 
 		private void On_AddPlace(object sender, RoutedEventArgs e)
 		{
-			OpenPage(new LocationAdd());
+			OpenPage(new LocationAdd((Location)null, true));
 		}
 
 		private void On_OpenSettings(object sender, RoutedEventArgs e)
