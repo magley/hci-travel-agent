@@ -323,6 +323,7 @@ namespace YouTravel.Agent
 			mapBundle.RouteLocations = ArrActivities.Select(m => new Location(m.Lat, m.Long)).ToList();
 			// TODO: Fetch the actual route using Bing Maps' API.
 
+			mapBundle.Pins = ArrActivities;
 			MapUtil.Redraw(mapBundle);
 		}
 
@@ -441,13 +442,14 @@ namespace YouTravel.Agent
 
 		private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			mapBundle.Pin = (Place)lstAllPlaces.SelectedItem;
+			mapBundle.Pins = new List<Place>(ArrActivities);
+			mapBundle.Pins.Add((Place)lstAllPlaces.SelectedItem);
 			MapUtil.Redraw(mapBundle);
 		}
 
 		private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			mapBundle.Pin = (Place)lstArrPlaces.SelectedItem;
+			mapBundle.Pins = ArrActivities;
 			MapUtil.Redraw(mapBundle);
 		}
 
