@@ -78,7 +78,7 @@
 		<Rectangle Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" Fill="LightGray" Width="1"/>
 
 		<Grid Grid.Row="0" Grid.Column="2">
-			<Grid Grid.Row="0" x:Name="Page1" Visibility="Visible">
+			<Grid Grid.Row="0" x:Name="Page1" Visibility="Hidden">
 				<ScrollViewer>
 					<StackPanel Margin="5">
 						<Label Margin="0 8 0 0" Content="Name"/>
@@ -144,7 +144,7 @@
 				</ScrollViewer>
 				
 			</Grid>
-			<Grid Grid.Row="0" x:Name="Page4" Visibility="Hidden">
+			<Grid Grid.Row="0" x:Name="Page4" Visibility="Visible">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition/>
@@ -229,6 +229,7 @@
 								</DataTemplate>
 							</ListBox.ItemTemplate>
 						</ListBox>
+						<Label x:Name="lblNoAllPlaces" Grid.Row="1" Grid.Column="1" Content="No places." HorizontalAlignment="Center" VerticalAlignment="Center"/>
 					</Grid>
 
 					<StackPanel
@@ -278,6 +279,7 @@
 							</DataTemplate>
 						</ListBox.ItemTemplate>
 					</ListBox>
+					<Label x:Name="lblNoArrPlaces"  Grid.Row="2" Grid.Column="1" Content="No places in arrangement." HorizontalAlignment="Center" VerticalAlignment="Center"/>
 				</Grid>
 			</Grid>
 			<Grid Grid.Row="0" x:Name="Page5" Visibility="Hidden">

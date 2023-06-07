@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -47,6 +48,7 @@ namespace YouTravel.Agent
 
 		public ObservableCollection<Place> AllActivities { get; set; } = new();
 		public ObservableCollection<Place> ArrActivities { get; set; } = new();
+		private MapBundle mapBundle = new();
 
 		public ArrangementEdit(Arrangement arr)
         {
@@ -60,9 +62,9 @@ namespace YouTravel.Agent
             Filename = arr.ImageFname;
             Start = arr.Start;
             End = arr.End;
+			mapBundle.Map = TheMap;
 
-
-            using (var db = new TravelContext())
+			using (var db = new TravelContext())
             {
                 // NOTE: This is an issue with lazy loading: you have to explicitly
                 // tell the context to fetch the other entity, too.
@@ -73,6 +75,19 @@ namespace YouTravel.Agent
                     ArrActivities.Add(place);
                 }
             }
+
+			ArrActivities.CollectionChanged += (a, b) => DrawMap();
+			ArrActivities.CollectionChanged += (a, b) => ShowPlacesLabels();
+			AllActivities.CollectionChanged += (a, b) => ShowPlacesLabels();
+		}
+
+		private void DrawMap()
+		{
+			mapBundle.RouteLocations = ArrActivities.Select(m => new Location(m.Lat, m.Long)).ToList();
+			// TODO: Fetch the actual route using Bing Maps' API.
+
+			mapBundle.Pins = ArrActivities;
+			MapUtil.Redraw(mapBundle);
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -105,7 +120,6 @@ namespace YouTravel.Agent
         {
             arrangementCalendar.SelectedDates.AddRange(Start, End);
 			arrangementCalendar.DisplayDateStart = Start;
-
 		}
 
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -202,12 +216,15 @@ namespace YouTravel.Agent
 
 		private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			MapUtil.DrawPinOnMapBasedOnList(AllActivities, lstAllPlaces, TheMap, true);
+			mapBundle.Pins = new List<Place>(ArrActivities);
+			mapBundle.Pins.Add((Place)lstAllPlaces.SelectedItem);
+			MapUtil.Redraw(mapBundle);
 		}
 
 		private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			MapUtil.DrawPinOnMapBasedOnList(ArrActivities, lstArrPlaces, TheMap, true);
+			mapBundle.Pins = ArrActivities;
+			MapUtil.Redraw(mapBundle);
 		}
 
 		private void btnAddArr_Click(object sender, RoutedEventArgs e)
@@ -302,6 +319,12 @@ namespace YouTravel.Agent
 			{
 				lstArrPlaces.SelectedIndex = 0;
 			}
+		}
+
+		private void ShowPlacesLabels()
+		{
+			lblNoAllPlaces.Visibility = AllActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+			lblNoArrPlaces.Visibility = ArrActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void btn_SelectImage_Click(object sender, RoutedEventArgs e)

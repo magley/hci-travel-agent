@@ -80,6 +80,9 @@ namespace YouTravel.Agent
 			ArrActivities.CollectionChanged += (a, b) => DrawMap();
 			ArrActivities.CollectionChanged += (a, b) => UpdateSummaryPlacesVisibility();
 
+			ArrActivities.CollectionChanged += (a, b) => ShowPlacesLabels();
+			AllActivities.CollectionChanged += (a, b) => ShowPlacesLabels();
+
 			UpdateSummaryPlacesVisibility();
 		}
 
@@ -264,6 +267,12 @@ namespace YouTravel.Agent
 			}
 		}
 
+		private void ShowPlacesLabels()
+		{
+			lblNoAllPlaces.Visibility = AllActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+			lblNoArrPlaces.Visibility = ArrActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+		}
+
 		private void btnPrev_Click(object sender, RoutedEventArgs e)
 		{
 			MovePageIndex(-1);
@@ -323,6 +332,7 @@ namespace YouTravel.Agent
 			mapBundle.RouteLocations = ArrActivities.Select(m => new Location(m.Lat, m.Long)).ToList();
 			// TODO: Fetch the actual route using Bing Maps' API.
 
+			mapBundle.Pins = ArrActivities;
 			MapUtil.Redraw(mapBundle);
 		}
 
@@ -441,13 +451,14 @@ namespace YouTravel.Agent
 
 		private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			mapBundle.Pin = (Place)lstAllPlaces.SelectedItem;
+			mapBundle.Pins = new List<Place>(ArrActivities);
+			mapBundle.Pins.Add((Place)lstAllPlaces.SelectedItem);
 			MapUtil.Redraw(mapBundle);
 		}
 
 		private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			mapBundle.Pin = (Place)lstArrPlaces.SelectedItem;
+			mapBundle.Pins = ArrActivities;
 			MapUtil.Redraw(mapBundle);
 		}
 

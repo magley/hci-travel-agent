@@ -145,7 +145,10 @@ namespace YouTravel.Agent
 				ctx.SaveChanges();
 			}
 
-			new ConfirmBox($"Place \"{LocName}\" added.", "Add place", "OK", null, ConfirmBox.ConfirmBoxIcon.INFO).ShowDialog();
+			string verb = creatingNew ? "added" : "updated";
+			string verb2 = creatingNew ? "Add" : "Update";
+
+			new ConfirmBox($"Place \"{LocName}\" {verb}.", $"{verb2} place", "OK", null, ConfirmBox.ConfirmBoxIcon.INFO).ShowDialog();
 
 			if (shouldReturnToPlacesList)
 			{
