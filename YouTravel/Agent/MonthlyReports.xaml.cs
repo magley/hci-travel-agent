@@ -4,21 +4,29 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
 using YouTravel.Model;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
-    public partial class ArrangementReport : Page
+    /// <summary>
+    /// Interaction logic for MonthlyReports.xaml
+    /// </summary>
+    public partial class MonthlyReports : Page
     {
         public Paginator<Reservation> Paginator = new();
-
-        public Arrangement Arrangement { get; set; }
-
-        public ArrangementReport(Arrangement arrangement)
+        public MonthlyReports()
         {
             InitializeComponent();
             DataContext = this;
@@ -26,28 +34,37 @@ namespace YouTravel.Agent
             Paginator.PropertyChanged += SetPageNavButtonsEnabled;
             Paginator.Entities.CollectionChanged += OnReservationCollectionChanged;
             Paginator.EntitiesCurrentPage.CollectionChanged += OnReservationCurrentPageCollectionChanged;
-
-            using (var db = new TravelContext())
-            {
-                // NOTE: This is an issue with lazy loading: you have to explicitly
-                // tell the context to fetch the other entity, too.
-                Arrangement = db.Arrangements.Include(a => a.Reservations).Where(a => a.Id == arrangement.Id).First();
-            }
-            foreach (var reservation in Arrangement.Reservations)
-            {
-                Paginator.Entities.Add(reservation);
-            }
-            tbReservations.DataContext = Paginator.EntitiesCurrentPage;
         }
 
-        private void OnReservationCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            LoadReservationsCurrentPage();
+            InitDbContext();
+            Mouse.OverrideCursor = null;
         }
 
-        private void OnReservationCurrentPageCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        private void InitDbContext()
         {
-            ToggleNoPagesText();
+            using var ctx = new TravelContext();
+            ctx.Reservations.Load();
+
+            Paginator.Entities.Clear();
+            foreach (var v in ctx.Reservations.Local)
+            {
+                Paginator.Entities.Add(v);
+            }
+
+            DateTime date = DateTime.Now;
+            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+
+            var inThisMonth = Paginator.Entities
+                .Where(x => x.TimeOfReservation >= firstDayOfMonth && x.TimeOfReservation <= lastDayOfMonth)
+                .ToList();
+            Paginator.Entities.Clear();
+            foreach (var v in inThisMonth)
+            {
+                Paginator.Entities.Add(v);
+            }
         }
 
         private void ToggleNoPagesText()
@@ -70,16 +87,21 @@ namespace YouTravel.Agent
             tbReservations.DataContext = Paginator.EntitiesCurrentPage;
         }
 
+        private void OnReservationCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            LoadReservationsCurrentPage();
+        }
+
+        private void OnReservationCurrentPageCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            ToggleNoPagesText();
+        }
+
         private void SetPageNavButtonsEnabled(object? sender, PropertyChangedEventArgs e)
         {
             btnPrevPage.IsEnabled = Paginator.PageIndex > 1;
             btnNextPage.IsEnabled = Paginator.PageIndex < Paginator.PageCount;
         }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-			Mouse.OverrideCursor = null;
-		}
 
         private void BtnPrevPage_Click(object sender, RoutedEventArgs e)
         {

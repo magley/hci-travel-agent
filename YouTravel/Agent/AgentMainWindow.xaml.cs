@@ -140,9 +140,14 @@ namespace YouTravel.Agent
 		private void On_AddPlace(object sender, RoutedEventArgs e)
 		{
 			OpenPage(new LocationAdd((Location)null, true));
-		}
+        }
 
-		private void On_OpenSettings(object sender, RoutedEventArgs e)
+        private void On_MonthlyReports(object sender, RoutedEventArgs e)
+        {
+            OpenPage(new MonthlyReports());
+        }
+
+        private void On_OpenSettings(object sender, RoutedEventArgs e)
 		{
 			var win = new Settings(false);
 			win.Show();
@@ -154,7 +159,8 @@ namespace YouTravel.Agent
 			win.Show();
 		}
 
-		private void Next_Btn(object sender, RoutedEventArgs e)
+
+        private void Next_Btn(object sender, RoutedEventArgs e)
 		{
 			PageNext();
         }

@@ -82,7 +82,7 @@
 							<Image Source="{StaticResource IcoPlace}"/>
 						</MenuItem.Icon>
 					</MenuItem>
-					<MenuItem Header="Monthly Reports" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
+					<MenuItem Header="Monthly Reports" Click="On_MonthlyReports" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
 					<Separator/>
 					<MenuItem x:Name="Btn_ToolbarShowToolbar" Header="Show Toolbar" InputGestureText="Ctrl+T" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
 				</MenuItem>
