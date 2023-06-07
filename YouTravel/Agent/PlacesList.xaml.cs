@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.ObjectModel;
@@ -36,7 +37,9 @@ namespace YouTravel.Agent
 
         public ICommand CmdFocusSearch { get; private set; }
 
-        public PlacesList()
+		private Place? _selectedPlace = null;
+
+		public PlacesList()
 		{
 			InitializeComponent();
 			DataContext = this;
@@ -45,6 +48,10 @@ namespace YouTravel.Agent
 			PlacesCurrentPage.CollectionChanged += OnPlaceCurrentPageCollectionChanged;
 
             CmdFocusSearch = new RelayCommand(o => FocusSearch(), o => true);
+
+			var lat = UserConfig.Instance.StartLocation_Lat;
+			var lon = UserConfig.Instance.StartLocation_Long;
+			MyMap.Center = new (lat, lon);
         }
 
         private void FocusSearch()
@@ -67,7 +74,8 @@ namespace YouTravel.Agent
 		{
 			InitDbContext();
 			InitMapsApi();
-        }
+			Mouse.OverrideCursor = null;
+		}
 
 		private void InitDbContext()
 		{
@@ -118,10 +126,6 @@ namespace YouTravel.Agent
 
 				// -SEARCH	
 
-				if (Places.Count > 0)
-				{
-					lstPlaces.SelectedIndex = 0;
-                }
                 PinToSelectedListItem();
 			}
 		}
@@ -151,6 +155,33 @@ namespace YouTravel.Agent
 			}
 
 			lstPlaces.DataContext = PlacesCurrentPage;
+
+			ReselectPlace();
+		}
+
+		private void ReselectPlace()
+		{
+			if (_selectedPlace != null)
+			{
+				int index = -1;
+				for (int i = 0; i < PlacesCurrentPage.Count; i++)
+				{
+					if (PlacesCurrentPage[i].Id == _selectedPlace.Id)
+					{
+						index = i;
+					}
+				}
+
+				if (index > -1)
+				{
+					lstPlaces.SelectedIndex = index;
+				}
+			}
+
+			if (PlacesCurrentPage.Count > 0 && _selectedPlace == null)
+			{
+				lstPlaces.SelectedIndex = 0;
+			}
 		}
 
 		private void InitMapsApi()
@@ -163,6 +194,14 @@ namespace YouTravel.Agent
 		private void lstPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
 			PinToSelectedListItem();
+
+			try
+			{
+				_selectedPlace = PlacesCurrentPage[lstPlaces.SelectedIndex];
+			}
+			catch (ArgumentOutOfRangeException)
+			{
+			}
 		}
 
 		private void PinToSelectedListItem()
@@ -175,13 +214,13 @@ namespace YouTravel.Agent
 			Button btn = (Button)sender;
 			Place place = (Place)btn.DataContext;
 
-			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(place));
+			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(place, false));
 		}
 
 		private void btnRemovePlace_Click(object sender, RoutedEventArgs e)
 		{
 			bool confirmed = false;
-            ConfirmBox confirmBox = new("Are you sure you want to delete this place?", "Delete Confirmation", "Delete", "Cancel");
+            ConfirmBox confirmBox = new("Are you sure you want to delete this place?", "Delete confirmation", "Delete", "Cancel", ConfirmBox.ConfirmBoxIcon.QUESTION);
 			if (confirmBox.ShowDialog() == false)
             {
 				confirmed = confirmBox.Result;
@@ -206,8 +245,19 @@ namespace YouTravel.Agent
 				ctx.Places.Remove(place);
 				ctx.SaveChanges();
 
+				SoundUtil.PlaySound("snd_delete.wav");
 				LoadPlaces();
-            }
+
+				if (lstPlaces.SelectedIndex == -1 && Places.Count > 0)
+				{
+					lstPlaces.SelectedIndex = 0;
+				}
+				if (Places.Count == 0)
+				{
+					MapUtil.ClearPins(MyMap);
+					MapUtil.DrawPinOnMapBasedOnList(Places, lstPlaces, MyMap, true);
+				}
+			}
 		}
 
 		private void BtnSearch_Click(object sender, RoutedEventArgs e)
@@ -248,7 +298,7 @@ namespace YouTravel.Agent
 
 		private void searchBox_KeyDown(object sender, KeyEventArgs e)
 		{
-			if (e.Key == Key.Return)
+			if (e.Key == System.Windows.Input.Key.Return)
 			{
 				string searchQuery = searchBox.Text;
 				LoadPlaces();

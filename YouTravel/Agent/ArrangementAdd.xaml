@@ -78,11 +78,11 @@
 		<Rectangle Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch" Fill="LightGray" Width="1"/>
 
 		<Grid Grid.Row="0" Grid.Column="2">
-			<Grid Grid.Row="0" x:Name="Page1" Visibility="Visible">
+			<Grid Grid.Row="0" x:Name="Page1" Visibility="Hidden">
 				<ScrollViewer>
 					<StackPanel Margin="5">
 						<Label Margin="0 8 0 0" Content="Name"/>
-						<TextBox x:Name="textboxName" u:HelpProvider.HelpKey="arrangement_add" ToolTip="Arrangement name" MinHeight="32" Text="{Binding ArrName, Mode=TwoWay}" VerticalContentAlignment="Center" Width="250" HorizontalAlignment="Left" />
+						<TextBox x:Name="textboxName" u:HelpProvider.HelpKey="arrangement_add" ToolTip="Arrangement name" MinHeight="32" Text="{Binding ArrName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalContentAlignment="Center" Width="250" HorizontalAlignment="Left" />
 						
 						<Label Margin="0 8 0 0" Content="Description"/>
 						<TextBox u:HelpProvider.HelpKey="arrangement_add" ToolTip="Arrangement description" Text="{Binding Description, Mode=TwoWay}" Height="150" TextWrapping="Wrap" Width="500" HorizontalAlignment="Left"  AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
@@ -104,6 +104,7 @@
 								x:Name="arrangementCalendar" 
 								SelectionMode="SingleRange" 
 								SelectedDatesChanged="Calendar_SelectedDatesChanged" 
+								PreviewMouseUp="arrangementCalendar_PreviewMouseUp"
 								IsTodayHighlighted="True" 
 								DisplayDateStart="{x:Static sys:DateTime.Today}"
 								CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
@@ -143,7 +144,7 @@
 				</ScrollViewer>
 				
 			</Grid>
-			<Grid Grid.Row="0" x:Name="Page4" Visibility="Hidden">
+			<Grid Grid.Row="0" x:Name="Page4" Visibility="Visible">
 				<Grid>
 					<Grid.RowDefinitions>
 						<RowDefinition/>
@@ -228,6 +229,7 @@
 								</DataTemplate>
 							</ListBox.ItemTemplate>
 						</ListBox>
+						<Label x:Name="lblNoAllPlaces" Grid.Row="1" Grid.Column="1" Content="No places." HorizontalAlignment="Center" VerticalAlignment="Center"/>
 					</Grid>
 
 					<StackPanel
@@ -277,6 +279,7 @@
 							</DataTemplate>
 						</ListBox.ItemTemplate>
 					</ListBox>
+					<Label x:Name="lblNoArrPlaces"  Grid.Row="2" Grid.Column="1" Content="No places in arrangement." HorizontalAlignment="Center" VerticalAlignment="Center"/>
 				</Grid>
 			</Grid>
 			<Grid Grid.Row="0" x:Name="Page5" Visibility="Hidden">
@@ -320,9 +323,11 @@
 							<TextBlock Padding="5" Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}" HorizontalAlignment="Right" />
 						</Border>
 
-						<Image Margin="0 5 0 0" Grid.Row="4" Grid.Column="1" Source="{Binding Filename, Mode=TwoWay}" MaxHeight="600"/>
+						<Label x:Name="SummaryNoImage" Grid.Row="4" Grid.Column="1" Content="No image added"/>
+						<Image x:Name="SummaryImage" Margin="0 5 0 0" Grid.Row="4" Grid.Column="1" Source="{Binding Filename, Mode=TwoWay}" MaxHeight="600"/>
 
-						<ListView Margin="0 5 0 15" Grid.Row="5" Grid.Column="1" MinHeight="32" ItemsSource="{Binding ArrActivities, Mode=TwoWay}">
+						<Label x:Name="SummaryNoPlaces" Grid.Row="5" Grid.Column="1" Content="No activities added"/>
+						<ListView x:Name="SummaryPlaces" Margin="0 5 0 15" Grid.Row="5" Grid.Column="1" MinHeight="32" ItemsSource="{Binding ArrActivities, Mode=TwoWay}">
 							<ListView.ItemTemplate>
 								<DataTemplate>
 									<Grid>

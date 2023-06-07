@@ -32,6 +32,7 @@
     <None Remove="Res\ImgAttraction.png" />
     <None Remove="Res\ImgHotel.png" />
     <None Remove="Res\ImgRestaurant.png" />
+    <None Remove="Res\snd_delete.wav" />
   </ItemGroup>
 
   <ItemGroup>
@@ -75,6 +76,7 @@
     <Resource Include="Res\ImgAttraction.png" />
     <Resource Include="Res\ImgHotel.png" />
     <Resource Include="Res\ImgRestaurant.png" />
+    <Resource Include="Res\snd_delete.wav" />
   </ItemGroup>
 
 </Project>

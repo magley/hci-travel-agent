@@ -61,6 +61,7 @@
 									SelectionMode="SingleRange" 
 									SelectedDatesChanged="Calendar_SelectedDatesChanged" 
 									IsTodayHighlighted="True" 
+									PreviewMouseUp="arrangementCalendar_PreviewMouseUp"
 									DisplayDateStart="{x:Static sys:DateTime.Today}"
 									CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
 									/>
@@ -150,6 +151,7 @@
 									IsChecked="{Binding ActivitiesViewRestaurant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									Click="CbActivity_Filter"/>
 							</StackPanel>
+
 							<ListBox 
 								x:Name="lstAllPlaces" 
 								Grid.Row="1" 
@@ -185,6 +187,7 @@
 											</DataTemplate>
 										</ListBox.ItemTemplate>
 									</ListBox>
+							<Label x:Name="lblNoAllPlaces" Grid.Row="1" Grid.Column="1" Content="No places." HorizontalAlignment="Center" VerticalAlignment="Center"/>
 							</Grid>
 
 						<StackPanel
@@ -197,7 +200,7 @@
 							<Button Content="^" u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Remove from arrangement" Height="30" Width="30" x:Name="btnRemArr" Click="btnRemArr_Click"/>
 						</StackPanel>
 
-						<ListBox 
+						<ListBox
 							x:Name="lstArrPlaces" 
 							u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Places included in this arrangement"
 							Grid.Row="2" 
@@ -234,6 +237,7 @@
 									</DataTemplate>
 								</ListBox.ItemTemplate>
 							</ListBox>
+						<Label x:Name="lblNoArrPlaces"  Grid.Row="2" Grid.Column="1" Content="No places in arrangement." HorizontalAlignment="Center" VerticalAlignment="Center"/>
 						</Grid>
 				</TabItem>
 			</TabControl>
@@ -251,17 +255,10 @@
 
 		<Grid Grid.Row="1" Grid.Column="1">
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-				<Button u:HelpProvider.HelpKey="arrangement_edit" Margin="0 0 10 0" x:Name="btn_SaveDraft" Click="btn_SaveDraft_Click"> 
-					<DockPanel HorizontalAlignment="Stretch">
-						<Image Source="{StaticResource IcoSave}" Height="20" Margin="5 0 5 0"/>
-						<Label Content="Save Draft"/>
-					</DockPanel>
-				</Button>
-
 				<Button u:HelpProvider.HelpKey="arrangement_edit" x:Name="btn_PublishChanges" Click="btn_PublishChanges_Click">
 					<DockPanel HorizontalAlignment="Stretch">
 						<Image Source="{StaticResource IcoPublish}" Height="20" Margin="5 0 5 0"/>
-						<Label Content="Publish Changes"/>
+						<Label Content="Save"/>
 					</DockPanel>
 				</Button>
 			</StackPanel>

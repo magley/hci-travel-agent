@@ -6,8 +6,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Util;
@@ -45,6 +48,7 @@ namespace YouTravel.Agent
 
 		public ObservableCollection<Place> AllActivities { get; set; } = new();
 		public ObservableCollection<Place> ArrActivities { get; set; } = new();
+		private MapBundle mapBundle = new();
 
 		public ArrangementEdit(Arrangement arr)
         {
@@ -58,9 +62,9 @@ namespace YouTravel.Agent
             Filename = arr.ImageFname;
             Start = arr.Start;
             End = arr.End;
+			mapBundle.Map = TheMap;
 
-
-            using (var db = new TravelContext())
+			using (var db = new TravelContext())
             {
                 // NOTE: This is an issue with lazy loading: you have to explicitly
                 // tell the context to fetch the other entity, too.
@@ -71,6 +75,19 @@ namespace YouTravel.Agent
                     ArrActivities.Add(place);
                 }
             }
+
+			ArrActivities.CollectionChanged += (a, b) => DrawMap();
+			ArrActivities.CollectionChanged += (a, b) => ShowPlacesLabels();
+			AllActivities.CollectionChanged += (a, b) => ShowPlacesLabels();
+		}
+
+		private void DrawMap()
+		{
+			mapBundle.RouteLocations = ArrActivities.Select(m => new Location(m.Lat, m.Long)).ToList();
+			// TODO: Fetch the actual route using Bing Maps' API.
+
+			mapBundle.Pins = ArrActivities;
+			MapUtil.Redraw(mapBundle);
 		}
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -80,6 +97,7 @@ namespace YouTravel.Agent
 			InitMapsApi();
             LoadPlaces();
 			SetImage(Filename);
+			Mouse.OverrideCursor = null;
 		}
 
 		private void InitForm()
@@ -92,13 +110,16 @@ namespace YouTravel.Agent
 		{
 			string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
 			TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
+			TheMap.ZoomLevel = 8;
+			var lat = UserConfig.Instance.StartLocation_Lat;
+			var lon = UserConfig.Instance.StartLocation_Long;
+			TheMap.Center = new(lat, lon);
 		}
 
 		private void InitCalendarRange()
         {
             arrangementCalendar.SelectedDates.AddRange(Start, End);
 			arrangementCalendar.DisplayDateStart = Start;
-
 		}
 
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -138,7 +159,7 @@ namespace YouTravel.Agent
             Point mousePos = e.GetPosition(TheMap);
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong));
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong, false));
 		}
 
         private void btn_SaveDraft_Click(object sender, RoutedEventArgs e)
@@ -195,12 +216,15 @@ namespace YouTravel.Agent
 
 		private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			MapUtil.DrawPinOnMapBasedOnList(AllActivities, lstAllPlaces, TheMap, true);
+			mapBundle.Pins = new List<Place>(ArrActivities);
+			mapBundle.Pins.Add((Place)lstAllPlaces.SelectedItem);
+			MapUtil.Redraw(mapBundle);
 		}
 
 		private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			MapUtil.DrawPinOnMapBasedOnList(ArrActivities, lstArrPlaces, TheMap, true);
+			mapBundle.Pins = ArrActivities;
+			MapUtil.Redraw(mapBundle);
 		}
 
 		private void btnAddArr_Click(object sender, RoutedEventArgs e)
@@ -288,6 +312,19 @@ namespace YouTravel.Agent
 			{
 				AllActivities.Add(v);
 			}
+
+			// Select first if possible.
+
+			if (lstArrPlaces.SelectedIndex == -1 && ArrActivities.Count > 0)
+			{
+				lstArrPlaces.SelectedIndex = 0;
+			}
+		}
+
+		private void ShowPlacesLabels()
+		{
+			lblNoAllPlaces.Visibility = AllActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+			lblNoArrPlaces.Visibility = ArrActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void btn_SelectImage_Click(object sender, RoutedEventArgs e)
@@ -325,6 +362,15 @@ namespace YouTravel.Agent
 		private void CbActivity_Filter(object sender, RoutedEventArgs e)
 		{
 			LoadPlaces();
+		}
+
+		private void arrangementCalendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+		{
+			base.OnPreviewMouseUp(e);
+			if (Mouse.Captured is Calendar || Mouse.Captured is CalendarItem)
+			{
+				Mouse.Capture(null);
+			}
 		}
 	}
 }

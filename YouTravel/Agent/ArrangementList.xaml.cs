@@ -33,6 +33,8 @@ namespace YouTravel.Agent
 
         public ICommand CmdFocusSearch { get; private set; }
 
+        private Arrangement? _selectedArrangement = null;
+
         public ArrangementList()
         {
             InitializeComponent();
@@ -52,7 +54,8 @@ namespace YouTravel.Agent
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             InitDbContext();
-        }
+			Mouse.OverrideCursor = null;
+		}
 
         private void InitDbContext()
         {
@@ -85,7 +88,7 @@ namespace YouTravel.Agent
 				foreach (var v in afterSearch)
 				{
 					Arrangements.Add(v);
-				}   
+				}
             }
 		}
 
@@ -114,6 +117,27 @@ namespace YouTravel.Agent
 			}
 
 			arrangementsList.DataContext = ArrangementsCurrentPage;
+            ReselectArrangement();
+		}
+
+        private void ReselectArrangement()
+        {
+			if (_selectedArrangement != null)
+            {
+                int index = -1;
+                for (int i = 0; i < ArrangementsCurrentPage.Count; i++)
+                {
+                    if (ArrangementsCurrentPage[i].Id == _selectedArrangement.Id)
+                    {
+						index = i;
+                    }
+                }
+
+                if (index > -1)
+                {
+                    arrangementsList.SelectedIndex = index;
+				}
+			}
 		}
 
         private void OnArrangementVisibleCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -159,7 +183,7 @@ namespace YouTravel.Agent
         private void RemoveArrangement_Click(object sender, RoutedEventArgs e)
         {
             bool confirmed = false;
-            ConfirmBox confirmBox = new("Are you sure you want to delete this arrangement?", "Delete Confirmation", "Delete", "Cancel");
+            ConfirmBox confirmBox = new("Are you sure you want to delete this arrangement?", "Delete confirmation", "Delete", "Cancel", ConfirmBox.ConfirmBoxIcon.QUESTION);
             if (confirmBox.ShowDialog() == false)
             {
                 confirmed = confirmBox.Result;
@@ -184,8 +208,9 @@ namespace YouTravel.Agent
                 ctx.Arrangements.Remove(arr);
                 ctx.SaveChanges();
 
+				SoundUtil.PlaySound("snd_delete.wav");
                 LoadArrangements();
-            }
+			}
         }
 
         private void CbShowActive_Click(object sender, RoutedEventArgs e)
@@ -219,7 +244,7 @@ namespace YouTravel.Agent
 		{
 			Button button = (Button)sender;
 
-			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd());
+			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd(true));
 		}
 
 		private void btnPrevPage_Click(object sender, RoutedEventArgs e)
@@ -248,5 +273,16 @@ namespace YouTravel.Agent
 				LoadArrangements();
 			}
 		}
-    }
+
+		private void arrangementsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+            try
+            {
+                _selectedArrangement = ArrangementsCurrentPage[arrangementsList.SelectedIndex];
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+		}
+	}
 }

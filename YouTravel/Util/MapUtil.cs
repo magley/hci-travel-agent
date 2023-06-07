@@ -13,20 +13,20 @@ namespace YouTravel.Util
 	{
 		public Map Map { get; set; }
 		public IList<Location> RouteLocations { get; set; }
-		public Place Pin { get; set; }
+		public IList<Place> Pins { get; set; }
 
 		public MapBundle(Map map, IList<Location> routeLocations, Place pin)
 		{
 			Map = map;
 			RouteLocations = routeLocations;
-			Pin = pin;
+			Pins = new List<Place> { pin };
 		}
 
 		public MapBundle()
 		{
 			Map = null;
 			RouteLocations = null;
-			Pin = null;
+			Pins = new List<Place>();
 		}
 	}
 
@@ -63,19 +63,27 @@ namespace YouTravel.Util
 
 			// Pin
 
-			if (bundle.Pin != null)
+			foreach (var pin in bundle.Pins)
 			{
-				var location = new Location(bundle.Pin.Lat, bundle.Pin.Long);
-				MapLayer mapLayer = new();
-				Image myPushPin = new()
+				if (pin != null)
 				{
-					Source = new BitmapImage(new Uri(GetPinIconUriString(bundle.Pin.Type), UriKind.Absolute)),
-					Width = 48,
-					Height = 48
-				};
-				mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
-				bundle.Map.Children.Add(mapLayer);
+					var location = new Location(pin.Lat, pin.Long);
+					MapLayer mapLayer = new();
+					Image myPushPin = new()
+					{
+						Source = new BitmapImage(new Uri(GetPinIconUriString(pin.Type), UriKind.Absolute)),
+						Width = 48,
+						Height = 48
+					};
+					mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
+					bundle.Map.Children.Add(mapLayer);
+				}
 			}
+		}
+
+		public static void ClearPins(Map map)
+		{
+			map.Children.Clear();
 		}
 
 		public static void DrawPinOnMapBasedOnList(Collection<Place> places, ListBox viewList, Map map, bool moveMapToPin)

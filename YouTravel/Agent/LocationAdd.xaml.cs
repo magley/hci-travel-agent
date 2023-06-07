@@ -4,8 +4,10 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
+using YouTravel.Shared;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
@@ -28,7 +30,9 @@ namespace YouTravel.Agent
 		public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
 		public PlaceType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); MoveMapToLocation(); } }
 
-		public LocationAdd(Place place)
+		private bool shouldReturnToPlacesList;
+
+		public LocationAdd(Place place, bool shouldReturnToPlacesList)
 		{
 			InitializeComponent();
 
@@ -40,10 +44,11 @@ namespace YouTravel.Agent
 			Description = place.Description;
 
 			MyMap.Center = new(Latitude, Longitude);
+			this.shouldReturnToPlacesList = shouldReturnToPlacesList;
 			DataContext = this;
 		}
 
-		public LocationAdd(Location? loc = null)
+		public LocationAdd(Location? loc, bool shouldReturnToPlacesList)
         {
             InitializeComponent();
 
@@ -59,12 +64,14 @@ namespace YouTravel.Agent
             }
 
 			MyMap.Center = new(Latitude, Longitude);
+			this.shouldReturnToPlacesList = shouldReturnToPlacesList;
 			DataContext = this;
-        }
+		}
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			InitMapsApi();
 			InitForm();
+			Mouse.OverrideCursor = null;
 		}
 
 		private void InitForm()
@@ -138,12 +145,21 @@ namespace YouTravel.Agent
 				ctx.SaveChanges();
 			}
 
+			string verb = creatingNew ? "added" : "updated";
+			string verb2 = creatingNew ? "Add" : "Update";
+
+			new ConfirmBox($"Place \"{LocName}\" {verb}.", $"{verb2} place", "OK", null, ConfirmBox.ConfirmBoxIcon.INFO).ShowDialog();
+
+			if (shouldReturnToPlacesList)
+			{
+				((AgentMainWindow)Window.GetWindow(this)).OpenPage(new PlacesList());
+			}
 			((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
-        }
+		}
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
-        }
+		}
     }
 }

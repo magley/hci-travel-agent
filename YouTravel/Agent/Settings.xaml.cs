@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
@@ -54,6 +55,7 @@ namespace YouTravel.Agent
 			ToolbarShowNav = userConfig.ToolbarNav_Visible;
 			ToolbarShowArrangement = userConfig.ToolbarArrangement_Visible;
 			ToolbarShowPlace = userConfig.ToolbarPlace_Visible;
+			Mouse.OverrideCursor = null;
 		}
 
 		private void TreeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

@@ -11,6 +11,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
@@ -39,21 +40,22 @@ namespace YouTravel.Agent
 		public bool ActivitiesViewAttraction { get; set; } = true;
 		public bool ActivitiesViewRestaurant { get; set; } = true;
 
-		public string ArrName { get { return _arrName; } set { _arrName = value; DoPropertyChanged(nameof(ArrName)); } }
+		public string ArrName { get { return _arrName; } set { _arrName = value; DoPropertyChanged(nameof(ArrName)); ValidateName(); } }
         public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
-        public double Price { get { return _price; } set { _price = value; DoPropertyChanged(nameof(Price)); } }
+        public double Price { get { return _price; } set { _price = value; DoPropertyChanged(nameof(Price)); ValidatePrice(); } }
 		public string Filename { get { return _filename; } set { _filename = value; DoPropertyChanged(nameof(Filename)); } }
 		public string DurationText { get { return _durationText; } set { _durationText = value; DoPropertyChanged(nameof(DurationText)); } }
 
 		private DateTime? _start = null;
 		private DateTime? _end = null;
 
+		private bool returnToDashboard = false;
 		private MapBundle mapBundle = new();
 
 		public ObservableCollection<Place> AllActivities { get; set; } = new();
         public ObservableCollection<Place> ArrActivities { get; set; } = new();
 
-        public ArrangementAdd()
+        public ArrangementAdd(bool returnToMainView)
         {
             InitializeComponent();
 			DataContext = this;
@@ -73,8 +75,25 @@ namespace YouTravel.Agent
 
 			MovePageIndex(0);
 
+			returnToDashboard = returnToMainView;
 			mapBundle.Map = TheMap;
 			ArrActivities.CollectionChanged += (a, b) => DrawMap();
+			ArrActivities.CollectionChanged += (a, b) => UpdateSummaryPlacesVisibility();
+
+			ArrActivities.CollectionChanged += (a, b) => ShowPlacesLabels();
+			AllActivities.CollectionChanged += (a, b) => ShowPlacesLabels();
+
+			UpdateSummaryPlacesVisibility();
+		}
+
+		private void ValidateName()
+		{
+			UpdateNavigation();
+		}
+
+		private void ValidatePrice()
+		{
+			UpdateNavigation();
 		}
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -82,6 +101,7 @@ namespace YouTravel.Agent
 			InitForm();
 			InitMapsApi();
 			LoadPlaces();
+			Mouse.OverrideCursor = null;
 		}
 
 		private void InitForm()
@@ -159,12 +179,23 @@ namespace YouTravel.Agent
 			}
 		}
 
+		private void MovePageIndex(int delta)
+		{
+			PageIndex += delta;
+			MoveToPage(PageIndex);
+		}
+
 		private void MoveToPage(int pageIndex)
 		{
 			PageIndex = pageIndex; // We need this.
+			UpdateNavigation();
+		}
+
+		private void UpdateNavigation()
+		{
 			btnPrev.IsEnabled = PageIndex > 0;
-			btnNext.IsEnabled = PageIndex < pages.Count - 1;
-			btnFinish.IsEnabled = (PageIndex == pages.Count - 1) && CanFinish();
+			btnNext.IsEnabled = PageIndex < pages.Count - 1 && CanGoNext(PageIndex);
+			btnFinish.IsEnabled = (PageIndex == pages.Count - 1);
 
 			for (int i = 0; i < pages.Count; i++)
 			{
@@ -180,28 +211,66 @@ namespace YouTravel.Agent
 				}
 			}
 
+			UpdateNavList();
 		}
 
-		private void MovePageIndex(int delta)
+		private bool CanGoNext(int pageIndex)
 		{
-			PageIndex += delta;
-			MoveToPage(PageIndex);
+			if (pageIndex == 0)
+			{
+				if (_arrName.Length == 0)
+				{
+					return false;
+				}
+				if (Price <= 0)
+				{
+					return false;
+				}
+			}
+
+			if (pageIndex == 1) // Calendar page.
+			{
+				try
+				{
+					DateTime d1 = arrangementCalendar.SelectedDates[0];
+					DateTime d2 = arrangementCalendar.SelectedDates.Last();
+					return true;
+				}
+				catch (ArgumentOutOfRangeException)
+				{
+					return false;
+				}
+			}
+
+			return pageIndex < pages.Count - 1;
 		}
 
-		private bool CanFinish()
+		private void UpdateNavList()
 		{
-			try
+			int cantClickThisStep = steps.Count;
+			for (int i = 0; i < steps.Count; i++)
 			{
-				DateTime d1 = arrangementCalendar.SelectedDates[0];
-				DateTime d2 = arrangementCalendar.SelectedDates.Last();
-				this.TxtConfirmDate.ClearValue(TextBox.ForegroundProperty);
-				return true;
+				if (!CanGoNext(i))
+				{
+					cantClickThisStep = i + 1;
+					break;
+				}
 			}
-			catch (ArgumentOutOfRangeException)
+
+			for (int i = 0; i < cantClickThisStep; i++)
 			{
-				this.TxtConfirmDate.Foreground = new SolidColorBrush(new Color { R = 236, G = 64, B = 45, A = 255});
-				return false;
+				steps[i].IsEnabled = true;
 			}
+			for (int i = cantClickThisStep; i < steps.Count; i++)
+			{
+				steps[i].IsEnabled = false;
+			}
+		}
+
+		private void ShowPlacesLabels()
+		{
+			lblNoAllPlaces.Visibility = AllActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+			lblNoArrPlaces.Visibility = ArrActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void btnPrev_Click(object sender, RoutedEventArgs e)
@@ -242,13 +311,19 @@ namespace YouTravel.Agent
 			image.CacheOption = BitmapCacheOption.OnLoad;
 			image.Freeze();
 			imgImage.Source = image;
+
+			SummaryNoImage.Visibility = Visibility.Collapsed;
 		}
 
         private void InitMapsApi()
         {
             string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
             TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
-			
+			TheMap.ZoomLevel = 8;
+			var lat = UserConfig.Instance.StartLocation_Lat;
+			var lon = UserConfig.Instance.StartLocation_Long;
+			TheMap.Center = new(lat, lon);
+
 			DrawMap();
 		}
 
@@ -257,6 +332,7 @@ namespace YouTravel.Agent
 			mapBundle.RouteLocations = ArrActivities.Select(m => new Location(m.Lat, m.Long)).ToList();
 			// TODO: Fetch the actual route using Bing Maps' API.
 
+			mapBundle.Pins = ArrActivities;
 			MapUtil.Redraw(mapBundle);
 		}
 
@@ -266,19 +342,23 @@ namespace YouTravel.Agent
             Point mousePos = e.GetPosition(TheMap);
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong));
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong, false));
         }
 
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            Calendar calendar = (Calendar)sender;
+			Mouse.Capture(null);
+			Calendar calendar = (Calendar)sender;
 
             try
             {
                 DateTime d1 = calendar.SelectedDates[0];
                 DateTime d2 = calendar.SelectedDates.Last();
                 SetArrangementDates(d1, d2);
-            }
+				UpdateNavigation();
+				//UpdateNavList();
+				//btnNext.IsEnabled = PageIndex < pages.Count - 1 && CanGoNext();
+			}
             catch (ArgumentOutOfRangeException)
             {
                 return;
@@ -355,23 +435,30 @@ namespace YouTravel.Agent
 				db.SaveChanges();
             }
 
+			new ConfirmBox($"Arrangement \"{ArrName}\" added.", "Add arrangement", "OK", null, ConfirmBox.ConfirmBoxIcon.INFO).ShowDialog();
+
+			if (returnToDashboard)
+			{
+				((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementList());
+			}
 			((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void btnCancel_Click(object sender, RoutedEventArgs e)
         {
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
-        }
+		}
 
 		private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			mapBundle.Pin = (Place)lstAllPlaces.SelectedItem;
+			mapBundle.Pins = new List<Place>(ArrActivities);
+			mapBundle.Pins.Add((Place)lstAllPlaces.SelectedItem);
 			MapUtil.Redraw(mapBundle);
 		}
 
 		private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			mapBundle.Pin = (Place)lstArrPlaces.SelectedItem;
+			mapBundle.Pins = ArrActivities;
 			MapUtil.Redraw(mapBundle);
 		}
 
@@ -415,5 +502,28 @@ namespace YouTravel.Agent
 				}
 			}
         }
-    }
+
+		private void arrangementCalendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+		{
+			base.OnPreviewMouseUp(e);
+			if (Mouse.Captured is Calendar || Mouse.Captured is CalendarItem)
+			{
+				Mouse.Capture(null);
+			}
+		}
+
+		private void UpdateSummaryPlacesVisibility()
+		{
+			if (ArrActivities.Count == 0)
+			{
+				SummaryNoPlaces.Visibility = Visibility.Visible;
+				SummaryPlaces.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				SummaryNoPlaces.Visibility = Visibility.Collapsed;
+				SummaryPlaces.Visibility = Visibility.Visible;
+			}
+		}
+	}
 }

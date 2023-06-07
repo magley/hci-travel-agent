@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using YouTravel.Model;
 
 namespace YouTravel.Agent
@@ -23,7 +24,8 @@ namespace YouTravel.Agent
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             InitDbContext();
-        }
+			Mouse.OverrideCursor = null;
+		}
 
         private void InitDbContext()
         {
