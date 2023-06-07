@@ -80,6 +80,9 @@ namespace YouTravel.Agent
 			ArrActivities.CollectionChanged += (a, b) => DrawMap();
 			ArrActivities.CollectionChanged += (a, b) => UpdateSummaryPlacesVisibility();
 
+			ArrActivities.CollectionChanged += (a, b) => ShowPlacesLabels();
+			AllActivities.CollectionChanged += (a, b) => ShowPlacesLabels();
+
 			UpdateSummaryPlacesVisibility();
 		}
 
@@ -262,6 +265,12 @@ namespace YouTravel.Agent
 			{
 				steps[i].IsEnabled = false;
 			}
+		}
+
+		private void ShowPlacesLabels()
+		{
+			lblNoAllPlaces.Visibility = AllActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+			lblNoArrPlaces.Visibility = ArrActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 		}
 
 		private void btnPrev_Click(object sender, RoutedEventArgs e)

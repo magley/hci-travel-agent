@@ -151,6 +151,7 @@
 									IsChecked="{Binding ActivitiesViewRestaurant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
 									Click="CbActivity_Filter"/>
 							</StackPanel>
+
 							<ListBox 
 								x:Name="lstAllPlaces" 
 								Grid.Row="1" 
@@ -186,6 +187,7 @@
 											</DataTemplate>
 										</ListBox.ItemTemplate>
 									</ListBox>
+							<Label x:Name="lblNoAllPlaces" Grid.Row="1" Grid.Column="1" Content="No places." HorizontalAlignment="Center" VerticalAlignment="Center"/>
 							</Grid>
 
 						<StackPanel
@@ -198,7 +200,7 @@
 							<Button Content="^" u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Remove from arrangement" Height="30" Width="30" x:Name="btnRemArr" Click="btnRemArr_Click"/>
 						</StackPanel>
 
-						<ListBox 
+						<ListBox
 							x:Name="lstArrPlaces" 
 							u:HelpProvider.HelpKey="arrangement_edit" ToolTip="Places included in this arrangement"
 							Grid.Row="2" 
@@ -235,6 +237,7 @@
 									</DataTemplate>
 								</ListBox.ItemTemplate>
 							</ListBox>
+						<Label x:Name="lblNoArrPlaces"  Grid.Row="2" Grid.Column="1" Content="No places in arrangement." HorizontalAlignment="Center" VerticalAlignment="Center"/>
 						</Grid>
 				</TabItem>
 			</TabControl>
