@@ -97,7 +97,8 @@ namespace YouTravel.Agent
 		}
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
+		{
+			((AgentMainWindow)Window.GetWindow(this)).SetTitle(TitleRegex.PageNameAsWords(this));
 			InitForm();
 			InitMapsApi();
 			LoadPlaces();

@@ -60,19 +60,16 @@ namespace YouTravel.Agent
 		{
 			OpenPage(new ArrangementList());
 		}
+		
+		public void SetTitle(string title)
+		{
+			Title = $"YouTravel - {title}";
+		}
 
 		public void OpenPage(Page page)
 		{
 			Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
 			myFrame.NavigationService.Navigate(page);
-
-			// HACK: This is kinda ugly but the alternative is create an abstract class for this one single thing which is worse.
-			string pageNameAsWords = Regex.Replace(page.Name, "(\\B[A-Z])", " $1");
-			if (pageNameAsWords != "")
-			{
-				pageNameAsWords = pageNameAsWords[0].ToString().ToUpper() + pageNameAsWords.Substring(1).ToLower();
-			}
-			Title = $"YouTravel - {pageNameAsWords}";
 		}
 
 		public void CloseMostRecentPage()
