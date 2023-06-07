@@ -23,7 +23,8 @@ namespace YouTravel.Agent
 		public ICommand CmdViewArrangements { get; private set; }
 		public ICommand CmdNewPlace { get; private set; }
 		public ICommand CmdViewPlaces { get; private set; }
-		public ICommand CmdToggleToolbar { get; private set; }
+        public ICommand CmdViewReports { get; private set; }
+        public ICommand CmdToggleToolbar { get; private set; }
 
 		public AgentMainWindow()
 		{
@@ -54,25 +55,23 @@ namespace YouTravel.Agent
 
 			CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd((Location)null, true)), o => true);
 			CmdViewPlaces = new RelayCommand(o => OpenPage(new PlacesList()), o => true);
-		}
+			CmdViewReports = new RelayCommand(o => OpenPage(new MonthlyReports()), o => true);
+        }
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
 			OpenPage(new ArrangementList());
+		}
+		
+		public void SetTitle(string title)
+		{
+			Title = $"YouTravel - {title}";
 		}
 
 		public void OpenPage(Page page)
 		{
 			Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
 			myFrame.NavigationService.Navigate(page);
-
-			// HACK: This is kinda ugly but the alternative is create an abstract class for this one single thing which is worse.
-			string pageNameAsWords = Regex.Replace(page.Name, "(\\B[A-Z])", " $1");
-			if (pageNameAsWords != "")
-			{
-				pageNameAsWords = pageNameAsWords[0].ToString().ToUpper() + pageNameAsWords.Substring(1).ToLower();
-			}
-			Title = $"YouTravel - {pageNameAsWords}";
 		}
 
 		public void CloseMostRecentPage()
@@ -140,9 +139,14 @@ namespace YouTravel.Agent
 		private void On_AddPlace(object sender, RoutedEventArgs e)
 		{
 			OpenPage(new LocationAdd((Location)null, true));
-		}
+        }
 
-		private void On_OpenSettings(object sender, RoutedEventArgs e)
+        private void On_MonthlyReports(object sender, RoutedEventArgs e)
+        {
+            OpenPage(new MonthlyReports());
+        }
+
+        private void On_OpenSettings(object sender, RoutedEventArgs e)
 		{
 			var win = new Settings(false);
 			win.Show();
@@ -154,7 +158,8 @@ namespace YouTravel.Agent
 			win.Show();
 		}
 
-		private void Next_Btn(object sender, RoutedEventArgs e)
+
+        private void Next_Btn(object sender, RoutedEventArgs e)
 		{
 			PageNext();
         }

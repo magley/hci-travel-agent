@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using YouTravel.Model;
 using YouTravel.Util;
@@ -45,15 +46,15 @@ namespace YouTravel
 				arr3.Places.Add(hotel1);
 				db.Arrangements.Add(arr3);
 
-				var res1 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr1 };
-                var res2 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr1 };
-                var res3 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr1 };
-                var res4 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr2 };
-
-                db.Reservations.Add(res1);
-                db.Reservations.Add(res2);
-                db.Reservations.Add(res3);
-                db.Reservations.Add(res4);
+				var arrangements = db.Arrangements.Local.ToList();
+				var rnd = new Random(1);
+				for (int i = 0; i < 20; ++i)
+				{
+					var timeOfReservation = DateTime.Now.AddMonths(rnd.Next(-3, 1));
+					var arr = arrangements[rnd.Next(arrangements.Count)];
+					var res = new Reservation { TimeOfReservation = timeOfReservation, Arrangement = arr, Username = "user", NumOfPeople = (i + 1) % 4, PaidOn = (i % 2 == 0) ? timeOfReservation : null };
+					db.Reservations.Add(res);
+				}
 
 				db.SaveChanges();
 

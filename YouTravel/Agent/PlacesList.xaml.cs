@@ -17,23 +17,13 @@ using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
-	public partial class PlacesList : Page, INotifyPropertyChanged
+	public partial class PlacesList : Page
 	{
-		public event PropertyChangedEventHandler? PropertyChanged;
-		void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
-
-		public ObservableCollection<Place> Places { get; } = new();
-		public ObservableCollection<Place> PlacesCurrentPage { get; } = new();
+		public Paginator<Place> Paginator { get; set; } = new();
 
 		public bool ShowHotel { get; set; } = true;
 		public bool ShowAttraction { get; set; } = true;
 		public bool ShowRestaurant { get; set; } = true;
-
-		private int _pageIndex = 0;
-		private int _pageCount = 0;
-		public int PageIndex { get { return _pageIndex; } set { _pageIndex = value; DoPropertyChanged(nameof(PageIndex)); SetPageNavButtonsEnabled(); } }
-		public int PageCount { get { return _pageCount; } set { _pageCount = value; DoPropertyChanged(nameof(PageCount)); SetPageNavButtonsEnabled(); } }
-		int pageSize = 2;
 
         public ICommand CmdFocusSearch { get; private set; }
 
@@ -44,8 +34,9 @@ namespace YouTravel.Agent
 			InitializeComponent();
 			DataContext = this;
 
-			Places.CollectionChanged += OnPlaceCollectionChanged;
-			PlacesCurrentPage.CollectionChanged += OnPlaceCurrentPageCollectionChanged;
+			Paginator.PropertyChanged += SetPageNavButtonsEnabled;
+			Paginator.Entities.CollectionChanged += OnPlaceCollectionChanged;
+			Paginator.EntitiesCurrentPage.CollectionChanged += OnPlaceCurrentPageCollectionChanged;
 
             CmdFocusSearch = new RelayCommand(o => FocusSearch(), o => true);
 
@@ -72,6 +63,7 @@ namespace YouTravel.Agent
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
+			((AgentMainWindow)Window.GetWindow(this)).SetTitle(TitleRegex.PageNameAsWords(this));
 			InitDbContext();
 			InitMapsApi();
 			Mouse.OverrideCursor = null;
@@ -84,7 +76,7 @@ namespace YouTravel.Agent
 
 		private void ToggleNoPagesText()
 		{
-            if (Places.Count > 0)
+            if (Paginator.Entities.Count > 0)
             {
                 txtNoPlaces.Visibility = Visibility.Collapsed;
                 lstPlaces.Visibility = Visibility.Visible;
@@ -102,15 +94,15 @@ namespace YouTravel.Agent
 			{
                 ctx.Places.Load();
 
-				Places.Clear();
+				Paginator.Entities.Clear();
 				foreach (var v in ctx.Places.Local)
 				{
-					Places.Add(v);
+					Paginator.Entities.Add(v);
 				}
 
 				// SEARCH
 
-				var afterSearch = Places
+				var afterSearch = Paginator.Entities
 					.Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
 					.Where(x => (ShowHotel && x.Type == PlaceType.Hotel) || 
 								(ShowAttraction &&  x.Type == PlaceType.Attraction) || 
@@ -118,10 +110,10 @@ namespace YouTravel.Agent
 					)
                     .Reverse()
                     .ToList();
-				Places.Clear();
+				Paginator.Entities.Clear();
 				foreach (var v in afterSearch)
 				{
-					Places.Add(v);
+					Paginator.Entities.Add(v);
 				}
 
 				// -SEARCH	
@@ -132,30 +124,8 @@ namespace YouTravel.Agent
 
 		private void LoadPlacesCurrentPage()
 		{
-			PageCount = (int)Math.Ceiling((double)(Places.Count / (double)pageSize));
-			if (PageIndex > PageCount)
-			{
-				PageIndex = PageCount;
-			}
-			if (PageIndex <= 0 && PageCount > 0)
-			{
-				PageIndex = 1;
-			}
-
-			int L = Math.Max(0, (PageIndex - 1) * pageSize);
-			int R = Math.Min((PageIndex) * pageSize - 1, Places.Count - 1);
-
-			PlacesCurrentPage.Clear();
-			if (Places.Count != 0)
-			{
-				for (int i = L; i <= R; i++)
-				{
-					PlacesCurrentPage.Add(Places[i]);
-				}
-			}
-
-			lstPlaces.DataContext = PlacesCurrentPage;
-
+			Paginator.LoadPage();
+			lstPlaces.DataContext = Paginator.EntitiesCurrentPage;
 			ReselectPlace();
 		}
 
@@ -164,9 +134,9 @@ namespace YouTravel.Agent
 			if (_selectedPlace != null)
 			{
 				int index = -1;
-				for (int i = 0; i < PlacesCurrentPage.Count; i++)
+				for (int i = 0; i < Paginator.EntitiesCurrentPage.Count; i++)
 				{
-					if (PlacesCurrentPage[i].Id == _selectedPlace.Id)
+					if (Paginator.EntitiesCurrentPage[i].Id == _selectedPlace.Id)
 					{
 						index = i;
 					}
@@ -178,7 +148,7 @@ namespace YouTravel.Agent
 				}
 			}
 
-			if (PlacesCurrentPage.Count > 0 && _selectedPlace == null)
+			if (Paginator.EntitiesCurrentPage.Count > 0 && _selectedPlace == null)
 			{
 				lstPlaces.SelectedIndex = 0;
 			}
@@ -197,7 +167,7 @@ namespace YouTravel.Agent
 
 			try
 			{
-				_selectedPlace = PlacesCurrentPage[lstPlaces.SelectedIndex];
+				_selectedPlace = Paginator.EntitiesCurrentPage[lstPlaces.SelectedIndex];
 			}
 			catch (ArgumentOutOfRangeException)
 			{
@@ -206,7 +176,7 @@ namespace YouTravel.Agent
 
 		private void PinToSelectedListItem()
 		{
-			MapUtil.DrawPinOnMapBasedOnList(Places, lstPlaces, MyMap, true);
+			MapUtil.DrawPinOnMapBasedOnList(Paginator.Entities, lstPlaces, MyMap, true);
 		}
 
 		private void btnEditPlace_Click(object sender, RoutedEventArgs e)
@@ -248,14 +218,14 @@ namespace YouTravel.Agent
 				SoundUtil.PlaySound("snd_delete.wav");
 				LoadPlaces();
 
-				if (lstPlaces.SelectedIndex == -1 && Places.Count > 0)
+				if (lstPlaces.SelectedIndex == -1 && Paginator.Entities.Count > 0)
 				{
 					lstPlaces.SelectedIndex = 0;
 				}
-				if (Places.Count == 0)
+				if (Paginator.Entities.Count == 0)
 				{
 					MapUtil.ClearPins(MyMap);
-					MapUtil.DrawPinOnMapBasedOnList(Places, lstPlaces, MyMap, true);
+					MapUtil.DrawPinOnMapBasedOnList(Paginator.Entities, lstPlaces, MyMap, true);
 				}
 			}
 		}
@@ -280,20 +250,20 @@ namespace YouTravel.Agent
 
 		private void btnPrevPage_Click(object sender, RoutedEventArgs e)
 		{
-			PageIndex--;
+			Paginator.PageIndex--;
 			LoadPlacesCurrentPage();
 		}
 
 		private void btnNextPage_Click(object sender, RoutedEventArgs e)
 		{
-			PageIndex++;
+			Paginator.PageIndex++;
 			LoadPlacesCurrentPage();
 		}
 
-		private void SetPageNavButtonsEnabled()
+		private void SetPageNavButtonsEnabled(object? sender, PropertyChangedEventArgs e)
 		{
-			btnPrevPage.IsEnabled = PageIndex > 1;
-			btnNextPage.IsEnabled = PageIndex < PageCount;
+			btnPrevPage.IsEnabled = Paginator.PageIndex > 1;
+			btnNextPage.IsEnabled = Paginator.PageIndex < Paginator.PageCount;
 		}
 
 		private void searchBox_KeyDown(object sender, KeyEventArgs e)

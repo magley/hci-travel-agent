@@ -71,6 +71,7 @@
     <Resource Include="Res\IcoPageEdit.png" />
     <Resource Include="Res\IcoPencil.png" />
     <Resource Include="Res\IcoPlanetAdd.png" />
+	<Resource Include="Res\IcoReport.png" />
     <Resource Include="Res\IcoRestaurant2.png" />
     <Resource Include="Res\IcoTravel.png" />
     <Resource Include="Res\ImgAttraction.png" />
