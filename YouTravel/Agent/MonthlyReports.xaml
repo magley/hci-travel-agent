@@ -15,6 +15,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="15*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <DataGrid
@@ -46,6 +47,11 @@
             <Label Content="{Binding Path=PageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button x:Name="btnNextPage" Click="BtnNextPage_Click"  MinWidth="30">&gt;</Button>
         </StackPanel>
+
+        <ComboBox
+            Grid.Row="3"
+            ItemsSource="{Binding Months}"
+            SelectedIndex="{Binding SelectedMonthIndex,Mode=TwoWay}"/>
 
     </Grid>
 </Page>

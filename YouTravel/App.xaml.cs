@@ -49,11 +49,15 @@ namespace YouTravel
                 var res2 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr1 };
                 var res3 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr1 };
                 var res4 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr2 };
+                var res5 = new Reservation { TimeOfReservation = DateTime.Now.AddMonths(-1), Arrangement = arr2 };
+                var res6 = new Reservation { TimeOfReservation = DateTime.Now.AddMonths(-1), Arrangement = arr2 };
 
                 db.Reservations.Add(res1);
                 db.Reservations.Add(res2);
                 db.Reservations.Add(res3);
                 db.Reservations.Add(res4);
+                db.Reservations.Add(res5);
+                db.Reservations.Add(res6);
 
 				db.SaveChanges();
 

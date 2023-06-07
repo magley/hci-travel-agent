@@ -12,6 +12,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -25,6 +26,21 @@ namespace YouTravel.Agent
     /// </summary>
     public partial class MonthlyReports : Page
     {
+        public List<string> Months { get; } = new()
+        {
+            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
+        };
+        private int _selectedMonthIndex = DateTime.Now.Month;
+        public int SelectedMonthIndex
+        {
+            get { return _selectedMonthIndex; }
+            set
+            {
+                _selectedMonthIndex = value;
+                LoadReservations();
+            }
+        }
+
         public Paginator<Reservation> Paginator = new();
         public MonthlyReports()
         {
@@ -44,6 +60,11 @@ namespace YouTravel.Agent
 
         private void InitDbContext()
         {
+            LoadReservations();
+        }
+
+        private void LoadReservations()
+        {
             using var ctx = new TravelContext();
             ctx.Reservations.Load();
 
@@ -53,8 +74,8 @@ namespace YouTravel.Agent
                 Paginator.Entities.Add(v);
             }
 
-            DateTime date = DateTime.Now;
-            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            int year = DateTime.Now.Year;
+            var firstDayOfMonth = new DateTime(year, SelectedMonthIndex, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
 
             var inThisMonth = Paginator.Entities
