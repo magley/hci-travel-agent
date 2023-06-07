@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using YouTravel.Model;
 using YouTravel.Util;
@@ -45,19 +46,15 @@ namespace YouTravel
 				arr3.Places.Add(hotel1);
 				db.Arrangements.Add(arr3);
 
-				var res1 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr1, Username = "user", NumOfPeople = 2, PaidOn = DateTime.Now };
-                var res2 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr1, Username = "user", NumOfPeople = 4 };
-                var res3 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr1, Username = "user", NumOfPeople = 1 };
-                var res4 = new Reservation { TimeOfReservation = DateTime.Now, Arrangement = arr2, Username = "user", NumOfPeople = 1, PaidOn = DateTime.Now };
-                var res5 = new Reservation { TimeOfReservation = DateTime.Now.AddMonths(-1), Arrangement = arr2, Username = "user", NumOfPeople = 1, PaidOn = DateTime.Now.AddMonths(-1) };
-                var res6 = new Reservation { TimeOfReservation = DateTime.Now.AddMonths(-1), Arrangement = arr2, Username = "user", NumOfPeople = 2, PaidOn = DateTime.Now.AddMonths(-1) };
-
-                db.Reservations.Add(res1);
-                db.Reservations.Add(res2);
-                db.Reservations.Add(res3);
-                db.Reservations.Add(res4);
-                db.Reservations.Add(res5);
-                db.Reservations.Add(res6);
+				var arrangements = db.Arrangements.Local.ToList();
+				var rnd = new Random(1);
+				for (int i = 0; i < 20; ++i)
+				{
+					var timeOfReservation = DateTime.Now.AddMonths(rnd.Next(-3, 1));
+					var arr = arrangements[rnd.Next(arrangements.Count)];
+					var res = new Reservation { TimeOfReservation = timeOfReservation, Arrangement = arr, Username = "user", NumOfPeople = (i + 1) % 4, PaidOn = (i % 2 == 0) ? timeOfReservation : null };
+					db.Reservations.Add(res);
+				}
 
 				db.SaveChanges();
 
