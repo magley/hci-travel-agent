@@ -20,7 +20,7 @@
 		<Label
 			Grid.Row="0"
 			FontSize="24"
-			Content="{Binding Arrangement.Description}"/>
+			Content="{Binding Arrangement.Name}"/>
 
 		<DataGrid
 			Grid.Row="1"

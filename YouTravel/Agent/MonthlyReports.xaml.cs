@@ -45,14 +45,26 @@ namespace YouTravel.Agent
             }
         }
 
-        private string _selectedMonth;
-        public string SelectedMonth
+        private string? _selectedMonth;
+        public string? SelectedMonth
         {
             get { return _selectedMonth; }
             set
             {
                 _selectedMonth = value;
                 DoPropertyChanged(nameof(SelectedMonth));
+            }
+        }
+
+        private int _selectedYear = DateTime.Now.Year;
+        public int SelectedYear
+        {
+            get { return _selectedYear; }
+            set
+            {
+                _selectedYear = value;
+                DoPropertyChanged(nameof(SelectedYear));
+                LoadReservations();
             }
         }
 
@@ -91,12 +103,11 @@ namespace YouTravel.Agent
                 Paginator.Entities.Add(v);
             }
 
-            int year = DateTime.Now.Year;
-            var firstDayOfMonth = new DateTime(year, SelectedMonthIndex + 1, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+            var rangeStart = new DateTime(SelectedYear, SelectedMonthIndex + 1, 1);
+            var rangeEnd = rangeStart.AddMonths(1).AddDays(-1);
 
             var inThisMonth = Paginator.Entities
-                .Where(x => x.TimeOfReservation >= firstDayOfMonth && x.TimeOfReservation <= lastDayOfMonth)
+                .Where(x => x.TimeOfReservation >= rangeStart && x.TimeOfReservation <= rangeEnd)
                 .ToList();
             Paginator.Entities.Clear();
             foreach (var v in inThisMonth)
@@ -165,10 +176,28 @@ namespace YouTravel.Agent
             SetMonthButtonsEnabled();
         }
 
+        private void BtnPrevYear_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedYear--;
+            SetYearButtonsEnabled();
+        }
+
+        private void BtnNextYear_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedYear++;
+            SetYearButtonsEnabled();
+        }
+
         private void SetMonthButtonsEnabled()
         {
             btnPrevMonth.IsEnabled = SelectedMonthIndex > 0;
             btnNextMonth.IsEnabled = SelectedMonthIndex < 11;
+        }
+
+        private void SetYearButtonsEnabled()
+        {
+            btnPrevMonth.IsEnabled = SelectedYear > DateTime.MinValue.Year;
+            btnNextMonth.IsEnabled = SelectedYear < DateTime.MaxValue.Year;
         }
     }
 }
