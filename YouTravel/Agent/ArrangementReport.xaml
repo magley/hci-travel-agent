@@ -19,16 +19,25 @@
 		<Label
 			Grid.Row="0"
 			FontSize="24"
-			Content="{Binding arrangement.Description}"/>
+			Content="{Binding Arrangement.Description}"/>
 
 		<DataGrid
 			Grid.Row="1"
 			Margin="0 16 0 16"
 			x:Name="tbReservations" 
-			AutoGenerateColumns="True" 
+			AutoGenerateColumns="False" 
 			HeadersVisibility="Column"
 			IsReadOnly="True"
 			ItemsSource="{Binding}">
+            <DataGrid.Resources>
+                <Style x:Key="TextColumnStyle" TargetType="TextBlock">
+                    <Setter Property="Margin" Value="5,5" />
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="2*" Header="Time of reservation" Binding="{Binding TimeOfReservation}" />
+            </DataGrid.Columns>
 		</DataGrid>
        
         <TextBlock x:Name="txtNoReservations" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center">

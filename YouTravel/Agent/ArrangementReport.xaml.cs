@@ -18,8 +18,6 @@ namespace YouTravel.Agent
 
         public Arrangement Arrangement { get; set; }
 
-        private Reservation? _selectedReservation = null;
-
         public ArrangementReport(Arrangement arrangement)
         {
             InitializeComponent();
@@ -70,32 +68,6 @@ namespace YouTravel.Agent
         {
             Paginator.LoadPage();
             tbReservations.DataContext = Paginator.EntitiesCurrentPage;
-            ReselectReservation();
-        }
-
-        private void ReselectReservation()
-        {
-            if (_selectedReservation != null)
-            {
-                int index = -1;
-                for (int i = 0; i < Paginator.EntitiesCurrentPage.Count; i++)
-                {
-                    if (Paginator.EntitiesCurrentPage[i].Id == _selectedReservation.Id)
-                    {
-                        index = i;
-                    }
-                }
-
-                if (index > -1)
-                {
-                    tbReservations.SelectedIndex = index;
-                }
-            }
-
-            if (Paginator.EntitiesCurrentPage.Count > 0 && _selectedReservation == null)
-            {
-                tbReservations.SelectedIndex = 0;
-            }
         }
 
         private void SetPageNavButtonsEnabled(object? sender, PropertyChangedEventArgs e)
