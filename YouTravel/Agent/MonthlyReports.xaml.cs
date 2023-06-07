@@ -30,7 +30,7 @@ namespace YouTravel.Agent
         {
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
         };
-        private int _selectedMonthIndex = DateTime.Now.Month;
+        private int _selectedMonthIndex = DateTime.Now.Month - 1;
         public int SelectedMonthIndex
         {
             get { return _selectedMonthIndex; }
@@ -76,8 +76,10 @@ namespace YouTravel.Agent
             }
 
             int year = DateTime.Now.Year;
-            var firstDayOfMonth = new DateTime(year, SelectedMonthIndex, 1);
+            var firstDayOfMonth = new DateTime(year, SelectedMonthIndex + 1, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+            Console.WriteLine("Start range: " + firstDayOfMonth);
+            Console.WriteLine("End range: " + lastDayOfMonth);
 
             var inThisMonth = Paginator.Entities
                 .Where(x => x.TimeOfReservation >= firstDayOfMonth && x.TimeOfReservation <= lastDayOfMonth)
