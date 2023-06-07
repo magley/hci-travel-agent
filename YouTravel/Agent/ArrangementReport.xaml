@@ -30,7 +30,10 @@
 			IsReadOnly="True"
 			ItemsSource="{Binding}">
 		</DataGrid>
-
+       
+        <TextBlock x:Name="txtNoReservations" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center">
+			No reservations for the arrangement.
+        </TextBlock>
         <StackPanel Margin="10 10 10 10" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
             <Button x:Name="btnPrevPage" Click="btnPrevPage_Click" MinWidth="30">&lt;</Button>
             <Label Content="{Binding Path=PageIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
