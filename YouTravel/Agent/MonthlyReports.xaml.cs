@@ -29,41 +29,14 @@ namespace YouTravel.Agent
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
-        public List<string> Months { get; } = new()
+        private DateTime _selectedDate = DateTime.Now;
+        public DateTime SelectedDate
         {
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
-        };
-        private int _selectedMonthIndex = DateTime.Now.Month - 1;
-        public int SelectedMonthIndex
-        {
-            get { return _selectedMonthIndex; }
+            get { return _selectedDate; }
             set
             {
-                _selectedMonthIndex = value;
-                SelectedMonth = Months[_selectedMonthIndex];
-                LoadReservations();
-            }
-        }
-
-        private string? _selectedMonth;
-        public string? SelectedMonth
-        {
-            get { return _selectedMonth; }
-            set
-            {
-                _selectedMonth = value;
-                DoPropertyChanged(nameof(SelectedMonth));
-            }
-        }
-
-        private int _selectedYear = DateTime.Now.Year;
-        public int SelectedYear
-        {
-            get { return _selectedYear; }
-            set
-            {
-                _selectedYear = value;
-                DoPropertyChanged(nameof(SelectedYear));
+                _selectedDate = value;
+                DoPropertyChanged(nameof(SelectedDate));
                 LoadReservations();
             }
         }
@@ -77,7 +50,6 @@ namespace YouTravel.Agent
             Paginator.PropertyChanged += SetPageNavButtonsEnabled;
             Paginator.Entities.CollectionChanged += OnReservationCollectionChanged;
             Paginator.EntitiesCurrentPage.CollectionChanged += OnReservationCurrentPageCollectionChanged;
-            SelectedMonth = Months[SelectedMonthIndex];
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -103,7 +75,7 @@ namespace YouTravel.Agent
                 Paginator.Entities.Add(v);
             }
 
-            var rangeStart = new DateTime(SelectedYear, SelectedMonthIndex + 1, 1);
+            var rangeStart = new DateTime(SelectedDate.Year, SelectedDate.Month, 1);
             var rangeEnd = rangeStart.AddMonths(1).AddDays(-1);
 
             var inThisMonth = Paginator.Entities
@@ -166,38 +138,34 @@ namespace YouTravel.Agent
 
         private void BtnPrevMonth_Click(object sender, RoutedEventArgs e)
         {
-            SelectedMonthIndex--;
+            SelectedDate = SelectedDate.AddMonths(-1);
             SetMonthButtonsEnabled();
         }
 
         private void BtnNextMonth_Click(object sender, RoutedEventArgs e)
         {
-            SelectedMonthIndex++;
+            SelectedDate = SelectedDate.AddMonths(1);
             SetMonthButtonsEnabled();
         }
 
-        private void BtnPrevYear_Click(object sender, RoutedEventArgs e)
+        private void SelectedDate_Click(object sender, RoutedEventArgs e)
         {
-            SelectedYear--;
-            SetYearButtonsEnabled();
-        }
-
-        private void BtnNextYear_Click(object sender, RoutedEventArgs e)
-        {
-            SelectedYear++;
-            SetYearButtonsEnabled();
+            SelectedDate = DateTime.Now;
         }
 
         private void SetMonthButtonsEnabled()
         {
-            btnPrevMonth.IsEnabled = SelectedMonthIndex > 0;
-            btnNextMonth.IsEnabled = SelectedMonthIndex < 11;
-        }
+            var maxYear = DateTime.MaxValue.Year;
+            var maxMonth = DateTime.MaxValue.Month;
 
-        private void SetYearButtonsEnabled()
-        {
-            btnPrevMonth.IsEnabled = SelectedYear > DateTime.MinValue.Year;
-            btnNextMonth.IsEnabled = SelectedYear < DateTime.MaxValue.Year;
+            var minYear = DateTime.MinValue.Year;
+            var minMonth = DateTime.MinValue.Month;
+
+            var curYear = SelectedDate.Year;
+            var curMonth = SelectedDate.Month;
+
+            btnPrevMonth.IsEnabled = curYear != minYear || curMonth > minMonth;
+            btnNextMonth.IsEnabled = curYear != maxYear || curMonth < maxMonth;
         }
     }
 }
