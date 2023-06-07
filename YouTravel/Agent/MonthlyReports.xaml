@@ -45,10 +45,28 @@
                 <util:PaidConverter x:Key="PaidConverter"/>
             </DataGrid.Resources>
             <DataGrid.Columns>
-                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Id" Binding="{Binding Id}" />
+                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Id" Binding="{Binding Id}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Reserved by" Binding="{Binding Username}" />
-                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Time of reservation" Binding="{Binding TimeOfReservation}" />
-                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Number of people" Binding="{Binding NumOfPeople}" />
+                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Time of reservation" Binding="{Binding TimeOfReservation}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Number of people" Binding="{Binding NumOfPeople}" >
+                    <DataGridTextColumn.CellStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextAlignment" Value="Right" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Paid?" Binding="{Binding PaidOn, Converter={StaticResource PaidConverter}}" />
             </DataGrid.Columns>
         </DataGrid>
