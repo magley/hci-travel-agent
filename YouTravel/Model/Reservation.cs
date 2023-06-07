@@ -11,5 +11,9 @@ namespace YouTravel.Model
 
         public int ArrangementId { get; set; }
         public Arrangement Arrangement { get; set; } = null!;
+        public string? Username { get; set; }
+        public int NumOfPeople { get; set; }
+        public DateTime? PaidOn { get; set; }
+
     }
 }

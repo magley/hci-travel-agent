@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Agent"
+        xmlns:util="clr-namespace:YouTravel.Util"
         mc:Ignorable="d"
 		Style="{StaticResource PageDark}"
 		Loaded="Window_Loaded"
@@ -33,10 +34,14 @@
                 <Style x:Key="TextColumnStyle" TargetType="TextBlock">
                     <Setter Property="Margin" Value="5,5" />
                 </Style>
+                <util:PaidConverter x:Key="PaidConverter"/>
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Id" Binding="{Binding Id}" />
-                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="2*" Header="Time of reservation" Binding="{Binding TimeOfReservation}" />
+                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Reserved by" Binding="{Binding Username}" />
+                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Time of reservation" Binding="{Binding TimeOfReservation}" />
+                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Number of people" Binding="{Binding NumOfPeople}" />
+                <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Paid?" Binding="{Binding PaidOn, Converter={StaticResource PaidConverter}}" />
             </DataGrid.Columns>
 		</DataGrid>
        

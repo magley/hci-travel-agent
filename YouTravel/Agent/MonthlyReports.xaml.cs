@@ -56,7 +56,7 @@ namespace YouTravel.Agent
             }
         }
 
-        public Paginator<Reservation> Paginator { get; set; } = new();
+        public Paginator<Reservation> Paginator { get; set; } = new(10);
         public MonthlyReports()
         {
             InitializeComponent();

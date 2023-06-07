@@ -18,14 +18,19 @@ namespace YouTravel.Util
         private int _pageCount = 0;
         public int PageIndex { get { return _pageIndex; } set { _pageIndex = value; DoPropertyChanged(nameof(PageIndex)); } }
         public int PageCount { get { return _pageCount; } set { _pageCount = value; DoPropertyChanged(nameof(PageCount)); } }
-        int pageSize = 2;
+        public int PageSize { get; }
+
+        public Paginator(int pageSize = 2)
+        {
+            PageSize = pageSize;
+        }
 
         public ObservableCollection<T> Entities { get; set; } = new();
         public ObservableCollection<T> EntitiesCurrentPage { get; } = new();
 
         public void LoadPage()
         {
-            PageCount = (int)Math.Ceiling((double)(Entities.Count / (double)pageSize));
+            PageCount = (int)Math.Ceiling((double)(Entities.Count / (double)PageSize));
             if (PageIndex > PageCount)
             {
                 PageIndex = PageCount;
@@ -35,8 +40,8 @@ namespace YouTravel.Util
                 PageIndex = 1;
             }
 
-            int L = Math.Max(0, (PageIndex - 1) * pageSize);
-            int R = Math.Min((PageIndex) * pageSize - 1, Entities.Count - 1);
+            int L = Math.Max(0, (PageIndex - 1) * PageSize);
+            int R = Math.Min((PageIndex) * PageSize - 1, Entities.Count - 1);
 
             EntitiesCurrentPage.Clear();
             if (Entities.Count != 0)

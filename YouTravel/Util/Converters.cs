@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Data;
 
 namespace YouTravel.Util
@@ -15,4 +16,18 @@ namespace YouTravel.Util
 			return value?.Equals(true) == true ? parameter : Binding.DoNothing;
 		}
 	}
+
+    public class PaidConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            DateTime? date = (DateTime?)value;
+            return (date == null) ? "No" : "Yes";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value;
+        }
+    }
 }
