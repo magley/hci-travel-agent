@@ -40,9 +40,9 @@ namespace YouTravel.Agent
 		public bool ActivitiesViewAttraction { get; set; } = true;
 		public bool ActivitiesViewRestaurant { get; set; } = true;
 
-		public string ArrName { get { return _arrName; } set { _arrName = value; DoPropertyChanged(nameof(ArrName)); } }
+		public string ArrName { get { return _arrName; } set { _arrName = value; DoPropertyChanged(nameof(ArrName)); ValidateName(); } }
         public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
-        public double Price { get { return _price; } set { _price = value; DoPropertyChanged(nameof(Price)); } }
+        public double Price { get { return _price; } set { _price = value; DoPropertyChanged(nameof(Price)); ValidatePrice(); } }
 		public string Filename { get { return _filename; } set { _filename = value; DoPropertyChanged(nameof(Filename)); } }
 		public string DurationText { get { return _durationText; } set { _durationText = value; DoPropertyChanged(nameof(DurationText)); } }
 
@@ -78,6 +78,19 @@ namespace YouTravel.Agent
 			returnToDashboard = returnToMainView;
 			mapBundle.Map = TheMap;
 			ArrActivities.CollectionChanged += (a, b) => DrawMap();
+			ArrActivities.CollectionChanged += (a, b) => UpdateSummaryPlacesVisibility();
+
+			UpdateSummaryPlacesVisibility();
+		}
+
+		private void ValidateName()
+		{
+			UpdateNavigation();
+		}
+
+		private void ValidatePrice()
+		{
+			UpdateNavigation();
 		}
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -163,11 +176,22 @@ namespace YouTravel.Agent
 			}
 		}
 
+		private void MovePageIndex(int delta)
+		{
+			PageIndex += delta;
+			MoveToPage(PageIndex);
+		}
+
 		private void MoveToPage(int pageIndex)
 		{
 			PageIndex = pageIndex; // We need this.
+			UpdateNavigation();
+		}
+
+		private void UpdateNavigation()
+		{
 			btnPrev.IsEnabled = PageIndex > 0;
-			btnNext.IsEnabled = PageIndex < pages.Count - 1 && CanGoNext();
+			btnNext.IsEnabled = PageIndex < pages.Count - 1 && CanGoNext(PageIndex);
 			btnFinish.IsEnabled = (PageIndex == pages.Count - 1);
 
 			for (int i = 0; i < pages.Count; i++)
@@ -187,15 +211,21 @@ namespace YouTravel.Agent
 			UpdateNavList();
 		}
 
-		private void MovePageIndex(int delta)
+		private bool CanGoNext(int pageIndex)
 		{
-			PageIndex += delta;
-			MoveToPage(PageIndex);
-		}
+			if (pageIndex == 0)
+			{
+				if (_arrName.Length == 0)
+				{
+					return false;
+				}
+				if (Price <= 0)
+				{
+					return false;
+				}
+			}
 
-		private bool CanGoNext()
-		{
-			if (PageIndex == 1) // Calendar page.
+			if (pageIndex == 1) // Calendar page.
 			{
 				try
 				{
@@ -209,26 +239,28 @@ namespace YouTravel.Agent
 				}
 			}
 
-			return PageIndex < pages.Count - 1;
+			return pageIndex < pages.Count - 1;
 		}
 
 		private void UpdateNavList()
 		{
-			bool calendarFilledIn = false;
-			try
+			int cantClickThisStep = steps.Count;
+			for (int i = 0; i < steps.Count; i++)
 			{
-				DateTime d1 = arrangementCalendar.SelectedDates[0];
-				DateTime d2 = arrangementCalendar.SelectedDates.Last();
-				calendarFilledIn = true;
-			}
-			catch (ArgumentOutOfRangeException)
-			{
-				calendarFilledIn = false;
+				if (!CanGoNext(i))
+				{
+					cantClickThisStep = i + 1;
+					break;
+				}
 			}
 
-			for (int i = 2; i < steps.Count; i++)
+			for (int i = 0; i < cantClickThisStep; i++)
 			{
-				steps[i].IsEnabled = calendarFilledIn;
+				steps[i].IsEnabled = true;
+			}
+			for (int i = cantClickThisStep; i < steps.Count; i++)
+			{
+				steps[i].IsEnabled = false;
 			}
 		}
 
@@ -270,6 +302,8 @@ namespace YouTravel.Agent
 			image.CacheOption = BitmapCacheOption.OnLoad;
 			image.Freeze();
 			imgImage.Source = image;
+
+			SummaryNoImage.Visibility = Visibility.Collapsed;
 		}
 
         private void InitMapsApi()
@@ -311,8 +345,9 @@ namespace YouTravel.Agent
                 DateTime d1 = calendar.SelectedDates[0];
                 DateTime d2 = calendar.SelectedDates.Last();
                 SetArrangementDates(d1, d2);
-				UpdateNavList();
-				btnNext.IsEnabled = PageIndex < pages.Count - 1 && CanGoNext();
+				UpdateNavigation();
+				//UpdateNavList();
+				//btnNext.IsEnabled = PageIndex < pages.Count - 1 && CanGoNext();
 			}
             catch (ArgumentOutOfRangeException)
             {
@@ -463,6 +498,20 @@ namespace YouTravel.Agent
 			if (Mouse.Captured is Calendar || Mouse.Captured is CalendarItem)
 			{
 				Mouse.Capture(null);
+			}
+		}
+
+		private void UpdateSummaryPlacesVisibility()
+		{
+			if (ArrActivities.Count == 0)
+			{
+				SummaryNoPlaces.Visibility = Visibility.Visible;
+				SummaryPlaces.Visibility = Visibility.Collapsed;
+			}
+			else
+			{
+				SummaryNoPlaces.Visibility = Visibility.Collapsed;
+				SummaryPlaces.Visibility = Visibility.Visible;
 			}
 		}
 	}
