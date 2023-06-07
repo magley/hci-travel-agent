@@ -19,7 +19,7 @@ namespace YouTravel.Agent
 {
 	public partial class PlacesList : Page
 	{
-		public Paginator<Place> Paginator = new();
+		public Paginator<Place> Paginator { get; set; } = new();
 
 		public bool ShowHotel { get; set; } = true;
 		public bool ShowAttraction { get; set; } = true;

@@ -14,7 +14,7 @@ namespace YouTravel.Agent
 {
     public partial class ArrangementReport : Page
     {
-        public Paginator<Reservation> Paginator = new();
+        public Paginator<Reservation> Paginator { get; set; } = new();
 
         public Arrangement Arrangement { get; set; }
 

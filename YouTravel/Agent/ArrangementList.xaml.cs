@@ -15,7 +15,7 @@ namespace YouTravel.Agent
 {
     public partial class ArrangementList : Page
     {
-        public Paginator<Arrangement> Paginator = new();
+        public Paginator<Arrangement> Paginator { get; set; } = new();
 
 		public bool ShowActive { get; set; } = true;
         public bool ShowFinished { get; set; } = false;

@@ -45,9 +45,9 @@
         </TextBlock>
         <StackPanel Margin="10 10 10 10" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
             <Button x:Name="btnPrevPage" Click="BtnPrevPage_Click" MinWidth="30">&lt;</Button>
-            <Label Content="{Binding Path=PageIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="{Binding Path=Paginator.PageIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="/"/>
-            <Label Content="{Binding Path=PageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="{Binding Path=Paginator.PageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button x:Name="btnNextPage" Click="BtnNextPage_Click"  MinWidth="30">&gt;</Button>
         </StackPanel>
 
