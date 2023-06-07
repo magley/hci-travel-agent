@@ -23,7 +23,8 @@ namespace YouTravel.Agent
 		public ICommand CmdViewArrangements { get; private set; }
 		public ICommand CmdNewPlace { get; private set; }
 		public ICommand CmdViewPlaces { get; private set; }
-		public ICommand CmdToggleToolbar { get; private set; }
+        public ICommand CmdViewReports { get; private set; }
+        public ICommand CmdToggleToolbar { get; private set; }
 
 		public AgentMainWindow()
 		{
@@ -54,7 +55,8 @@ namespace YouTravel.Agent
 
 			CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd((Location)null, true)), o => true);
 			CmdViewPlaces = new RelayCommand(o => OpenPage(new PlacesList()), o => true);
-		}
+			CmdViewReports = new RelayCommand(o => OpenPage(new MonthlyReports()), o => true);
+        }
 
 		private void Window_Loaded(object sender, RoutedEventArgs e)
 		{
