@@ -41,17 +41,17 @@
 			No reservations for the arrangement.
         </TextBlock>
         <StackPanel Margin="10 10 10 10" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
+            <Button x:Name="btnPrevMonth" MinWidth="30" Click="BtnPrevMonth_Click" >Prev month</Button>
+            <Label  HorizontalContentAlignment="Center" Width="50"  Content="{Binding Path=SelectedMonth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            <Button x:Name="btnNextMonth" MinWidth="30" Click="BtnNextMonth_Click">Next month</Button>
+        </StackPanel>
+        <StackPanel Margin="10 10 10 10" Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right">
             <Button x:Name="btnPrevPage" Click="BtnPrevPage_Click" MinWidth="30">&lt;</Button>
-            <Label Content="{Binding Path=PageIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="{Binding Path=Paginator.PageIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="/"/>
-            <Label Content="{Binding Path=PageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="{Binding Path=Paginator.PageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Button x:Name="btnNextPage" Click="BtnNextPage_Click"  MinWidth="30">&gt;</Button>
         </StackPanel>
-
-        <ComboBox
-            Grid.Row="3"
-            ItemsSource="{Binding Months}"
-            SelectedIndex="{Binding SelectedMonthIndex,Mode=TwoWay}"/>
 
     </Grid>
 </Page>

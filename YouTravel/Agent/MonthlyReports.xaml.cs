@@ -24,8 +24,11 @@ namespace YouTravel.Agent
     /// <summary>
     /// Interaction logic for MonthlyReports.xaml
     /// </summary>
-    public partial class MonthlyReports : Page
+    public partial class MonthlyReports : Page, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+        void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+
         public List<string> Months { get; } = new()
         {
             "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
@@ -37,11 +40,23 @@ namespace YouTravel.Agent
             set
             {
                 _selectedMonthIndex = value;
+                SelectedMonth = Months[_selectedMonthIndex];
                 LoadReservations();
             }
         }
 
-        public Paginator<Reservation> Paginator = new();
+        private string _selectedMonth;
+        public string SelectedMonth
+        {
+            get { return _selectedMonth; }
+            set
+            {
+                _selectedMonth = value;
+                DoPropertyChanged(nameof(SelectedMonth));
+            }
+        }
+
+        public Paginator<Reservation> Paginator { get; set; } = new();
         public MonthlyReports()
         {
             InitializeComponent();
@@ -50,6 +65,7 @@ namespace YouTravel.Agent
             Paginator.PropertyChanged += SetPageNavButtonsEnabled;
             Paginator.Entities.CollectionChanged += OnReservationCollectionChanged;
             Paginator.EntitiesCurrentPage.CollectionChanged += OnReservationCurrentPageCollectionChanged;
+            SelectedMonth = Months[SelectedMonthIndex];
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -78,8 +94,6 @@ namespace YouTravel.Agent
             int year = DateTime.Now.Year;
             var firstDayOfMonth = new DateTime(year, SelectedMonthIndex + 1, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-            Console.WriteLine("Start range: " + firstDayOfMonth);
-            Console.WriteLine("End range: " + lastDayOfMonth);
 
             var inThisMonth = Paginator.Entities
                 .Where(x => x.TimeOfReservation >= firstDayOfMonth && x.TimeOfReservation <= lastDayOfMonth)
@@ -137,6 +151,24 @@ namespace YouTravel.Agent
         {
             Paginator.PageIndex++;
             LoadReservationsCurrentPage();
+        }
+
+        private void BtnPrevMonth_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedMonthIndex--;
+            SetMonthButtonsEnabled();
+        }
+
+        private void BtnNextMonth_Click(object sender, RoutedEventArgs e)
+        {
+            SelectedMonthIndex++;
+            SetMonthButtonsEnabled();
+        }
+
+        private void SetMonthButtonsEnabled()
+        {
+            btnPrevMonth.IsEnabled = SelectedMonthIndex > 0;
+            btnNextMonth.IsEnabled = SelectedMonthIndex < 11;
         }
     }
 }
