@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,35 +11,38 @@ using YouTravel.Model;
 namespace YouTravel.Agent
 {
     public partial class ArrangementReport : Page
-	{
-        public Arrangement arrangement { get; set; }
-        private IList<Reservation> Reservations { get; set; } = new List<Reservation>();
+    {
+        public event PropertyChangedEventHandler? PropertyChanged;
+        void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+
+        public Arrangement Arrangement { get; set; }
 
         public ArrangementReport(Arrangement arrangement)
         {
             InitializeComponent();
             DataContext = this;
-            this.arrangement = arrangement;
+            using (var db = new TravelContext())
+            {
+                // NOTE: This is an issue with lazy loading: you have to explicitly
+                // tell the context to fetch the other entity, too.
+                Arrangement = db.Arrangements.Include(a => a.Reservations).Where(a => a.Id == arrangement.Id).First();
+            }
+            tbReservations.DataContext = Arrangement.Reservations;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            InitDbContext();
 			Mouse.OverrideCursor = null;
 		}
 
-        private void InitDbContext()
+        private void btnPrevPage_Click(object sender, RoutedEventArgs e)
         {
-            using (var ctx = new TravelContext())
-            {
-                ctx.Arrangements.Load();
-                ctx.Reservations.Load();
 
-                Reservations = (from res in ctx.Reservations.Local.ToObservableCollection()
-                                where res.Arrangement.Id == arrangement.Id
-                                select res).ToList();
-                tbReservations.DataContext = Reservations;
-            }
+        }
+
+        private void btnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

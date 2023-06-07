@@ -31,16 +31,14 @@
 			ItemsSource="{Binding}">
 		</DataGrid>
 
-		<StackPanel
-			Grid.Row="2"
-			Orientation="Horizontal"
-			HorizontalAlignment="Right">
+        <StackPanel Margin="10 10 10 10" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
+            <Button x:Name="btnPrevPage" Click="btnPrevPage_Click" MinWidth="30">&lt;</Button>
+            <Label Content="{Binding Path=PageIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="/"/>
+            <Label Content="{Binding Path=PageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="btnNextPage" Click="btnNextPage_Click"  MinWidth="30">&gt;</Button>
+        </StackPanel>
 
-			<Button>Previous Page</Button>
-			<Label Grid.Row="2">Page 1/10</Label>
-			<Button>Next Page</Button>
-		</StackPanel>
-		
-	</Grid>
+    </Grid>
 
 </Page>
