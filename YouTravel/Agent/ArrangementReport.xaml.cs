@@ -38,6 +38,7 @@ namespace YouTravel.Agent
                 Paginator.Entities.Add(reservation);
             }
             tbReservations.DataContext = Paginator.EntitiesCurrentPage;
+            ToggleNoPagesText();
         }
 
         private void OnReservationCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
