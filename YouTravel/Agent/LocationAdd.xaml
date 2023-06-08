@@ -47,6 +47,10 @@
             <Label Content="Name:"/>
             <TextBox u:HelpProvider.HelpKey="place_add" ToolTip="Place name" MinHeight="32" x:Name="textboxName" Width="250" HorizontalAlignment="Left" Text="{Binding Path=LocName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" VerticalContentAlignment="Center"/>
 
+            <!-- Address -->
+            <Label Content="Address:"/>
+            <TextBox u:HelpProvider.HelpKey="place_add" ToolTip="Place address" MinHeight="32" x:Name="textboxAddress" HorizontalAlignment="Stretch" Text="{Binding Path=LocAddress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" VerticalContentAlignment="Center"/>
+            
             <!-- Description -->
             <Label Content="Description:" Margin="0 10 0 0"/>
             <TextBox u:HelpProvider.HelpKey="place_add" ToolTip="Place description" MinHeight="150" TextWrapping="Wrap" Text="{Binding Path=Description, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"/>

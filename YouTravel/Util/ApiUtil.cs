@@ -7,25 +7,14 @@ using System.Text.Json;
 // https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/location-recognition
 namespace YouTravel.Util.Api
 {
-    internal class BusinessInfo
+    internal class Address
     {
-        public string? EntityName { get; set; }
-    }
-
-    internal class Business
-    {
-        public BusinessInfo? BusinessInfo { get; set; }
-    }
-
-    internal class POI
-    {
-        public string? EntityName { get; set; }
+        public string? AddressLine { get; set; }
     }
 
     internal class Resource
     {
-        public IList<POI>? NaturalPOIAtLocation { get; set; }
-        public IList<Business>? BusinessesAtLocation { get; set; }
+        public IList<Address>? AddressOfLocation { get; set; }
     }
 
     internal class ResourceSet
@@ -55,7 +44,7 @@ namespace YouTravel.Util.Api
         }
         private static string Url(string point, string key)
         {
-            return $"{urlPath}/{point}?key={key}&output=json";
+            return $"{urlPath}/{point}?key={key}&output=json&includeEntityTypes=address";
         }
         private static string SendRequest(double lat, double lng)
         {
@@ -76,7 +65,7 @@ namespace YouTravel.Util.Api
         }
 
         private delegate T NoArgumentDelegate<T>();
-        public static string? FetchFirstLocationName(double lat, double lng)
+        public static string? FetchFirstLocationAddress(double lat, double lng)
         {
             static T? GetFirst<T>(NoArgumentDelegate<T> action)
             {
@@ -97,16 +86,10 @@ namespace YouTravel.Util.Api
                 return null;
             }
 
-            string? naturalPOIName = GetFirst(() => resource.NaturalPOIAtLocation?[0].EntityName);
-            if (naturalPOIName != null)
+            string? addressLine = GetFirst(() => resource.AddressOfLocation?[0].AddressLine);
+            if (addressLine != null)
             {
-                return naturalPOIName;
-            }
-
-            string? businessName = GetFirst(() => resource.BusinessesAtLocation?[0].BusinessInfo?.EntityName);
-            if (businessName != null)
-            {
-                return businessName;
+                return addressLine;
             }
 
             return null;

@@ -21,6 +21,7 @@ namespace YouTravel.Agent
         private double _latitude = 0;
         private double _longitude = 0;
         private string _name = defaultLocationName;
+        private string _address = "";
         private string _description = "";
         private PlaceType _type = PlaceType.Attraction;
         private readonly int placeId = -1;
@@ -28,6 +29,7 @@ namespace YouTravel.Agent
         public double Latitude { get { return _latitude; } set { _latitude = value; DoPropertyChanged(nameof(Latitude)); MoveMapToLocation(); } }
         public double Longitude { get { return _longitude; } set { _longitude = value; DoPropertyChanged(nameof(Longitude)); MoveMapToLocation(); } }
         public string LocName { get { return _name; } set { _name = value; DoPropertyChanged(nameof(LocName)); } }
+        public string LocAddress { get { return _address; } set { _address = value; DoPropertyChanged(nameof(LocAddress)); } }
         public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
         public PlaceType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); MoveMapToLocation(); } }
 
@@ -41,6 +43,7 @@ namespace YouTravel.Agent
             Latitude = place.Lat;
             Longitude = place.Long;
             LocName = place.Name;
+            LocAddress = place.Address;
             Type = place.Type;
             Description = place.Description;
 
@@ -63,16 +66,16 @@ namespace YouTravel.Agent
                 Latitude = UserConfig.Instance.StartLocation_Lat;
                 Longitude = UserConfig.Instance.StartLocation_Long;
             }
-            FetchAndSetLocName();
+            FetchAndSetLocAddress();
 
             MyMap.Center = new(Latitude, Longitude);
             this.shouldReturnToPlacesList = shouldReturnToPlacesList;
             DataContext = this;
         }
 
-        private void FetchAndSetLocName()
+        private void FetchAndSetLocAddress()
         {
-            LocName = LocationRecognition.FetchFirstLocationName(Latitude, Longitude) ?? defaultLocationName;
+            LocAddress = LocationRecognition.FetchFirstLocationAddress(Latitude, Longitude) ?? "";
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -114,7 +117,7 @@ namespace YouTravel.Agent
             DoPropertyChanged(nameof(Latitude));
             Longitude = latLong.Longitude;
 
-            FetchAndSetLocName();
+            FetchAndSetLocAddress();
         }
 
         private void BtnSaveChanges_Click(object sender, RoutedEventArgs e)
@@ -139,6 +142,7 @@ namespace YouTravel.Agent
                 }
 
                 place.Name = LocName;
+                place.Address = LocAddress;
                 place.Lat = Latitude;
                 place.Long = Longitude;
                 place.Type = Type;
