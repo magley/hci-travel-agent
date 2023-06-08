@@ -51,7 +51,7 @@ namespace YouTravel.Util.Api
 
         private static string Point(double lat, double lng)
         {
-            return $"{lat},{lng}";
+            return $"{lat.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)},{lng.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)}";
         }
         private static string Url(string point, string key)
         {
