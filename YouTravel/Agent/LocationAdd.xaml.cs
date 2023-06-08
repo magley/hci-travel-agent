@@ -22,7 +22,7 @@ namespace YouTravel.Agent
         private double _latitude = 0;
         private double _longitude = 0;
         private string _name = defaultLocationName;
-        private string _address = defaultLocationAddress;
+        private string _address = "";
         private string _description = "";
         private PlaceType _type = PlaceType.Attraction;
         private readonly int placeId = -1;
