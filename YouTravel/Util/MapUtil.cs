@@ -12,12 +12,12 @@ namespace YouTravel.Util
     public class PlacePinData
     {
         public Place Place { get; set; }
-        public bool SpeculativePin { get; set; }
+        public bool IsSpeculativePin { get; set; }
 
         public PlacePinData(Place place, bool speculativePin = false)
         {
             Place = place;
-            SpeculativePin = speculativePin;
+            IsSpeculativePin = speculativePin;
         }
 
         public static IEnumerable<PlacePinData> From(IEnumerable<Place> places, bool speculativePins = false)
@@ -67,7 +67,7 @@ namespace YouTravel.Util
                         Source = new BitmapImage(new Uri(GetPinIconUriString(pin.Place.Type), UriKind.Absolute)),
                         Width = 48,
                         Height = 48,
-                        Opacity = pin.SpeculativePin ? 0.5 : 1,
+                        Opacity = pin.IsSpeculativePin ? 0.5 : 1,
                     };
                     mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
                     bundle.Map.Children.Add(mapLayer);

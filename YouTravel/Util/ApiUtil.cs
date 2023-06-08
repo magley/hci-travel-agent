@@ -6,33 +6,33 @@ using System.Text.Json;
 
 namespace YouTravel.Util.Api
 {
-    public class BusinessInfo
+    internal class BusinessInfo
     {
         public string? EntityName { get; set; }
     }
 
-    public class Business
+    internal class Business
     {
         public BusinessInfo? BusinessInfo { get; set; }
     }
 
-    public class POI
+    internal class POI
     {
         public string? EntityName { get; set; }
     }
 
-    public class Resource
+    internal class Resource
     {
         public IList<POI>? NaturalPOIAtLocation { get; set; }
         public IList<Business>? BusinessesAtLocation { get; set; }
     }
 
-    public class ResourceSet
+    internal class ResourceSet
     {
         public IList<Resource>? Resources { get; set; }
     }
 
-    public class ApiResponse
+    internal class ApiResponse
     {
         public IList<ResourceSet>? ResourceSets { get; set; }
     }

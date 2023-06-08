@@ -330,8 +330,6 @@ namespace YouTravel.Agent
 
         private void DrawMap()
         {
-            // TODO: Fetch the actual route using Bing Maps' API.
-
             mapBundle.Pins = PlacePinData.From(ArrActivities).ToList();
             MapUtil.Redraw(mapBundle);
         }
