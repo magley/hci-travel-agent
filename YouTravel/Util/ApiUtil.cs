@@ -4,6 +4,7 @@ using System.IO;
 using System.Net.Http;
 using System.Text.Json;
 
+// https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/location-recognition
 namespace YouTravel.Util.Api
 {
     internal class BusinessInfo

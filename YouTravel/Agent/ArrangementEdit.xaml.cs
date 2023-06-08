@@ -47,6 +47,7 @@ namespace YouTravel.Agent
 
         public ObservableCollection<Place> AllActivities { get; set; } = new();
         public ObservableCollection<Place> ArrActivities { get; set; } = new();
+        public Place? SelectedUnassignedActivity { get; set; }
         private readonly MapBundle mapBundle = new();
 
         public ArrangementEdit(Arrangement arr)
@@ -214,13 +215,21 @@ namespace YouTravel.Agent
 
         private void LstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            mapBundle.Pins = new List<PlacePinData>(PlacePinData.From(AllActivities, speculativePins: true).Concat(PlacePinData.From(ArrActivities)));
+            mapBundle.Pins = new List<PlacePinData>(PlacePinData.From(ArrActivities));
+            if (SelectedUnassignedActivity != null)
+            {
+                mapBundle.Pins.Add(new PlacePinData(SelectedUnassignedActivity, speculativePin: true));
+            }
             MapUtil.Redraw(mapBundle);
         }
 
         private void LstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            mapBundle.Pins = PlacePinData.From(ArrActivities).ToList();
+            mapBundle.Pins = new List<PlacePinData>(PlacePinData.From(ArrActivities));
+            if (SelectedUnassignedActivity != null)
+            {
+                mapBundle.Pins.Add(new PlacePinData(SelectedUnassignedActivity, speculativePin: true));
+            }
             MapUtil.Redraw(mapBundle);
         }
 
