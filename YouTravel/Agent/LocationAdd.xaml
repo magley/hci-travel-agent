@@ -50,7 +50,7 @@
 
                 <!-- Address -->
                 <Label Content="Address:"/>
-                <TextBox u:HelpProvider.HelpKey="place_add" IsReadOnly="True"  ToolTip="Place address" MinHeight="32" x:Name="textboxAddress" HorizontalAlignment="Stretch" Text="{Binding Path=LocAddress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" VerticalContentAlignment="Center"/>
+                <TextBox u:HelpProvider.HelpKey="place_add" IsEnabled="False"  ToolTip="Place address" MinHeight="32" x:Name="textboxAddress" HorizontalAlignment="Stretch" Text="{Binding Path=LocAddress, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay }" VerticalContentAlignment="Center"/>
 
                 <!-- Description -->
                 <Label Content="Description:" Margin="0 10 0 0"/>
