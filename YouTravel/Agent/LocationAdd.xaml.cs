@@ -7,6 +7,7 @@ using System.Windows.Input;
 using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
+using YouTravel.Util.Api;
 
 namespace YouTravel.Agent
 {
@@ -15,9 +16,11 @@ namespace YouTravel.Agent
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
+        private const string defaultLocationName = "Unknown Location";
+
         private double _latitude = 0;
         private double _longitude = 0;
-        private string _name = "New Location";
+        private string _name = defaultLocationName;
         private string _description = "";
         private PlaceType _type = PlaceType.Attraction;
         private readonly int placeId = -1;
@@ -60,11 +63,18 @@ namespace YouTravel.Agent
                 Latitude = UserConfig.Instance.StartLocation_Lat;
                 Longitude = UserConfig.Instance.StartLocation_Long;
             }
+            FetchAndSetLocName();
 
             MyMap.Center = new(Latitude, Longitude);
             this.shouldReturnToPlacesList = shouldReturnToPlacesList;
             DataContext = this;
         }
+
+        private void FetchAndSetLocName()
+        {
+            LocName = LocationRecognition.FetchFirstLocationName(Latitude, Longitude) ?? defaultLocationName;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             TitleOverride.PageNameAsWords(this);
@@ -92,7 +102,7 @@ namespace YouTravel.Agent
             MyMap.ZoomLevel = 8;
         }
 
-        private void MyMap_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void MyMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
 
@@ -103,6 +113,8 @@ namespace YouTravel.Agent
             _latitude = latLong.Latitude;
             DoPropertyChanged(nameof(Latitude));
             Longitude = latLong.Longitude;
+
+            FetchAndSetLocName();
         }
 
         private void BtnSaveChanges_Click(object sender, RoutedEventArgs e)
