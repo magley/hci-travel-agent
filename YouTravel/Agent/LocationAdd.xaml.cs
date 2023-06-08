@@ -7,6 +7,7 @@ using System.Windows.Input;
 using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
+using YouTravel.Util.Api;
 
 namespace YouTravel.Agent
 {
@@ -15,9 +16,13 @@ namespace YouTravel.Agent
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
+        private const string defaultLocationName = "New Location";
+        private const string defaultLocationAddress = "Unknown Address";
+
         private double _latitude = 0;
         private double _longitude = 0;
-        private string _name = "New Location";
+        private string _name = defaultLocationName;
+        private string _address = "";
         private string _description = "";
         private PlaceType _type = PlaceType.Attraction;
         private readonly int placeId = -1;
@@ -25,6 +30,7 @@ namespace YouTravel.Agent
         public double Latitude { get { return _latitude; } set { _latitude = value; DoPropertyChanged(nameof(Latitude)); MoveMapToLocation(); } }
         public double Longitude { get { return _longitude; } set { _longitude = value; DoPropertyChanged(nameof(Longitude)); MoveMapToLocation(); } }
         public string LocName { get { return _name; } set { _name = value; DoPropertyChanged(nameof(LocName)); } }
+        public string LocAddress { get { return _address; } set { _address = value; DoPropertyChanged(nameof(LocAddress)); } }
         public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
         public PlaceType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); MoveMapToLocation(); } }
 
@@ -38,6 +44,7 @@ namespace YouTravel.Agent
             Latitude = place.Lat;
             Longitude = place.Long;
             LocName = place.Name;
+            LocAddress = place.Address;
             Type = place.Type;
             Description = place.Description;
 
@@ -60,11 +67,18 @@ namespace YouTravel.Agent
                 Latitude = UserConfig.Instance.StartLocation_Lat;
                 Longitude = UserConfig.Instance.StartLocation_Long;
             }
+            FetchAndSetLocAddress();
 
             MyMap.Center = new(Latitude, Longitude);
             this.shouldReturnToPlacesList = shouldReturnToPlacesList;
             DataContext = this;
         }
+
+        private async void FetchAndSetLocAddress()
+        {
+            LocAddress = await LocationRecognition.FetchFirstLocationAddressAsync(Latitude, Longitude) ?? defaultLocationAddress;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             TitleOverride.PageNameAsWords(this);
@@ -92,7 +106,7 @@ namespace YouTravel.Agent
             MyMap.ZoomLevel = 8;
         }
 
-        private void MyMap_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void MyMap_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             e.Handled = true;
 
@@ -103,6 +117,8 @@ namespace YouTravel.Agent
             _latitude = latLong.Latitude;
             DoPropertyChanged(nameof(Latitude));
             Longitude = latLong.Longitude;
+
+            FetchAndSetLocAddress();
         }
 
         private void BtnSaveChanges_Click(object sender, RoutedEventArgs e)
@@ -127,6 +143,7 @@ namespace YouTravel.Agent
                 }
 
                 place.Name = LocName;
+                place.Address = LocAddress;
                 place.Lat = Latitude;
                 place.Long = Longitude;
                 place.Type = Type;

@@ -17,6 +17,7 @@ namespace YouTravel.Model
         public double Lat { get; set; }
         public double Long { get; set; }
         public PlaceType Type { get; set; }
+        public string Address { get; set; } = "";
 
         public IList<Arrangement> Arrangements { get; } = new List<Arrangement>();
     }

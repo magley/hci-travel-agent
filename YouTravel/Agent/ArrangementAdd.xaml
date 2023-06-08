@@ -7,6 +7,7 @@
         xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib"
         xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         xmlns:local="clr-namespace:YouTravel.Agent"
+        xmlns:util="clr-namespace:YouTravel.Util"
         xmlns:dd="urn:gong-wpf-dragdrop"
         xmlns:u="clr-namespace:YouTravel.Util"
         mc:Ignorable="d"
@@ -20,6 +21,7 @@
         <BitmapImage x:Key="ImgRestaurant" UriSource="../Res/IcoRestaurant2.png"/>
         <BitmapImage x:Key="ImgHotel" UriSource="../Res/IcoHotel2.png"/>
         <BitmapImage x:Key="IcoCancel" UriSource="../Res/IcoCross.png"/>
+        <util:PlaceConverter x:Key="PlaceConverter"/>
     </Page.Resources>
     
     <Grid Margin="5">
@@ -198,6 +200,7 @@
                             x:Name="lstAllPlaces" 
                             Grid.Row="1" 
                             ItemsSource="{Binding AllActivities}" 
+                            SelectedItem="{Binding SelectedUnassignedActivity,Mode=TwoWay, Converter={StaticResource PlaceConverter}}"
                             u:HelpProvider.HelpKey="arrangement_add" ToolTip="Available places"
                             SelectionChanged="LstAllPlaces_SelectionChanged"
                             dd:DragDrop.IsDragSource="True"
