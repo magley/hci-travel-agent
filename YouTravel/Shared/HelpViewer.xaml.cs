@@ -1,8 +1,6 @@
-﻿using System.IO;
-using System;
+﻿using System;
+using System.IO;
 using System.Windows;
-using System.Windows.Input;
-using YouTravel.Agent;
 
 namespace YouTravel.Shared
 {

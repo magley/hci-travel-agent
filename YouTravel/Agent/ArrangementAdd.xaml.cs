@@ -6,15 +6,11 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
@@ -379,7 +375,7 @@ namespace YouTravel.Agent
             if (_start != null && _end != null)
             {
                 DurationText = $"{_start?.ToLongDateString()} - {_end?.ToLongDateString()}";
-            } 
+            }
             else
             {
                 DurationText = "No Dates Set.";
@@ -431,7 +427,7 @@ namespace YouTravel.Agent
                     Place placeTracked = db.Places.Find(place.Id)!;
                     arr.Places.Add(placeTracked);
                 }
-            
+
                 db.Arrangements.Add(arr);
                 db.SaveChanges();
             }

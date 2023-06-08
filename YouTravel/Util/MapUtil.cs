@@ -38,7 +38,7 @@ namespace YouTravel.Util
             }
 
             bundle.Map.Children.Clear();
-            
+
             // Route
 
             if (bundle.RouteLocations != null)

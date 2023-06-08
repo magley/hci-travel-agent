@@ -43,7 +43,7 @@ namespace YouTravel.Shared
             {
                 NoText = noText;
             }
-            
+
             Title = windowTitle;
 
             Application curApp = Application.Current;

@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -132,7 +131,8 @@ namespace YouTravel.Agent
                 DateTime d1 = calendar.SelectedDates[0];
                 DateTime d2 = calendar.SelectedDates.Last();
                 SetArrangementDates(d1, d2);
-            } catch (ArgumentOutOfRangeException)
+            }
+            catch (ArgumentOutOfRangeException)
             {
                 return;
             }
@@ -354,7 +354,8 @@ namespace YouTravel.Agent
                 image.Freeze();
                 imgImage.Source = image;
             }
-            catch (UriFormatException) {
+            catch (UriFormatException)
+            {
                 Filename = "No File Selected.";
                 imgImage.Source = null;
             }

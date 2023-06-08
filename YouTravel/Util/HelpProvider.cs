@@ -1,5 +1,4 @@
 ﻿using System.Windows;
-using YouTravel.Agent;
 using YouTravel.Shared;
 
 namespace YouTravel.Util
@@ -17,12 +16,12 @@ namespace YouTravel.Util
         }
 
         public static readonly DependencyProperty HelpKeyProperty = DependencyProperty.RegisterAttached(
-            "HelpKey", 
-            typeof(string), 
-            typeof(HelpProvider), 
+            "HelpKey",
+            typeof(string),
+            typeof(HelpProvider),
             new PropertyMetadata("index", HelpKey)
         );
-        
+
         private static void HelpKey(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
         }

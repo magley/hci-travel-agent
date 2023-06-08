@@ -1,7 +1,4 @@
-﻿using Microsoft.Maps.MapControl.WPF;
-using System;
-using System.Collections.ObjectModel;
-using System.Text.RegularExpressions;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

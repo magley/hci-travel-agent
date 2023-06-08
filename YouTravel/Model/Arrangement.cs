@@ -6,7 +6,7 @@ namespace YouTravel.Model
 {
     public class Arrangement
     {
-        [Key] 
+        [Key]
         public int Id { get; set; }
         public string Description { get; set; } = "New Arrangement Description";
         public string Name { get; set; } = "New Arrangement";

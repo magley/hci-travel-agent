@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Maps.MapControl.WPF;
 using System;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.IO;
@@ -10,7 +8,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
@@ -42,7 +39,7 @@ namespace YouTravel.Agent
 
             var lat = UserConfig.Instance.StartLocation_Lat;
             var lon = UserConfig.Instance.StartLocation_Long;
-            MyMap.Center = new (lat, lon);
+            MyMap.Center = new(lat, lon);
         }
 
         private void FocusSearch()
@@ -104,8 +101,8 @@ namespace YouTravel.Agent
 
                 var afterSearch = Paginator.Entities
                     .Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
-                    .Where(x => (ShowHotel && x.Type == PlaceType.Hotel) || 
-                                (ShowAttraction &&  x.Type == PlaceType.Attraction) || 
+                    .Where(x => (ShowHotel && x.Type == PlaceType.Hotel) ||
+                                (ShowAttraction && x.Type == PlaceType.Attraction) ||
                                 (ShowRestaurant && x.Type == PlaceType.Restaurant)
                     )
                     .Reverse()

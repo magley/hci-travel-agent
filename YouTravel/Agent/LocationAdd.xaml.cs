@@ -1,11 +1,9 @@
 ﻿using Microsoft.Maps.MapControl.WPF;
-using System;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
@@ -56,7 +54,7 @@ namespace YouTravel.Agent
             {
                 Latitude = loc.Latitude;
                 Longitude = loc.Longitude;
-            } 
+            }
             else
             {
                 Latitude = UserConfig.Instance.StartLocation_Lat;
@@ -121,7 +119,7 @@ namespace YouTravel.Agent
                 Place place;
                 if (creatingNew)
                 {
-                    place = new();           
+                    place = new();
                 }
                 else
                 {
