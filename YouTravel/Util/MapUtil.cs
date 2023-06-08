@@ -2,29 +2,44 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
 
 namespace YouTravel.Util
 {
+    public class PlacePinData
+    {
+        public Place Place { get; set; }
+        public bool SpeculativePin { get; set; }
+
+        public PlacePinData(Place place, bool speculativePin = false)
+        {
+            Place = place;
+            SpeculativePin = speculativePin;
+        }
+
+        public static IEnumerable<PlacePinData> From(IEnumerable<Place> places, bool speculativePins = false)
+        {
+            return from pin in places select new PlacePinData(pin, speculativePins);
+        }
+    }
+
     public class MapBundle
     {
         public Map? Map { get; set; }
-        public IList<Location>? RouteLocations { get; set; }
-        public IList<Place> Pins { get; set; }
+        public IList<PlacePinData> Pins { get; set; }
 
-        public MapBundle(Map map, IList<Location> routeLocations, Place pin)
+        public MapBundle(Map map, Place pin)
         {
             Map = map;
-            RouteLocations = routeLocations;
-            Pins = new List<Place> { pin };
+            Pins = new List<PlacePinData> { new PlacePinData(pin) };
         }
 
         public MapBundle()
         {
-            Pins = new List<Place>();
+            Pins = new List<PlacePinData>();
         }
     }
 
@@ -39,39 +54,20 @@ namespace YouTravel.Util
 
             bundle.Map.Children.Clear();
 
-            // Route
-
-            if (bundle.RouteLocations != null)
-            {
-                var locations = new LocationCollection();
-                foreach (var loc in bundle.RouteLocations)
-                {
-                    locations.Add(loc);
-                }
-
-                var polyline = new MapPolyline
-                {
-                    Locations = locations,
-                    Stroke = new SolidColorBrush(Colors.Blue),
-                    StrokeThickness = 5
-                };
-
-                bundle.Map.Children.Add(polyline);
-            }
-
             // Pin
 
             foreach (var pin in bundle.Pins)
             {
                 if (pin != null)
                 {
-                    var location = new Location(pin.Lat, pin.Long);
+                    var location = new Location(pin.Place.Lat, pin.Place.Long);
                     MapLayer mapLayer = new();
                     Image myPushPin = new()
                     {
-                        Source = new BitmapImage(new Uri(GetPinIconUriString(pin.Type), UriKind.Absolute)),
+                        Source = new BitmapImage(new Uri(GetPinIconUriString(pin.Place.Type), UriKind.Absolute)),
                         Width = 48,
-                        Height = 48
+                        Height = 48,
+                        Opacity = pin.SpeculativePin ? 0.5 : 1,
                     };
                     mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
                     bundle.Map.Children.Add(mapLayer);
