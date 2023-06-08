@@ -343,7 +343,7 @@ namespace YouTravel.Agent
             Point mousePos = e.GetPosition(TheMap);
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong, false));
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, latLong));
         }
 
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)

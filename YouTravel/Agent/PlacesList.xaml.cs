@@ -184,7 +184,7 @@ namespace YouTravel.Agent
             Button btn = (Button)sender;
             Place place = (Place)btn.DataContext;
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(place, false));
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, place));
         }
 
         private void btnRemovePlace_Click(object sender, RoutedEventArgs e)

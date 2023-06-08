@@ -8,7 +8,7 @@ namespace YouTravel.Util
     {
         public static string GetHelpKey(DependencyObject obj)
         {
-            return obj.GetValue(HelpKeyProperty) as string;
+            return (string)obj.GetValue(HelpKeyProperty);
         }
 
         public static void SetHelpKey(DependencyObject obj, string value)

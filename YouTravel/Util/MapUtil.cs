@@ -11,8 +11,8 @@ namespace YouTravel.Util
 {
     public class MapBundle
     {
-        public Map Map { get; set; }
-        public IList<Location> RouteLocations { get; set; }
+        public Map? Map { get; set; }
+        public IList<Location>? RouteLocations { get; set; }
         public IList<Place> Pins { get; set; }
 
         public MapBundle(Map map, IList<Location> routeLocations, Place pin)
@@ -24,8 +24,6 @@ namespace YouTravel.Util
 
         public MapBundle()
         {
-            Map = null;
-            RouteLocations = null;
             Pins = new List<Place>();
         }
     }

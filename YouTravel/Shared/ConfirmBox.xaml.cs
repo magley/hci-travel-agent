@@ -7,9 +7,9 @@ namespace YouTravel.Shared
     {
         public bool Result { get; private set; } = false;
         public string MessageBody { get; set; }
-        public string YesText { get; set; }
-        public string NoText { get; set; }
-        private ConfirmBoxIcon icon;
+        public string? YesText { get; set; }
+        public string? NoText { get; set; }
+        private readonly ConfirmBoxIcon icon;
 
         public enum ConfirmBoxIcon
         {

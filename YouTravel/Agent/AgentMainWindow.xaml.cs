@@ -11,7 +11,7 @@ namespace YouTravel.Agent
 {
     public partial class AgentMainWindow : Window
     {
-        public UserConfig userConfig { get; } = UserConfig.Instance;
+        public UserConfig UserConfig { get; } = UserConfig.Instance;
 
         public ObservableCollection<Button> ToolbarBtn_Nav { get; set; } = new();
         public ObservableCollection<Button> ToolbarBtn_Arrangement { get; set; } = new();
@@ -40,11 +40,7 @@ namespace YouTravel.Agent
             ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocationAdd.png", On_AddPlace, "New Place (Ctrl+Shift+N)"));
             ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocation.png", On_OpenPlaceList, "View Places (Ctrl+P)"));
 
-            InitCommands();
-        }
-
-        private void InitCommands()
-        {
+            #region InitCommands
             CmdToggleToolbar = new RelayCommand(o => ToggleToolbar(), o => true);
 
             CmdNavigateBack = new RelayCommand(o => PageBack(), o => true);
@@ -53,9 +49,10 @@ namespace YouTravel.Agent
             CmdNewArrangement = new RelayCommand(o => OpenPage(new ArrangementAdd(true)), o => true);
             CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
 
-            CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd((Location)null, true)), o => true);
+            CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd(true)), o => true);
             CmdViewPlaces = new RelayCommand(o => OpenPage(new PlacesList()), o => true);
             CmdViewReports = new RelayCommand(o => OpenPage(new MonthlyReports()), o => true);
+            #endregion
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -111,14 +108,14 @@ namespace YouTravel.Agent
         {
             // userConfig.ToolbarVisible is changed by the binding so we don't have to.
             // Don't call ToggleToolbar() here!
-            userConfig.Save();
+            UserConfig.Save();
         }
 
         private void ToggleToolbar()
         {
             Btn_ToolbarShowToolbar.IsChecked ^= true;
             // This is ugly but it fixes inconsistency.
-            userConfig.Save();
+            UserConfig.Save();
         }
 
         private void On_OpenArrangementList(object sender, RoutedEventArgs e)
@@ -138,7 +135,7 @@ namespace YouTravel.Agent
 
         private void On_AddPlace(object sender, RoutedEventArgs e)
         {
-            OpenPage(new LocationAdd((Location)null, true));
+            OpenPage(new LocationAdd(true));
         }
 
         private void On_MonthlyReports(object sender, RoutedEventArgs e)

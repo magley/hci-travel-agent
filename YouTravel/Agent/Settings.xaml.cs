@@ -26,10 +26,10 @@ namespace YouTravel.Agent
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
-        public UserConfig userConfig { get; } = UserConfig.Instance;
+        public UserConfig UserConfig { get; } = UserConfig.Instance;
 
-        private string _selectedSection;
-        public string SelectedSection { get { return _selectedSection; } set { _selectedSection = value; DoPropertyChanged(nameof(SelectedSection)); } }
+        private string? _selectedSection;
+        public string? SelectedSection { get { return _selectedSection; } set { _selectedSection = value; DoPropertyChanged(nameof(SelectedSection)); } }
 
         public Settings(bool openToolbarSectionOfSettings)
         {
@@ -49,12 +49,12 @@ namespace YouTravel.Agent
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ToolbarVisible = userConfig.ToolbarVisible;
-            Latitude = userConfig.StartLocation_Lat;
-            Longitude = userConfig.StartLocation_Long;
-            ToolbarShowNav = userConfig.ToolbarNav_Visible;
-            ToolbarShowArrangement = userConfig.ToolbarArrangement_Visible;
-            ToolbarShowPlace = userConfig.ToolbarPlace_Visible;
+            ToolbarVisible = UserConfig.ToolbarVisible;
+            Latitude = UserConfig.StartLocation_Lat;
+            Longitude = UserConfig.StartLocation_Long;
+            ToolbarShowNav = UserConfig.ToolbarNav_Visible;
+            ToolbarShowArrangement = UserConfig.ToolbarArrangement_Visible;
+            ToolbarShowPlace = UserConfig.ToolbarPlace_Visible;
             Mouse.OverrideCursor = null;
         }
 
@@ -66,14 +66,14 @@ namespace YouTravel.Agent
 
         private void BtnSaveConfig_Click(object sender, RoutedEventArgs e)
         {
-            userConfig.ToolbarVisible = ToolbarVisible;
-            userConfig.StartLocation_Lat = Latitude;
-            userConfig.StartLocation_Long = Longitude;
-            userConfig.ToolbarNav_Visible = ToolbarShowNav;
-            userConfig.ToolbarArrangement_Visible = ToolbarShowArrangement;
-            userConfig.ToolbarPlace_Visible = ToolbarShowPlace;
+            UserConfig.ToolbarVisible = ToolbarVisible;
+            UserConfig.StartLocation_Lat = Latitude;
+            UserConfig.StartLocation_Long = Longitude;
+            UserConfig.ToolbarNav_Visible = ToolbarShowNav;
+            UserConfig.ToolbarArrangement_Visible = ToolbarShowArrangement;
+            UserConfig.ToolbarPlace_Visible = ToolbarShowPlace;
 
-            userConfig.Save();
+            UserConfig.Save();
             Close();
         }
 

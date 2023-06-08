@@ -160,7 +160,7 @@ namespace YouTravel.Agent
             Point mousePos = e.GetPosition(TheMap);
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(latLong, false));
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, latLong));
         }
 
         private void btn_SaveDraft_Click(object sender, RoutedEventArgs e)

@@ -32,7 +32,7 @@ namespace YouTravel.Agent
 
         private bool shouldReturnToPlacesList;
 
-        public LocationAdd(Place place, bool shouldReturnToPlacesList)
+        public LocationAdd(bool shouldReturnToPlacesList, Place place)
         {
             InitializeComponent();
 
@@ -48,7 +48,7 @@ namespace YouTravel.Agent
             DataContext = this;
         }
 
-        public LocationAdd(Location? loc, bool shouldReturnToPlacesList)
+        public LocationAdd(bool shouldReturnToPlacesList, Location? loc = null)
         {
             InitializeComponent();
 

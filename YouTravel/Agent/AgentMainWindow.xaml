@@ -89,7 +89,7 @@
                         </MenuItem.Icon>
                     </MenuItem>
                     <Separator/>
-                    <MenuItem x:Name="Btn_ToolbarShowToolbar" Header="Show Toolbar" InputGestureText="Ctrl+T" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
+                    <MenuItem x:Name="Btn_ToolbarShowToolbar" Header="Show Toolbar" InputGestureText="Ctrl+T" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=UserConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
                 </MenuItem>
                 <MenuItem Header="_Settings">
                     <MenuItem Header="General" Click="On_OpenSettings" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
@@ -114,7 +114,7 @@
                     <Style TargetType="{x:Type ToolBarTray}" BasedOn="{StaticResource {x:Type ToolBarTray}}">
                         <Setter Property="Visibility" Value="Visible"/>
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                            <DataTrigger Binding="{Binding UserConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                             </DataTrigger>
                         </Style.Triggers>
@@ -126,7 +126,7 @@
                         <Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
                             <Setter Property="Visibility" Value="Visible"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding userConfig.ToolbarNav_Visible}" Value="False">
+                                <DataTrigger Binding="{Binding UserConfig.ToolbarNav_Visible}" Value="False">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -139,7 +139,7 @@
                         <Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
                             <Setter Property="Visibility" Value="Visible"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding userConfig.ToolbarArrangement_Visible}" Value="False">
+                                <DataTrigger Binding="{Binding UserConfig.ToolbarArrangement_Visible}" Value="False">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -152,7 +152,7 @@
                         <Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
                             <Setter Property="Visibility" Value="Visible"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding userConfig.ToolbarPlace_Visible}" Value="False">
+                                <DataTrigger Binding="{Binding UserConfig.ToolbarPlace_Visible}" Value="False">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                 </DataTrigger>
                             </Style.Triggers>
