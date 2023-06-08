@@ -4,18 +4,18 @@ using System.Windows.Data;
 
 namespace YouTravel.Util
 {
-	public class ComparisonConverter : IValueConverter
-	{
-		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-		{
-			return value?.Equals(parameter);
-		}
+    public class ComparisonConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value?.Equals(parameter);
+        }
 
-		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
-		{
-			return value?.Equals(true) == true ? parameter : Binding.DoNothing;
-		}
-	}
+        public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
+        {
+            return value?.Equals(true) == true ? parameter : Binding.DoNothing;
+        }
+    }
 
     public class PaidConverter : IValueConverter
     {

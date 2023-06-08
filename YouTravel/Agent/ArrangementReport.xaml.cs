@@ -81,7 +81,7 @@ namespace YouTravel.Agent
         {
             ((AgentMainWindow)Window.GetWindow(this)).SetTitle(TitleRegex.PageNameAsWords(this));
             Mouse.OverrideCursor = null;
-		}
+        }
 
         private void BtnPrevPage_Click(object sender, RoutedEventArgs e)
         {

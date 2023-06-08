@@ -11,7 +11,7 @@ namespace YouTravel.Shared
         public string NoText { get; set; }
         private ConfirmBoxIcon icon;
 
-		public enum ConfirmBoxIcon
+        public enum ConfirmBoxIcon
         {
             QUESTION,
             INFO
@@ -28,22 +28,22 @@ namespace YouTravel.Shared
             if (yesText == null)
             {
                 btnYes.Visibility = Visibility.Collapsed;
-			}
+            }
             else
             {
                 YesText = yesText;
 
-			}
+            }
 
-			if (noText == null)
-			{
-				btnNo.Visibility = Visibility.Collapsed;
-			}
-			else
-			{
-				NoText = noText;
-			}
-			
+            if (noText == null)
+            {
+                btnNo.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                NoText = noText;
+            }
+            
             Title = windowTitle;
 
             Application curApp = Application.Current;
@@ -62,12 +62,12 @@ namespace YouTravel.Shared
             {
                 case ConfirmBoxIcon.INFO:
                     SystemSounds.Beep.Play();
-					imgIconInfo.Visibility = Visibility.Visible;
+                    imgIconInfo.Visibility = Visibility.Visible;
                     break;
-				case ConfirmBoxIcon.QUESTION:
-					SystemSounds.Asterisk.Play();
-					imgIcoQuestion.Visibility = Visibility.Visible;
-					break;
+                case ConfirmBoxIcon.QUESTION:
+                    SystemSounds.Asterisk.Play();
+                    imgIcoQuestion.Visibility = Visibility.Visible;
+                    break;
                 default:
                     return;
             }

@@ -17,7 +17,7 @@ namespace YouTravel.Agent
     {
         public Paginator<Arrangement> Paginator { get; set; } = new();
 
-		public bool ShowActive { get; set; } = true;
+        public bool ShowActive { get; set; } = true;
         public bool ShowFinished { get; set; } = false;
         public bool ShowUpcoming { get; set; } = true;
 
@@ -31,7 +31,7 @@ namespace YouTravel.Agent
             DataContext = this;
             Paginator.PropertyChanged += SetPageNavButtonsEnabled;
             Paginator.Entities.CollectionChanged += OnArrangementCollectionChanged;
-			Paginator.EntitiesCurrentPage.CollectionChanged += OnArrangementVisibleCollectionChanged;
+            Paginator.EntitiesCurrentPage.CollectionChanged += OnArrangementVisibleCollectionChanged;
 
             CmdFocusSearch = new RelayCommand(o => FocusSearch(), o => true);
         }
@@ -46,8 +46,8 @@ namespace YouTravel.Agent
         {
             ((AgentMainWindow)Window.GetWindow(this)).SetTitle(TitleRegex.PageNameAsWords(this));
             InitDbContext();
-			Mouse.OverrideCursor = null;
-		}
+            Mouse.OverrideCursor = null;
+        }
 
         private void InitDbContext()
         {
@@ -66,61 +66,61 @@ namespace YouTravel.Agent
                     Paginator.Entities.Add(v);
                 }
 
-				// SEARCH
+                // SEARCH
 
-				var afterSearch = Paginator.Entities
-					.Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
-					.Where(x => (ShowActive && x.IsActive()) ||
-								(ShowFinished && x.IsFinished()) ||
-								(ShowUpcoming && x.IsUpcoming())
-					)
+                var afterSearch = Paginator.Entities
+                    .Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
+                    .Where(x => (ShowActive && x.IsActive()) ||
+                                (ShowFinished && x.IsFinished()) ||
+                                (ShowUpcoming && x.IsUpcoming())
+                    )
                     .Reverse()
-					.ToList();
-				Paginator.Entities.Clear();
-				foreach (var v in afterSearch)
-				{
-					Paginator.Entities.Add(v);
-				}
+                    .ToList();
+                Paginator.Entities.Clear();
+                foreach (var v in afterSearch)
+                {
+                    Paginator.Entities.Add(v);
+                }
             }
-		}
+        }
 
-		private void LoadArrangementsPage()
+        private void LoadArrangementsPage()
         {
             Paginator.LoadPage();
 
-			arrangementsList.DataContext = Paginator.EntitiesCurrentPage;
+            arrangementsList.DataContext = Paginator.EntitiesCurrentPage;
             ReselectArrangement();
-		}
+        }
 
         private void ReselectArrangement()
         {
-			if (_selectedArrangement != null)
+            if (_selectedArrangement != null)
             {
                 int index = -1;
                 for (int i = 0; i < Paginator.EntitiesCurrentPage.Count; i++)
                 {
                     if (Paginator.EntitiesCurrentPage[i].Id == _selectedArrangement.Id)
                     {
-						index = i;
+                        index = i;
                     }
                 }
 
                 if (index > -1)
                 {
                     arrangementsList.SelectedIndex = index;
-				}
-			}
-		}
+                }
+            }
+        }
 
         private void OnArrangementVisibleCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-			ToggleNoArrangementsText();
-		}
+            ToggleNoArrangementsText();
+        }
 
         private void OnArrangementCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-			LoadArrangementsPage();
-		}
+            LoadArrangementsPage();
+        }
 
         private void ToggleNoArrangementsText()
         {
@@ -149,7 +149,7 @@ namespace YouTravel.Agent
             Button button = (Button)sender;
             Arrangement arr = (Arrangement)button.DataContext;
 
-			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementReport(arr));
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementReport(arr));
         }
 
         private void RemoveArrangement_Click(object sender, RoutedEventArgs e)
@@ -180,9 +180,9 @@ namespace YouTravel.Agent
                 ctx.Arrangements.Remove(arr);
                 ctx.SaveChanges();
 
-				SoundUtil.PlaySound("snd_delete.wav");
+                SoundUtil.PlaySound("snd_delete.wav");
                 LoadArrangements();
-			}
+            }
         }
 
         private void CbShowActive_Click(object sender, RoutedEventArgs e)
@@ -210,44 +210,44 @@ namespace YouTravel.Agent
         {
             searchBox.Text = "";
             LoadArrangements();
-		}
+        }
 
-		private void BtnNewArrangement_Click(object sender, RoutedEventArgs e)
-		{
-			Button button = (Button)sender;
+        private void BtnNewArrangement_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = (Button)sender;
 
-			((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd(true));
-		}
+            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd(true));
+        }
 
-		private void btnPrevPage_Click(object sender, RoutedEventArgs e)
-		{
-			Paginator.PageIndex--;
-			LoadArrangementsPage();
-		}
+        private void btnPrevPage_Click(object sender, RoutedEventArgs e)
+        {
+            Paginator.PageIndex--;
+            LoadArrangementsPage();
+        }
 
-		private void btnNextPage_Click(object sender, RoutedEventArgs e)
-		{
-			Paginator.PageIndex++;
-			LoadArrangementsPage();
-		}
+        private void btnNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            Paginator.PageIndex++;
+            LoadArrangementsPage();
+        }
 
         private void SetPageNavButtonsEnabled(object? sender, PropertyChangedEventArgs e)
         {
-			btnPrevPage.IsEnabled = Paginator.PageIndex > 1;
-			btnNextPage.IsEnabled = Paginator.PageIndex < Paginator.PageCount;
-		}
+            btnPrevPage.IsEnabled = Paginator.PageIndex > 1;
+            btnNextPage.IsEnabled = Paginator.PageIndex < Paginator.PageCount;
+        }
 
-		private void searchBox_KeyDown(object sender, KeyEventArgs e)
-		{
-			if (e.Key == Key.Return)
-			{
-				string searchQuery = searchBox.Text;
-				LoadArrangements();
-			}
-		}
+        private void searchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                string searchQuery = searchBox.Text;
+                LoadArrangements();
+            }
+        }
 
-		private void arrangementsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
+        private void arrangementsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
             try
             {
                 _selectedArrangement = Paginator.EntitiesCurrentPage[arrangementsList.SelectedIndex];
@@ -255,6 +255,6 @@ namespace YouTravel.Agent
             catch (ArgumentOutOfRangeException)
             {
             }
-		}
-	}
+        }
+    }
 }

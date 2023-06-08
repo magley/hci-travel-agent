@@ -5,32 +5,32 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Shared"
         mc:Ignorable="d"
-		Style="{StaticResource WinDark}"
-		WindowStartupLocation="CenterOwner"
-		ResizeMode="NoResize"
+        Style="{StaticResource WinDark}"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
         Height="200" Width="400">
 
-	<Window.Resources>
-		<BitmapImage x:Key="IcoHelp" UriSource="../Res/IcoHelp.png"/>
-		<BitmapImage x:Key="IcoInfo" UriSource="../Res/IcoInfo.png"/>
-	</Window.Resources>
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
-		<Grid Grid.Row="0">
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="Auto"/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-			<Image x:Name="imgIcoQuestion" Grid.Column="0" Source="{StaticResource IcoHelp}" Margin="16 32 0 32"/>
-			<Image x:Name="imgIconInfo" Grid.Column="0" Source="{StaticResource IcoInfo}" Margin="16 32 0 32"/>
-			<TextBlock Grid.Column="1" TextWrapping="Wrap" Text="{Binding MessageBody}" VerticalAlignment="Center" Margin="16 0 4 0" d:Text="ahdkjshdkhf ewkj hdkjrh3jk fh3jkf3h2jk 3hkrh krh32r jkrh 2krhk 32rhk3 2r"/>
-		</Grid>
-		<StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10 8 10 10" HorizontalAlignment="Center">
-			<Button x:Name="btnYes" Click="btnYes_Click" Width="100" Margin="16 0 0 0" Content="{Binding YesText}" Height="32" d:Content="Yes"/>
-			<Button x:Name="btnNo" Click="btnNo_Click" Width="100" Margin="16 0 0 0" Content="{Binding NoText}" Height="32" d:Content="No"/>
-		</StackPanel>
-	</Grid>
+    <Window.Resources>
+        <BitmapImage x:Key="IcoHelp" UriSource="../Res/IcoHelp.png"/>
+        <BitmapImage x:Key="IcoInfo" UriSource="../Res/IcoInfo.png"/>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="imgIcoQuestion" Grid.Column="0" Source="{StaticResource IcoHelp}" Margin="16 32 0 32"/>
+            <Image x:Name="imgIconInfo" Grid.Column="0" Source="{StaticResource IcoInfo}" Margin="16 32 0 32"/>
+            <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="{Binding MessageBody}" VerticalAlignment="Center" Margin="16 0 4 0" d:Text="ahdkjshdkhf ewkj hdkjrh3jk fh3jkf3h2jk 3hkrh krh32r jkrh 2krhk 32rhk3 2r"/>
+        </Grid>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10 8 10 10" HorizontalAlignment="Center">
+            <Button x:Name="btnYes" Click="btnYes_Click" Width="100" Margin="16 0 0 0" Content="{Binding YesText}" Height="32" d:Content="Yes"/>
+            <Button x:Name="btnNo" Click="btnNo_Click" Width="100" Margin="16 0 0 0" Content="{Binding NoText}" Height="32" d:Content="No"/>
+        </StackPanel>
+    </Grid>
 </Window>

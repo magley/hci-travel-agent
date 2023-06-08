@@ -9,143 +9,143 @@ using YouTravel.Model;
 
 namespace YouTravel.Util
 {
-	public class MapBundle
-	{
-		public Map Map { get; set; }
-		public IList<Location> RouteLocations { get; set; }
-		public IList<Place> Pins { get; set; }
+    public class MapBundle
+    {
+        public Map Map { get; set; }
+        public IList<Location> RouteLocations { get; set; }
+        public IList<Place> Pins { get; set; }
 
-		public MapBundle(Map map, IList<Location> routeLocations, Place pin)
-		{
-			Map = map;
-			RouteLocations = routeLocations;
-			Pins = new List<Place> { pin };
-		}
+        public MapBundle(Map map, IList<Location> routeLocations, Place pin)
+        {
+            Map = map;
+            RouteLocations = routeLocations;
+            Pins = new List<Place> { pin };
+        }
 
-		public MapBundle()
-		{
-			Map = null;
-			RouteLocations = null;
-			Pins = new List<Place>();
-		}
-	}
+        public MapBundle()
+        {
+            Map = null;
+            RouteLocations = null;
+            Pins = new List<Place>();
+        }
+    }
 
     public static class MapUtil
     {
-		public static void Redraw(MapBundle bundle)
-		{
-			if (bundle.Map == null)
-			{
-				return;
-			}
+        public static void Redraw(MapBundle bundle)
+        {
+            if (bundle.Map == null)
+            {
+                return;
+            }
 
-			bundle.Map.Children.Clear();
-			
-			// Route
+            bundle.Map.Children.Clear();
+            
+            // Route
 
-			if (bundle.RouteLocations != null)
-			{
-				var locations = new LocationCollection();
-				foreach (var loc in bundle.RouteLocations)
-				{
-					locations.Add(loc);
-				}
+            if (bundle.RouteLocations != null)
+            {
+                var locations = new LocationCollection();
+                foreach (var loc in bundle.RouteLocations)
+                {
+                    locations.Add(loc);
+                }
 
-				var polyline = new MapPolyline
-				{
-					Locations = locations,
-					Stroke = new SolidColorBrush(Colors.Blue),
-					StrokeThickness = 5
-				};
+                var polyline = new MapPolyline
+                {
+                    Locations = locations,
+                    Stroke = new SolidColorBrush(Colors.Blue),
+                    StrokeThickness = 5
+                };
 
-				bundle.Map.Children.Add(polyline);
-			}
+                bundle.Map.Children.Add(polyline);
+            }
 
-			// Pin
+            // Pin
 
-			foreach (var pin in bundle.Pins)
-			{
-				if (pin != null)
-				{
-					var location = new Location(pin.Lat, pin.Long);
-					MapLayer mapLayer = new();
-					Image myPushPin = new()
-					{
-						Source = new BitmapImage(new Uri(GetPinIconUriString(pin.Type), UriKind.Absolute)),
-						Width = 48,
-						Height = 48
-					};
-					mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
-					bundle.Map.Children.Add(mapLayer);
-				}
-			}
-		}
+            foreach (var pin in bundle.Pins)
+            {
+                if (pin != null)
+                {
+                    var location = new Location(pin.Lat, pin.Long);
+                    MapLayer mapLayer = new();
+                    Image myPushPin = new()
+                    {
+                        Source = new BitmapImage(new Uri(GetPinIconUriString(pin.Type), UriKind.Absolute)),
+                        Width = 48,
+                        Height = 48
+                    };
+                    mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
+                    bundle.Map.Children.Add(mapLayer);
+                }
+            }
+        }
 
-		public static void ClearPins(Map map)
-		{
-			map.Children.Clear();
-		}
+        public static void ClearPins(Map map)
+        {
+            map.Children.Clear();
+        }
 
-		public static void DrawPinOnMapBasedOnList(Collection<Place> places, ListBox viewList, Map map, bool moveMapToPin)
-		{
-			if (places.Count == 0 || viewList.SelectedIndex == -1)
-			{
-				DrawImage(null, map);
-				return;
-			}
+        public static void DrawPinOnMapBasedOnList(Collection<Place> places, ListBox viewList, Map map, bool moveMapToPin)
+        {
+            if (places.Count == 0 || viewList.SelectedIndex == -1)
+            {
+                DrawImage(null, map);
+                return;
+            }
 
-			var selectedPlace = places[viewList.SelectedIndex];
-			DrawPin(selectedPlace, map, moveMapToPin);
-		}
+            var selectedPlace = places[viewList.SelectedIndex];
+            DrawPin(selectedPlace, map, moveMapToPin);
+        }
 
-		public static void DrawPin(Place place, Map map, bool moveMapToPin)
-		{
-			var location = new Location(place.Lat, place.Long);
-			map.Children.Clear();
-			DrawImage(place, map);
-			if (moveMapToPin)
-			{
-				map.Center = location;
-			}
-		}
+        public static void DrawPin(Place place, Map map, bool moveMapToPin)
+        {
+            var location = new Location(place.Lat, place.Long);
+            map.Children.Clear();
+            DrawImage(place, map);
+            if (moveMapToPin)
+            {
+                map.Center = location;
+            }
+        }
 
-		private static void DrawImage(Place? place, Map map)
-		{
-			if (place == null)
-			{
-				// Setting place to null removes the pin.
-				return;
-			}
+        private static void DrawImage(Place? place, Map map)
+        {
+            if (place == null)
+            {
+                // Setting place to null removes the pin.
+                return;
+            }
 
-			var location = new Location(place.Lat, place.Long);
-			MapLayer mapLayer = new();
-			Image myPushPin = new()
-			{
-				Source = new BitmapImage(new Uri(GetPinIconUriString(place.Type), UriKind.Absolute)),
-				Width = 48,
-				Height = 48
-			};
-			mapLayer.AddChild(myPushPin, location, PositionOrigin.BottomCenter);
-			map.Children.Add(mapLayer);
-		}
+            var location = new Location(place.Lat, place.Long);
+            MapLayer mapLayer = new();
+            Image myPushPin = new()
+            {
+                Source = new BitmapImage(new Uri(GetPinIconUriString(place.Type), UriKind.Absolute)),
+                Width = 48,
+                Height = 48
+            };
+            mapLayer.AddChild(myPushPin, location, PositionOrigin.BottomCenter);
+            map.Children.Add(mapLayer);
+        }
 
-		private static string GetPinIconUriString(PlaceType type)
-		{
-			string fname = "";
-			switch (type)
-			{
-				case PlaceType.Attraction:
-					fname = "ImgAttraction.png";
-					break;
-				case PlaceType.Restaurant:
-					fname = "ImgRestaurant.png";
-					break;
-				case PlaceType.Hotel:
-					fname = "ImgHotel.png";
-					break;
-			}
+        private static string GetPinIconUriString(PlaceType type)
+        {
+            string fname = "";
+            switch (type)
+            {
+                case PlaceType.Attraction:
+                    fname = "ImgAttraction.png";
+                    break;
+                case PlaceType.Restaurant:
+                    fname = "ImgRestaurant.png";
+                    break;
+                case PlaceType.Hotel:
+                    fname = "ImgHotel.png";
+                    break;
+            }
 
-			return $"pack://application:,,,/Res/{fname}";
-		}
-	}
+            return $"pack://application:,,,/Res/{fname}";
+        }
+    }
 }
