@@ -87,36 +87,34 @@ namespace YouTravel.Agent
 
         private void LoadPlaces()
         {
-            using (var ctx = new TravelContext())
+            using var ctx = new TravelContext();
+            ctx.Places.Load();
+
+            Paginator.Entities.Clear();
+            foreach (var v in ctx.Places.Local)
             {
-                ctx.Places.Load();
-
-                Paginator.Entities.Clear();
-                foreach (var v in ctx.Places.Local)
-                {
-                    Paginator.Entities.Add(v);
-                }
-
-                // SEARCH
-
-                var afterSearch = Paginator.Entities
-                    .Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
-                    .Where(x => (ShowHotel && x.Type == PlaceType.Hotel) ||
-                                (ShowAttraction && x.Type == PlaceType.Attraction) ||
-                                (ShowRestaurant && x.Type == PlaceType.Restaurant)
-                    )
-                    .Reverse()
-                    .ToList();
-                Paginator.Entities.Clear();
-                foreach (var v in afterSearch)
-                {
-                    Paginator.Entities.Add(v);
-                }
-
-                // -SEARCH	
-
-                PinToSelectedListItem();
+                Paginator.Entities.Add(v);
             }
+
+            // SEARCH
+
+            var afterSearch = Paginator.Entities
+                .Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
+                .Where(x => (ShowHotel && x.Type == PlaceType.Hotel) ||
+                            (ShowAttraction && x.Type == PlaceType.Attraction) ||
+                            (ShowRestaurant && x.Type == PlaceType.Restaurant)
+                )
+                .Reverse()
+                .ToList();
+            Paginator.Entities.Clear();
+            foreach (var v in afterSearch)
+            {
+                Paginator.Entities.Add(v);
+            }
+
+            // -SEARCH	
+
+            PinToSelectedListItem();
         }
 
         private void LoadPlacesCurrentPage()
@@ -158,7 +156,7 @@ namespace YouTravel.Agent
             MyMap.ZoomLevel = 8;
         }
 
-        private void lstPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LstPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             PinToSelectedListItem();
 
@@ -176,7 +174,7 @@ namespace YouTravel.Agent
             MapUtil.DrawPinOnMapBasedOnList(Paginator.Entities, lstPlaces, MyMap, true);
         }
 
-        private void btnEditPlace_Click(object sender, RoutedEventArgs e)
+        private void BtnEditPlace_Click(object sender, RoutedEventArgs e)
         {
             Button btn = (Button)sender;
             Place place = (Place)btn.DataContext;
@@ -184,7 +182,7 @@ namespace YouTravel.Agent
             ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, place));
         }
 
-        private void btnRemovePlace_Click(object sender, RoutedEventArgs e)
+        private void BtnRemovePlace_Click(object sender, RoutedEventArgs e)
         {
             bool confirmed = false;
             ConfirmBox confirmBox = new("Are you sure you want to delete this place?", "Delete confirmation", "Delete", "Cancel", ConfirmBox.ConfirmBoxIcon.QUESTION);
@@ -197,33 +195,31 @@ namespace YouTravel.Agent
                 return;
             }
 
-            using (var ctx = new TravelContext())
+            using var ctx = new TravelContext();
+            Button btn = (Button)sender;
+            int placeId = ((Place)btn.DataContext).Id;
+
+            Place? place = ctx.Places.Find(placeId);
+            if (place == null)
             {
-                Button btn = (Button)sender;
-                int placeId = ((Place)btn.DataContext).Id;
+                Console.WriteLine("I can't do it.");
+                return;
+            }
 
-                Place? place = ctx.Places.Find(placeId);
-                if (place == null)
-                {
-                    Console.WriteLine("I can't do it.");
-                    return;
-                }
+            ctx.Places.Remove(place);
+            ctx.SaveChanges();
 
-                ctx.Places.Remove(place);
-                ctx.SaveChanges();
+            SoundUtil.PlaySound("snd_delete.wav");
+            LoadPlaces();
 
-                SoundUtil.PlaySound("snd_delete.wav");
-                LoadPlaces();
-
-                if (lstPlaces.SelectedIndex == -1 && Paginator.Entities.Count > 0)
-                {
-                    lstPlaces.SelectedIndex = 0;
-                }
-                if (Paginator.Entities.Count == 0)
-                {
-                    MapUtil.ClearPins(MyMap);
-                    MapUtil.DrawPinOnMapBasedOnList(Paginator.Entities, lstPlaces, MyMap, true);
-                }
+            if (lstPlaces.SelectedIndex == -1 && Paginator.Entities.Count > 0)
+            {
+                lstPlaces.SelectedIndex = 0;
+            }
+            if (Paginator.Entities.Count == 0)
+            {
+                MapUtil.ClearPins(MyMap);
+                MapUtil.DrawPinOnMapBasedOnList(Paginator.Entities, lstPlaces, MyMap, true);
             }
         }
 
@@ -245,13 +241,13 @@ namespace YouTravel.Agent
             LoadPlaces();
         }
 
-        private void btnPrevPage_Click(object sender, RoutedEventArgs e)
+        private void BtnPrevPage_Click(object sender, RoutedEventArgs e)
         {
             Paginator.PageIndex--;
             LoadPlacesCurrentPage();
         }
 
-        private void btnNextPage_Click(object sender, RoutedEventArgs e)
+        private void BtnNextPage_Click(object sender, RoutedEventArgs e)
         {
             Paginator.PageIndex++;
             LoadPlacesCurrentPage();
@@ -263,11 +259,10 @@ namespace YouTravel.Agent
             btnNextPage.IsEnabled = Paginator.PageIndex < Paginator.PageCount;
         }
 
-        private void searchBox_KeyDown(object sender, KeyEventArgs e)
+        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == System.Windows.Input.Key.Return)
+            if (e.Key == Key.Return)
             {
-                string searchQuery = searchBox.Text;
                 LoadPlaces();
             }
         }

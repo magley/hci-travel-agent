@@ -25,7 +25,7 @@ namespace YouTravel.Util
         public double StartLocation_Lat { get { return _StartLocation_Lat; } set { _StartLocation_Lat = value; DoPropertyChanged("StartLocation_Lat"); } }
         public double StartLocation_Long { get { return _StartLocation_Long; } set { _StartLocation_Long = value; DoPropertyChanged("StartLocation_Long"); } }
 
-        private static UserConfig _instance = new();
+        private static readonly UserConfig _instance = new();
         private UserConfig() { }
         public static UserConfig Instance { get { return _instance; } }
 

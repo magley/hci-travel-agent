@@ -166,9 +166,9 @@ namespace YouTravel.Agent
         private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
-            if (focusedControl is DependencyObject)
+            if (focusedControl is DependencyObject depObject)
             {
-                string str = HelpProvider.GetHelpKey((DependencyObject)focusedControl);
+                string str = HelpProvider.GetHelpKey(depObject);
                 HelpProvider.ShowHelp(str, this);
             }
             //else
@@ -182,7 +182,7 @@ namespace YouTravel.Agent
             Application.Current.Shutdown();
         }
 
-        private void myFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void MyFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             RefreshNavButtonEnabledStatus();
         }

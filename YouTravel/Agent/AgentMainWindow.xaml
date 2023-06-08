@@ -166,7 +166,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition/>
             </Grid.RowDefinitions>
-            <Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden" Navigated="myFrame_Navigated" Grid.Row="0"/>
+            <Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden" Navigated="MyFrame_Navigated" Grid.Row="0"/>
         </Grid>
     </Grid>
 </Window>

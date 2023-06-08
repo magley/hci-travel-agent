@@ -21,6 +21,6 @@
                 &gt;
             </Button>
         </StackPanel>
-        <WebBrowser Grid.Row="1" Name="wbHelp" Navigated="wbHelp_Navigated"></WebBrowser>
+        <WebBrowser Grid.Row="1" Name="wbHelp" Navigated="WbHelp_Navigated"></WebBrowser>
     </Grid>
 </Window>

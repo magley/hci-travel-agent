@@ -55,31 +55,29 @@ namespace YouTravel.Agent
 
         private void LoadArrangements()
         {
-            using (var ctx = new TravelContext())
+            using var ctx = new TravelContext();
+            ctx.Arrangements.Load();
+
+            Paginator.Entities.Clear();
+            foreach (var v in ctx.Arrangements.Local)
             {
-                ctx.Arrangements.Load();
+                Paginator.Entities.Add(v);
+            }
 
-                Paginator.Entities.Clear();
-                foreach (var v in ctx.Arrangements.Local)
-                {
-                    Paginator.Entities.Add(v);
-                }
+            // SEARCH
 
-                // SEARCH
-
-                var afterSearch = Paginator.Entities
-                    .Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
-                    .Where(x => (ShowActive && x.IsActive()) ||
-                                (ShowFinished && x.IsFinished()) ||
-                                (ShowUpcoming && x.IsUpcoming())
-                    )
-                    .Reverse()
-                    .ToList();
-                Paginator.Entities.Clear();
-                foreach (var v in afterSearch)
-                {
-                    Paginator.Entities.Add(v);
-                }
+            var afterSearch = Paginator.Entities
+                .Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
+                .Where(x => (ShowActive && x.IsActive()) ||
+                            (ShowFinished && x.IsFinished()) ||
+                            (ShowUpcoming && x.IsUpcoming())
+                )
+                .Reverse()
+                .ToList();
+            Paginator.Entities.Clear();
+            foreach (var v in afterSearch)
+            {
+                Paginator.Entities.Add(v);
             }
         }
 
@@ -164,24 +162,22 @@ namespace YouTravel.Agent
                 return;
             }
 
-            using (var ctx = new TravelContext())
+            using var ctx = new TravelContext();
+            Button btn = (Button)sender;
+            int arrId = ((Arrangement)btn.DataContext).Id;
+
+            Arrangement? arr = ctx.Arrangements.Find(arrId);
+            if (arr == null)
             {
-                Button btn = (Button)sender;
-                int arrId = ((Arrangement)btn.DataContext).Id;
-
-                Arrangement? arr = ctx.Arrangements.Find(arrId);
-                if (arr == null)
-                {
-                    Console.WriteLine("I can't do it.");
-                    return;
-                }
-
-                ctx.Arrangements.Remove(arr);
-                ctx.SaveChanges();
-
-                SoundUtil.PlaySound("snd_delete.wav");
-                LoadArrangements();
+                Console.WriteLine("I can't do it.");
+                return;
             }
+
+            ctx.Arrangements.Remove(arr);
+            ctx.SaveChanges();
+
+            SoundUtil.PlaySound("snd_delete.wav");
+            LoadArrangements();
         }
 
         private void CbShowActive_Click(object sender, RoutedEventArgs e)
@@ -201,7 +197,6 @@ namespace YouTravel.Agent
 
         private void BtnSearch_Click(object sender, RoutedEventArgs e)
         {
-            string searchQuery = this.searchBox.Text;
             LoadArrangements();
         }
 
@@ -213,18 +208,16 @@ namespace YouTravel.Agent
 
         private void BtnNewArrangement_Click(object sender, RoutedEventArgs e)
         {
-            Button button = (Button)sender;
-
             ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd(true));
         }
 
-        private void btnPrevPage_Click(object sender, RoutedEventArgs e)
+        private void BtnPrevPage_Click(object sender, RoutedEventArgs e)
         {
             Paginator.PageIndex--;
             LoadArrangementsPage();
         }
 
-        private void btnNextPage_Click(object sender, RoutedEventArgs e)
+        private void BtnNextPage_Click(object sender, RoutedEventArgs e)
         {
             Paginator.PageIndex++;
             LoadArrangementsPage();
@@ -236,16 +229,15 @@ namespace YouTravel.Agent
             btnNextPage.IsEnabled = Paginator.PageIndex < Paginator.PageCount;
         }
 
-        private void searchBox_KeyDown(object sender, KeyEventArgs e)
+        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
-                string searchQuery = searchBox.Text;
                 LoadArrangements();
             }
         }
 
-        private void arrangementsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ArrangementsList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             try
             {

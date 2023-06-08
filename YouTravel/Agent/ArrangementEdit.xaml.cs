@@ -26,7 +26,7 @@ namespace YouTravel.Agent
         public bool ActivitiesViewAttraction { get; set; } = true;
         public bool ActivitiesViewRestaurant { get; set; } = true;
 
-        private int arrangementId;
+        private readonly int arrangementId;
         private string _arrName = "New Arrangement";
         private string _description = "";
         private double _price = 100;
@@ -47,7 +47,7 @@ namespace YouTravel.Agent
 
         public ObservableCollection<Place> AllActivities { get; set; } = new();
         public ObservableCollection<Place> ArrActivities { get; set; } = new();
-        private MapBundle mapBundle = new();
+        private readonly MapBundle mapBundle = new();
 
         public ArrangementEdit(Arrangement arr)
         {
@@ -163,13 +163,13 @@ namespace YouTravel.Agent
             ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, latLong));
         }
 
-        private void btn_SaveDraft_Click(object sender, RoutedEventArgs e)
+        private void Btn_SaveDraft_Click(object sender, RoutedEventArgs e)
         {
             UpdateArrangement();
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
-        private void btn_PublishChanges_Click(object sender, RoutedEventArgs e)
+        private void Btn_PublishChanges_Click(object sender, RoutedEventArgs e)
         {
             UpdateArrangement();
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
@@ -177,58 +177,58 @@ namespace YouTravel.Agent
 
         private void UpdateArrangement()
         {
-            using (var db = new TravelContext())
+            using var db = new TravelContext();
+            db.Arrangements.Load();
+            db.Places.Load();
+
+            var arrangement = db.Arrangements.Include(a => a.Places).Where(a => a.Id == arrangementId).FirstOrDefault();
+
+            if (arrangement == null)
             {
-                db.Arrangements.Load();
-                db.Places.Load();
-
-                var arrangement = db.Arrangements.Include(a => a.Places).Where(a => a.Id == arrangementId).FirstOrDefault();
-
-                if (arrangement == null)
-                {
-                    Console.WriteLine("Can't do it.");
-                    return;
-                }
-
-                arrangement.Name = ArrName;
-                arrangement.Description = Description;
-                arrangement.Price = Price;
-                arrangement.ImageFname = Filename;
-                arrangement.Start = Start;
-                arrangement.End = End;
-                arrangement.Places.Clear();
-
-                foreach (var place in ArrActivities)
-                {
-                    Place placeTracked = db.Places.Find(place.Id)!;
-                    arrangement.Places.Add(placeTracked);
-                }
-
-                db.Arrangements.Update(arrangement);
-                db.SaveChanges();
+                Console.WriteLine("Can't do it.");
+                return;
             }
+
+            arrangement.Name = ArrName;
+            arrangement.Description = Description;
+            arrangement.Price = Price;
+            arrangement.ImageFname = Filename;
+            arrangement.Start = Start;
+            arrangement.End = End;
+            arrangement.Places.Clear();
+
+            foreach (var place in ArrActivities)
+            {
+                Place placeTracked = db.Places.Find(place.Id)!;
+                arrangement.Places.Add(placeTracked);
+            }
+
+            db.Arrangements.Update(arrangement);
+            db.SaveChanges();
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
 
-        private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            mapBundle.Pins = new List<Place>(ArrActivities);
-            mapBundle.Pins.Add((Place)lstAllPlaces.SelectedItem);
+            mapBundle.Pins = new List<Place>(ArrActivities)
+            {
+                (Place)lstAllPlaces.SelectedItem
+            };
             MapUtil.Redraw(mapBundle);
         }
 
-        private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             mapBundle.Pins = ArrActivities;
             MapUtil.Redraw(mapBundle);
         }
 
-        private void btnAddArr_Click(object sender, RoutedEventArgs e)
+        private void BtnAddArr_Click(object sender, RoutedEventArgs e)
         {
             int selectedAvailablePlace = lstAllPlaces.SelectedIndex;
 
@@ -240,7 +240,7 @@ namespace YouTravel.Agent
             }
         }
 
-        private void btnRemArr_Click(object sender, RoutedEventArgs e)
+        private void BtnRemArr_Click(object sender, RoutedEventArgs e)
         {
             int selectedAddedPlace = lstArrPlaces.SelectedIndex;
 
@@ -273,7 +273,7 @@ namespace YouTravel.Agent
             var okayCopy = new List<Place>();
             foreach (var place in ArrActivities)
             {
-                if (AllActivities.Where(p => p.Id == place.Id).Count() > 0) // Can't do Contains(), why not?
+                if (AllActivities.Where(p => p.Id == place.Id).Any()) // Can't do Contains(), why not?
                 {
                     okayCopy.Add(place);
                 }
@@ -289,7 +289,7 @@ namespace YouTravel.Agent
             okayCopy = new List<Place>();
             foreach (var place in AllActivities)
             {
-                if (ArrActivities.Where(p => p.Id == place.Id).Count() == 0)
+                if (!ArrActivities.Where(p => p.Id == place.Id).Any())
                 {
                     okayCopy.Add(place);
                 }
@@ -328,11 +328,13 @@ namespace YouTravel.Agent
             lblNoArrPlaces.Visibility = ArrActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void btn_SelectImage_Click(object sender, RoutedEventArgs e)
+        private void Btn_SelectImage_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog dlg = new();
-            dlg.DefaultExt = ".jpeg";
-            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg";
+            Microsoft.Win32.OpenFileDialog dlg = new()
+            {
+                DefaultExt = ".jpeg",
+                Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg"
+            };
 
             bool? result = dlg.ShowDialog();
 
@@ -349,8 +351,10 @@ namespace YouTravel.Agent
 
             try
             {
-                BitmapImage image = new(new Uri(fnameFull, UriKind.Absolute));
-                image.CacheOption = BitmapCacheOption.OnLoad;
+                BitmapImage image = new(new Uri(fnameFull, UriKind.Absolute))
+                {
+                    CacheOption = BitmapCacheOption.OnLoad
+                };
                 image.Freeze();
                 imgImage.Source = image;
             }
@@ -366,7 +370,7 @@ namespace YouTravel.Agent
             LoadPlaces();
         }
 
-        private void arrangementCalendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        private void ArrangementCalendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             base.OnPreviewMouseUp(e);
             if (Mouse.Captured is Calendar || Mouse.Captured is CalendarItem)

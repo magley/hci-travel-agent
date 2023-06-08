@@ -29,8 +29,8 @@
             <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="{Binding MessageBody}" VerticalAlignment="Center" Margin="16 0 4 0" d:Text="ahdkjshdkhf ewkj hdkjrh3jk fh3jkf3h2jk 3hkrh krh32r jkrh 2krhk 32rhk3 2r"/>
         </Grid>
         <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10 8 10 10" HorizontalAlignment="Center">
-            <Button x:Name="btnYes" Click="btnYes_Click" Width="100" Margin="16 0 0 0" Content="{Binding YesText}" Height="32" d:Content="Yes"/>
-            <Button x:Name="btnNo" Click="btnNo_Click" Width="100" Margin="16 0 0 0" Content="{Binding NoText}" Height="32" d:Content="No"/>
+            <Button x:Name="btnYes" Click="BtnYes_Click" Width="100" Margin="16 0 0 0" Content="{Binding YesText}" Height="32" d:Content="Yes"/>
+            <Button x:Name="btnNo" Click="BtnNo_Click" Width="100" Margin="16 0 0 0" Content="{Binding NoText}" Height="32" d:Content="No"/>
         </StackPanel>
     </Grid>
 </Window>

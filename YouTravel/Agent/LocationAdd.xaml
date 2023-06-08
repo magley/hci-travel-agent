@@ -90,14 +90,14 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <Button u:HelpProvider.HelpKey="arrangement_add" Grid.Column="0" Margin="0 0 10 0" x:Name="btnCancel" Click="btnCancel_Click">
+            <Button u:HelpProvider.HelpKey="arrangement_add" Grid.Column="0" Margin="0 0 10 0" x:Name="btnCancel" Click="BtnCancel_Click">
                 <DockPanel HorizontalAlignment="Stretch">
                     <Image Source="{StaticResource IcoCancel}" Height="20" Margin="5 0 5 0"/>
                     <Label Content="Cancel"/>
                 </DockPanel>
             </Button>
 
-            <Button u:HelpProvider.HelpKey="arrangement_add" Grid.Column="2" Margin="0 0 5 0" x:Name="btnSaveChanges" Click="btnSaveChanges_Click">
+            <Button u:HelpProvider.HelpKey="arrangement_add" Grid.Column="2" Margin="0 0 5 0" x:Name="btnSaveChanges" Click="BtnSaveChanges_Click">
                 <DockPanel HorizontalAlignment="Stretch">
                     <Image Source="{StaticResource IcoPublish}" Height="20" Margin="5 0 5 0"/>
                     <Label Content="Save"/>

@@ -73,13 +73,13 @@ namespace YouTravel.Shared
             }
         }
 
-        private void btnYes_Click(object sender, RoutedEventArgs e)
+        private void BtnYes_Click(object sender, RoutedEventArgs e)
         {
             Result = true;
             Close();
         }
 
-        private void btnNo_Click(object sender, RoutedEventArgs e)
+        private void BtnNo_Click(object sender, RoutedEventArgs e)
         {
             Result = false;
             Close();

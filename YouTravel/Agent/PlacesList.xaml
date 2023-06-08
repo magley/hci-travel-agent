@@ -58,7 +58,7 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <TextBox u:HelpProvider.HelpKey="place_filter" ToolTip="Enter a search query" Grid.Column="0" Grid.ColumnSpan="2" Height="23" VerticalAlignment="Top" x:Name="searchBox" KeyDown="searchBox_KeyDown"/>
+                <TextBox u:HelpProvider.HelpKey="place_filter" ToolTip="Enter a search query" Grid.Column="0" Grid.ColumnSpan="2" Height="23" VerticalAlignment="Top" x:Name="searchBox" KeyDown="SearchBox_KeyDown"/>
 
                 <Button
                     Click="BtnClearSearch_Click"
@@ -119,7 +119,7 @@
             Grid.Column="1"
             Grid.Row="1"
             u:HelpProvider.HelpKey="place"
-            SelectionChanged="lstPlaces_SelectionChanged">
+            SelectionChanged="LstPlaces_SelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -156,7 +156,7 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-                            <Button x:Name="btnRemovePlace" Click="btnRemovePlace_Click" Margin="6 0 0 0"  ToolTip="Remove place">
+                            <Button x:Name="btnRemovePlace" Click="BtnRemovePlace_Click" Margin="6 0 0 0"  ToolTip="Remove place">
                                 <DockPanel HorizontalAlignment="Stretch">
                                     <Image Source="{StaticResource IcoRemove}" Height="20" Margin="5 0 5 0"/>
                                 </DockPanel>
@@ -172,7 +172,7 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button x:Name="btnEditPlace" Click="btnEditPlace_Click" Margin="6 0 0 0"  ToolTip="Edit place">
+                            <Button x:Name="btnEditPlace" Click="BtnEditPlace_Click" Margin="6 0 0 0"  ToolTip="Edit place">
                                 <DockPanel HorizontalAlignment="Stretch">
                                     <Image Source="{StaticResource IcoEdit}" Height="20" Margin="5 0 5 0"/>
                                 </DockPanel>
@@ -199,11 +199,11 @@
         </TextBlock>
 
         <StackPanel Margin="10 10 10 10" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
-            <Button x:Name="btnPrevPage" Click="btnPrevPage_Click" MinWidth="30">&lt;</Button>
+            <Button x:Name="btnPrevPage" Click="BtnPrevPage_Click" MinWidth="30">&lt;</Button>
             <Label Content="{Binding Path=Paginator.PageIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             <Label Content="/"/>
             <Label Content="{Binding Path=Paginator.PageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-            <Button x:Name="btnNextPage" Click="btnNextPage_Click"  MinWidth="30">&gt;</Button>
+            <Button x:Name="btnNextPage" Click="BtnNextPage_Click"  MinWidth="30">&gt;</Button>
         </StackPanel>
     </Grid>
 </Page>

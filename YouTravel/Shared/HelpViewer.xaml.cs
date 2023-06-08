@@ -6,7 +6,7 @@ namespace YouTravel.Shared
 {
     public partial class HelpViewer : Window
     {
-        public HelpViewer(string key, Window originator)
+        public HelpViewer(string key)
         {
             InitializeComponent();
             UpdateNavButtonEnabled();
@@ -48,7 +48,7 @@ namespace YouTravel.Shared
             BtnForward.IsEnabled = (wbHelp != null) && wbHelp.CanGoForward;
         }
 
-        private void wbHelp_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void WbHelp_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             UpdateNavButtonEnabled();
         }

@@ -20,7 +20,7 @@ namespace YouTravel.Agent
         private string _name = "New Location";
         private string _description = "";
         private PlaceType _type = PlaceType.Attraction;
-        private int placeId = -1;
+        private readonly int placeId = -1;
 
         public double Latitude { get { return _latitude; } set { _latitude = value; DoPropertyChanged(nameof(Latitude)); MoveMapToLocation(); } }
         public double Longitude { get { return _longitude; } set { _longitude = value; DoPropertyChanged(nameof(Longitude)); MoveMapToLocation(); } }
@@ -28,7 +28,7 @@ namespace YouTravel.Agent
         public string Description { get { return _description; } set { _description = value; DoPropertyChanged(nameof(Description)); } }
         public PlaceType Type { get { return _type; } set { _type = value; DoPropertyChanged(nameof(Type)); MoveMapToLocation(); } }
 
-        private bool shouldReturnToPlacesList;
+        private readonly bool shouldReturnToPlacesList;
 
         public LocationAdd(bool shouldReturnToPlacesList, Place place)
         {
@@ -105,7 +105,7 @@ namespace YouTravel.Agent
             Longitude = latLong.Longitude;
         }
 
-        private void btnSaveChanges_Click(object sender, RoutedEventArgs e)
+        private void BtnSaveChanges_Click(object sender, RoutedEventArgs e)
         {
             SaveChanges();
         }
@@ -156,7 +156,7 @@ namespace YouTravel.Agent
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }

@@ -22,8 +22,8 @@ namespace YouTravel.Agent
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
-        private List<Grid> pages = new();
-        private List<Button> steps = new();
+        private readonly List<Grid> pages = new();
+        private readonly List<Button> steps = new();
         public int PageIndex { get; set; } = 0;
 
         private string _arrName = "New Arrangement";
@@ -45,8 +45,8 @@ namespace YouTravel.Agent
         private DateTime? _start = null;
         private DateTime? _end = null;
 
-        private bool returnToDashboard = false;
-        private MapBundle mapBundle = new();
+        private readonly bool returnToDashboard = false;
+        private readonly MapBundle mapBundle = new();
 
         public ObservableCollection<Place> AllActivities { get; set; } = new();
         public ObservableCollection<Place> ArrActivities { get; set; } = new();
@@ -128,7 +128,7 @@ namespace YouTravel.Agent
             var okayCopy = new List<Place>();
             foreach (var place in ArrActivities)
             {
-                if (AllActivities.Where(p => p.Id == place.Id).Count() > 0) // Can't do Contains(), why not?
+                if (AllActivities.Where(p => p.Id == place.Id).Any()) // Can't do Contains(), why not?
                 {
                     okayCopy.Add(place);
                 }
@@ -144,7 +144,7 @@ namespace YouTravel.Agent
             okayCopy = new List<Place>();
             foreach (var place in AllActivities)
             {
-                if (ArrActivities.Where(p => p.Id == place.Id).Count() == 0)
+                if (!ArrActivities.Where(p => p.Id == place.Id).Any())
                 {
                     okayCopy.Add(place);
                 }
@@ -270,26 +270,28 @@ namespace YouTravel.Agent
             lblNoArrPlaces.Visibility = ArrActivities.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        private void btnPrev_Click(object sender, RoutedEventArgs e)
+        private void BtnPrev_Click(object sender, RoutedEventArgs e)
         {
             MovePageIndex(-1);
         }
 
-        private void btnNext_Click(object sender, RoutedEventArgs e)
+        private void BtnNext_Click(object sender, RoutedEventArgs e)
         {
             MovePageIndex(1);
         }
 
-        private void btnFinish_Click(object sender, RoutedEventArgs e)
+        private void BtnFinish_Click(object sender, RoutedEventArgs e)
         {
             CreateArrangement();
         }
 
-        private void btn_SelectImage_Click(object sender, RoutedEventArgs e)
+        private void Btn_SelectImage_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog dlg = new();
-            dlg.DefaultExt = ".jpeg";
-            dlg.Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg";
+            Microsoft.Win32.OpenFileDialog dlg = new()
+            {
+                DefaultExt = ".jpeg",
+                Filter = "JPEG Files (*.jpeg)|*.jpeg|PNG Files (*.png)|*.png|JPG Files (*.jpg)|*.jpg"
+            };
 
             bool? result = dlg.ShowDialog();
 
@@ -304,8 +306,10 @@ namespace YouTravel.Agent
         {
             Filename = fnameFull;
 
-            BitmapImage image = new(new Uri(fnameFull, UriKind.Absolute));
-            image.CacheOption = BitmapCacheOption.OnLoad;
+            BitmapImage image = new(new Uri(fnameFull, UriKind.Absolute))
+            {
+                CacheOption = BitmapCacheOption.OnLoad
+            };
             image.Freeze();
             imgImage.Source = image;
 
@@ -393,13 +397,15 @@ namespace YouTravel.Agent
 
             using (var db = new TravelContext())
             {
-                Arrangement arr = new Arrangement();
-                arr.Name = ArrName;
-                arr.Description = Description;
-                arr.Price = Price;
-                arr.ImageFname = Filename;
-                arr.Start = (DateTime)_start;
-                arr.End = (DateTime)_end;
+                Arrangement arr = new()
+                {
+                    Name = ArrName,
+                    Description = Description,
+                    Price = Price,
+                    ImageFname = Filename,
+                    Start = (DateTime)_start,
+                    End = (DateTime)_end
+                };
 
                 /*
                  * NOTE: Pay good attention as to what's going on here.
@@ -441,25 +447,27 @@ namespace YouTravel.Agent
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
             ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
-        private void lstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            mapBundle.Pins = new List<Place>(ArrActivities);
-            mapBundle.Pins.Add((Place)lstAllPlaces.SelectedItem);
+            mapBundle.Pins = new List<Place>(ArrActivities)
+            {
+                (Place)lstAllPlaces.SelectedItem
+            };
             MapUtil.Redraw(mapBundle);
         }
 
-        private void lstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void LstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             mapBundle.Pins = ArrActivities;
             MapUtil.Redraw(mapBundle);
         }
 
-        private void btnAddArr_Click(object sender, RoutedEventArgs e)
+        private void BtnAddArr_Click(object sender, RoutedEventArgs e)
         {
             int selectedAvailablePlace = lstAllPlaces.SelectedIndex;
 
@@ -471,7 +479,7 @@ namespace YouTravel.Agent
             }
         }
 
-        private void btnRemArr_Click(object sender, RoutedEventArgs e)
+        private void BtnRemArr_Click(object sender, RoutedEventArgs e)
         {
             int selectedAddedPlace = lstArrPlaces.SelectedIndex;
 
@@ -500,7 +508,7 @@ namespace YouTravel.Agent
             }
         }
 
-        private void arrangementCalendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        private void ArrangementCalendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             base.OnPreviewMouseUp(e);
             if (Mouse.Captured is Calendar || Mouse.Captured is CalendarItem)

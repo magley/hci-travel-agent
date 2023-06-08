@@ -104,7 +104,7 @@
                                 x:Name="arrangementCalendar" 
                                 SelectionMode="SingleRange" 
                                 SelectedDatesChanged="Calendar_SelectedDatesChanged" 
-                                PreviewMouseUp="arrangementCalendar_PreviewMouseUp"
+                                PreviewMouseUp="ArrangementCalendar_PreviewMouseUp"
                                 IsTodayHighlighted="True" 
                                 DisplayDateStart="{x:Static sys:DateTime.Today}"
                                 CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}" CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
@@ -135,7 +135,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label Grid.Row="0" Grid.Column="0" Content="{Binding Filename, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Height="32" Margin="10 0 0 0"/>
-                                <Button u:HelpProvider.HelpKey="arrangement_add" ToolTip="Select a file" Grid.Row="0" Grid.Column="1" Margin="8" Height="32" x:Name="btn_SelectImage" Click="btn_SelectImage_Click">Select a file</Button>
+                                <Button u:HelpProvider.HelpKey="arrangement_add" ToolTip="Select a file" Grid.Row="0" Grid.Column="1" Margin="8" Height="32" x:Name="btn_SelectImage" Click="Btn_SelectImage_Click">Select a file</Button>
 
                                 <Image Grid.Row="1" Grid.ColumnSpan="2" Margin="30" x:Name="imgImage"/>
                             </Grid>
@@ -199,7 +199,7 @@
                             Grid.Row="1" 
                             ItemsSource="{Binding AllActivities}" 
                             u:HelpProvider.HelpKey="arrangement_add" ToolTip="Available places"
-                            SelectionChanged="lstAllPlaces_SelectionChanged"
+                            SelectionChanged="LstAllPlaces_SelectionChanged"
                             dd:DragDrop.IsDragSource="True"
                             dd:DragDrop.IsDropTarget="True">
                             <ListBox.ItemTemplate>
@@ -238,8 +238,8 @@
                         Margin="6"
                         Orientation="Horizontal"
                         HorizontalAlignment="Center">
-                        <Button Content="v" u:HelpProvider.HelpKey="arrangement_add" ToolTip="Add to arrangement" Height="30" Width="30" Margin="10 0 10 0" x:Name="btnAddArr" Click="btnAddArr_Click"/>
-                        <Button Content="^" u:HelpProvider.HelpKey="arrangement_add" ToolTip="Remove from arrangement" Height="30" Width="30" x:Name="btnRemArr" Click="btnRemArr_Click"/>
+                        <Button Content="v" u:HelpProvider.HelpKey="arrangement_add" ToolTip="Add to arrangement" Height="30" Width="30" Margin="10 0 10 0" x:Name="btnAddArr" Click="BtnAddArr_Click"/>
+                        <Button Content="^" u:HelpProvider.HelpKey="arrangement_add" ToolTip="Remove from arrangement" Height="30" Width="30" x:Name="btnRemArr" Click="BtnRemArr_Click"/>
                     </StackPanel>
 
                     <ListBox 
@@ -249,7 +249,7 @@
                         Grid.Column="1" 
                         Margin="5" 
                         ItemsSource="{Binding ArrActivities}" 
-                        SelectionChanged="lstArrPlaces_SelectionChanged"
+                        SelectionChanged="LstArrPlaces_SelectionChanged"
                         dd:DragDrop.IsDragSource="True"
                         dd:DragDrop.IsDropTarget="True">
                     <ListBox.ItemTemplate>
@@ -346,7 +346,7 @@
             Grid.Row="1" Grid.Column="0" 
             Margin="8 0 0 0" 
             x:Name="btnCancel" 
-            Click="btnCancel_Click" 
+            Click="BtnCancel_Click" 
             Height="32" 
             HorizontalAlignment="Left">
             <DockPanel HorizontalAlignment="Left">
@@ -356,9 +356,9 @@
         </Button>
         <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
             <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                <Button x:Name="btnPrev" Content="Back" u:HelpProvider.HelpKey="arrangement_add" Margin="8 0 0 0" Click="btnPrev_Click" Width="60" Height="32"/>
-                <Button x:Name="btnNext" Content="Next" u:HelpProvider.HelpKey="arrangement_add" Margin="8 0 0 0" Click="btnNext_Click" Width="60" Height="32"/>
-                <Button x:Name="btnFinish" Content="Finish" u:HelpProvider.HelpKey="arrangement_add" Margin="8 0 0 0" Click="btnFinish_Click" Width="60" Height="32"/>
+                <Button x:Name="btnPrev" Content="Back" u:HelpProvider.HelpKey="arrangement_add" Margin="8 0 0 0" Click="BtnPrev_Click" Width="60" Height="32"/>
+                <Button x:Name="btnNext" Content="Next" u:HelpProvider.HelpKey="arrangement_add" Margin="8 0 0 0" Click="BtnNext_Click" Width="60" Height="32"/>
+                <Button x:Name="btnFinish" Content="Finish" u:HelpProvider.HelpKey="arrangement_add" Margin="8 0 0 0" Click="BtnFinish_Click" Width="60" Height="32"/>
             </StackPanel>
         </StackPanel>
     </Grid>
