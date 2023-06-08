@@ -6,30 +6,30 @@
         xmlns:local="clr-namespace:YouTravel.Agent"
         xmlns:util="clr-namespace:YouTravel.Util"
         mc:Ignorable="d"
-		Style="{StaticResource PageDark}"
-		Loaded="Window_Loaded"
-		x:Name="ArrangementReports"
+        Style="{StaticResource PageDark}"
+        Loaded="Window_Loaded"
+        x:Name="ArrangementReports"
         d:Height="450" d:Width="800">
-	<Grid Margin="16">
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="15*"/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-		<Label
-			Grid.Row="0"
-			FontSize="24"
-			Content="{Binding Arrangement.Name}"/>
+        <Label
+            Grid.Row="0"
+            FontSize="24"
+            Content="{Binding Arrangement.Name}"/>
 
-		<DataGrid
-			Grid.Row="1"
-			Margin="0 16 0 16"
-			x:Name="tbReservations" 
-			AutoGenerateColumns="False" 
-			HeadersVisibility="Column"
-			IsReadOnly="True"
-			ItemsSource="{Binding}">
+        <DataGrid
+            Grid.Row="1"
+            Margin="0 16 0 16"
+            x:Name="tbReservations" 
+            AutoGenerateColumns="False" 
+            HeadersVisibility="Column"
+            IsReadOnly="True"
+            ItemsSource="{Binding}">
             <DataGrid.Resources>
                 <Style x:Key="TextColumnStyle" TargetType="TextBlock">
                     <Setter Property="Margin" Value="5,5" />
@@ -55,10 +55,10 @@
                 </DataGridTextColumn>
                 <DataGridTextColumn ElementStyle="{StaticResource TextColumnStyle}" Width="*" Header="Paid?" Binding="{Binding PaidOn, Converter={StaticResource PaidConverter}}" />
             </DataGrid.Columns>
-		</DataGrid>
+        </DataGrid>
        
         <TextBlock x:Name="txtNoReservations" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center">
-			No reservations for the arrangement.
+            No reservations for the arrangement.
         </TextBlock>
         <StackPanel Margin="10 10 10 10" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
             <Button x:Name="btnPrevPage" Click="BtnPrevPage_Click" MinWidth="30">&lt;</Button>

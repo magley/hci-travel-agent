@@ -4,233 +4,233 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Agent"
-		xmlns:u="clr-namespace:YouTravel.Util"
+        xmlns:u="clr-namespace:YouTravel.Util"
         mc:Ignorable="d"
-		Loaded="Window_Loaded"
-		Style="{StaticResource PageDark}"
-		x:Name="ArrangementHome"
-		d:DesignHeight="540" d:DesignWidth="960"
-		>
+        Loaded="Window_Loaded"
+        Style="{StaticResource PageDark}"
+        x:Name="ArrangementHome"
+        d:DesignHeight="540" d:DesignWidth="960"
+        >
 
-	<Page.Resources>
-		<BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
-		<BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
-		<BitmapImage x:Key="IcoStats" UriSource="../Res/IcoChart.png"/>
-		<BitmapImage x:Key="IcoRemove" UriSource="../Res/IcoCross.png"/>
-		<BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
+    <Page.Resources>
+        <BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
+        <BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
+        <BitmapImage x:Key="IcoStats" UriSource="../Res/IcoChart.png"/>
+        <BitmapImage x:Key="IcoRemove" UriSource="../Res/IcoCross.png"/>
+        <BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
 
-	</Page.Resources>
+    </Page.Resources>
 
-	<Page.InputBindings>
-		<KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding CmdFocusSearch}"/>
-	</Page.InputBindings>
+    <Page.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="F" Command="{Binding CmdFocusSearch}"/>
+    </Page.InputBindings>
 
-	<Grid>
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="5*" />
-			<ColumnDefinition Width="14*" />
-		</Grid.ColumnDefinitions>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto" />
-			<RowDefinition Height="9*" />
-			<RowDefinition Height="Auto" />
-		</Grid.RowDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*" />
+            <ColumnDefinition Width="14*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="9*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
 
-		<Grid 
-			Grid.Row="1" Grid.Column="0"
-			Margin="10 10 10 10">
+        <Grid 
+            Grid.Row="1" Grid.Column="0"
+            Margin="10 10 10 10">
 
-			<Grid.RowDefinitions>
-				<RowDefinition Height="Auto"/>
-				<RowDefinition Height="Auto"/>
-			</Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-			<!-- Search -->
-			<Grid Grid.Row="0" Margin="0 10 0 0">
-				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="1*"/>
-					<ColumnDefinition Width="Auto"/>
-					<ColumnDefinition Width="Auto"/>
-				</Grid.ColumnDefinitions>
+            <!-- Search -->
+            <Grid Grid.Row="0" Margin="0 10 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-				<TextBox 
-					u:HelpProvider.HelpKey="arrangement_filter" 
-					ToolTip="Enter a search query" 
-					Grid.Column="0"
-					Grid.ColumnSpan="2" 
-					Height="23" 
-					VerticalAlignment="Top" 
-					x:Name="searchBox"
-					KeyDown="searchBox_KeyDown"/>
+                <TextBox 
+                    u:HelpProvider.HelpKey="arrangement_filter" 
+                    ToolTip="Enter a search query" 
+                    Grid.Column="0"
+                    Grid.ColumnSpan="2" 
+                    Height="23" 
+                    VerticalAlignment="Top" 
+                    x:Name="searchBox"
+                    KeyDown="SearchBox_KeyDown"/>
 
-				<Button
-					Click="BtnClearSearch_Click"
-					Grid.Column="1" 
-					Margin="-10 0 0 0"
-					ToolTip="Clear search"
-					Height="23" VerticalAlignment="Top"
-					Content="x">
-					<Button.Style>
-						<Style BasedOn="{StaticResource TransparentStyle}" TargetType="{x:Type Button}">
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding Text.Length, ElementName=searchBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
-									<Setter Property="Visibility" Value="Collapsed"/>
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</Button.Style>
-				</Button>
+                <Button
+                    Click="BtnClearSearch_Click"
+                    Grid.Column="1" 
+                    Margin="-10 0 0 0"
+                    ToolTip="Clear search"
+                    Height="23" VerticalAlignment="Top"
+                    Content="x">
+                    <Button.Style>
+                        <Style BasedOn="{StaticResource TransparentStyle}" TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Text.Length, ElementName=searchBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
 
-				<Button Grid.Column="2"
-						ToolTip="Apply search query"
-						u:HelpProvider.HelpKey="arrangement_filter"
-						Click="BtnSearch_Click">
-					<Image Source="{StaticResource IcoMagnifier}" Height="20" Margin="5 0 5 0"/>
-				</Button>
-			</Grid>
+                <Button Grid.Column="2"
+                        ToolTip="Apply search query"
+                        u:HelpProvider.HelpKey="arrangement_filter"
+                        Click="BtnSearch_Click">
+                    <Image Source="{StaticResource IcoMagnifier}" Height="20" Margin="5 0 5 0"/>
+                </Button>
+            </Grid>
 
-			<!-- Visibility checkboxes -->
-			<GroupBox Grid.Row="1" Header="Visibility" Padding="10">
-				<StackPanel Orientation="Vertical">
-					<CheckBox VerticalAlignment="Center" 
-							  u:HelpProvider.HelpKey="arrangement_filter"
-							  ToolTip="Toggle in-progress arrangements"
-							  VerticalContentAlignment="Center" 
-							  Margin="0 6 0 0"
-							  Content="Active" 
-							  IsChecked="{Binding Path=ShowActive, Mode=TwoWay}" 
-							  Click="CbShowActive_Click" />
-					<CheckBox VerticalAlignment="Center" 
-							  VerticalContentAlignment="Center"
-							  ToolTip="Toggle upcoming arrangements"
-							  u:HelpProvider.HelpKey="arrangement_filter"
-							  Margin="0 6 0 0"
-							  Content="Upcoming" 
-							  IsChecked="{Binding Path=ShowUpcoming, Mode=TwoWay}" 
-							  Click="CbShowUpcoming_Click" />
-					<CheckBox VerticalAlignment="Center" 
-							  VerticalContentAlignment="Center"
-							  ToolTip="Toggle completed arrangements"
-							  u:HelpProvider.HelpKey="arrangement_filter"
-							  Margin="0 6 0 0"
-							  Content="Finished" 
-							  IsChecked="{Binding Path=ShowFinished, Mode=TwoWay}" 
-							  Click="CbShowFinished_Click" />
-				</StackPanel>
-			</GroupBox>
-		</Grid>
+            <!-- Visibility checkboxes -->
+            <GroupBox Grid.Row="1" Header="Visibility" Padding="10">
+                <StackPanel Orientation="Vertical">
+                    <CheckBox VerticalAlignment="Center" 
+                              u:HelpProvider.HelpKey="arrangement_filter"
+                              ToolTip="Toggle in-progress arrangements"
+                              VerticalContentAlignment="Center" 
+                              Margin="0 6 0 0"
+                              Content="Active" 
+                              IsChecked="{Binding Path=ShowActive, Mode=TwoWay}" 
+                              Click="CbShowActive_Click" />
+                    <CheckBox VerticalAlignment="Center" 
+                              VerticalContentAlignment="Center"
+                              ToolTip="Toggle upcoming arrangements"
+                              u:HelpProvider.HelpKey="arrangement_filter"
+                              Margin="0 6 0 0"
+                              Content="Upcoming" 
+                              IsChecked="{Binding Path=ShowUpcoming, Mode=TwoWay}" 
+                              Click="CbShowUpcoming_Click" />
+                    <CheckBox VerticalAlignment="Center" 
+                              VerticalContentAlignment="Center"
+                              ToolTip="Toggle completed arrangements"
+                              u:HelpProvider.HelpKey="arrangement_filter"
+                              Margin="0 6 0 0"
+                              Content="Finished" 
+                              IsChecked="{Binding Path=ShowFinished, Mode=TwoWay}" 
+                              Click="CbShowFinished_Click" />
+                </StackPanel>
+            </GroupBox>
+        </Grid>
 
-		<StackPanel
-			Grid.Row="0" Grid.Column="0"
-			Grid.ColumnSpan="2"
-			HorizontalAlignment="Right"
-			Orientation="Horizontal"
-			VerticalAlignment="Center"
-			Margin="10">
+        <StackPanel
+            Grid.Row="0" Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            Margin="10">
 
-			<Button Click="BtnNewArrangement_Click" ToolTip="Add a new Arrangement">
-				<DockPanel HorizontalAlignment="Stretch">
-					<Image Source="{StaticResource IcoAdd}" Height="20" Margin="5 0 5 0"/>
-					<Label Content="New"/>
-				</DockPanel>
-			</Button>
-		</StackPanel>
+            <Button Click="BtnNewArrangement_Click" ToolTip="Add a new Arrangement">
+                <DockPanel HorizontalAlignment="Stretch">
+                    <Image Source="{StaticResource IcoAdd}" Height="20" Margin="5 0 5 0"/>
+                    <Label Content="New"/>
+                </DockPanel>
+            </Button>
+        </StackPanel>
 
-		<ListView
-			Grid.Row="1"
-			Grid.Column="1"
-			x:Name="arrangementsList"
-			ItemsSource="{Binding}"
-			SelectionChanged="arrangementsList_SelectionChanged"
-			Margin="10"
-			u:HelpProvider.HelpKey="arrangement"
-			>
+        <ListView
+            Grid.Row="1"
+            Grid.Column="1"
+            x:Name="arrangementsList"
+            ItemsSource="{Binding}"
+            SelectionChanged="ArrangementsList_SelectionChanged"
+            Margin="10"
+            u:HelpProvider.HelpKey="arrangement"
+            >
 
-			<ListView.ItemContainerStyle>
-				<Style TargetType="ListViewItem">
-					<Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-				</Style>
-			</ListView.ItemContainerStyle>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
 
-			<ListView.ItemTemplate>
-				<DataTemplate>
-					<Grid>
-						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="*" />
-							<ColumnDefinition Width="Auto" />
-						</Grid.ColumnDefinitions>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
 
-						<StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
-							<Image Source="../Res/IcoBlueBullet.png" Height="24"/>
-							<Label Content="{Binding Name}"/>
-						</StackPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Column="0" HorizontalAlignment="Left">
+                            <Image Source="../Res/IcoBlueBullet.png" Height="24"/>
+                            <Label Content="{Binding Name}"/>
+                        </StackPanel>
 
-						<StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
-							<Button Click="RemoveArrangement_Click" Margin="6 0 0 0" ToolTip="Remove arrangement">
-								<DockPanel HorizontalAlignment="Stretch">
-									<Image Source="{StaticResource IcoRemove}" Height="20" Margin="5 0 5 0"/>
-								</DockPanel>
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" HorizontalAlignment="Right">
+                            <Button Click="RemoveArrangement_Click" Margin="6 0 0 0" ToolTip="Remove arrangement">
+                                <DockPanel HorizontalAlignment="Stretch">
+                                    <Image Source="{StaticResource IcoRemove}" Height="20" Margin="5 0 5 0"/>
+                                </DockPanel>
 
-								<Button.Style>
-									<Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-										<Setter Property="Visibility" Value="Hidden" />
-										<Style.Triggers>
-											<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
-												<Setter Property="Visibility" Value="Visible" />
-											</DataTrigger>
-										</Style.Triggers>
-									</Style>
-								</Button.Style>
-							</Button>
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
 
-							<Button Click="ArrangementReport_Click" Margin="6 0 0 0" ToolTip="Show reports">
-								<DockPanel HorizontalAlignment="Stretch">
-									<Image Source="{StaticResource IcoStats}" Height="20" Margin="5 0 5 0"/>
-								</DockPanel>
+                            <Button Click="ArrangementReport_Click" Margin="6 0 0 0" ToolTip="Show reports">
+                                <DockPanel HorizontalAlignment="Stretch">
+                                    <Image Source="{StaticResource IcoStats}" Height="20" Margin="5 0 5 0"/>
+                                </DockPanel>
 
-								<Button.Style>
-									<Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-										<Setter Property="Visibility" Value="Hidden" />
-										<Style.Triggers>
-											<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
-												<Setter Property="Visibility" Value="Visible" />
-											</DataTrigger>
-										</Style.Triggers>
-									</Style>
-								</Button.Style>
-							</Button>
-							<Button Click="EditArrangement_Click" Margin="6 0 0 0" ToolTip="Edit arrangement">
-								<DockPanel HorizontalAlignment="Stretch">
-									<Image Source="{StaticResource IcoEdit}" Height="20" Margin="5 0 5 0"/>
-								</DockPanel>
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <Button Click="EditArrangement_Click" Margin="6 0 0 0" ToolTip="Edit arrangement">
+                                <DockPanel HorizontalAlignment="Stretch">
+                                    <Image Source="{StaticResource IcoEdit}" Height="20" Margin="5 0 5 0"/>
+                                </DockPanel>
 
-								<Button.Style>
-									<Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-										<Setter Property="Visibility" Value="Hidden" />
-										<Style.Triggers>
-											<DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
-												<Setter Property="Visibility" Value="Visible" />
-											</DataTrigger>
-										</Style.Triggers>
-									</Style>
-								</Button.Style>
-							</Button>
-						</StackPanel>
-					</Grid>
-				</DataTemplate>
-			</ListView.ItemTemplate>
-		</ListView>
+                                <Button.Style>
+                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                        <Setter Property="Visibility" Value="Hidden" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type ListViewItem}},Path=IsMouseOver}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
-		<TextBlock x:Name="txtNoArrangements" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center">
-			No arrangements in the database. Add one to get started.
-		</TextBlock>
+        <TextBlock x:Name="txtNoArrangements" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center">
+            No arrangements in the database. Add one to get started.
+        </TextBlock>
 
-		<StackPanel Margin="10 0 10 10" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
-			<Button x:Name="btnPrevPage" Click="btnPrevPage_Click" MinWidth="30">&lt;</Button>
-			<Label Content="{Binding Path=Paginator.PageIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-			<Label Content="/"/>
-			<Label Content="{Binding Path=Paginator.PageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-			<Button x:Name="btnNextPage" Click="btnNextPage_Click"  MinWidth="30">&gt;</Button>
-		</StackPanel>
-	</Grid>
+        <StackPanel Margin="10 0 10 10" Orientation="Horizontal" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right">
+            <Button x:Name="btnPrevPage" Click="BtnPrevPage_Click" MinWidth="30">&lt;</Button>
+            <Label Content="{Binding Path=Paginator.PageIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Label Content="/"/>
+            <Label Content="{Binding Path=Paginator.PageCount, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <Button x:Name="btnNextPage" Click="BtnNextPage_Click"  MinWidth="30">&gt;</Button>
+        </StackPanel>
+    </Grid>
 </Page>

@@ -4,169 +4,169 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Agent"
-		xmlns:u="clr-namespace:YouTravel.Util"
+        xmlns:u="clr-namespace:YouTravel.Util"
         mc:Ignorable="d"
-		Style="{StaticResource WinDark}"
+        Style="{StaticResource WinDark}"
         Title="YouTravel Agent" Width="960" Height="600"
-		Loaded="Window_Loaded"
-		>
+        Loaded="Window_Loaded"
+        >
 
-	<Window.CommandBindings>
-		<CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
-	</Window.CommandBindings>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed"/>
+    </Window.CommandBindings>
 
-	<Window.InputBindings>
-		<KeyBinding Modifiers="Ctrl" Key="Left" Command="{Binding CmdNavigateBack}"/>
-		<KeyBinding Modifiers="Ctrl" Key="Right" Command="{Binding CmdNavigateForward}"/>
+    <Window.InputBindings>
+        <KeyBinding Modifiers="Ctrl" Key="Left" Command="{Binding CmdNavigateBack}"/>
+        <KeyBinding Modifiers="Ctrl" Key="Right" Command="{Binding CmdNavigateForward}"/>
 
-		<KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding CmdNewArrangement}"/>
-		<KeyBinding Modifiers="Ctrl" Key="A" Command="{Binding CmdViewArrangements}"/>
+        <KeyBinding Modifiers="Ctrl" Key="N" Command="{Binding CmdNewArrangement}"/>
+        <KeyBinding Modifiers="Ctrl" Key="A" Command="{Binding CmdViewArrangements}"/>
 
-		<KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding CmdNewPlace}"/>
+        <KeyBinding Modifiers="Ctrl+Shift" Key="N" Command="{Binding CmdNewPlace}"/>
         <KeyBinding Modifiers="Ctrl" Key="P" Command="{Binding CmdViewPlaces}"/>
         <KeyBinding Modifiers="Ctrl" Key="R" Command="{Binding CmdViewReports}"/>
         <KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding CmdToggleToolbar}"/>
-	</Window.InputBindings>
+    </Window.InputBindings>
 
-	<Window.Resources>
-		<BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
-		<BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
-		<BitmapImage x:Key="IcoStats" UriSource="../Res/IcoChart.png"/>
-		<BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
+    <Window.Resources>
+        <BitmapImage x:Key="IcoAdd" UriSource="../Res/IcoAdd.png"/>
+        <BitmapImage x:Key="IcoEdit" UriSource="../Res/IcoPencil.png"/>
+        <BitmapImage x:Key="IcoStats" UriSource="../Res/IcoChart.png"/>
+        <BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png"/>
 
-		<BitmapImage x:Key="IcoAddPlace" UriSource="../Res/IcoLocationAdd.png"/>
-		<BitmapImage x:Key="IcoAddArrangement" UriSource="../Res/IcoPlanetAdd.png"/>
-		<BitmapImage x:Key="IcoArrangement" UriSource="../Res/IcoTravel.png"/>
+        <BitmapImage x:Key="IcoAddPlace" UriSource="../Res/IcoLocationAdd.png"/>
+        <BitmapImage x:Key="IcoAddArrangement" UriSource="../Res/IcoPlanetAdd.png"/>
+        <BitmapImage x:Key="IcoArrangement" UriSource="../Res/IcoTravel.png"/>
         <BitmapImage x:Key="IcoPlace" UriSource="../Res/IcoLocation.png"/>
         <BitmapImage x:Key="IcoReport" UriSource="../Res/IcoReport.png"/>
 
         <BitmapImage x:Key="IcoBack" UriSource="../Res/IcoArrowLeft.png"/>
-		<BitmapImage x:Key="IcoForward" UriSource="../Res/IcoArrowRight.png"/>
+        <BitmapImage x:Key="IcoForward" UriSource="../Res/IcoArrowRight.png"/>
 
-		<BitmapImage x:Key="IcoHelp" UriSource="../Res/IcoHelp.png"/>
-		<BitmapImage x:Key="IcoInfo" UriSource="../Res/IcoInfo.png"/>
-	</Window.Resources>
+        <BitmapImage x:Key="IcoHelp" UriSource="../Res/IcoHelp.png"/>
+        <BitmapImage x:Key="IcoInfo" UriSource="../Res/IcoInfo.png"/>
+    </Window.Resources>
 
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-		<StackPanel Grid.Row="0">
-			<Menu>
-				<MenuItem Header="_File">
-					<MenuItem Header="New" Template="{DynamicResource MenuItemTemplate}">
-						<MenuItem Header="Arrangement" Click="On_AddArrangement" InputGestureText="Ctrl+N" Template="{DynamicResource FinalSubMenuItemTemplate}">
-							<MenuItem.Icon>
-								<Image Source="{StaticResource IcoAddArrangement}"/>
-							</MenuItem.Icon>
-						</MenuItem>
-						<MenuItem Header="Place" Click="On_AddPlace" InputGestureText="Ctrl+Shift+T" Template="{DynamicResource FinalSubMenuItemTemplate}">
-							<MenuItem.Icon>
-								<Image Source="{StaticResource IcoAddPlace}"/>
-							</MenuItem.Icon>
-						</MenuItem>
-					</MenuItem>
-					<Separator/>
-					<MenuItem Header="Logout" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
-					<MenuItem Header="Exit" Click="ExitApp_Click" InputGestureText="Alt+F4" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
-				</MenuItem>
-				<MenuItem Header="_View">
-					<MenuItem Header="Arrangements" Click="On_OpenArrangementList" InputGestureText="Ctrl+A" Template="{DynamicResource FinalSubMenuItemTemplate}">
-						<MenuItem.Icon>
-							<Image Source="{StaticResource IcoArrangement}"/>
-						</MenuItem.Icon>
-					</MenuItem>
-					<MenuItem Header="Places" Click="On_OpenPlaceList" InputGestureText="Ctrl+P" Template="{DynamicResource FinalSubMenuItemTemplate}">
-						<MenuItem.Icon>
-							<Image Source="{StaticResource IcoPlace}"/>
-						</MenuItem.Icon>
-					</MenuItem>
+        <StackPanel Grid.Row="0">
+            <Menu>
+                <MenuItem Header="_File">
+                    <MenuItem Header="New" Template="{DynamicResource MenuItemTemplate}">
+                        <MenuItem Header="Arrangement" Click="On_AddArrangement" InputGestureText="Ctrl+N" Template="{DynamicResource FinalSubMenuItemTemplate}">
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource IcoAddArrangement}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                        <MenuItem Header="Place" Click="On_AddPlace" InputGestureText="Ctrl+Shift+T" Template="{DynamicResource FinalSubMenuItemTemplate}">
+                            <MenuItem.Icon>
+                                <Image Source="{StaticResource IcoAddPlace}"/>
+                            </MenuItem.Icon>
+                        </MenuItem>
+                    </MenuItem>
+                    <Separator/>
+                    <MenuItem Header="Logout" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
+                    <MenuItem Header="Exit" Click="ExitApp_Click" InputGestureText="Alt+F4" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="_View">
+                    <MenuItem Header="Arrangements" Click="On_OpenArrangementList" InputGestureText="Ctrl+A" Template="{DynamicResource FinalSubMenuItemTemplate}">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource IcoArrangement}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Places" Click="On_OpenPlaceList" InputGestureText="Ctrl+P" Template="{DynamicResource FinalSubMenuItemTemplate}">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource IcoPlace}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
                     <MenuItem Header="Monthly Reports" Click="On_MonthlyReports" InputGestureText="Ctrl+R" Template="{DynamicResource FinalSubMenuItemTemplate}">
                         <MenuItem.Icon>
                             <Image Source="{StaticResource IcoReport}"/>
                         </MenuItem.Icon>
                     </MenuItem>
-					<Separator/>
-					<MenuItem x:Name="Btn_ToolbarShowToolbar" Header="Show Toolbar" InputGestureText="Ctrl+T" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
-				</MenuItem>
-				<MenuItem Header="_Settings">
-					<MenuItem Header="General" Click="On_OpenSettings" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
-					<MenuItem Header="Toolbar" Click="On_OpenSettings_Toolbar" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
-				</MenuItem>
-				<MenuItem Header="_Help">
-					<MenuItem Header="About YouTravel" Template="{DynamicResource FinalSubMenuItemTemplate}">
-						<MenuItem.Icon>
-							<Image Source="{StaticResource IcoInfo}"/>
-						</MenuItem.Icon>
-					</MenuItem>
-					<MenuItem Header="Help" Command="ApplicationCommands.Help" InputGestureText="F1" Template="{DynamicResource FinalSubMenuItemTemplate}">
-						<MenuItem.Icon>
-							<Image Source="{StaticResource IcoHelp}"/>
-						</MenuItem.Icon>
-					</MenuItem>
-				</MenuItem>
-			</Menu>
+                    <Separator/>
+                    <MenuItem x:Name="Btn_ToolbarShowToolbar" Header="Show Toolbar" InputGestureText="Ctrl+T" IsCheckable="True" Click="ShowToolbar_Click" IsChecked="{Binding Path=UserConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
+                </MenuItem>
+                <MenuItem Header="_Settings">
+                    <MenuItem Header="General" Click="On_OpenSettings" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
+                    <MenuItem Header="Toolbar" Click="On_OpenSettings_Toolbar" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
+                </MenuItem>
+                <MenuItem Header="_Help">
+                    <MenuItem Header="About YouTravel" Template="{DynamicResource FinalSubMenuItemTemplate}">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource IcoInfo}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="Help" Command="ApplicationCommands.Help" InputGestureText="F1" Template="{DynamicResource FinalSubMenuItemTemplate}">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource IcoHelp}"/>
+                        </MenuItem.Icon>
+                    </MenuItem>
+                </MenuItem>
+            </Menu>
 
-			<ToolBarTray x:Name="toolbarTray" u:HelpProvider.HelpKey="toolbar">
-				<ToolBarTray.Style>
-					<Style TargetType="{x:Type ToolBarTray}" BasedOn="{StaticResource {x:Type ToolBarTray}}">
-						<Setter Property="Visibility" Value="Visible"/>
-						<Style.Triggers>
-							<DataTrigger Binding="{Binding userConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
-								<Setter Property="Visibility" Value="Collapsed"/>
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>
-				</ToolBarTray.Style>
+            <ToolBarTray x:Name="toolbarTray" u:HelpProvider.HelpKey="toolbar">
+                <ToolBarTray.Style>
+                    <Style TargetType="{x:Type ToolBarTray}" BasedOn="{StaticResource {x:Type ToolBarTray}}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding UserConfig.ToolbarVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="False">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ToolBarTray.Style>
 
-				<ToolBar Template="{StaticResource ToolBarTemplate1}" ItemsSource="{Binding ToolbarBtn_Nav}">
-					<ToolBar.Style>
-						<Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
-							<Setter Property="Visibility" Value="Visible"/>
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding userConfig.ToolbarNav_Visible}" Value="False">
-									<Setter Property="Visibility" Value="Collapsed"/>
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</ToolBar.Style>
-				</ToolBar>
+                <ToolBar Template="{StaticResource ToolBarTemplate1}" ItemsSource="{Binding ToolbarBtn_Nav}">
+                    <ToolBar.Style>
+                        <Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding UserConfig.ToolbarNav_Visible}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToolBar.Style>
+                </ToolBar>
 
-				<ToolBar Template="{StaticResource ToolBarTemplate1}" ItemsSource="{Binding ToolbarBtn_Arrangement}">
-					<ToolBar.Style>
-						<Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
-							<Setter Property="Visibility" Value="Visible"/>
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding userConfig.ToolbarArrangement_Visible}" Value="False">
-									<Setter Property="Visibility" Value="Collapsed"/>
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</ToolBar.Style>
-				</ToolBar>
+                <ToolBar Template="{StaticResource ToolBarTemplate1}" ItemsSource="{Binding ToolbarBtn_Arrangement}">
+                    <ToolBar.Style>
+                        <Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding UserConfig.ToolbarArrangement_Visible}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToolBar.Style>
+                </ToolBar>
 
-				<ToolBar Template="{StaticResource ToolBarTemplate1}" ItemsSource="{Binding ToolbarBtn_Place}">
-					<ToolBar.Style>
-						<Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
-							<Setter Property="Visibility" Value="Visible"/>
-							<Style.Triggers>
-								<DataTrigger Binding="{Binding userConfig.ToolbarPlace_Visible}" Value="False">
-									<Setter Property="Visibility" Value="Collapsed"/>
-								</DataTrigger>
-							</Style.Triggers>
-						</Style>
-					</ToolBar.Style>
-				</ToolBar>
-			</ToolBarTray>
-		</StackPanel>
+                <ToolBar Template="{StaticResource ToolBarTemplate1}" ItemsSource="{Binding ToolbarBtn_Place}">
+                    <ToolBar.Style>
+                        <Style TargetType="{x:Type ToolBar}" BasedOn="{StaticResource {x:Type ToolBar}}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding UserConfig.ToolbarPlace_Visible}" Value="False">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </ToolBar.Style>
+                </ToolBar>
+            </ToolBarTray>
+        </StackPanel>
 
-		<Grid Grid.Row="1">
-			<Grid.RowDefinitions>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-			<Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden" Navigated="myFrame_Navigated" Grid.Row="0"/>
-		</Grid>
-	</Grid>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Frame x:Name="myFrame" Source="ArrangementList.xaml" NavigationUIVisibility="Hidden" Navigated="MyFrame_Navigated" Grid.Row="0"/>
+        </Grid>
+    </Grid>
 </Window>

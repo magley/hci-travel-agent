@@ -5,83 +5,83 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Agent"
         mc:Ignorable="d"
-		Style="{StaticResource WinDark}"
-		WindowStartupLocation="CenterOwner"
-		Loaded="Window_Loaded"
+        Style="{StaticResource WinDark}"
+        WindowStartupLocation="CenterOwner"
+        Loaded="Window_Loaded"
         Title="Settings" Height="400" Width="600">
     <Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition/>
-			<RowDefinition Height="Auto"/>
-		</Grid.RowDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="3*"/>
-			<ColumnDefinition Width="5*"/>
-		</Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
 
-		<TreeView Grid.Row="0" Grid.Column="0" Margin="6" SelectedItemChanged="TreeView_SelectedItemChanged" x:Name="TreeView">
-			<TreeViewItem Header="Environment" IsExpanded="True">
-				<TreeViewItem Header="General" x:Name="TreeViewItem_General"/>
-				<TreeViewItem Header="Toolbar" x:Name="TreeViewItem_Toolbar"/>
-			</TreeViewItem>
-		</TreeView>
+        <TreeView Grid.Row="0" Grid.Column="0" Margin="6" SelectedItemChanged="TreeView_SelectedItemChanged" x:Name="TreeView">
+            <TreeViewItem Header="Environment" IsExpanded="True">
+                <TreeViewItem Header="General" x:Name="TreeViewItem_General"/>
+                <TreeViewItem Header="Toolbar" x:Name="TreeViewItem_Toolbar"/>
+            </TreeViewItem>
+        </TreeView>
 
-		<Grid Grid.Row="0" Grid.Column="1" Margin="6">
-			
-			<!-- General -->
-			<StackPanel>
-				<StackPanel.Style>
-					<Style TargetType="{x:Type StackPanel}">
-						<Setter Property="Visibility" Value="Collapsed"/>
-						<Style.Triggers>
-							<DataTrigger Binding="{Binding Path=SelectedSection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="General">
-								<Setter Property="Visibility" Value="Visible"/>
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>
-				</StackPanel.Style>
+        <Grid Grid.Row="0" Grid.Column="1" Margin="6">
+            
+            <!-- General -->
+            <StackPanel>
+                <StackPanel.Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=SelectedSection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="General">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
 
-				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Show Toolbar" IsChecked="{Binding ToolbarVisible,Mode=TwoWay}"/>
-				<Label>Default Location Coordinates:</Label>
-				<Grid>
-					<Grid.ColumnDefinitions>
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition/>
-						<ColumnDefinition Width="Auto"/>
-						<ColumnDefinition/>
-					</Grid.ColumnDefinitions>
+                <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Show Toolbar" IsChecked="{Binding ToolbarVisible,Mode=TwoWay}"/>
+                <Label>Default Location Coordinates:</Label>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-					<Label Grid.Column="0" Content="Latitude:"/>
-					<TextBox Grid.Column="1" Text="{Binding Latitude, Mode=TwoWay, StringFormat=N4 }" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-					<Label Grid.Column="2" Content="Longitude:"/>
-					<TextBox Grid.Column="30" Text="{Binding Longitude, Mode=TwoWay, StringFormat=N4 }" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
-				</Grid>
-			</StackPanel>
-			
-			
-			<!-- Toolbar -->
-			<StackPanel>
-				<StackPanel.Style>
-					<Style TargetType="{x:Type StackPanel}">
-						<Setter Property="Visibility" Value="Collapsed"/>
-						<Style.Triggers>
-							<DataTrigger Binding="{Binding Path=SelectedSection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="Toolbar">
-								<Setter Property="Visibility" Value="Visible"/>
-							</DataTrigger>
-						</Style.Triggers>
-					</Style>
-				</StackPanel.Style>
+                    <Label Grid.Column="0" Content="Latitude:"/>
+                    <TextBox Grid.Column="1" Text="{Binding Latitude, Mode=TwoWay, StringFormat=N4 }" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                    <Label Grid.Column="2" Content="Longitude:"/>
+                    <TextBox Grid.Column="30" Text="{Binding Longitude, Mode=TwoWay, StringFormat=N4 }" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"/>
+                </Grid>
+            </StackPanel>
+            
+            
+            <!-- Toolbar -->
+            <StackPanel>
+                <StackPanel.Style>
+                    <Style TargetType="{x:Type StackPanel}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=SelectedSection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Value="Toolbar">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </StackPanel.Style>
 
-				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Navigation" IsChecked="{Binding ToolbarShowNav,Mode=TwoWay}"/>
-				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Arrangement" IsChecked="{Binding ToolbarShowArrangement,Mode=TwoWay}"/>
-				<CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Place" IsChecked="{Binding ToolbarShowPlace,Mode=TwoWay}"/>
-			</StackPanel>
-		</Grid>
+                <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Navigation" IsChecked="{Binding ToolbarShowNav,Mode=TwoWay}"/>
+                <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Arrangement" IsChecked="{Binding ToolbarShowArrangement,Mode=TwoWay}"/>
+                <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Place" IsChecked="{Binding ToolbarShowPlace,Mode=TwoWay}"/>
+            </StackPanel>
+        </Grid>
 
-		<StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12">
-			<Button Content="Save" x:Name="BtnSaveConfig" Height="32" Width="64" Click="BtnSaveConfig_Click"/>
-			<Button Content="Cancel" x:Name="BtnCancel" Height="32" Width="64" Margin="10 0 0 0" Click="BtnCancel_Click"/>
-		</StackPanel>
-	</Grid>
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12">
+            <Button Content="Save" x:Name="BtnSaveConfig" Height="32" Width="64" Click="BtnSaveConfig_Click"/>
+            <Button Content="Cancel" x:Name="BtnCancel" Height="32" Width="64" Margin="10 0 0 0" Click="BtnCancel_Click"/>
+        </StackPanel>
+    </Grid>
 </Window>

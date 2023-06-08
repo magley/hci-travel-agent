@@ -1,6 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -79,9 +77,9 @@ namespace YouTravel.Agent
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ((AgentMainWindow)Window.GetWindow(this)).SetTitle(TitleRegex.PageNameAsWords(this));
+            TitleOverride.PageNameAsWords(this);
             Mouse.OverrideCursor = null;
-		}
+        }
 
         private void BtnPrevPage_Click(object sender, RoutedEventArgs e)
         {

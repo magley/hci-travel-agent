@@ -45,13 +45,13 @@
         </StackPanel>
 
         <DataGrid
-			Grid.Row="2"
-			Margin="0 16 0 16"
-			x:Name="tbReservations" 
-			AutoGenerateColumns="False" 
-			HeadersVisibility="Column"
-			IsReadOnly="True"
-			ItemsSource="{Binding}">
+            Grid.Row="2"
+            Margin="0 16 0 16"
+            x:Name="tbReservations" 
+            AutoGenerateColumns="False" 
+            HeadersVisibility="Column"
+            IsReadOnly="True"
+            ItemsSource="{Binding}">
             <DataGrid.Resources>
                 <Style x:Key="TextColumnStyle" TargetType="TextBlock">
                     <Setter Property="Margin" Value="5,5" />
@@ -80,7 +80,7 @@
         </DataGrid>
 
         <TextBlock x:Name="txtNoReservations" Grid.Column="1" Grid.Row="2" VerticalAlignment="Center" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center">
-			No reservations for the arrangement.
+            No reservations for the arrangement.
         </TextBlock>
         <StackPanel Margin="10 10 10 10" Orientation="Horizontal" Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right">
             <Button x:Name="btnPrevPage" Click="BtnPrevPage_Click" MinWidth="30">&lt;</Button>

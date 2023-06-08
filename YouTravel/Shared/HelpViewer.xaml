@@ -4,23 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Shared"
-		Style="{StaticResource WinDark}"
+        Style="{StaticResource WinDark}"
         mc:Ignorable="d"
-		WindowStartupLocation="CenterOwner"
+        WindowStartupLocation="CenterOwner"
         Title="HelpViewer" Height="480" Width="640">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition/>
-		</Grid.RowDefinitions>
-		<StackPanel x:Name="BtnBack" Orientation="Horizontal" Grid.Row="0" Margin="10">
-			<Button Click="GoBack" Height="32" Width="32">
-				&lt;
-			</Button>
-			<Button x:Name="BtnForward" Click="GoForward" Height="32" Width="32" Margin="12 0 0 0">
-				&gt;
-			</Button>
-		</StackPanel>
-		<WebBrowser Grid.Row="1" Name="wbHelp" Navigated="wbHelp_Navigated"></WebBrowser>
-	</Grid>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <StackPanel x:Name="BtnBack" Orientation="Horizontal" Grid.Row="0" Margin="10">
+            <Button Click="GoBack" Height="32" Width="32">
+                &lt;
+            </Button>
+            <Button x:Name="BtnForward" Click="GoForward" Height="32" Width="32" Margin="12 0 0 0">
+                &gt;
+            </Button>
+        </StackPanel>
+        <WebBrowser Grid.Row="1" Name="wbHelp" Navigated="WbHelp_Navigated"></WebBrowser>
+    </Grid>
 </Window>
