@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 // https://learn.microsoft.com/en-us/bingmaps/rest-services/locations/location-recognition
 namespace YouTravel.Util.Api
@@ -46,26 +47,22 @@ namespace YouTravel.Util.Api
         {
             return $"{urlPath}/{point}?key={key}&output=json&includeEntityTypes=address";
         }
-        private static string SendRequest(double lat, double lng)
+        private static async Task<string> SendRequestAsync(double lat, double lng)
         {
             var url = Url(Point(lat, lng), apiKey);
 #if DEBUG
             Console.WriteLine($"GET: {url}");
 #endif
-            var response = client.GetStringAsync(url).Result;
-#if DEBUG
-            Console.WriteLine($"RESPONSE: {response}");
-#endif
-            return response;
+            return await client.GetStringAsync(url);
         }
-        private static ApiResponse? FetchApiResponse(double lat, double lng)
+        private static async Task<ApiResponse?> FetchApiResponse(double lat, double lng)
         {
-            var response = SendRequest(lat, lng);
+            var response = await SendRequestAsync(lat, lng);
             return JsonSerializer.Deserialize<ApiResponse>(response, options);
         }
 
         private delegate T NoArgumentDelegate<T>();
-        public static string? FetchFirstLocationAddress(double lat, double lng)
+        public static async Task<string?> FetchFirstLocationAddressAsync(double lat, double lng)
         {
             static T? GetFirst<T>(NoArgumentDelegate<T> action)
             {
@@ -78,7 +75,7 @@ namespace YouTravel.Util.Api
                 return item;
             }
 
-            var response = FetchApiResponse(lat, lng);
+            var response = await FetchApiResponse(lat, lng);
 
             Resource? resource = GetFirst(() => response?.ResourceSets?[0].Resources?[0]);
             if (resource == null)
@@ -87,7 +84,7 @@ namespace YouTravel.Util.Api
             }
 
             string? addressLine = GetFirst(() => resource.AddressOfLocation?[0].AddressLine);
-            if (addressLine != null)
+            if (addressLine != null && addressLine != "")
             {
                 return addressLine;
             }

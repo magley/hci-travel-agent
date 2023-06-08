@@ -16,13 +16,13 @@ namespace YouTravel.Agent
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
-        private const string defaultLocationName = "Unknown Location";
+        private const string defaultLocationName = "New Location";
         private const string defaultLocationAddress = "Unknown Address";
 
         private double _latitude = 0;
         private double _longitude = 0;
         private string _name = defaultLocationName;
-        private string _address = "";
+        private string _address = defaultLocationAddress;
         private string _description = "";
         private PlaceType _type = PlaceType.Attraction;
         private readonly int placeId = -1;
@@ -74,9 +74,9 @@ namespace YouTravel.Agent
             DataContext = this;
         }
 
-        private void FetchAndSetLocAddress()
+        private async void FetchAndSetLocAddress()
         {
-            LocAddress = LocationRecognition.FetchFirstLocationAddress(Latitude, Longitude) ?? defaultLocationAddress;
+            LocAddress = await LocationRecognition.FetchFirstLocationAddressAsync(Latitude, Longitude) ?? defaultLocationAddress;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
