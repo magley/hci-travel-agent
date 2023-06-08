@@ -17,6 +17,7 @@ namespace YouTravel.Agent
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
         private const string defaultLocationName = "Unknown Location";
+        private const string defaultLocationAddress = "Unknown Address";
 
         private double _latitude = 0;
         private double _longitude = 0;
@@ -75,7 +76,7 @@ namespace YouTravel.Agent
 
         private void FetchAndSetLocAddress()
         {
-            LocAddress = LocationRecognition.FetchFirstLocationAddress(Latitude, Longitude) ?? "";
+            LocAddress = LocationRecognition.FetchFirstLocationAddress(Latitude, Longitude) ?? defaultLocationAddress;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
