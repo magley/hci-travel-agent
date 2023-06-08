@@ -92,7 +92,7 @@ namespace YouTravel.Agent
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ((AgentMainWindow)Window.GetWindow(this)).SetTitle(TitleRegex.PageNameAsWords(this));
+            TitleOverride.PageNameAsWords(this);
             InitForm();
             InitCalendarRange();
             InitMapsApi();
