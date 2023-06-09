@@ -1,43 +1,235 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using YouTravel.Model;
+using YouTravel.Shared;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
 {
-    public partial class AgentMainWindow : Window
+    public partial class AgentMainWindow : Window, INotifyPropertyChanged
     {
-        public UserConfig UserConfig { get; } = UserConfig.Instance;
+        public event PropertyChangedEventHandler? PropertyChanged;
+        void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+
+        public UserConfig UserConfig { get; } = YouTravelContext.UserConfig;
 
         public ObservableCollection<Button> ToolbarBtn_Nav { get; set; } = new();
         public ObservableCollection<Button> ToolbarBtn_Arrangement { get; set; } = new();
         public ObservableCollection<Button> ToolbarBtn_Place { get; set; } = new();
 
-        public ICommand CmdNavigateBack { get; private set; }
-        public ICommand CmdNavigateForward { get; private set; }
-        public ICommand CmdNewArrangement { get; private set; }
-        public ICommand CmdViewArrangements { get; private set; }
-        public ICommand CmdNewPlace { get; private set; }
-        public ICommand CmdViewPlaces { get; private set; }
-        public ICommand CmdViewReports { get; private set; }
-        public ICommand CmdToggleToolbar { get; private set; }
+        public ICommand? _cmdNavigateBack;
+        public ICommand? CmdNavigateBack
+        { 
+            get { return _cmdNavigateBack;}
+            private set { _cmdNavigateBack = value; DoPropertyChanged(nameof(CmdNavigateBack)); }
+        }
+
+        public ICommand? _cmdNavigateForward;
+        public ICommand? CmdNavigateForward
+        { 
+            get { return _cmdNavigateForward; }
+            private set { _cmdNavigateForward = value; DoPropertyChanged(nameof(CmdNavigateForward)); }
+        }
+
+        public ICommand? _cmdNewArrangement;
+        public ICommand? CmdNewArrangement
+        { 
+            get { return _cmdNewArrangement; }
+            private set { _cmdNewArrangement = value; DoPropertyChanged(nameof(CmdNewArrangement)); }
+        }
+
+        public ICommand? _cmdViewArrangements;
+        public ICommand? CmdViewArrangements
+        { 
+            get { return _cmdViewArrangements; }
+            private set { _cmdViewArrangements = value; DoPropertyChanged(nameof(CmdViewArrangements)); }
+        }
+
+        public ICommand? _cmdNewPlace;
+        public ICommand? CmdNewPlace
+        { 
+            get { return _cmdNewPlace; }
+            private set { _cmdNewPlace = value; DoPropertyChanged(nameof(CmdNewPlace)); }
+        }
+
+        public ICommand? _cmdViewPlaces;
+        public ICommand? CmdViewPlaces
+        { 
+            get { return _cmdViewPlaces; }
+            private set { _cmdViewPlaces = value; DoPropertyChanged(nameof(CmdViewPlaces)); }
+        }
+
+        public ICommand? _cmdViewReports;
+        public ICommand? CmdViewReports
+        { 
+            get { return _cmdViewReports; }
+            private set { _cmdViewReports = value; DoPropertyChanged(nameof(CmdViewReports)); }
+        }
+
+        public ICommand? _cmdToggleToolbar;
+        public ICommand? CmdToggleToolbar
+        { 
+            get { return _cmdToggleToolbar; }
+            private set { _cmdToggleToolbar = value; DoPropertyChanged(nameof(CmdToggleToolbar)); }
+        }
+
+        public ICommand? _cmdLogin;
+        public ICommand? CmdLogin
+        { 
+            get { return _cmdLogin; }
+            private set { _cmdLogin = value; DoPropertyChanged(nameof(CmdLogin)); }
+        }
+
+        public ICommand? _cmdLogout;
+        public ICommand? CmdLogout
+        { 
+            get { return _cmdLogout; }
+            private set { _cmdLogout = value; DoPropertyChanged(nameof(CmdLogout)); }
+        }
+
+        public ICommand? _cmdRegister;
+        public ICommand? CmdRegister
+        {
+            get { return _cmdRegister; }
+            private set { _cmdRegister = value; DoPropertyChanged(nameof(CmdRegister)); }
+        }
 
         public AgentMainWindow()
         {
             InitializeComponent();
             DataContext = this;
 
+            InitWindowForUser();
+        }
+
+        #region InitWindowForUser
+
+        #region InitUser
+        private void InitWindowForUser()
+        {
+            switch (YouTravelContext.User?.Type)
+            {
+                case UserType.AGENT:
+                    InitAgent();
+                    break;
+                case UserType.CLIENT:
+                    InitClient();
+                    break;
+                default:
+                    InitGuest();
+                    break;
+            }
+        }
+
+        private void InitAgent()
+        {
+            InitAgentMenu();
+            InitAgentToolbar();
+            InitAgentCommands();
+        }
+
+        private void InitClient()
+        {
+            InitClientMenu();
+            InitClientToolbar();
+            InitClientCommands();
+        }
+
+        private void InitGuest()
+        {
+            InitGuestMenu();
+            InitGuestToolbar();
+            InitGuestCommands();
+        }
+        #endregion
+
+        #region InitMenu
+        private void InitAgentMenu()
+        {
+            menu_item_new.Visibility = Visibility.Visible;
+            menu_item_login_separator.Visibility = Visibility.Visible;
+
+            menu_item_view_places.Visibility = Visibility.Visible;
+            menu_item_view_reports.Visibility = Visibility.Visible;
+
+            menu_item_login.Visibility = Visibility.Collapsed;
+            menu_item_logout.Visibility = Visibility.Visible;
+            menu_item_register.Visibility = Visibility.Collapsed;
+        }
+
+        private void InitClientMenu()
+        {
+            menu_item_new.Visibility = Visibility.Collapsed;
+            menu_item_login_separator.Visibility = Visibility.Collapsed;
+
+            menu_item_view_places.Visibility = Visibility.Collapsed;
+            menu_item_view_reports.Visibility = Visibility.Collapsed;
+
+            menu_item_login.Visibility = Visibility.Collapsed;
+            menu_item_logout.Visibility = Visibility.Visible;
+            menu_item_register.Visibility = Visibility.Collapsed;
+        }
+
+        private void InitGuestMenu()
+        {
+            menu_item_new.Visibility = Visibility.Collapsed;
+            menu_item_login_separator.Visibility = Visibility.Collapsed;
+
+            menu_item_view_places.Visibility = Visibility.Collapsed;
+            menu_item_view_reports.Visibility = Visibility.Collapsed;
+
+            menu_item_login.Visibility = Visibility.Visible;
+            menu_item_logout.Visibility = Visibility.Collapsed;
+            menu_item_register.Visibility = Visibility.Visible;
+        }
+        #endregion
+
+        #region InitToolbar
+        private void InitAgentToolbar()
+        {
+            toolbar_place.Visibility = Visibility.Visible;
+
+            ToolbarBtn_Nav.Clear();
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn, "Navigate Backward (Ctrl+Left arrow)"));
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
 
+            ToolbarBtn_Arrangement.Clear();
             ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoPlanetAdd.png", On_AddArrangement, "New Arrangement (Ctrl+N)"));
             ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList, "View Arrangements (Ctrl+A)"));
 
+            ToolbarBtn_Place.Clear();
             ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocationAdd.png", On_AddPlace, "New Place (Ctrl+Shift+N)"));
             ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocation.png", On_OpenPlaceList, "View Places (Ctrl+P)"));
+        }
 
-            #region InitCommands
+        private void InitClientToolbar()
+        {
+            toolbar_place.Visibility = Visibility.Collapsed;
+
+            ToolbarBtn_Nav.Clear();
+            ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn, "Navigate Backward (Ctrl+Left arrow)"));
+            ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
+
+            ToolbarBtn_Arrangement.Clear();
+            ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList, "View Arrangements (Ctrl+A)"));
+
+            ToolbarBtn_Place.Clear();
+        }
+
+        private void InitGuestToolbar()
+        {
+            InitClientToolbar();
+        }
+        #endregion
+
+        #region InitCommands
+        private void InitAgentCommands()
+        {
             CmdToggleToolbar = new RelayCommand(o => ToggleToolbar(), o => true);
 
             CmdNavigateBack = new RelayCommand(o => PageBack(), o => true);
@@ -49,8 +241,52 @@ namespace YouTravel.Agent
             CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd(true)), o => true);
             CmdViewPlaces = new RelayCommand(o => OpenPage(new PlacesList()), o => true);
             CmdViewReports = new RelayCommand(o => OpenPage(new MonthlyReports()), o => true);
-            #endregion
+
+            CmdLogin = null;
+            CmdLogout = new RelayCommand(o => Logout(), o => true);
+            CmdRegister = null;
         }
+
+        private void InitClientCommands()
+        {
+            CmdToggleToolbar = new RelayCommand(o => ToggleToolbar(), o => true);
+
+            CmdNavigateBack = new RelayCommand(o => PageBack(), o => true);
+            CmdNavigateForward = new RelayCommand(o => PageNext(), o => true);
+
+            CmdNewArrangement = null;
+            CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+
+            CmdNewPlace = null;
+            CmdViewPlaces = null;
+            CmdViewReports = null;
+
+            CmdLogin = null;
+            CmdLogout = new RelayCommand(o => Logout(), o => true);
+            CmdRegister = null;
+        }
+
+        private void InitGuestCommands()
+        {
+            CmdToggleToolbar = new RelayCommand(o => ToggleToolbar(), o => true);
+
+            CmdNavigateBack = new RelayCommand(o => PageBack(), o => true);
+            CmdNavigateForward = new RelayCommand(o => PageNext(), o => true);
+
+            CmdNewArrangement = null;
+            CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+
+            CmdNewPlace = null;
+            CmdViewPlaces = null;
+            CmdViewReports = null;
+
+            CmdLogin = new RelayCommand(o => Login(), o => true);
+            CmdLogout = null;
+            CmdRegister = new RelayCommand(o => Register(), o => true);
+        }
+        #endregion
+
+        #endregion
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -64,29 +300,76 @@ namespace YouTravel.Agent
 
         public void OpenPage(Page page)
         {
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
-            myFrame.NavigationService.Navigate(page);
+            Mouse.OverrideCursor = Cursors.Wait;
+            myFrame.Navigate(page);
         }
 
         public void CloseMostRecentPage()
         {
             PageBack();
-            myFrame.NavigationService.RemoveBackEntry();
+            myFrame.RemoveBackEntry();
         }
 
         public void PageBack()
         {
-            if (myFrame.NavigationService.CanGoBack)
+            if (myFrame.CanGoBack)
             {
-                myFrame.NavigationService.GoBack();
+                myFrame.GoBack();
             }
         }
 
         public void PageNext()
         {
-            if (myFrame.NavigationService.CanGoForward)
+            if (myFrame.CanGoForward)
             {
-                myFrame.NavigationService.GoForward();
+                myFrame.GoForward();
+            }
+        }
+
+        private void Login()
+        {
+            bool? res = new Login().ShowDialog();
+            if (res ?? false)
+            {
+                RefreshUser();
+                Debug.Assert(YouTravelContext.User != null);
+                new OkBox($"Welcome {YouTravelContext.User.Username}.").ShowDialog();
+            }
+        }
+
+        private void Register()
+        {
+            var register = new Register();
+            register.ShowDialog();
+            var user = register.DialogResult;
+            if (user != null)
+            {
+                new OkBox($"Successfully registered {user.Username}.").ShowDialog();
+            }
+        }
+
+        private void Logout()
+        {
+            Debug.Assert(YouTravelContext.User != null);
+            var user = YouTravelContext.User;
+            YouTravelContext.Logout();
+            RefreshUser();
+        }
+
+        private void RefreshUser()
+        {
+            InitWindowForUser();
+            // FIXME: Doesn't clear out the last entry for some reason
+            ClearNavigationHistory();
+            OpenPage(new ArrangementList());
+        }
+
+        private void ClearNavigationHistory()
+        {
+            var entry = myFrame.RemoveBackEntry();
+            while (entry != null)
+            {
+                entry = myFrame.RemoveBackEntry();
             }
         }
 
@@ -94,10 +377,10 @@ namespace YouTravel.Agent
         {
             // TODO: Hardcoded everything...
 
-            ToolbarBtn_Nav[0].IsEnabled = myFrame.NavigationService.CanGoBack;
+            ToolbarBtn_Nav[0].IsEnabled = myFrame.CanGoBack;
             ((Image)ToolbarBtn_Nav[0].Content).Opacity = myFrame.CanGoBack ? 1 : 0.5;
 
-            ToolbarBtn_Nav[1].IsEnabled = myFrame.NavigationService.CanGoForward;
+            ToolbarBtn_Nav[1].IsEnabled = myFrame.CanGoForward;
             ((Image)ToolbarBtn_Nav[1].Content).Opacity = myFrame.CanGoForward ? 1 : 0.5;
         }
 
@@ -133,6 +416,21 @@ namespace YouTravel.Agent
         private void On_AddPlace(object sender, RoutedEventArgs e)
         {
             OpenPage(new LocationAdd(true));
+        }
+
+        private void On_Login(object sender, RoutedEventArgs e)
+        {
+            Login();
+        }
+
+        private void On_Logout(object sender, RoutedEventArgs e)
+        {
+            Logout();
+        }
+
+        private void On_Register(object sender, RoutedEventArgs e)
+        {
+            Register();
         }
 
         private void On_MonthlyReports(object sender, RoutedEventArgs e)
@@ -171,10 +469,10 @@ namespace YouTravel.Agent
                 string str = HelpProvider.GetHelpKey(depObject);
                 HelpProvider.ShowHelp(str, this);
             }
-            //else
-            //{
-            //             HelpProvider.ShowHelp("index", this);
-            //         }
+            else
+            {
+                HelpProvider.ShowHelp("index", this);
+            }
         }
 
         private void ExitApp_Click(object sender, RoutedEventArgs e)

@@ -1,0 +1,88 @@
+﻿<Window x:Class="YouTravel.Shared.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YouTravel.Shared"
+        mc:Ignorable="d"
+        Title="Login" Height="350" Width="400"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Style="{StaticResource WinDark}"
+        KeyUp="Window_KeyUp">
+    <Grid Margin="10 0 10 0" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Content="Login"
+            FontSize="28"/>
+
+        <Label 
+            Grid.Row="1"
+            Grid.ColumnSpan="2" 
+            Content="Username" />
+        <TextBox
+            Grid.Row="2" 
+            Grid.ColumnSpan="2"
+            x:Name="tbUsername" 
+            ToolTip="Enter username"
+            Margin="0 0 0 10"
+            MinHeight="32" 
+            Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+            VerticalContentAlignment="Center" 
+            KeyUp="TbUsername_KeyUp"/>
+
+        <Label 
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            Content="Password" />
+        <PasswordBox
+            Grid.Row="4"
+            Grid.ColumnSpan="2" 
+            x:Name="tbPassword" 
+            ToolTip="Enter password"
+            Margin="0 0 0 10"
+            MinHeight="32"
+            PasswordChanged="TbPassword_PasswordChanged"
+            VerticalContentAlignment="Center"
+            KeyUp="TbPassword_KeyUp"/>
+
+        <Label
+            Grid.Row="5"
+            Grid.Column="0"
+            Foreground="IndianRed" 
+            Margin="0 0 0 10"
+            Height="32"
+            Content="{Binding ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+        <StackPanel 
+            Grid.Row="6" 
+            Grid.ColumnSpan="2"
+            Orientation="Horizontal" 
+            HorizontalAlignment="Center">
+            <Button 
+                Content="Login"
+                Margin="0 0 10 0" 
+                MinHeight="32"
+                MinWidth="80"
+                Click="Login_Click"/>
+            <Button 
+                Content="Cancel"
+                MinHeight="32"
+                MinWidth="80"
+                Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

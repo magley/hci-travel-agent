@@ -122,9 +122,14 @@
 		<Style TargetType="{x:Type TextBox}">
 			<Setter Property="Background" Value="{DynamicResource bg_dark1}"/>
 			<Setter Property="Foreground" Value="White"/>
-		</Style>
+        </Style>
 
-		<Style TargetType="{x:Type ListBox}">
+        <Style TargetType="{x:Type PasswordBox}">
+            <Setter Property="Background" Value="{DynamicResource bg_dark1}"/>
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+
+        <Style TargetType="{x:Type ListBox}">
 			<Setter Property="Background" Value="{DynamicResource bg_dark0}"/>
 			<Setter Property="Foreground" Value="White"/>
 		</Style>

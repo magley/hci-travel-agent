@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using YouTravel.Model;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
@@ -26,7 +27,7 @@ namespace YouTravel.Agent
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
-        public UserConfig UserConfig { get; } = UserConfig.Instance;
+        public UserConfig UserConfig { get; } = YouTravelContext.UserConfig;
 
         private string? _selectedSection;
         public string? SelectedSection { get { return _selectedSection; } set { _selectedSection = value; DoPropertyChanged(nameof(SelectedSection)); } }
@@ -45,7 +46,43 @@ namespace YouTravel.Agent
             }
             DataContext = this;
             Owner = Application.Current.MainWindow;
+
+            InitWindowForUser();
         }
+
+        #region InitWindowForUser
+        private void InitWindowForUser()
+        {
+            switch (YouTravelContext.User?.Type)
+            {
+                case UserType.AGENT:
+                    InitAgent();
+                    break;
+                case UserType.CLIENT:
+                    InitClient();
+                    break;
+                default:
+                    InitGuest();
+                    break;
+            }
+        }
+
+        private void InitAgent()
+        {
+            toolbar_cb_place.Visibility = Visibility.Visible;
+        }
+
+        private void InitClient()
+        {
+            toolbar_cb_place.Visibility = Visibility.Collapsed;
+        }
+
+        private void InitGuest()
+        {
+            InitClient();
+        }
+        #endregion
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

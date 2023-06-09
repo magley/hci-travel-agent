@@ -11,6 +11,7 @@ namespace YouTravel.Util
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
+        private string _LoggedInUserUsername = "";
         private bool _ToolbarVisible = true;
         private bool _ToolbarNav_Visible = true;
         private bool _ToolbarArrangement_Visible = true;
@@ -18,6 +19,7 @@ namespace YouTravel.Util
         private double _StartLocation_Lat = 45.2;
         private double _StartLocation_Long = 19;
 
+        public string LoggedInUserUsername { get { return _LoggedInUserUsername; } set { _LoggedInUserUsername = value; DoPropertyChanged("LoggedInUserUsername"); } }
         public bool ToolbarVisible { get { return _ToolbarVisible; } set { _ToolbarVisible = value; DoPropertyChanged("ToolbarVisible"); } }
         public bool ToolbarNav_Visible { get { return _ToolbarNav_Visible; } set { _ToolbarNav_Visible = value; DoPropertyChanged("ToolbarNav_Visible"); } }
         public bool ToolbarArrangement_Visible { get { return _ToolbarArrangement_Visible; } set { _ToolbarArrangement_Visible = value; DoPropertyChanged("ToolbarArrangement_Visible"); } }
@@ -26,10 +28,13 @@ namespace YouTravel.Util
         public double StartLocation_Long { get { return _StartLocation_Long; } set { _StartLocation_Long = value; DoPropertyChanged("StartLocation_Long"); } }
 
         private static readonly UserConfig _instance = new();
-        private UserConfig() { }
+        private UserConfig()
+        {
+            LoadConfig();
+        }
         public static UserConfig Instance { get { return _instance; } }
 
-        public void LoadToolbarConfig()
+        private void LoadConfig()
         {
             var lines = File.ReadAllLines("./Data/UserConfig.preferences").ToList();
 
@@ -39,6 +44,10 @@ namespace YouTravel.Util
                 var key = tokens[0];
                 var value = tokens[1];
 
+                if (key == "LoggedInUserUsername")
+                {
+                    LoggedInUserUsername = value;
+                }
                 if (key == "ToolbarVisible")
                 {
                     ToolbarVisible = bool.Parse(value.ToString());
@@ -70,6 +79,7 @@ namespace YouTravel.Util
         {
             string s = "";
 
+            s += $"LoggedInUserUsername={LoggedInUserUsername}\n";
             s += $"ToolbarVisible={ToolbarVisible}\n";
             s += $"ToolbarNav_Visible={ToolbarNav_Visible}\n";
             s += $"ToolbarArrangement_Visible={ToolbarArrangement_Visible}\n";

@@ -73,9 +73,9 @@
                     </Style>
                 </StackPanel.Style>
 
-                <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Navigation" IsChecked="{Binding ToolbarShowNav,Mode=TwoWay}"/>
-                <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Arrangement" IsChecked="{Binding ToolbarShowArrangement,Mode=TwoWay}"/>
-                <CheckBox VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Place" IsChecked="{Binding ToolbarShowPlace,Mode=TwoWay}"/>
+                <CheckBox x:Name="toolbar_cb_navigation" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Navigation" IsChecked="{Binding ToolbarShowNav,Mode=TwoWay}"/>
+                <CheckBox x:Name="toolbar_cb_arrangement" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Arrangement" IsChecked="{Binding ToolbarShowArrangement,Mode=TwoWay}"/>
+                <CheckBox x:Name="toolbar_cb_place" VerticalAlignment="Center" VerticalContentAlignment="Center" Content="Place" IsChecked="{Binding ToolbarShowPlace,Mode=TwoWay}"/>
             </StackPanel>
         </Grid>
 

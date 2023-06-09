@@ -15,8 +15,6 @@ namespace YouTravel
 
         private static void FakeMain()
         {
-            UserConfig.Instance.LoadToolbarConfig();
-
             using var db = new TravelContext();
             // Add:
 
@@ -54,6 +52,11 @@ namespace YouTravel
                 var res = new Reservation { TimeOfReservation = timeOfReservation, Arrangement = arr, Username = "user", NumOfPeople = (i + 1) % 4, PaidOn = (i % 2 == 0) ? timeOfReservation : null };
                 db.Reservations.Add(res);
             }
+
+            var client = new User { Type = UserType.CLIENT, Username = "client", Password = "123" };
+            var agent = new User { Type = UserType.AGENT, Username = "agent", Password = "123" };
+            db.Users.Add(client);
+            db.Users.Add(agent);
 
             db.SaveChanges();
 

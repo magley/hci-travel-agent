@@ -7,6 +7,8 @@ namespace YouTravel.Model
         public DbSet<Arrangement> Arrangements { get; set; }
         public DbSet<Place> Places { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
+        public DbSet<User> Users { get; set; }
+
 
         private static bool _created = false;
         public TravelContext()
