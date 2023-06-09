@@ -55,6 +55,11 @@ namespace YouTravel
                 db.Reservations.Add(res);
             }
 
+            var client = new User { Type = UserType.CLIENT, Username = "client" };
+            var agent = new User { Type = UserType.AGENT, Username = "agent" };
+            db.Users.Add(client);
+            db.Users.Add(agent);
+
             db.SaveChanges();
 
             Console.WriteLine("Opening window...");
