@@ -71,7 +71,7 @@ namespace YouTravel.Shared
             try
             {
                 YouTravelContext.Login(Username, Password);
-                // TODO: Play a sound or something fancy
+                DialogResult = true;
                 Close();
             }
             catch (LoginFailedException)
