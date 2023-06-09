@@ -7,7 +7,7 @@ namespace YouTravel.Util
     public static class YouTravelContext
     {
         public static UserConfig UserConfig { get; private set; }
-        public static User? User { get; set; }
+        public static User? User { get; private set; }
 
         static YouTravelContext()
         {
@@ -18,6 +18,11 @@ namespace YouTravel.Util
                 User = db.Users.Single(u => u.Username == UserConfig.LoggedInUserUsername);
             }
             catch (InvalidOperationException) { }
+        }
+
+        public static void Logout()
+        {
+            User = null;
         }
     }
 }

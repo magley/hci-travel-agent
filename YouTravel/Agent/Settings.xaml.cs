@@ -69,7 +69,7 @@ namespace YouTravel.Agent
 
         private void InitAgent()
         {
-
+            toolbar_cb_place.Visibility = Visibility.Visible;
         }
 
         private void InitClient()
@@ -79,7 +79,7 @@ namespace YouTravel.Agent
 
         private void InitGuest()
         {
-            InitAgent();
+            InitClient();
         }
         #endregion
 
