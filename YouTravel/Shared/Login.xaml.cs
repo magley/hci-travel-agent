@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using YouTravel.Util;
 
 namespace YouTravel.Shared
@@ -33,14 +23,14 @@ namespace YouTravel.Shared
 
         private string _password = "";
         public string Password
-        { 
+        {
             get { return _password; }
             set { _password = value; DoPropertyChanged(nameof(Password)); }
         }
 
         private string? _errorText;
         public string? ErrorText
-        { 
+        {
             get { return _errorText; }
             set { _errorText = value; DoPropertyChanged(nameof(ErrorText)); }
         }
@@ -85,7 +75,8 @@ namespace YouTravel.Shared
             if (e.Key == Key.Enter)
             {
                 AttemptLogin();
-            } else
+            }
+            else
             {
                 ErrorText = null;
             }
@@ -96,7 +87,8 @@ namespace YouTravel.Shared
             if (e.Key == Key.Enter)
             {
                 AttemptLogin();
-            } else
+            }
+            else
             {
                 ErrorText = null;
             }

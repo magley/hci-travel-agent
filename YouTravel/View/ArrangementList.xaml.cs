@@ -10,7 +10,7 @@ using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
 
-namespace YouTravel.Agent
+namespace YouTravel.View
 {
     public partial class ArrangementList : Page
     {
@@ -138,7 +138,7 @@ namespace YouTravel.Agent
             Button button = (Button)sender;
             Arrangement arr = (Arrangement)button.DataContext;
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementEdit(arr));
+            ((MainWindow)Window.GetWindow(this)).OpenPage(new ArrangementEdit(arr));
         }
 
         private void ArrangementReport_Click(object sender, RoutedEventArgs e)
@@ -146,7 +146,7 @@ namespace YouTravel.Agent
             Button button = (Button)sender;
             Arrangement arr = (Arrangement)button.DataContext;
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementReport(arr));
+            ((MainWindow)Window.GetWindow(this)).OpenPage(new ArrangementReport(arr));
         }
 
         private void RemoveArrangement_Click(object sender, RoutedEventArgs e)
@@ -208,7 +208,7 @@ namespace YouTravel.Agent
 
         private void BtnNewArrangement_Click(object sender, RoutedEventArgs e)
         {
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd(true));
+            ((MainWindow)Window.GetWindow(this)).OpenPage(new ArrangementAdd(true));
         }
 
         private void BtnPrevPage_Click(object sender, RoutedEventArgs e)

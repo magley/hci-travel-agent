@@ -8,7 +8,7 @@ using System.Windows.Input;
 using YouTravel.Model;
 using YouTravel.Util;
 
-namespace YouTravel.Agent
+namespace YouTravel.View
 {
     public partial class ArrangementReport : Page
     {
