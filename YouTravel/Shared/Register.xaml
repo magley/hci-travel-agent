@@ -170,11 +170,11 @@
             HorizontalAlignment="Center">
             <Button 
                 Content="Register"
+                Margin="0 0 10 0" 
                 MinWidth="80"
                 IsEnabled="{Binding ValidForm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Click="Register_Click"/>
             <Button 
-                Margin="0 0 10 0" 
                 MinWidth="80"
                 Content="Cancel"
                 Click="Cancel_Click"/>

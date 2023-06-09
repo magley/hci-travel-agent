@@ -74,11 +74,11 @@
             HorizontalAlignment="Center">
             <Button 
                 Content="Login"
+                Margin="0 0 10 0" 
                 MinHeight="32"
                 MinWidth="80"
                 Click="Login_Click"/>
             <Button 
-                Margin="0 0 10 0" 
                 Content="Cancel"
                 MinHeight="32"
                 MinWidth="80"
