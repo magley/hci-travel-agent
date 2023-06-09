@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows;
@@ -9,9 +8,9 @@ using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
 
-namespace YouTravel.Agent
+namespace YouTravel.View
 {
-    public partial class AgentMainWindow : Window, INotifyPropertyChanged
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
@@ -24,70 +23,70 @@ namespace YouTravel.Agent
 
         public ICommand? _cmdNavigateBack;
         public ICommand? CmdNavigateBack
-        { 
-            get { return _cmdNavigateBack;}
+        {
+            get { return _cmdNavigateBack; }
             private set { _cmdNavigateBack = value; DoPropertyChanged(nameof(CmdNavigateBack)); }
         }
 
         public ICommand? _cmdNavigateForward;
         public ICommand? CmdNavigateForward
-        { 
+        {
             get { return _cmdNavigateForward; }
             private set { _cmdNavigateForward = value; DoPropertyChanged(nameof(CmdNavigateForward)); }
         }
 
         public ICommand? _cmdNewArrangement;
         public ICommand? CmdNewArrangement
-        { 
+        {
             get { return _cmdNewArrangement; }
             private set { _cmdNewArrangement = value; DoPropertyChanged(nameof(CmdNewArrangement)); }
         }
 
         public ICommand? _cmdViewArrangements;
         public ICommand? CmdViewArrangements
-        { 
+        {
             get { return _cmdViewArrangements; }
             private set { _cmdViewArrangements = value; DoPropertyChanged(nameof(CmdViewArrangements)); }
         }
 
         public ICommand? _cmdNewPlace;
         public ICommand? CmdNewPlace
-        { 
+        {
             get { return _cmdNewPlace; }
             private set { _cmdNewPlace = value; DoPropertyChanged(nameof(CmdNewPlace)); }
         }
 
         public ICommand? _cmdViewPlaces;
         public ICommand? CmdViewPlaces
-        { 
+        {
             get { return _cmdViewPlaces; }
             private set { _cmdViewPlaces = value; DoPropertyChanged(nameof(CmdViewPlaces)); }
         }
 
         public ICommand? _cmdViewReports;
         public ICommand? CmdViewReports
-        { 
+        {
             get { return _cmdViewReports; }
             private set { _cmdViewReports = value; DoPropertyChanged(nameof(CmdViewReports)); }
         }
 
         public ICommand? _cmdToggleToolbar;
         public ICommand? CmdToggleToolbar
-        { 
+        {
             get { return _cmdToggleToolbar; }
             private set { _cmdToggleToolbar = value; DoPropertyChanged(nameof(CmdToggleToolbar)); }
         }
 
         public ICommand? _cmdLogin;
         public ICommand? CmdLogin
-        { 
+        {
             get { return _cmdLogin; }
             private set { _cmdLogin = value; DoPropertyChanged(nameof(CmdLogin)); }
         }
 
         public ICommand? _cmdLogout;
         public ICommand? CmdLogout
-        { 
+        {
             get { return _cmdLogout; }
             private set { _cmdLogout = value; DoPropertyChanged(nameof(CmdLogout)); }
         }
@@ -99,7 +98,7 @@ namespace YouTravel.Agent
             private set { _cmdRegister = value; DoPropertyChanged(nameof(CmdRegister)); }
         }
 
-        public AgentMainWindow()
+        public MainWindow()
         {
             InitializeComponent();
             DataContext = this;

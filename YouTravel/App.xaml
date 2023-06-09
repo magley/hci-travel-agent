@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 			 xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:YouTravel" xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2"
-			 StartupUri="Agent/AgentMainWindow.xaml">
+			 StartupUri="View/MainWindow.xaml">
     <Application.Resources>
 		<!-- Other styles -->
 

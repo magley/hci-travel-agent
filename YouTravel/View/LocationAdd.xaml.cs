@@ -9,7 +9,7 @@ using YouTravel.Shared;
 using YouTravel.Util;
 using YouTravel.Util.Api;
 
-namespace YouTravel.Agent
+namespace YouTravel.View
 {
     public partial class LocationAdd : Page, INotifyPropertyChanged
     {
@@ -168,14 +168,14 @@ namespace YouTravel.Agent
 
             if (shouldReturnToPlacesList)
             {
-                ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new PlacesList());
+                ((MainWindow)Window.GetWindow(this)).OpenPage(new PlacesList());
             }
-            ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
     }
 }

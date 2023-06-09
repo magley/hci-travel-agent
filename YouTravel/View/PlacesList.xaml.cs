@@ -12,7 +12,7 @@ using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
 
-namespace YouTravel.Agent
+namespace YouTravel.View
 {
     public partial class PlacesList : Page
     {
@@ -179,7 +179,7 @@ namespace YouTravel.Agent
             Button btn = (Button)sender;
             Place place = (Place)btn.DataContext;
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, place));
+            ((MainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, place));
         }
 
         private void BtnRemovePlace_Click(object sender, RoutedEventArgs e)

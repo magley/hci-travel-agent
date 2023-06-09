@@ -15,7 +15,7 @@ using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
 
-namespace YouTravel.Agent
+namespace YouTravel.View
 {
     public partial class ArrangementAdd : Page, INotifyPropertyChanged
     {
@@ -341,7 +341,7 @@ namespace YouTravel.Agent
             Point mousePos = e.GetPosition(TheMap);
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, latLong));
+            ((MainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, latLong));
         }
 
         private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
@@ -440,14 +440,14 @@ namespace YouTravel.Agent
 
             if (returnToDashboard)
             {
-                ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new ArrangementList());
+                ((MainWindow)Window.GetWindow(this)).OpenPage(new ArrangementList());
             }
-            ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void LstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)

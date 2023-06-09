@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Windows;
 using YouTravel.Model;
-using YouTravel.Util;
 
 namespace YouTravel
 {

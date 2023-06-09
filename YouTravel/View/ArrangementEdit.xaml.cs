@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Util;
 
-namespace YouTravel.Agent
+namespace YouTravel.View
 {
     public partial class ArrangementEdit : Page, INotifyPropertyChanged
     {
@@ -160,19 +160,19 @@ namespace YouTravel.Agent
             Point mousePos = e.GetPosition(TheMap);
             Location latLong = TheMap.ViewportPointToLocation(mousePos);
 
-            ((AgentMainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, latLong));
+            ((MainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, latLong));
         }
 
         private void Btn_SaveDraft_Click(object sender, RoutedEventArgs e)
         {
             UpdateArrangement();
-            ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void Btn_PublishChanges_Click(object sender, RoutedEventArgs e)
         {
             UpdateArrangement();
-            ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void UpdateArrangement()
@@ -209,7 +209,7 @@ namespace YouTravel.Agent
 
         private void BtnCancel_Click(object sender, RoutedEventArgs e)
         {
-            ((AgentMainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
 
