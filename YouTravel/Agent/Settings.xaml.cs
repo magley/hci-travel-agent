@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using YouTravel.Model;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
@@ -45,7 +46,43 @@ namespace YouTravel.Agent
             }
             DataContext = this;
             Owner = Application.Current.MainWindow;
+
+            InitWindowForUser();
         }
+
+        #region InitWindowForUser
+        private void InitWindowForUser()
+        {
+            switch (YouTravelContext.User?.Type)
+            {
+                case UserType.AGENT:
+                    InitAgent();
+                    break;
+                case UserType.CLIENT:
+                    InitClient();
+                    break;
+                default:
+                    InitGuest();
+                    break;
+            }
+        }
+
+        private void InitAgent()
+        {
+
+        }
+
+        private void InitClient()
+        {
+            toolbar_cb_place.Visibility = Visibility.Collapsed;
+        }
+
+        private void InitGuest()
+        {
+            InitAgent();
+        }
+        #endregion
+
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {

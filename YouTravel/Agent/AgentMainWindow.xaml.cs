@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using YouTravel.Model;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
@@ -14,20 +15,88 @@ namespace YouTravel.Agent
         public ObservableCollection<Button> ToolbarBtn_Arrangement { get; set; } = new();
         public ObservableCollection<Button> ToolbarBtn_Place { get; set; } = new();
 
-        public ICommand CmdNavigateBack { get; private set; }
-        public ICommand CmdNavigateForward { get; private set; }
-        public ICommand CmdNewArrangement { get; private set; }
-        public ICommand CmdViewArrangements { get; private set; }
-        public ICommand CmdNewPlace { get; private set; }
-        public ICommand CmdViewPlaces { get; private set; }
-        public ICommand CmdViewReports { get; private set; }
-        public ICommand CmdToggleToolbar { get; private set; }
+        public ICommand? CmdNavigateBack { get; private set; }
+        public ICommand? CmdNavigateForward { get; private set; }
+        public ICommand? CmdNewArrangement { get; private set; }
+        public ICommand? CmdViewArrangements { get; private set; }
+        public ICommand? CmdNewPlace { get; private set; }
+        public ICommand? CmdViewPlaces { get; private set; }
+        public ICommand? CmdViewReports { get; private set; }
+        public ICommand? CmdToggleToolbar { get; private set; }
 
         public AgentMainWindow()
         {
             InitializeComponent();
             DataContext = this;
 
+            InitWindowForUser();
+        }
+
+        #region InitWindowForUser
+
+        #region InitUser
+        private void InitWindowForUser()
+        {
+            switch (YouTravelContext.User?.Type)
+            {
+                case UserType.AGENT:
+                    InitAgent();
+                    break;
+                case UserType.CLIENT:
+                    InitClient();
+                    break;
+                default:
+                    InitGuest();
+                    break;
+            }
+        }
+
+        private void InitAgent()
+        {
+            InitAgentMenu();
+            InitAgentToolbar();
+            InitAgentCommands();
+        }
+
+        private void InitClient()
+        {
+            InitClientMenu();
+            InitClientToolbar();
+            InitClientCommands();
+        }
+
+        private void InitGuest()
+        {
+            InitGuestMenu();
+            InitGuestToolbar();
+            InitGuestCommands();
+        }
+        #endregion
+
+        #region InitMenu
+        private void InitAgentMenu()
+        {
+
+        }
+
+        private void InitClientMenu()
+        {
+            menu_item_new.Visibility = Visibility.Collapsed;
+            menu_item_logout_separator.Visibility = Visibility.Collapsed;
+
+            menu_item_view_places.Visibility = Visibility.Collapsed;
+            menu_item_view_reports.Visibility = Visibility.Collapsed;
+        }
+
+        private void InitGuestMenu()
+        {
+            InitAgentMenu();
+        }
+        #endregion
+
+        #region InitToolbar
+        private void InitAgentToolbar()
+        {
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn, "Navigate Backward (Ctrl+Left arrow)"));
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
 
@@ -36,8 +105,26 @@ namespace YouTravel.Agent
 
             ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocationAdd.png", On_AddPlace, "New Place (Ctrl+Shift+N)"));
             ToolbarBtn_Place.Add(ToolbarButton.NewBtn("IcoLocation.png", On_OpenPlaceList, "View Places (Ctrl+P)"));
+        }
 
-            #region InitCommands
+        private void InitClientToolbar()
+        {
+            toolbar_place.Visibility = Visibility.Collapsed;
+            ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn, "Navigate Backward (Ctrl+Left arrow)"));
+            ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
+
+            ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList, "View Arrangements (Ctrl+A)"));
+        }
+
+        private void InitGuestToolbar()
+        {
+            InitAgentToolbar();
+        }
+        #endregion
+
+        #region InitCommands
+        private void InitAgentCommands()
+        {
             CmdToggleToolbar = new RelayCommand(o => ToggleToolbar(), o => true);
 
             CmdNavigateBack = new RelayCommand(o => PageBack(), o => true);
@@ -49,8 +136,25 @@ namespace YouTravel.Agent
             CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd(true)), o => true);
             CmdViewPlaces = new RelayCommand(o => OpenPage(new PlacesList()), o => true);
             CmdViewReports = new RelayCommand(o => OpenPage(new MonthlyReports()), o => true);
-            #endregion
         }
+
+        private void InitClientCommands()
+        {
+            CmdToggleToolbar = new RelayCommand(o => ToggleToolbar(), o => true);
+
+            CmdNavigateBack = new RelayCommand(o => PageBack(), o => true);
+            CmdNavigateForward = new RelayCommand(o => PageNext(), o => true);
+
+            CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+        }
+
+        private void InitGuestCommands()
+        {
+            InitAgentCommands();
+        }
+        #endregion
+
+        #endregion
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -64,7 +168,7 @@ namespace YouTravel.Agent
 
         public void OpenPage(Page page)
         {
-            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
+            Mouse.OverrideCursor = Cursors.Wait;
             myFrame.NavigationService.Navigate(page);
         }
 
