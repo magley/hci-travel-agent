@@ -328,10 +328,13 @@ namespace YouTravel.Agent
 
         private void Login()
         {
-            new Login().ShowDialog();
-            RefreshUser();
-            Debug.Assert(YouTravelContext.User != null);
-            new OkBox($"Welcome {YouTravelContext.User.Username}.").ShowDialog();
+            bool? res = new Login().ShowDialog();
+            if (res ?? false)
+            {
+                RefreshUser();
+                Debug.Assert(YouTravelContext.User != null);
+                new OkBox($"Welcome {YouTravelContext.User.Username}.").ShowDialog();
+            }
         }
 
         private void Register()
