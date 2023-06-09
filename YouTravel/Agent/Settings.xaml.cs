@@ -26,7 +26,7 @@ namespace YouTravel.Agent
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
-        public UserConfig UserConfig { get; } = UserConfig.Instance;
+        public UserConfig UserConfig { get; } = YouTravelContext.UserConfig;
 
         private string? _selectedSection;
         public string? SelectedSection { get { return _selectedSection; } set { _selectedSection = value; DoPropertyChanged(nameof(SelectedSection)); } }

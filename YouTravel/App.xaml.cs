@@ -15,8 +15,6 @@ namespace YouTravel
 
         private static void FakeMain()
         {
-            UserConfig.Instance.LoadToolbarConfig();
-
             using var db = new TravelContext();
             // Add:
 

@@ -8,7 +8,7 @@ namespace YouTravel.Agent
 {
     public partial class AgentMainWindow : Window
     {
-        public UserConfig UserConfig { get; } = UserConfig.Instance;
+        public UserConfig UserConfig { get; } = YouTravelContext.UserConfig;
 
         public ObservableCollection<Button> ToolbarBtn_Nav { get; set; } = new();
         public ObservableCollection<Button> ToolbarBtn_Arrangement { get; set; } = new();
