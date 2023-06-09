@@ -469,10 +469,10 @@ namespace YouTravel.Agent
                 string str = HelpProvider.GetHelpKey(depObject);
                 HelpProvider.ShowHelp(str, this);
             }
-            //else
-            //{
-            //             HelpProvider.ShowHelp("index", this);
-            //         }
+            else
+            {
+                HelpProvider.ShowHelp("index", this);
+            }
         }
 
         private void ExitApp_Click(object sender, RoutedEventArgs e)
