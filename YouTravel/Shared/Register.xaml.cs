@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection.Metadata;
 using System.Windows;
 using System.Windows.Input;
 using YouTravel.Model;
@@ -50,14 +51,49 @@ namespace YouTravel.Shared
             set { _password = value; DoPropertyChanged(nameof(Password)); }
         }
 
-        private string? _errorText;
-        public string? ErrorText
+        private bool _usernameError = true;
+        public bool UsernameError
         {
-            get { return _errorText; }
-            set { _errorText = value; DoPropertyChanged(nameof(ErrorText)); }
+            get { return _usernameError; }
+            set { _usernameError = value; ValidateForm(); DoPropertyChanged(nameof(UsernameError)); }
+        }
+
+        private bool _nameError = true;
+        public bool NameError
+        {
+            get { return _nameError; }
+            set { _nameError = value; ValidateForm(); DoPropertyChanged(nameof(NameError)); }
+        }
+
+        private bool _surnameError = true;
+        public bool SurnameError
+        {
+            get { return _surnameError; }
+            set { _surnameError = value; ValidateForm(); DoPropertyChanged(nameof(SurnameError)); }
+        }
+
+        private bool _emailError = true;
+        public bool EmailError
+        {
+            get { return _emailError; }
+            set { _emailError = value; ValidateForm(); DoPropertyChanged(nameof(EmailError)); }
+        }
+
+        private bool _passwordError = true;
+        public bool PasswordError
+        {
+            get { return _passwordError; }
+            set { _passwordError = value; ValidateForm(); DoPropertyChanged(nameof(PasswordError)); }
         }
 
         public new User? DialogResult { get; set; }
+
+        private bool _validForm = false;
+        public bool ValidForm
+        {
+            get { return _validForm; }
+            set { _validForm = value; DoPropertyChanged(nameof(ValidForm)); }
+        }
 
         public Register()
         {
@@ -67,6 +103,11 @@ namespace YouTravel.Shared
             // TODO: Is this necessary if we call the window with ShowDialog() instead of Show()?
             Owner = Application.Current.MainWindow;
             tbUsername.Focus();
+        }
+
+        private void ValidateForm()
+        {
+            ValidForm = !(UsernameError || EmailError || PasswordError || NameError || SurnameError);
         }
 
 
@@ -82,6 +123,7 @@ namespace YouTravel.Shared
 
         private void AttemptRegister()
         {
+            if (!ValidForm) return;
             using var db = new TravelContext();
             var user = new User()
             {
@@ -99,39 +141,52 @@ namespace YouTravel.Shared
 
         private void TbUsername_KeyUp(object sender, KeyEventArgs e)
         {
-            KeyUpHelper(e.Key);
+            if (e.Key == Key.Enter)
+            {
+                AttemptRegister();
+            }
+            UsernameError = IsInvalidField(Username);
         }
 
         private void TbName_KeyUp(object sender, KeyEventArgs e)
         {
-            KeyUpHelper(e.Key);
+            if (e.Key == Key.Enter)
+            {
+                AttemptRegister();
+            }
+            NameError = IsInvalidField(Name);
         }
 
         private void TbSurname_KeyUp(object sender, KeyEventArgs e)
         {
-            KeyUpHelper(e.Key);
+            if (e.Key == Key.Enter)
+            {
+                AttemptRegister();
+            }
+            SurnameError = IsInvalidField(Surname);
         }
 
         private void TbEmail_KeyUp(object sender, KeyEventArgs e)
         {
-            KeyUpHelper(e.Key);
+            if (e.Key == Key.Enter)
+            {
+                AttemptRegister();
+            }
+            EmailError = IsInvalidField(Email);
         }
 
         private void TbPassword_KeyUp(object sender, KeyEventArgs e)
         {
-            KeyUpHelper(e.Key);
-        }
-
-        private void KeyUpHelper(Key key)
-        {
-            if (key == Key.Enter)
+            if (e.Key == Key.Enter)
             {
                 AttemptRegister();
             }
-            else
-            {
-                ErrorText = null;
-            }
+            PasswordError = IsInvalidField(Password);
+        }
+
+        private static bool IsInvalidField(string field)
+        {
+            return field == "";
         }
 
         private void Window_KeyUp(object sender, KeyEventArgs e)

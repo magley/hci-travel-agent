@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Shared"
         mc:Ignorable="d"
-        Title="Login" Height="300" Width="400"
+        Title="Login" Height="350" Width="400"
         ResizeMode="NoResize"
         Style="{StaticResource WinDark}"
         KeyUp="Window_KeyUp">
@@ -15,6 +15,7 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -51,22 +52,22 @@
             Grid.ColumnSpan="2" 
             x:Name="tbPassword" 
             ToolTip="Enter password"
-            Margin="0 0 0 20"
+            Margin="0 0 0 10"
             MinHeight="32"
             Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             VerticalContentAlignment="Center"
             KeyUp="TbPassword_KeyUp"/>
 
         <Label
-            Grid.Row="4"
+            Grid.Row="5"
             Grid.Column="0"
-            Height="32"
-            VerticalAlignment="Center"
             Foreground="IndianRed" 
+            Margin="0 0 0 10"
+            Height="32"
             Content="{Binding ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <StackPanel 
-            Grid.Row="5" 
+            Grid.Row="6" 
             Grid.ColumnSpan="2"
             Orientation="Horizontal" 
             HorizontalAlignment="Center">

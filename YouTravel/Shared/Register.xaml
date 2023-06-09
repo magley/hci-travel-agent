@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Shared"
+        xmlns:util="clr-namespace:YouTravel.Util"
         mc:Ignorable="d"
         Title="Register" Height="550" Width="400"
         ResizeMode="NoResize"
@@ -28,15 +29,28 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Grid.Resources>
+            <util:BoolErrorToVisibilityConverter x:Key="BoolErrorToVisibilityConverter"/>
+        </Grid.Resources>
         <Label
             Grid.Row="0"
             Content="Register"
             FontSize="28"/>
 
-        <Label 
+        <Label
             Grid.Row="1"
-            Grid.ColumnSpan="2" 
+            Grid.Column="0" 
             Content="Username*" />
+        <Label
+            Grid.Row="1"
+            Grid.Column="1" 
+            HorizontalAlignment="Right"
+            Foreground="IndianRed"
+            Content="Cannot be empty"
+            Visibility="{Binding UsernameError,
+            Mode=TwoWay,
+            UpdateSourceTrigger=PropertyChanged,
+            Converter={StaticResource BoolErrorToVisibilityConverter}}"/>
         <TextBox
             Grid.Row="2" 
             Grid.ColumnSpan="2"
@@ -50,8 +64,18 @@
 
         <Label 
             Grid.Row="3"
-            Grid.ColumnSpan="2"
+            Grid.Column="0"
             Content="Email*" />
+        <Label
+            Grid.Row="3"
+            Grid.Column="1" 
+            HorizontalAlignment="Right"
+            Foreground="IndianRed"
+            Content="Cannot be empty"
+            Visibility="{Binding EmailError,
+            Mode=TwoWay,
+            UpdateSourceTrigger=PropertyChanged,
+            Converter={StaticResource BoolErrorToVisibilityConverter}}"/>
         <TextBox 
             Grid.Row="4"
             Grid.ColumnSpan="2" 
@@ -65,8 +89,18 @@
 
         <Label 
             Grid.Row="5"
-            Grid.ColumnSpan="2"
+            Grid.Column="0"
             Content="Password*" />
+        <Label
+            Grid.Row="5"
+            Grid.Column="1" 
+            HorizontalAlignment="Right"
+            Foreground="IndianRed"
+            Content="Cannot be empty"
+            Visibility="{Binding PasswordError,
+            Mode=TwoWay,
+            UpdateSourceTrigger=PropertyChanged,
+            Converter={StaticResource BoolErrorToVisibilityConverter}}"/>
         <TextBox 
             Grid.Row="6"
             Grid.ColumnSpan="2" 
@@ -80,8 +114,18 @@
 
         <Label 
             Grid.Row="7"
-            Grid.ColumnSpan="2"
+            Grid.Column="0"
             Content="Name*" />
+        <Label
+            Grid.Row="7"
+            Grid.Column="1" 
+            HorizontalAlignment="Right"
+            Foreground="IndianRed"
+            Content="Cannot be empty"
+            Visibility="{Binding NameError,
+            Mode=TwoWay,
+            UpdateSourceTrigger=PropertyChanged,
+            Converter={StaticResource BoolErrorToVisibilityConverter}}"/>
         <TextBox 
             Grid.Row="8"
             Grid.ColumnSpan="2"
@@ -95,8 +139,18 @@
 
         <Label 
             Grid.Row="9"
-            Grid.ColumnSpan="2"
+            Grid.Column="0"
             Content="Surname*" />
+        <Label
+            Grid.Row="9"
+            Grid.Column="1" 
+            HorizontalAlignment="Right"
+            Foreground="IndianRed"
+            Content="Cannot be empty"
+            Visibility="{Binding SurnameError,
+            Mode=TwoWay,
+            UpdateSourceTrigger=PropertyChanged,
+            Converter={StaticResource BoolErrorToVisibilityConverter}}"/>
         <TextBox 
             Grid.Row="10"
             Grid.ColumnSpan="2" 
@@ -108,16 +162,8 @@
             VerticalContentAlignment="Center"
             KeyUp="TbSurname_KeyUp"/>
 
-        <Label
-            Grid.Row="11"
-            Height="32"
-            VerticalAlignment="Center"
-            Foreground="IndianRed" 
-            Grid.Column="0"
-            Content="{Binding ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-
         <StackPanel 
-            Grid.Row="12" 
+            Grid.Row="11" 
             Grid.ColumnSpan="2"
             Orientation="Horizontal" 
             HorizontalAlignment="Center">
@@ -129,6 +175,7 @@
             <Button 
                 Content="Register"
                 MinWidth="80"
+                IsEnabled="{Binding ValidForm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                 Click="Register_Click"/>
         </StackPanel>
     </Grid>
