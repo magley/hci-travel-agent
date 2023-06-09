@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace YouTravel.Model
 {
@@ -9,5 +10,6 @@ namespace YouTravel.Model
         public int Id { get; set; }
         public UserType Type { get; set; }
         public string? Username { get; set; }
+        public string? Password { get; set; }
     }
 }

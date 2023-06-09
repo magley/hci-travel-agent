@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using YouTravel.Model;
+using YouTravel.Shared;
 using YouTravel.Util;
 
 namespace YouTravel.Agent
@@ -266,7 +267,7 @@ namespace YouTravel.Agent
             CmdViewPlaces = null;
             CmdViewReports = null;
 
-            // TODO: CmdLogin
+            CmdLogin = new RelayCommand(o => Login(), o => true);
             CmdLogout = null;
         }
         #endregion
@@ -311,9 +312,20 @@ namespace YouTravel.Agent
             }
         }
 
+        private void Login()
+        {
+            new Login().ShowDialog();
+            RefreshUser();
+        }
+
         private void Logout()
         {
             YouTravelContext.Logout();
+            RefreshUser();
+        }
+
+        private void RefreshUser()
+        {
             InitWindowForUser();
             // FIXME: Doesn't clear out the last entry for some reason
             ClearNavigationHistory();
@@ -377,7 +389,7 @@ namespace YouTravel.Agent
         // TODO: Login
         private void On_Login(object sender, RoutedEventArgs e)
         {
-
+            Login();
         }
 
         private void On_Logout(object sender, RoutedEventArgs e)
