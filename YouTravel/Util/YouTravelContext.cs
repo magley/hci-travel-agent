@@ -13,17 +13,29 @@ namespace YouTravel.Util
         static YouTravelContext()
         {
             UserConfig = UserConfig.Instance;
+            var username = UserConfig.LoggedInUserUsername;
+            if (UserConfig.LoggedInUserUsername == "") return;
             using var db = new TravelContext();
             try
             {
-                User = db.Users.Single(u => u.Username == UserConfig.LoggedInUserUsername);
+                User = db.Users.Single(u => u.Username == username);
             }
-            catch (InvalidOperationException) { }
+            catch (InvalidOperationException)
+            {
+#if DEBUG
+                Console.WriteLine($"Preferences error: '{username}' not in users table, defaulting to null");
+#endif
+                User = null;
+                UserConfig.LoggedInUserUsername = "";
+                UserConfig.Save();
+            }
         }
 
         public static void Logout()
         {
             User = null;
+            UserConfig.LoggedInUserUsername = "";
+            UserConfig.Save();
         }
 
         public static void Login(string username, string password)
@@ -32,6 +44,8 @@ namespace YouTravel.Util
             try
             {
                 User = db.Users.Single(u => u.Username == username && u.Password == password);
+                UserConfig.LoggedInUserUsername = User.Username;
+                UserConfig.Save();
             }
             catch (InvalidOperationException)
             {
