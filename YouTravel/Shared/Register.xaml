@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Shared"
         mc:Ignorable="d"
-        Title="Register" Height="450" Width="400"
+        Title="Register" Height="550" Width="400"
         ResizeMode="NoResize"
         Style="{StaticResource WinDark}"
         KeyUp="Window_KeyUp">
@@ -26,14 +26,19 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Content="Register"
+            FontSize="28"/>
 
         <Label 
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.ColumnSpan="2" 
-            Content="Username" />
+            Content="Username*" />
         <TextBox
-            Grid.Row="1" 
+            Grid.Row="2" 
             Grid.ColumnSpan="2"
             x:Name="tbUsername" 
             ToolTip="Enter username"
@@ -44,41 +49,11 @@
             KeyUp="TbUsername_KeyUp"/>
 
         <Label 
-            Grid.Row="2"
-            Grid.ColumnSpan="2"
-            Content="Name" />
-        <TextBox 
             Grid.Row="3"
             Grid.ColumnSpan="2"
-            x:Name="tbName" 
-            ToolTip="Enter name"
-            Margin="0 0 0 10"
-            MinHeight="32"
-            Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            VerticalContentAlignment="Center"
-            KeyUp="TbName_KeyUp"/>
-
-        <Label 
+            Content="Email*" />
+        <TextBox 
             Grid.Row="4"
-            Grid.ColumnSpan="2"
-            Content="Surname" />
-        <TextBox 
-            Grid.Row="5"
-            Grid.ColumnSpan="2" 
-            x:Name="tbSurname"
-            ToolTip="Enter surname"
-            Margin="0 0 0 10"
-            MinHeight="32"
-            Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            VerticalContentAlignment="Center"
-            KeyUp="TbSurname_KeyUp"/>
-
-        <Label 
-            Grid.Row="6"
-            Grid.ColumnSpan="2"
-            Content="Email" />
-        <TextBox 
-            Grid.Row="7"
             Grid.ColumnSpan="2" 
             x:Name="tbEmail"
             ToolTip="Enter email"
@@ -89,22 +64,52 @@
             KeyUp="TbEmail_KeyUp"/>
 
         <Label 
-            Grid.Row="8"
+            Grid.Row="5"
             Grid.ColumnSpan="2"
-            Content="Password" />
+            Content="Password*" />
         <TextBox 
-            Grid.Row="9"
+            Grid.Row="6"
             Grid.ColumnSpan="2" 
             x:Name="tbPassword" 
             ToolTip="Enter password"
-            Margin="0 0 0 10"
+            Margin="0 0 0 25"
             MinHeight="32"
             Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             VerticalContentAlignment="Center"
             KeyUp="TbPassword_KeyUp"/>
 
-        <Label
+        <Label 
+            Grid.Row="7"
+            Grid.ColumnSpan="2"
+            Content="Name*" />
+        <TextBox 
+            Grid.Row="8"
+            Grid.ColumnSpan="2"
+            x:Name="tbName" 
+            ToolTip="Enter name"
+            Margin="0 0 0 10"
+            MinHeight="32"
+            Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            VerticalContentAlignment="Center"
+            KeyUp="TbName_KeyUp"/>
+
+        <Label 
+            Grid.Row="9"
+            Grid.ColumnSpan="2"
+            Content="Surname*" />
+        <TextBox 
             Grid.Row="10"
+            Grid.ColumnSpan="2" 
+            x:Name="tbSurname"
+            ToolTip="Enter surname"
+            Margin="0 0 0 20"
+            MinHeight="32"
+            Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            VerticalContentAlignment="Center"
+            KeyUp="TbSurname_KeyUp"/>
+
+        <Label
+            Grid.Row="11"
             Height="32"
             VerticalAlignment="Center"
             Foreground="IndianRed" 
@@ -112,16 +117,18 @@
             Content="{Binding ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <StackPanel 
-            Grid.Row="11" 
-            Grid.Column="1"
+            Grid.Row="12" 
+            Grid.ColumnSpan="2"
             Orientation="Horizontal" 
-            HorizontalAlignment="Right">
+            HorizontalAlignment="Center">
             <Button 
                 Margin="0 0 10 0" 
+                MinWidth="80"
                 Content="Cancel"
                 Click="Cancel_Click"/>
             <Button 
                 Content="Register"
+                MinWidth="80"
                 Click="Register_Click"/>
         </StackPanel>
     </Grid>

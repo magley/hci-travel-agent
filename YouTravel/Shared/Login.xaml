@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Shared"
         mc:Ignorable="d"
-        Title="Login" Height="250" Width="400"
+        Title="Login" Height="300" Width="400"
         ResizeMode="NoResize"
         Style="{StaticResource WinDark}"
         KeyUp="Window_KeyUp">
@@ -20,57 +20,66 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <Label
+            Grid.Row="0"
+            Content="Login"
+            FontSize="28"/>
 
         <Label 
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.ColumnSpan="2" 
             Content="Username" />
         <TextBox
+            Grid.Row="2" 
+            Grid.ColumnSpan="2"
             x:Name="tbUsername" 
             ToolTip="Enter username"
             Margin="0 0 0 10"
-            Grid.Row="1" 
-            Grid.ColumnSpan="2"
             MinHeight="32" 
             Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
             VerticalContentAlignment="Center" 
             KeyUp="TbUsername_KeyUp"/>
 
         <Label 
-            Grid.Row="2"
+            Grid.Row="3"
             Grid.ColumnSpan="2"
             Content="Password" />
         <TextBox 
+            Grid.Row="4"
+            Grid.ColumnSpan="2" 
             x:Name="tbPassword" 
             ToolTip="Enter password"
-            Margin="0 0 0 10"
-            Grid.Row="3"
-            Grid.ColumnSpan="2" 
+            Margin="0 0 0 20"
             MinHeight="32"
             Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             VerticalContentAlignment="Center"
             KeyUp="TbPassword_KeyUp"/>
 
         <Label
+            Grid.Row="4"
+            Grid.Column="0"
             Height="32"
             VerticalAlignment="Center"
             Foreground="IndianRed" 
-            Grid.Row="4"
-            Grid.Column="0"
             Content="{Binding ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <StackPanel 
-            Grid.Row="4" 
-            Grid.Column="1"
+            Grid.Row="5" 
+            Grid.ColumnSpan="2"
             Orientation="Horizontal" 
-            HorizontalAlignment="Right">
+            HorizontalAlignment="Center">
             <Button 
                 Margin="0 0 10 0" 
                 Content="Cancel"
+                MinHeight="32"
+                MinWidth="80"
                 Click="Cancel_Click"/>
             <Button 
                 Content="Login"
+                MinHeight="32"
+                MinWidth="80"
                 Click="Login_Click"/>
         </StackPanel>
     </Grid>
