@@ -1,34 +1,55 @@
-﻿<Window x:Class="YouTravel.Shared.OkBox"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:YouTravel.Shared"
-        mc:Ignorable="d"
-        Style="{StaticResource WinDark}"
-        WindowStartupLocation="CenterOwner"
-        Title="OkBox"
-        Height="200" Width="400"
-        KeyUp="Window_KeyUp">
+﻿<Window
+    x:Class="YouTravel.Shared.OkBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:YouTravel.Shared"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="OkBox"
+    Width="400"
+    Height="200"
+    KeyUp="Window_KeyUp"
+    Style="{StaticResource WinDark}"
+    WindowStartupLocation="CenterOwner"
+    mc:Ignorable="d">
     <Window.Resources>
-        <BitmapImage x:Key="IcoHelp" UriSource="../Res/IcoHelp.png"/>
-        <BitmapImage x:Key="IcoInfo" UriSource="../Res/IcoInfo.png"/>
+        <BitmapImage x:Key="IcoHelp" UriSource="../Res/IcoHelp.png" />
+        <BitmapImage x:Key="IcoInfo" UriSource="../Res/IcoInfo.png" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Image x:Name="imgIconInfo" Grid.Column="0" Source="{StaticResource IcoInfo}" Margin="16 32 0 32"/>
-            <TextBlock Grid.Column="1" TextWrapping="Wrap" Text="{Binding MessageBody}" VerticalAlignment="Center" Margin="16 0 4 0" d:Text="Dummy text"/>
+            <Image
+                x:Name="imgIconInfo"
+                Grid.Column="0"
+                Margin="16,32,0,32"
+                Source="{StaticResource IcoInfo}" />
+            <TextBlock
+                Grid.Column="1"
+                Margin="16,0,4,0"
+                VerticalAlignment="Center"
+                d:Text="Dummy text"
+                Text="{Binding MessageBody}"
+                TextWrapping="Wrap" />
         </Grid>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="10 8 10 10" HorizontalAlignment="Center">
-            <Button x:Name="btnOk" Click="BtnOk_Click" Width="100" Height="32" Content="Ok"/>
+        <StackPanel
+            Grid.Row="1"
+            Margin="10,8,10,10"
+            HorizontalAlignment="Center"
+            Orientation="Horizontal">
+            <Button
+                x:Name="btnOk"
+                Width="100"
+                Height="32"
+                Click="BtnOk_Click"
+                Content="Ok" />
         </StackPanel>
     </Grid>
 </Window>
