@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -329,6 +330,8 @@ namespace YouTravel.Agent
         {
             new Login().ShowDialog();
             RefreshUser();
+            Debug.Assert(YouTravelContext.User != null);
+            new OkBox($"Welcome {YouTravelContext.User.Username}.").ShowDialog();
         }
 
         private void Register()
@@ -338,15 +341,17 @@ namespace YouTravel.Agent
             var user = register.DialogResult;
             if (user != null)
             {
-                YouTravelContext.Login(user.Username, user.Password);
-                RefreshUser();
+                new OkBox($"Successfully registered {user.Username}.").ShowDialog();
             }
         }
 
         private void Logout()
         {
+            Debug.Assert(YouTravelContext.User != null);
+            var user = YouTravelContext.User;
             YouTravelContext.Logout();
             RefreshUser();
+            new OkBox($"Goodbye {user.Username}.").ShowDialog();
         }
 
         private void RefreshUser()
