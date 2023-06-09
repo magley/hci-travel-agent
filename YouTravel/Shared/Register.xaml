@@ -1,11 +1,11 @@
-﻿<Window x:Class="YouTravel.Shared.Login"
+﻿<Window x:Class="YouTravel.Shared.Register"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YouTravel.Shared"
         mc:Ignorable="d"
-        Title="Login" Height="250" Width="400"
+        Title="Register" Height="450" Width="400"
         ResizeMode="NoResize"
         Style="{StaticResource WinDark}"
         KeyUp="Window_KeyUp">
@@ -20,6 +20,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <Label 
@@ -27,11 +33,11 @@
             Grid.ColumnSpan="2" 
             Content="Username" />
         <TextBox
+            Grid.Row="1" 
+            Grid.ColumnSpan="2"
             x:Name="tbUsername" 
             ToolTip="Enter username"
             Margin="0 0 0 10"
-            Grid.Row="1" 
-            Grid.ColumnSpan="2"
             MinHeight="32" 
             Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
             VerticalContentAlignment="Center" 
@@ -40,28 +46,73 @@
         <Label 
             Grid.Row="2"
             Grid.ColumnSpan="2"
+            Content="Name" />
+        <TextBox 
+            Grid.Row="3"
+            Grid.ColumnSpan="2"
+            x:Name="tbName" 
+            ToolTip="Enter name"
+            Margin="0 0 0 10"
+            MinHeight="32"
+            Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            VerticalContentAlignment="Center"
+            KeyUp="TbName_KeyUp"/>
+
+        <Label 
+            Grid.Row="4"
+            Grid.ColumnSpan="2"
+            Content="Surname" />
+        <TextBox 
+            Grid.Row="5"
+            Grid.ColumnSpan="2" 
+            x:Name="tbSurname"
+            ToolTip="Enter surname"
+            Margin="0 0 0 10"
+            MinHeight="32"
+            Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            VerticalContentAlignment="Center"
+            KeyUp="TbSurname_KeyUp"/>
+
+        <Label 
+            Grid.Row="6"
+            Grid.ColumnSpan="2"
+            Content="Email" />
+        <TextBox 
+            Grid.Row="7"
+            Grid.ColumnSpan="2" 
+            x:Name="tbEmail"
+            ToolTip="Enter email"
+            Margin="0 0 0 10"
+            MinHeight="32"
+            Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            VerticalContentAlignment="Center"
+            KeyUp="TbEmail_KeyUp"/>
+
+        <Label 
+            Grid.Row="8"
+            Grid.ColumnSpan="2"
             Content="Password" />
         <TextBox 
+            Grid.Row="9"
+            Grid.ColumnSpan="2" 
             x:Name="tbPassword" 
             ToolTip="Enter password"
             Margin="0 0 0 10"
-            Grid.Row="3"
-            Grid.ColumnSpan="2" 
             MinHeight="32"
             Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             VerticalContentAlignment="Center"
             KeyUp="TbPassword_KeyUp"/>
 
         <Label
+            Grid.Row="10"
             Height="32"
             VerticalAlignment="Center"
             Foreground="IndianRed" 
-            Grid.Row="4"
             Grid.Column="0"
             Content="{Binding ErrorText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         <StackPanel 
-            Grid.Row="4" 
+            Grid.Row="11" 
             Grid.Column="1"
             Orientation="Horizontal" 
             HorizontalAlignment="Right">
@@ -70,8 +121,8 @@
                 Content="Cancel"
                 Click="Cancel_Click"/>
             <Button 
-                Content="Login"
-                Click="Login_Click"/>
+                Content="Register"
+                Click="Register_Click"/>
         </StackPanel>
     </Grid>
 </Window>

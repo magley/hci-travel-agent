@@ -68,12 +68,13 @@ namespace YouTravel.Shared
 
         private void AttemptLogin()
         {
-            if (YouTravelContext.Login(Username, Password))
+            try
             {
+                YouTravelContext.Login(Username, Password);
                 // TODO: Play a sound or something fancy
                 Close();
             }
-            else
+            catch (LoginFailedException)
             {
                 ErrorText = "Wrong username or password";
             }
@@ -98,6 +99,14 @@ namespace YouTravel.Shared
             } else
             {
                 ErrorText = null;
+            }
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
             }
         }
     }

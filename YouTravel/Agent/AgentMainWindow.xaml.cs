@@ -91,6 +91,13 @@ namespace YouTravel.Agent
             private set { _cmdLogout = value; DoPropertyChanged(nameof(CmdLogout)); }
         }
 
+        public ICommand? _cmdRegister;
+        public ICommand? CmdRegister
+        {
+            get { return _cmdRegister; }
+            private set { _cmdRegister = value; DoPropertyChanged(nameof(CmdRegister)); }
+        }
+
         public AgentMainWindow()
         {
             InitializeComponent();
@@ -151,6 +158,7 @@ namespace YouTravel.Agent
 
             menu_item_login.Visibility = Visibility.Collapsed;
             menu_item_logout.Visibility = Visibility.Visible;
+            menu_item_register.Visibility = Visibility.Collapsed;
         }
 
         private void InitClientMenu()
@@ -163,6 +171,7 @@ namespace YouTravel.Agent
 
             menu_item_login.Visibility = Visibility.Collapsed;
             menu_item_logout.Visibility = Visibility.Visible;
+            menu_item_register.Visibility = Visibility.Collapsed;
         }
 
         private void InitGuestMenu()
@@ -175,6 +184,7 @@ namespace YouTravel.Agent
 
             menu_item_login.Visibility = Visibility.Visible;
             menu_item_logout.Visibility = Visibility.Collapsed;
+            menu_item_register.Visibility = Visibility.Visible;
         }
         #endregion
 
@@ -233,6 +243,7 @@ namespace YouTravel.Agent
 
             CmdLogin = null;
             CmdLogout = new RelayCommand(o => Logout(), o => true);
+            CmdRegister = null;
         }
 
         private void InitClientCommands()
@@ -251,6 +262,7 @@ namespace YouTravel.Agent
 
             CmdLogin = null;
             CmdLogout = new RelayCommand(o => Logout(), o => true);
+            CmdRegister = null;
         }
 
         private void InitGuestCommands()
@@ -269,6 +281,7 @@ namespace YouTravel.Agent
 
             CmdLogin = new RelayCommand(o => Login(), o => true);
             CmdLogout = null;
+            CmdRegister = new RelayCommand(o => Register(), o => true);
         }
         #endregion
 
@@ -316,6 +329,18 @@ namespace YouTravel.Agent
         {
             new Login().ShowDialog();
             RefreshUser();
+        }
+
+        private void Register()
+        {
+            var register = new Register();
+            register.ShowDialog();
+            var user = register.DialogResult;
+            if (user != null)
+            {
+                YouTravelContext.Login(user.Username, user.Password);
+                RefreshUser();
+            }
         }
 
         private void Logout()
@@ -386,7 +411,6 @@ namespace YouTravel.Agent
             OpenPage(new LocationAdd(true));
         }
 
-        // TODO: Login
         private void On_Login(object sender, RoutedEventArgs e)
         {
             Login();
@@ -395,6 +419,11 @@ namespace YouTravel.Agent
         private void On_Logout(object sender, RoutedEventArgs e)
         {
             Logout();
+        }
+
+        private void On_Register(object sender, RoutedEventArgs e)
+        {
+            Register();
         }
 
         private void On_MonthlyReports(object sender, RoutedEventArgs e)

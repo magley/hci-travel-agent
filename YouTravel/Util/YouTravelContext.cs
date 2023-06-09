@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using YouTravel.Model;
 
@@ -25,18 +26,21 @@ namespace YouTravel.Util
             User = null;
         }
 
-        public static bool Login(string username, string password)
+        public static void Login(string username, string password)
         {
             using var db = new TravelContext();
             try
             {
                 User = db.Users.Single(u => u.Username == username && u.Password == password);
-                return true;
             }
             catch (InvalidOperationException)
             {
-                return false;
+                throw new LoginFailedException();
             }
         }
+    }
+
+    public class LoginFailedException : Exception
+    {
     }
 }
