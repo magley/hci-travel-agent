@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:YouTravel.Shared"
         xmlns:util="clr-namespace:YouTravel.Util"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
         Title="Register" Height="550" Width="400"
         ResizeMode="NoResize"
         Style="{StaticResource WinDark}"
