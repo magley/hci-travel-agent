@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Reflection.Metadata;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using YouTravel.Model;
 
@@ -195,6 +196,11 @@ namespace YouTravel.Shared
             {
                 Close();
             }
+        }
+
+        private void TbPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            Password = ((PasswordBox)sender).Password;
         }
     }
 }

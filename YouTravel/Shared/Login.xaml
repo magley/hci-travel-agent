@@ -47,14 +47,14 @@
             Grid.Row="3"
             Grid.ColumnSpan="2"
             Content="Password" />
-        <TextBox 
+        <PasswordBox
             Grid.Row="4"
             Grid.ColumnSpan="2" 
             x:Name="tbPassword" 
             ToolTip="Enter password"
             Margin="0 0 0 10"
             MinHeight="32"
-            Text="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            PasswordChanged="TbPassword_PasswordChanged"
             VerticalContentAlignment="Center"
             KeyUp="TbPassword_KeyUp"/>
 
@@ -72,16 +72,16 @@
             Orientation="Horizontal" 
             HorizontalAlignment="Center">
             <Button 
+                Content="Login"
+                MinHeight="32"
+                MinWidth="80"
+                Click="Login_Click"/>
+            <Button 
                 Margin="0 0 10 0" 
                 Content="Cancel"
                 MinHeight="32"
                 MinWidth="80"
                 Click="Cancel_Click"/>
-            <Button 
-                Content="Login"
-                MinHeight="32"
-                MinWidth="80"
-                Click="Login_Click"/>
         </StackPanel>
     </Grid>
 </Window>

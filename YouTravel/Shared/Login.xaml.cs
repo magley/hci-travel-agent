@@ -109,5 +109,10 @@ namespace YouTravel.Shared
                 Close();
             }
         }
+
+        private void TbPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            Password = ((PasswordBox)sender).Password;
+        }
     }
 }

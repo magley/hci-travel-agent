@@ -27,9 +27,9 @@
         <KeyBinding Modifiers="Ctrl" Key="R" Command="{Binding CmdViewReports, UpdateSourceTrigger=PropertyChanged}"/>
         <KeyBinding Modifiers="Ctrl" Key="T" Command="{Binding CmdToggleToolbar, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <KeyBinding Modifiers="Ctrl" Key="F1" Command="{Binding CmdLogin, UpdateSourceTrigger=PropertyChanged}"/>
-        <KeyBinding Modifiers="Ctrl" Key="F4" Command="{Binding CmdLogout, UpdateSourceTrigger=PropertyChanged}"/>
-        <KeyBinding Modifiers="Ctrl" Key="F2" Command="{Binding CmdRegister, UpdateSourceTrigger=PropertyChanged}"/>
+        <KeyBinding Key="F2" Command="{Binding CmdLogin, UpdateSourceTrigger=PropertyChanged}"/>
+        <KeyBinding Key="F4" Command="{Binding CmdLogout, UpdateSourceTrigger=PropertyChanged}"/>
+        <KeyBinding Key="F3" Command="{Binding CmdRegister, UpdateSourceTrigger=PropertyChanged}"/>
     </Window.InputBindings>
 
     <Window.Resources>
@@ -73,9 +73,9 @@
                         </MenuItem>
                     </MenuItem>
                     <Separator x:Name="menu_item_login_separator"/>
-                    <MenuItem x:Name="menu_item_login" Header="Login" Click="On_Login" InputGestureText="Ctrl+F1"></MenuItem>
-                    <MenuItem x:Name="menu_item_logout" Header="Logout" Click ="On_Logout" InputGestureText="Ctrl+F4"></MenuItem>
-                    <MenuItem x:Name="menu_item_register" Header="Register" Click ="On_Register" InputGestureText="Ctrl+F2" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
+                    <MenuItem x:Name="menu_item_login" Header="Login" Click="On_Login" InputGestureText="F2"></MenuItem>
+                    <MenuItem x:Name="menu_item_logout" Header="Logout" Click ="On_Logout" InputGestureText="F4"></MenuItem>
+                    <MenuItem x:Name="menu_item_register" Header="Register" Click ="On_Register" InputGestureText="F3" Template="{DynamicResource FinalSubMenuItemTemplate}"/>
                     <Separator/>
                     <MenuItem Header="Exit" Click="ExitApp_Click" InputGestureText="Alt+F4" Template="{DynamicResource FinalSubMenuItemTemplate}"></MenuItem>
                 </MenuItem>

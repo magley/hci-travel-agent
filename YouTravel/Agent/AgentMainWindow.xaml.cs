@@ -354,7 +354,6 @@ namespace YouTravel.Agent
             var user = YouTravelContext.User;
             YouTravelContext.Logout();
             RefreshUser();
-            new OkBox($"Goodbye {user.Username}.").ShowDialog();
         }
 
         private void RefreshUser()
