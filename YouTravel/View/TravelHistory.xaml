@@ -43,6 +43,7 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <TextBox
@@ -74,18 +75,16 @@
             </Button>
 
             <Button
-                Grid.Column="3"
-                util:HelpProvider.HelpKey="arrangement_filter"
-                Click="BtnSearch_Click"
-                ToolTip="Apply search query">
-                <Image
-                    Height="20"
-                    Margin="5,0,5,0"
-                    Source="{StaticResource IcoMagnifier}" />
-            </Button>
+                Grid.Column="2"
+                Width="20"
+                Height="32"
+                Click="ClearCalendar_Click"
+                Content="x"
+                IsEnabled="{Binding Path=IsClearableCalendar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Cancel calendar filter" />
             <ToggleButton
                 x:Name="ToggleCalendarButton"
-                Grid.Column="2"
+                Grid.Column="3"
                 Width="32"
                 Height="32"
                 ToolTip="Open calendar">
@@ -94,7 +93,7 @@
                         <Image Source="{StaticResource IcoCalendar}" />
                         <Popup IsOpen="{Binding IsChecked, ElementName=ToggleCalendarButton}" StaysOpen="False">
                             <Calendar
-                                x:Name="arrangementCalendar"
+                                x:Name="searchCalendar"
                                 HorizontalAlignment="Center"
                                 CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}"
                                 CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
@@ -107,6 +106,16 @@
                     </Grid>
                 </ToggleButton.Content>
             </ToggleButton>
+
+            <Button
+                Grid.Column="4"
+                Click="BtnSearch_Click"
+                ToolTip="Apply search query">
+                <Image
+                    Height="20"
+                    Margin="5,0,5,0"
+                    Source="{StaticResource IcoMagnifier}" />
+            </Button>
         </Grid>
         <!--  Search  -->
 

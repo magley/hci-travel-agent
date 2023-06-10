@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -16,13 +17,26 @@ namespace YouTravel.View
     /// <summary>
     /// Interaction logic for ReservationsList.xaml
     /// </summary>
-    public partial class TravelHistory : Page
+    public partial class TravelHistory : Page, INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
+        void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+
         public Paginator<Reservation> Paginator { get; set; } = new(10);
         public ICommand CmdFocusSearch { get; private set; }
 
         private DateTime _start = DateTime.MinValue;
         private DateTime _end = DateTime.MaxValue;
+
+        public ObservableCollection<DateTime> SelectedDates { get; set; }
+
+
+        private bool _isClearableCalendar = false;
+        public bool IsClearableCalendar
+        {
+            get { return _isClearableCalendar; }
+            set { _isClearableCalendar = value; DoPropertyChanged(nameof(IsClearableCalendar)); }
+        }
 
         public TravelHistory()
         {
@@ -177,6 +191,7 @@ namespace YouTravel.View
                 DateTime d1 = calendar.SelectedDates[0];
                 DateTime d2 = calendar.SelectedDates.Last();
                 SetArrangementDates(d1, d2);
+                IsClearableCalendar = true;
             }
             catch (ArgumentOutOfRangeException)
             {
@@ -194,6 +209,15 @@ namespace YouTravel.View
 
             _start = start;
             _end = end;
+        }
+
+        private void ClearCalendar_Click(object sender, RoutedEventArgs e)
+        {
+            searchCalendar.SelectedDates.Clear();
+            _start = DateTime.MinValue;
+            _end = DateTime.MaxValue;
+            LoadReservations();
+            IsClearableCalendar = false;
         }
     }
 }
