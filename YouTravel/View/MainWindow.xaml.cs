@@ -355,7 +355,7 @@ namespace YouTravel.View
             {
                 RefreshUser();
                 Debug.Assert(YouTravelContext.User != null);
-                new OkBox($"Welcome {YouTravelContext.User.Username}.").ShowDialog();
+                new OkBox($"Welcome {YouTravelContext.User.Username}.", "Welcome").ShowDialog();
             }
         }
 
@@ -366,7 +366,7 @@ namespace YouTravel.View
             var user = register.DialogResult;
             if (user != null)
             {
-                new OkBox($"Successfully registered {user.Username}.").ShowDialog();
+                new OkBox($"Successfully registered {user.Username}.", "Successful registration").ShowDialog();
             }
         }
 
