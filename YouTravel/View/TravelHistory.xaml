@@ -36,11 +36,6 @@
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Id}"
-                    ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Id" />
-                <DataGridTextColumn
                     Width="2*"
                     Binding="{Binding TimeOfReservation}"
                     ElementStyle="{StaticResource TextColumnStyle}"

@@ -58,6 +58,7 @@ namespace YouTravel.View
         {
             using var ctx = new TravelContext();
             ctx.Reservations.Load();
+            ctx.Arrangements.Load();
 
             Paginator.Entities.Clear();
             foreach (var v in ctx.Reservations.Local)

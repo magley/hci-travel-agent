@@ -78,10 +78,15 @@
                     ElementStyle="{StaticResource TextColumnStyle}"
                     Header="Id" />
                 <DataGridTextColumn
-                    Width="2*"
+                    Width="*"
                     Binding="{Binding Username}"
                     ElementStyle="{StaticResource TextColumnStyle}"
                     Header="Reserved by" />
+                <DataGridTextColumn
+                    Width="2*"
+                    Binding="{Binding Arrangement.Name}"
+                    ElementStyle="{StaticResource TextColumnStyle}"
+                    Header="Name" />
                 <DataGridTextColumn
                     Width="2*"
                     Binding="{Binding TimeOfReservation}"

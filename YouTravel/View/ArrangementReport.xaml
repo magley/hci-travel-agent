@@ -45,7 +45,7 @@
                     ElementStyle="{StaticResource TextColumnStyle}"
                     Header="Id" />
                 <DataGridTextColumn
-                    Width="2*"
+                    Width="*"
                     Binding="{Binding Username}"
                     ElementStyle="{StaticResource TextColumnStyle}"
                     Header="Reserved by" />
