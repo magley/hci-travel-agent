@@ -49,6 +49,13 @@ namespace YouTravel.View
             private set { _cmdViewArrangements = value; DoPropertyChanged(nameof(CmdViewArrangements)); }
         }
 
+        public ICommand? _cmdViewReservationsList;
+        public ICommand? CmdViewReservationsList
+        {
+            get { return _cmdViewReservationsList; }
+            private set { _cmdViewReservationsList = value; DoPropertyChanged(nameof(CmdViewReservationsList)); }
+        }
+
         public ICommand? _cmdNewPlace;
         public ICommand? CmdNewPlace
         {
@@ -153,6 +160,7 @@ namespace YouTravel.View
             menu_item_new.Visibility = Visibility.Visible;
             menu_item_login_separator.Visibility = Visibility.Visible;
 
+            menu_item_view_reservations_list.Visibility = Visibility.Collapsed;
             menu_item_view_places.Visibility = Visibility.Visible;
             menu_item_view_reports.Visibility = Visibility.Visible;
 
@@ -166,6 +174,7 @@ namespace YouTravel.View
             menu_item_new.Visibility = Visibility.Collapsed;
             menu_item_login_separator.Visibility = Visibility.Collapsed;
 
+            menu_item_view_reservations_list.Visibility = Visibility.Visible;
             menu_item_view_places.Visibility = Visibility.Collapsed;
             menu_item_view_reports.Visibility = Visibility.Collapsed;
 
@@ -179,6 +188,7 @@ namespace YouTravel.View
             menu_item_new.Visibility = Visibility.Collapsed;
             menu_item_login_separator.Visibility = Visibility.Collapsed;
 
+            menu_item_view_reservations_list.Visibility = Visibility.Collapsed;
             menu_item_view_places.Visibility = Visibility.Collapsed;
             menu_item_view_reports.Visibility = Visibility.Collapsed;
 
@@ -216,13 +226,23 @@ namespace YouTravel.View
 
             ToolbarBtn_Arrangement.Clear();
             ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList, "View Arrangements (Ctrl+A)"));
+            ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravelHistory.png", On_OpenReservationsList, "Travel History (Ctrl+H)"));
 
             ToolbarBtn_Place.Clear();
         }
 
         private void InitGuestToolbar()
         {
-            InitClientToolbar();
+            toolbar_place.Visibility = Visibility.Collapsed;
+
+            ToolbarBtn_Nav.Clear();
+            ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn, "Navigate Backward (Ctrl+Left arrow)"));
+            ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
+
+            ToolbarBtn_Arrangement.Clear();
+            ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList, "View Arrangements (Ctrl+A)"));
+
+            ToolbarBtn_Place.Clear();
         }
         #endregion
 
@@ -236,6 +256,7 @@ namespace YouTravel.View
 
             CmdNewArrangement = new RelayCommand(o => OpenPage(new ArrangementAdd(true)), o => true);
             CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+            CmdViewReservationsList = null;
 
             CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd(true)), o => true);
             CmdViewPlaces = new RelayCommand(o => OpenPage(new PlacesList()), o => true);
@@ -255,6 +276,7 @@ namespace YouTravel.View
 
             CmdNewArrangement = null;
             CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+            CmdViewReservationsList = new RelayCommand(o => OpenPage(new TravelHistory()), o => true);
 
             CmdNewPlace = null;
             CmdViewPlaces = null;
@@ -274,6 +296,7 @@ namespace YouTravel.View
 
             CmdNewArrangement = null;
             CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+            CmdViewReservationsList = null;
 
             CmdNewPlace = null;
             CmdViewPlaces = null;
@@ -332,7 +355,7 @@ namespace YouTravel.View
             {
                 RefreshUser();
                 Debug.Assert(YouTravelContext.User != null);
-                new OkBox($"Welcome {YouTravelContext.User.Username}.").ShowDialog();
+                new OkBox($"Welcome {YouTravelContext.User.Username}.", "Welcome").ShowDialog();
             }
         }
 
@@ -343,7 +366,7 @@ namespace YouTravel.View
             var user = register.DialogResult;
             if (user != null)
             {
-                new OkBox($"Successfully registered {user.Username}.").ShowDialog();
+                new OkBox($"Successfully registered {user.Username}.", "Successful registration").ShowDialog();
             }
         }
 
@@ -398,6 +421,11 @@ namespace YouTravel.View
         private void On_OpenArrangementList(object sender, RoutedEventArgs e)
         {
             OpenPage(new ArrangementList());
+        }
+
+        private void On_OpenReservationsList(object sender, RoutedEventArgs e)
+        {
+            OpenPage(new TravelHistory());
         }
 
         private void On_OpenPlaceList(object sender, RoutedEventArgs e)

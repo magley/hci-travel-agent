@@ -1,66 +1,127 @@
 ﻿<Page
-    x:Class="YouTravel.View.MonthlyReports"
+    x:Class="YouTravel.View.TravelHistory"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:YouTravel.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:util="clr-namespace:YouTravel.Util"
-    x:Name="MonthlyReport"
+    Title="TravelHistory"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Loaded="Window_Loaded"
     Style="{StaticResource PageDark}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png" />
+        <BitmapImage x:Key="IcoCalendar" UriSource="../Res/IcoCalendar.png" />
+    </Page.Resources>
 
-    <Grid Margin="16">
-        <Grid.Resources>
-            <util:MonthYearConverter x:Key="MonthKeyConverter" />
-            <BitmapImage x:Key="IcoArrangement" UriSource="../Res/IcoTravel.png" />
-        </Grid.Resources>
+    <Page.InputBindings>
+        <KeyBinding
+            Key="F"
+            Command="{Binding CmdFocusSearch}"
+            Modifiers="Ctrl" />
+    </Page.InputBindings>
+
+    <Grid Margin="16,0,16,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="15*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="10,10,10,10"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
+
+        <!--  Search  -->
+        <Grid
+            Grid.Row="0"
+            Width="350"
+            Margin="0,10,0,0"
+            HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox
+                x:Name="searchBox"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="32"
+                VerticalContentAlignment="Center"
+                KeyDown="SearchBox_KeyDown"
+                ToolTip="Search arrangement name" />
+
             <Button
-                x:Name="btnPrevMonth"
-                MinWidth="30"
-                Click="BtnPrevMonth_Click"
-                ToolTip="Go back one month">
-                &lt;
+                Grid.Column="1"
+                Height="32"
+                Margin="-10,0,0,0"
+                VerticalContentAlignment="Center"
+                Click="BtnClearSearch_Click"
+                Content="x"
+                ToolTip="Clear search">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource TransparentStyle}" TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=searchBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
             </Button>
+
             <Button
-                Width="100"
-                Margin="10,0,10,0"
-                Click="SelectedDate_Click"
-                Content="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MonthKeyConverter}}"
-                ToolTip="Return to this date">
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter HorizontalAlignment="Center" />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
+                Grid.Column="2"
+                Width="20"
+                Height="32"
+                Click="ClearCalendar_Click"
+                Content="x"
+                IsEnabled="{Binding Path=IsClearableCalendar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ToolTip="Clear calendar filter" />
+            <ToggleButton
+                x:Name="ToggleCalendarButton"
+                Grid.Column="3"
+                Width="32"
+                Height="32"
+                ToolTip="Open calendar">
+                <ToggleButton.Content>
+                    <Grid>
+                        <Image Source="{StaticResource IcoCalendar}" />
+                        <Popup IsOpen="{Binding IsChecked, ElementName=ToggleCalendarButton}" StaysOpen="False">
+                            <Calendar
+                                x:Name="searchCalendar"
+                                HorizontalAlignment="Center"
+                                CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}"
+                                CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
+                                IsTodayHighlighted="True"
+                                PreviewMouseUp="ArrangementCalendar_PreviewMouseUp"
+                                SelectedDatesChanged="Calendar_SelectedDatesChanged"
+                                SelectionMode="SingleRange"
+                                ToolTip="Start and end range for day of reservation" />
+                        </Popup>
+                    </Grid>
+                </ToggleButton.Content>
+            </ToggleButton>
+
             <Button
-                x:Name="btnNextMonth"
-                MinWidth="30"
-                Click="BtnNextMonth_Click"
-                ToolTip="Go forward one month">
-                &gt;
+                Grid.Column="4"
+                Click="BtnSearch_Click"
+                ToolTip="Apply search query">
+                <Image
+                    Height="20"
+                    Margin="5,0,5,0"
+                    Source="{StaticResource IcoMagnifier}" />
             </Button>
-        </StackPanel>
+        </Grid>
+        <!--  Search  -->
 
         <DataGrid
             x:Name="tbReservations"
-            Grid.Row="2"
+            Grid.Row="1"
             Margin="0,16,0,16"
             AutoGenerateColumns="False"
             HeadersVisibility="Column"
@@ -71,18 +132,15 @@
                     <Setter Property="Margin" Value="5,5" />
                 </Style>
                 <util:PaidConverter x:Key="PaidConverter" />
+                <util:ArrangementStatusToStringConverter x:Key="StatusConverter" />
+                <BitmapImage x:Key="IcoArrangement" UriSource="../Res/IcoTravel.png" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Id}"
+                    Width="2*"
+                    Binding="{Binding TimeOfReservation}"
                     ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Id" />
-                <DataGridTextColumn
-                    Width="*"
-                    Binding="{Binding Username}"
-                    ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Reserved by" />
+                    Header="Reserved on" />
                 <DataGridTemplateColumn
                     Width="2*"
                     Header="Name"
@@ -104,10 +162,10 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn
-                    Width="2*"
-                    Binding="{Binding TimeOfReservation}"
+                    Width="*"
+                    Binding="{Binding Arrangement.Status, Converter={StaticResource StatusConverter}}"
                     ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Reserved on" />
+                    Header="Status" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding NumOfPeople}"
@@ -142,18 +200,18 @@
 
         <TextBlock
             x:Name="txtNoReservations"
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             TextAlignment="Center"
             TextWrapping="Wrap">
-            No reservations for the arrangement.
+            No reservations to show.
         </TextBlock>
         <StackPanel
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="1"
-            Margin="10,10,10,10"
+            Margin="0,0,0,10"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button

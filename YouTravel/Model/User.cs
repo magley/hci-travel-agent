@@ -1,8 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace YouTravel.Model
 {
     public enum UserType { CLIENT, AGENT, }
+
+    [Index(nameof(Username), IsUnique = true)]
     public class User
     {
         [Key]

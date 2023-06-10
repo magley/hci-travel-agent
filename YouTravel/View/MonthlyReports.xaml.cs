@@ -58,6 +58,7 @@ namespace YouTravel.View
         {
             using var ctx = new TravelContext();
             ctx.Reservations.Load();
+            ctx.Arrangements.Load();
 
             Paginator.Entities.Clear();
             foreach (var v in ctx.Reservations.Local)
@@ -156,6 +157,14 @@ namespace YouTravel.View
 
             btnPrevMonth.IsEnabled = curYear != minYear || curMonth > minMonth;
             btnNextMonth.IsEnabled = curYear != maxYear || curMonth < maxMonth;
+        }
+
+        private void ViewArrangement_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            var arrangement = (Arrangement)button.DataContext;
+            // TODO: Navigate to view arrangement
+            Console.WriteLine($"TODO: View arrangement with id {arrangement.Id}");
         }
     }
 }

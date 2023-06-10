@@ -11,13 +11,14 @@ namespace YouTravel.Shared
     {
         public string MessageBody { get; set; }
 
-        public OkBox(string messageBody)
+        public OkBox(string messageBody, string windowTitle)
         {
             InitializeComponent();
             DataContext = this;
             MessageBody = messageBody;
 
             Owner = Application.Current.MainWindow;
+            Title = windowTitle;
 
             SetIcon();
         }

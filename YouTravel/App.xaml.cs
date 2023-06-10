@@ -48,7 +48,7 @@ namespace YouTravel
             {
                 var timeOfReservation = DateTime.Now.AddMonths(rnd.Next(-3, 1));
                 var arr = arrangements[rnd.Next(arrangements.Count)];
-                var res = new Reservation { TimeOfReservation = timeOfReservation, Arrangement = arr, Username = "user", NumOfPeople = (i + 1) % 4, PaidOn = (i % 2 == 0) ? timeOfReservation : null };
+                var res = new Reservation { TimeOfReservation = timeOfReservation, Arrangement = arr, Username = "client", NumOfPeople = (i + 1) % 4, PaidOn = (i % 2 == 0) ? timeOfReservation : null };
                 db.Reservations.Add(res);
             }
 

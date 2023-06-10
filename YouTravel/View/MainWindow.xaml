@@ -35,6 +35,10 @@
             Key="A"
             Command="{Binding CmdViewArrangements, UpdateSourceTrigger=PropertyChanged}"
             Modifiers="Ctrl" />
+        <KeyBinding
+            Key="H"
+            Command="{Binding CmdViewReservationsList, UpdateSourceTrigger=PropertyChanged}"
+            Modifiers="Ctrl" />
 
         <KeyBinding
             Key="N"
@@ -67,6 +71,7 @@
         <BitmapImage x:Key="IcoAddPlace" UriSource="../Res/IcoLocationAdd.png" />
         <BitmapImage x:Key="IcoAddArrangement" UriSource="../Res/IcoPlanetAdd.png" />
         <BitmapImage x:Key="IcoArrangement" UriSource="../Res/IcoTravel.png" />
+        <BitmapImage x:Key="IcoTravelHistory" UriSource="../Res/IcoTravelHistory.png" />
         <BitmapImage x:Key="IcoPlace" UriSource="../Res/IcoLocation.png" />
         <BitmapImage x:Key="IcoReport" UriSource="../Res/IcoReport.png" />
 
@@ -138,10 +143,19 @@
                         x:Name="menu_item_view_arrangements"
                         Click="On_OpenArrangementList"
                         Header="Arrangements"
-                        InputGestureText="Ctrl+A"
-                        Template="{DynamicResource FinalSubMenuItemTemplate}">
+                        InputGestureText="Ctrl+A">
                         <MenuItem.Icon>
                             <Image Source="{StaticResource IcoArrangement}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem
+                        x:Name="menu_item_view_reservations_list"
+                        Click="On_OpenReservationsList"
+                        Header="Travel history"
+                        InputGestureText="Ctrl+H"
+                        Template="{DynamicResource FinalSubMenuItemTemplate}">
+                        <MenuItem.Icon>
+                            <Image Source="{StaticResource IcoTravelHistory}" />
                         </MenuItem.Icon>
                     </MenuItem>
                     <MenuItem

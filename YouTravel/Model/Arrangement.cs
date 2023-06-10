@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace YouTravel.Model
 {
+    public enum ArrangementStatus { UPCOMING, ACTIVE, FINISHED, }
     public class Arrangement
     {
         [Key]
@@ -17,18 +18,28 @@ namespace YouTravel.Model
 
         public IList<Place> Places { get; } = new List<Place>();
         public IList<Reservation> Reservations { get; } = new List<Reservation>();
+        public ArrangementStatus Status
+        {
+            get
+            {
+                if (IsFinished()) return ArrangementStatus.FINISHED;
+                if (IsActive()) return ArrangementStatus.ACTIVE;
+                if (IsUpcoming()) return ArrangementStatus.UPCOMING;
+                throw new InvalidOperationException();
+            }
+        }
 
-        public bool IsFinished()
+        private bool IsFinished()
         {
             return End < DateTime.Now;
         }
 
-        public bool IsActive()
+        private bool IsActive()
         {
             return Start < DateTime.Now && DateTime.Now < End;
         }
 
-        public bool IsUpcoming()
+        private bool IsUpcoming()
         {
             return DateTime.Now < End;
         }

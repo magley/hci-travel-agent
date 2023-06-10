@@ -8,6 +8,7 @@
     Title="HelpViewer"
     Width="640"
     Height="480"
+    KeyUp="Window_KeyUp"
     Style="{StaticResource WinDark}"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">

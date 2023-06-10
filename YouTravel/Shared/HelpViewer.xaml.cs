@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Input;
 
 namespace YouTravel.Shared
 {
@@ -51,6 +52,14 @@ namespace YouTravel.Shared
         private void WbHelp_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
             UpdateNavButtonEnabled();
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+            }
         }
     }
 }
