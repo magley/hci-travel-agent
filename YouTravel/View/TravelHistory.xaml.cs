@@ -30,6 +30,8 @@ namespace YouTravel.View
 
         public ObservableCollection<DateTime> SelectedDates { get; set; }
 
+		private ColumnType _sortColumnType = ColumnType.TIME_OF_RESERVATION;
+        private bool _sortAscending = true;
 
         private bool _isClearableCalendar = false;
         public bool IsClearableCalendar
@@ -84,6 +86,41 @@ namespace YouTravel.View
                 .Where(x => x.TimeOfReservation >= _start && x.TimeOfReservation <= _end)
                 .Reverse()
                 .ToList();
+
+            // SORT
+
+			afterSearch.Sort((a, b) =>
+                {
+                    switch (_sortColumnType)
+                    {
+                        case ColumnType.TIME_OF_RESERVATION: default: return a.TimeOfReservation.CompareTo(b.TimeOfReservation);
+                        case ColumnType.NAME: return a.Arrangement.Name.CompareTo(b.Arrangement.Name);
+                        case ColumnType.STATUS: return a.Arrangement.Status.CompareTo(b.Arrangement.Status);
+                        case ColumnType.PEOPLE: return a.NumOfPeople.CompareTo(b.NumOfPeople);
+                        case ColumnType.PAID:
+                            {
+                                if (b.PaidOn == null)
+                                {
+                                    return -1;
+                                }
+                                else
+                                {
+                                    if (a.PaidOn == null)
+                                    {
+                                        return 1;
+                                    }
+                                    var d1 = (DateTime)a.PaidOn;
+                                    var d2 = (DateTime)b.PaidOn;
+                                    return d1.CompareTo(d2);
+                                }
+                            }
+                    }
+                });
+            if (_sortAscending == false)
+            {
+                afterSearch.Reverse();
+            }
+
             Paginator.Entities.Clear();
             foreach (var v in afterSearch)
             {
@@ -219,5 +256,47 @@ namespace YouTravel.View
             LoadReservations();
             IsClearableCalendar = false;
         }
-    }
+
+        private enum ColumnType
+        {
+			TIME_OF_RESERVATION,
+            NAME,
+            STATUS,
+            PEOPLE,
+            PAID
+		}
+
+		private void tbReservations_Sorting(object sender, DataGridSortingEventArgs e)
+		{
+            int colIndex = e.Column.DisplayIndex; // Affected by reordering columns, no way to know the absolute index.
+            string headerName = (string)tbReservations.ColumnFromDisplayIndex(colIndex).Header;
+            switch (headerName)
+            {
+                case "Reserved on":
+                    _sortColumnType = ColumnType.TIME_OF_RESERVATION;
+                    break;
+                case "Name":
+                    _sortColumnType = ColumnType.NAME;
+                    break;
+                case "Status":
+                    _sortColumnType = ColumnType.STATUS;
+                    break;
+                case "People":
+                    _sortColumnType = ColumnType.PEOPLE;
+                    break;
+                case "Paid?":
+                    _sortColumnType = ColumnType.PAID;
+                    break;
+                default:
+                    Console.WriteLine($"WARNING: Unknown column for sorting: {headerName}");
+                    _sortColumnType = (ColumnType)colIndex;
+                    break;
+            }
+
+            _sortAscending ^= true;
+
+            LoadReservations();
+            e.Handled = true;
+		}
+	}
 }
