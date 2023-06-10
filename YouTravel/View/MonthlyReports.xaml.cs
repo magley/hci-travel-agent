@@ -161,8 +161,10 @@ namespace YouTravel.View
 
         private void ViewArrangement_Click(object sender, RoutedEventArgs e)
         {
+            var button = (Button)sender;
+            var arrangement = (Arrangement)button.DataContext;
             // TODO: Navigate to view arrangement
-            Console.WriteLine("TODO: View arrangement");
+            Console.WriteLine($"TODO: View arrangement with id {arrangement.Id}");
         }
     }
 }

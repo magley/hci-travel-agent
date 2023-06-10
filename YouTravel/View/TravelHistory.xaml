@@ -49,6 +49,7 @@
                                     Width="28"
                                     Height="28"
                                     Click="ViewArrangement_Click"
+                                    DataContext="{Binding Arrangement}"
                                     ToolTip="View arrangement">
                                     <Image Source="{StaticResource IcoArrangement}" />
                                 </Button>
