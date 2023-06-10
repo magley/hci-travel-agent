@@ -266,7 +266,7 @@ namespace YouTravel.View
 
             CmdNewArrangement = null;
             CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
-            CmdViewReservationsList = new RelayCommand(o => OpenPage(new ReservationsList()), o => true);
+            CmdViewReservationsList = new RelayCommand(o => OpenPage(new TravelHistory()), o => true);
 
             CmdNewPlace = null;
             CmdViewPlaces = null;
@@ -415,7 +415,7 @@ namespace YouTravel.View
 
         private void On_OpenReservationsList(object sender, RoutedEventArgs e)
         {
-            OpenPage(new ReservationsList());
+            OpenPage(new TravelHistory());
         }
 
         private void On_OpenPlaceList(object sender, RoutedEventArgs e)

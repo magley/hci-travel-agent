@@ -14,11 +14,11 @@ namespace YouTravel.View
     /// <summary>
     /// Interaction logic for ReservationsList.xaml
     /// </summary>
-    public partial class ReservationsList : Page
+    public partial class TravelHistory : Page
     {
         public Paginator<Reservation> Paginator { get; set; } = new(10);
 
-        public ReservationsList()
+        public TravelHistory()
         {
             InitializeComponent();
             DataContext = this;
