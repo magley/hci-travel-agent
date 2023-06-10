@@ -132,7 +132,10 @@
                     Binding="{Binding TimeOfReservation}"
                     ElementStyle="{StaticResource TextColumnStyle}"
                     Header="Reserved on" />
-                <DataGridTemplateColumn Width="2*" Header="Name">
+                <DataGridTemplateColumn
+                    Width="2*"
+                    Header="Name"
+                    SortMemberPath="Arrangement.Name">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
