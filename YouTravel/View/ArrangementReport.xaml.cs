@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
+using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
@@ -16,6 +18,17 @@ namespace YouTravel.View
 
         public Arrangement Arrangement { get; set; }
 
+        private enum ColumnType
+        {
+            ID,
+            RESERVED_BY,
+            RESERVED_ON,
+            PEOPLE,
+            PAID
+        }
+        private ColumnType _sortColumnType = ColumnType.ID;
+        private bool _sortAscending = true;
+
         public ArrangementReport(Arrangement arrangement)
         {
             InitializeComponent();
@@ -25,16 +38,56 @@ namespace YouTravel.View
             Paginator.Entities.CollectionChanged += OnReservationCollectionChanged;
             Paginator.EntitiesCurrentPage.CollectionChanged += OnReservationCurrentPageCollectionChanged;
 
-            using (var db = new TravelContext())
+            using var ctx = new TravelContext();
+            Arrangement = ctx.Arrangements.Include(a => a.Reservations).Where(a => a.Id == arrangement.Id).First();
+
+            LoadData();
+        }
+
+        private void LoadData()
+        {
+            var data = Arrangement.Reservations.ToList();
+
+            // SORT
+
+            data.Sort((a, b) =>
             {
-                // NOTE: This is an issue with lazy loading: you have to explicitly
-                // tell the context to fetch the other entity, too.
-                Arrangement = db.Arrangements.Include(a => a.Reservations).Where(a => a.Id == arrangement.Id).First();
+                switch (_sortColumnType)
+                {
+                    case ColumnType.ID: default: return a.Id.CompareTo(b.Id);
+                    case ColumnType.RESERVED_BY: return a.Username.CompareTo(b.Username);
+                    case ColumnType.RESERVED_ON: return a.TimeOfReservation.CompareTo(b.TimeOfReservation);
+                    case ColumnType.PEOPLE: return a.NumOfPeople.CompareTo(b.NumOfPeople);
+                    case ColumnType.PAID:
+                        {
+                            if (b.PaidOn == null)
+                            {
+                                return -1;
+                            }
+                            else
+                            {
+                                if (a.PaidOn == null)
+                                {
+                                    return 1;
+                                }
+                                var d1 = (DateTime)a.PaidOn;
+                                var d2 = (DateTime)b.PaidOn;
+                                return d1.CompareTo(d2);
+                            }
+                        }
+                }
+            });
+            if (_sortAscending == false)
+            {
+                data.Reverse();
             }
-            foreach (var reservation in Arrangement.Reservations)
+
+            Paginator.Entities.Clear();
+            foreach (var reservation in data)
             {
                 Paginator.Entities.Add(reservation);
             }
+
             tbReservations.DataContext = Paginator.EntitiesCurrentPage;
             ToggleNoPagesText();
         }
@@ -91,6 +144,39 @@ namespace YouTravel.View
         {
             Paginator.PageIndex++;
             LoadReservationsCurrentPage();
+        }
+
+        private void tbReservations_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            int colIndex = e.Column.DisplayIndex; // Affected by reordering columns, no way to know the absolute index.
+            string headerName = (string)tbReservations.ColumnFromDisplayIndex(colIndex).Header;
+            switch (headerName)
+            {
+                case "Id":
+                    _sortColumnType = ColumnType.ID;
+                    break;
+                case "Reserved by":
+                    _sortColumnType = ColumnType.RESERVED_BY;
+                    break;
+                case "Reserved on":
+                    _sortColumnType = ColumnType.RESERVED_ON;
+                    break;
+                case "People":
+                    _sortColumnType = ColumnType.PEOPLE;
+                    break;
+                case "Paid?":
+                    _sortColumnType = ColumnType.PAID;
+                    break;
+                default:
+                    Console.WriteLine($"WARNING: Unknown column for sorting: {headerName}");
+                    _sortColumnType = (ColumnType)colIndex;
+                    break;
+            }
+
+            _sortAscending ^= true;
+
+            LoadData();
+            e.Handled = true;
         }
     }
 }

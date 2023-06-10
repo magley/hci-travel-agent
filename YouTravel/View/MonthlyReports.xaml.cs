@@ -19,7 +19,6 @@ namespace YouTravel.View
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
-
         private enum ColumnType
         {
             ID,
