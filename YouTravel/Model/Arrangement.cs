@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace YouTravel.Model
 {
-    public enum ArrangementStatus { FINISHED, UPCOMING, ACTIVE }
+    public enum ArrangementStatus { UPCOMING, ACTIVE, FINISHED, }
     public class Arrangement
     {
         [Key]

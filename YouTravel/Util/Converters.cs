@@ -72,4 +72,31 @@ namespace YouTravel.Util
             return value;
         }
     }
+
+    public class ArrangementStatusToStringConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var status = (ArrangementStatus)value;
+            return status switch
+            {
+                ArrangementStatus.UPCOMING => "Upcoming",
+                ArrangementStatus.ACTIVE => "Active",
+                ArrangementStatus.FINISHED => "Finished",
+                _ => throw new InvalidOperationException(),
+            };
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var status = (string)value;
+            return status switch
+            {
+                "Upcoming" => ArrangementStatus.UPCOMING,
+                "Active" => ArrangementStatus.ACTIVE,
+                "Finished" => (object)ArrangementStatus.FINISHED,
+                _ => throw new InvalidOperationException(),
+            };
+        }
+    }
 }

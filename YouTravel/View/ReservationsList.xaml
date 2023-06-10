@@ -1,12 +1,12 @@
 ﻿<Page
-    x:Class="YouTravel.View.MonthlyReports"
+    x:Class="YouTravel.View.ReservationsList"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:YouTravel.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:util="clr-namespace:YouTravel.Util"
-    x:Name="MonthlyReport"
+    Title="TravelHistory"
     d:DesignHeight="450"
     d:DesignWidth="800"
     Loaded="Window_Loaded"
@@ -14,52 +14,20 @@
     mc:Ignorable="d">
 
     <Grid Margin="16">
-        <Grid.Resources>
-            <util:MonthYearConverter x:Key="MonthKeyConverter" />
-        </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="15*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <StackPanel
-            Grid.Row="1"
-            Grid.Column="1"
-            Margin="10,10,10,10"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <Button
-                x:Name="btnPrevMonth"
-                MinWidth="30"
-                Click="BtnPrevMonth_Click"
-                ToolTip="Go back one month">
-                &lt;
-            </Button>
-            <Button
-                Width="100"
-                Margin="10,0,10,0"
-                Click="SelectedDate_Click"
-                Content="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MonthKeyConverter}}"
-                ToolTip="Return to this date">
-                <Button.Template>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <ContentPresenter HorizontalAlignment="Center" />
-                    </ControlTemplate>
-                </Button.Template>
-            </Button>
-            <Button
-                x:Name="btnNextMonth"
-                MinWidth="30"
-                Click="BtnNextMonth_Click"
-                ToolTip="Go forward one month">
-                &gt;
-            </Button>
-        </StackPanel>
+
+        <Label
+            Grid.Row="0"
+            Content="Travel History"
+            FontSize="24" />
 
         <DataGrid
             x:Name="tbReservations"
-            Grid.Row="2"
+            Grid.Row="1"
             Margin="0,16,0,16"
             AutoGenerateColumns="False"
             HeadersVisibility="Column"
@@ -70,6 +38,7 @@
                     <Setter Property="Margin" Value="5,5" />
                 </Style>
                 <util:PaidConverter x:Key="PaidConverter" />
+                <util:ArrangementStatusToStringConverter x:Key="StatusConverter" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn
@@ -79,14 +48,19 @@
                     Header="Id" />
                 <DataGridTextColumn
                     Width="2*"
-                    Binding="{Binding Username}"
-                    ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Reserved by" />
-                <DataGridTextColumn
-                    Width="2*"
                     Binding="{Binding TimeOfReservation}"
                     ElementStyle="{StaticResource TextColumnStyle}"
                     Header="Reserved on" />
+                <DataGridTextColumn
+                    Width="2*"
+                    Binding="{Binding Arrangement.Name}"
+                    ElementStyle="{StaticResource TextColumnStyle}"
+                    Header="Name" />
+                <DataGridTextColumn
+                    Width="2*"
+                    Binding="{Binding Arrangement.Status, Converter={StaticResource StatusConverter}}"
+                    ElementStyle="{StaticResource TextColumnStyle}"
+                    Header="Status" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding NumOfPeople}"
@@ -108,16 +82,16 @@
 
         <TextBlock
             x:Name="txtNoReservations"
-            Grid.Row="2"
+            Grid.Row="1"
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
             TextAlignment="Center"
             TextWrapping="Wrap">
-            No reservations for the arrangement.
+            No reservations to show.
         </TextBlock>
         <StackPanel
-            Grid.Row="3"
+            Grid.Row="2"
             Grid.Column="1"
             Margin="10,10,10,10"
             HorizontalAlignment="Right"

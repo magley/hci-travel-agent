@@ -53,13 +53,7 @@
                     Width="2*"
                     Binding="{Binding TimeOfReservation}"
                     ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Time of reservation">
-                    <DataGridTextColumn.CellStyle>
-                        <Style>
-                            <Setter Property="TextBlock.TextAlignment" Value="Right" />
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
+                    Header="Reserved on" />
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding NumOfPeople}"

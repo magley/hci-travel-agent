@@ -49,6 +49,13 @@ namespace YouTravel.View
             private set { _cmdViewArrangements = value; DoPropertyChanged(nameof(CmdViewArrangements)); }
         }
 
+        public ICommand? _cmdViewReservationsList;
+        public ICommand? CmdViewReservationsList
+        {
+            get { return _cmdViewReservationsList; }
+            private set { _cmdViewReservationsList = value; DoPropertyChanged(nameof(CmdViewReservationsList)); }
+        }
+
         public ICommand? _cmdNewPlace;
         public ICommand? CmdNewPlace
         {
@@ -153,6 +160,7 @@ namespace YouTravel.View
             menu_item_new.Visibility = Visibility.Visible;
             menu_item_login_separator.Visibility = Visibility.Visible;
 
+            menu_item_view_reservations_list.Visibility = Visibility.Collapsed;
             menu_item_view_places.Visibility = Visibility.Visible;
             menu_item_view_reports.Visibility = Visibility.Visible;
 
@@ -166,6 +174,7 @@ namespace YouTravel.View
             menu_item_new.Visibility = Visibility.Collapsed;
             menu_item_login_separator.Visibility = Visibility.Collapsed;
 
+            menu_item_view_reservations_list.Visibility = Visibility.Visible;
             menu_item_view_places.Visibility = Visibility.Collapsed;
             menu_item_view_reports.Visibility = Visibility.Collapsed;
 
@@ -179,6 +188,7 @@ namespace YouTravel.View
             menu_item_new.Visibility = Visibility.Collapsed;
             menu_item_login_separator.Visibility = Visibility.Collapsed;
 
+            menu_item_view_reservations_list.Visibility = Visibility.Collapsed;
             menu_item_view_places.Visibility = Visibility.Collapsed;
             menu_item_view_reports.Visibility = Visibility.Collapsed;
 
@@ -236,6 +246,7 @@ namespace YouTravel.View
 
             CmdNewArrangement = new RelayCommand(o => OpenPage(new ArrangementAdd(true)), o => true);
             CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+            CmdViewReservationsList = null;
 
             CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd(true)), o => true);
             CmdViewPlaces = new RelayCommand(o => OpenPage(new PlacesList()), o => true);
@@ -255,6 +266,7 @@ namespace YouTravel.View
 
             CmdNewArrangement = null;
             CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+            CmdViewReservationsList = new RelayCommand(o => OpenPage(new ReservationsList()), o => true);
 
             CmdNewPlace = null;
             CmdViewPlaces = null;
@@ -274,6 +286,7 @@ namespace YouTravel.View
 
             CmdNewArrangement = null;
             CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+            CmdViewReservationsList = null;
 
             CmdNewPlace = null;
             CmdViewPlaces = null;
@@ -398,6 +411,11 @@ namespace YouTravel.View
         private void On_OpenArrangementList(object sender, RoutedEventArgs e)
         {
             OpenPage(new ArrangementList());
+        }
+
+        private void On_OpenReservationsList(object sender, RoutedEventArgs e)
+        {
+            OpenPage(new ReservationsList());
         }
 
         private void On_OpenPlaceList(object sender, RoutedEventArgs e)
