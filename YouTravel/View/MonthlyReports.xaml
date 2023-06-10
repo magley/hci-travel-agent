@@ -102,7 +102,20 @@
                     Width="*"
                     Binding="{Binding PaidOn, Converter={StaticResource PaidConverter}}"
                     ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Paid?" />
+                    Header="Paid?">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding PaidOn, Converter={StaticResource PaidConverter}}" Value="Yes">
+                                    <Setter Property="Background" Value="{StaticResource bg_dark2}" />
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding PaidOn, Converter={StaticResource PaidConverter}}" Value="No">
+                                    <Setter Property="Background" Value="IndianRed" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
