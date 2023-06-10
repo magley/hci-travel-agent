@@ -336,7 +336,7 @@ namespace YouTravel.View
             }
         }
 
-        private void Register()
+        private static void Register()
         {
             var register = new Register();
             register.ShowDialog();
@@ -349,8 +349,6 @@ namespace YouTravel.View
 
         private void Logout()
         {
-            Debug.Assert(YouTravelContext.User != null);
-            var user = YouTravelContext.User;
             YouTravelContext.Logout();
             RefreshUser();
         }

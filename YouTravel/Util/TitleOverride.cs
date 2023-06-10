@@ -12,7 +12,7 @@ namespace YouTravel.Util
             string pageNameAsWords = Regex.Replace(page.GetType().Name, "(\\B[A-Z])", " $1");
             if (pageNameAsWords != "")
             {
-                pageNameAsWords = pageNameAsWords[0].ToString().ToUpper() + pageNameAsWords.Substring(1).ToLower();
+                pageNameAsWords = pageNameAsWords[0].ToString().ToUpper() + pageNameAsWords[1..].ToLower();
             }
             Window.GetWindow(page).Title = $"YouTravel - {pageNameAsWords}";
         }

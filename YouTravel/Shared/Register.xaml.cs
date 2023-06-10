@@ -99,7 +99,6 @@ namespace YouTravel.Shared
             InitializeComponent();
             DataContext = this;
 
-            // TODO: Is this necessary if we call the window with ShowDialog() instead of Show()?
             Owner = Application.Current.MainWindow;
             tbUsername.Focus();
         }
