@@ -226,13 +226,23 @@ namespace YouTravel.View
 
             ToolbarBtn_Arrangement.Clear();
             ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList, "View Arrangements (Ctrl+A)"));
+            ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravelHistory.png", On_OpenReservationsList, "Travel History (Ctrl+H)"));
 
             ToolbarBtn_Place.Clear();
         }
 
         private void InitGuestToolbar()
         {
-            InitClientToolbar();
+            toolbar_place.Visibility = Visibility.Collapsed;
+
+            ToolbarBtn_Nav.Clear();
+            ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn, "Navigate Backward (Ctrl+Left arrow)"));
+            ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
+
+            ToolbarBtn_Arrangement.Clear();
+            ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList, "View Arrangements (Ctrl+A)"));
+
+            ToolbarBtn_Place.Clear();
         }
         #endregion
 
