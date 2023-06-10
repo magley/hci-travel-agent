@@ -28,9 +28,9 @@ namespace YouTravel.View
         private DateTime _start = DateTime.MinValue;
         private DateTime _end = DateTime.MaxValue;
 
-        public ObservableCollection<DateTime> SelectedDates { get; set; }
+        public ObservableCollection<DateTime> SelectedDates { get; set; } = new();
 
-		private ColumnType _sortColumnType = ColumnType.TIME_OF_RESERVATION;
+        private ColumnType _sortColumnType = ColumnType.TIME_OF_RESERVATION;
         private bool _sortAscending = true;
 
         private bool _isClearableCalendar = false;
@@ -89,7 +89,7 @@ namespace YouTravel.View
 
             // SORT
 
-			afterSearch.Sort((a, b) =>
+            afterSearch.Sort((a, b) =>
                 {
                     switch (_sortColumnType)
                     {
@@ -259,15 +259,15 @@ namespace YouTravel.View
 
         private enum ColumnType
         {
-			TIME_OF_RESERVATION,
+            TIME_OF_RESERVATION,
             NAME,
             STATUS,
             PEOPLE,
             PAID
-		}
+        }
 
-		private void tbReservations_Sorting(object sender, DataGridSortingEventArgs e)
-		{
+        private void tbReservations_Sorting(object sender, DataGridSortingEventArgs e)
+        {
             int colIndex = e.Column.DisplayIndex; // Affected by reordering columns, no way to know the absolute index.
             string headerName = (string)tbReservations.ColumnFromDisplayIndex(colIndex).Header;
             switch (headerName)
@@ -297,6 +297,6 @@ namespace YouTravel.View
 
             LoadReservations();
             e.Handled = true;
-		}
-	}
+        }
+    }
 }
