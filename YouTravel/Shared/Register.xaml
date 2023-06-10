@@ -51,7 +51,14 @@
             HorizontalAlignment="Right"
             Content="Cannot be empty"
             Foreground="IndianRed"
-            Visibility="{Binding UsernameError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
+            Visibility="{Binding UsernameEmptyError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
+        <Label
+            Grid.Row="1"
+            Grid.Column="1"
+            HorizontalAlignment="Right"
+            Content="Username taken"
+            Foreground="IndianRed"
+            Visibility="{Binding UsernameTakenError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
         <TextBox
             x:Name="tbUsername"
             Grid.Row="2"
@@ -73,7 +80,7 @@
             HorizontalAlignment="Right"
             Content="Cannot be empty"
             Foreground="IndianRed"
-            Visibility="{Binding EmailError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
+            Visibility="{Binding EmailEmptyError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
         <TextBox
             x:Name="tbEmail"
             Grid.Row="4"
@@ -95,7 +102,7 @@
             HorizontalAlignment="Right"
             Content="Cannot be empty"
             Foreground="IndianRed"
-            Visibility="{Binding PasswordError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
+            Visibility="{Binding PasswordEmptyError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
         <PasswordBox
             x:Name="tbPassword"
             Grid.Row="6"
@@ -117,7 +124,7 @@
             HorizontalAlignment="Right"
             Content="Cannot be empty"
             Foreground="IndianRed"
-            Visibility="{Binding NameError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
+            Visibility="{Binding NameEmptyError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
         <TextBox
             x:Name="tbName"
             Grid.Row="8"
@@ -139,7 +146,7 @@
             HorizontalAlignment="Right"
             Content="Cannot be empty"
             Foreground="IndianRed"
-            Visibility="{Binding SurnameError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
+            Visibility="{Binding SurnameEmptyError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
         <TextBox
             x:Name="tbSurname"
             Grid.Row="10"

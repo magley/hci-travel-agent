@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -50,39 +52,46 @@ namespace YouTravel.Shared
             set { _password = value; DoPropertyChanged(nameof(Password)); }
         }
 
-        private bool _usernameError = true;
-        public bool UsernameError
+        private bool _usernameEmptyError = true;
+        public bool UsernameEmptyError
         {
-            get { return _usernameError; }
-            set { _usernameError = value; ValidateForm(); DoPropertyChanged(nameof(UsernameError)); }
+            get { return _usernameEmptyError; }
+            set { _usernameEmptyError = value; ValidateForm(); DoPropertyChanged(nameof(UsernameEmptyError)); }
         }
 
-        private bool _nameError = true;
-        public bool NameError
+        private bool _usernameTakenError = false;
+        public bool UsernameTakenError
         {
-            get { return _nameError; }
-            set { _nameError = value; ValidateForm(); DoPropertyChanged(nameof(NameError)); }
+            get { return _usernameTakenError; }
+            set { _usernameTakenError = value; ValidateForm(); DoPropertyChanged(nameof(UsernameTakenError)); }
         }
 
-        private bool _surnameError = true;
-        public bool SurnameError
+        private bool _nameEmptyError = true;
+        public bool NameEmptyError
         {
-            get { return _surnameError; }
-            set { _surnameError = value; ValidateForm(); DoPropertyChanged(nameof(SurnameError)); }
+            get { return _nameEmptyError; }
+            set { _nameEmptyError = value; ValidateForm(); DoPropertyChanged(nameof(NameEmptyError)); }
         }
 
-        private bool _emailError = true;
-        public bool EmailError
+        private bool _surnameEmptyError = true;
+        public bool SurnameEmptyError
         {
-            get { return _emailError; }
-            set { _emailError = value; ValidateForm(); DoPropertyChanged(nameof(EmailError)); }
+            get { return _surnameEmptyError; }
+            set { _surnameEmptyError = value; ValidateForm(); DoPropertyChanged(nameof(SurnameEmptyError)); }
         }
 
-        private bool _passwordError = true;
-        public bool PasswordError
+        private bool _emailEmptyError = true;
+        public bool EmailEmptyError
         {
-            get { return _passwordError; }
-            set { _passwordError = value; ValidateForm(); DoPropertyChanged(nameof(PasswordError)); }
+            get { return _emailEmptyError; }
+            set { _emailEmptyError = value; ValidateForm(); DoPropertyChanged(nameof(EmailEmptyError)); }
+        }
+
+        private bool _passwordEmptyError = true;
+        public bool PasswordEmptyError
+        {
+            get { return _passwordEmptyError; }
+            set { _passwordEmptyError = value; ValidateForm(); DoPropertyChanged(nameof(PasswordEmptyError)); }
         }
 
         public new User? DialogResult { get; set; }
@@ -105,7 +114,7 @@ namespace YouTravel.Shared
 
         private void ValidateForm()
         {
-            ValidForm = !(UsernameError || EmailError || PasswordError || NameError || SurnameError);
+            ValidForm = !(UsernameEmptyError || UsernameTakenError || EmailEmptyError || PasswordEmptyError || NameEmptyError || SurnameEmptyError);
         }
 
 
@@ -122,19 +131,35 @@ namespace YouTravel.Shared
         private void AttemptRegister()
         {
             if (!ValidForm) return;
-            using var db = new TravelContext();
-            var user = new User()
+            try
             {
-                Username = Username,
-                Name = UName,
-                Surname = Surname,
-                Email = Email,
-                Password = Password,
-            };
-            db.Users.Add(user);
-            db.SaveChanges();
-            DialogResult = user;
-            Close();
+                using var db = new TravelContext();
+                var user = new User()
+                {
+                    Username = Username,
+                    Name = UName,
+                    Surname = Surname,
+                    Email = Email,
+                    Password = Password,
+                };
+                db.Users.Add(user);
+                db.SaveChanges();
+                DialogResult = user;
+                Close();
+            }
+            catch (DbUpdateException e)
+            {
+                var inner = (SqliteException?)e.InnerException ?? throw e;
+                if (inner.SqliteErrorCode == SQLitePCL.raw.SQLITE_CONSTRAINT)
+                {
+                    UsernameTakenError = true;
+                    UsernameEmptyError = false;
+                }
+                else
+                {
+                    throw e;
+                }
+            }
         }
 
         private void TbUsername_KeyUp(object sender, KeyEventArgs e)
@@ -143,7 +168,8 @@ namespace YouTravel.Shared
             {
                 AttemptRegister();
             }
-            UsernameError = IsInvalidField(Username);
+            UsernameEmptyError = IsInvalidField(Username);
+            UsernameTakenError = false;
         }
 
         private void TbName_KeyUp(object sender, KeyEventArgs e)
@@ -152,7 +178,7 @@ namespace YouTravel.Shared
             {
                 AttemptRegister();
             }
-            NameError = IsInvalidField(Name);
+            NameEmptyError = IsInvalidField(Name);
         }
 
         private void TbSurname_KeyUp(object sender, KeyEventArgs e)
@@ -161,7 +187,7 @@ namespace YouTravel.Shared
             {
                 AttemptRegister();
             }
-            SurnameError = IsInvalidField(Surname);
+            SurnameEmptyError = IsInvalidField(Surname);
         }
 
         private void TbEmail_KeyUp(object sender, KeyEventArgs e)
@@ -170,7 +196,7 @@ namespace YouTravel.Shared
             {
                 AttemptRegister();
             }
-            EmailError = IsInvalidField(Email);
+            EmailEmptyError = IsInvalidField(Email);
         }
 
         private void TbPassword_KeyUp(object sender, KeyEventArgs e)
@@ -179,7 +205,7 @@ namespace YouTravel.Shared
             {
                 AttemptRegister();
             }
-            PasswordError = IsInvalidField(Password);
+            PasswordEmptyError = IsInvalidField(Password);
         }
 
         private static bool IsInvalidField(string field)
