@@ -19,6 +19,19 @@ namespace YouTravel.View
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
 
+
+        private enum ColumnType
+        {
+            ID,
+            RESERVED_BY,
+            NAME,
+            RESERVED_ON,
+            PEOPLE,
+            PAID
+        }
+        private ColumnType _sortColumnType = ColumnType.ID;
+        private bool _sortAscending = true;
+
         private DateTime _selectedDate = DateTime.Now;
         public DateTime SelectedDate
         {
@@ -72,6 +85,42 @@ namespace YouTravel.View
             var inThisMonth = Paginator.Entities
                 .Where(x => x.TimeOfReservation >= rangeStart && x.TimeOfReservation <= rangeEnd)
                 .ToList();
+
+            // SORT
+
+            inThisMonth.Sort((a, b) =>
+            {
+                switch (_sortColumnType)
+                {
+                    case ColumnType.ID: default: return a.Id.CompareTo(b.Id);
+                    case ColumnType.RESERVED_BY: return a.Username.CompareTo(b.Username);
+                    case ColumnType.RESERVED_ON:return a.TimeOfReservation.CompareTo(b.TimeOfReservation);
+                    case ColumnType.NAME: return a.Arrangement.Name.CompareTo(b.Arrangement.Name);
+                    case ColumnType.PEOPLE: return a.NumOfPeople.CompareTo(b.NumOfPeople);
+                    case ColumnType.PAID:
+                        {
+                            if (b.PaidOn == null)
+                            {
+                                return -1;
+                            }
+                            else
+                            {
+                                if (a.PaidOn == null)
+                                {
+                                    return 1;
+                                }
+                                var d1 = (DateTime)a.PaidOn;
+                                var d2 = (DateTime)b.PaidOn;
+                                return d1.CompareTo(d2);
+                            }
+                        }
+                }
+            });
+            if (_sortAscending == false)
+            {
+                inThisMonth.Reverse();
+            }
+
             Paginator.Entities.Clear();
             foreach (var v in inThisMonth)
             {
@@ -165,6 +214,42 @@ namespace YouTravel.View
             var arrangement = (Arrangement)button.DataContext;
             // TODO: Navigate to view arrangement
             Console.WriteLine($"TODO: View arrangement with id {arrangement.Id}");
+        }
+
+        private void tbReservations_Sorting(object sender, DataGridSortingEventArgs e)
+        {
+            int colIndex = e.Column.DisplayIndex; // Affected by reordering columns, no way to know the absolute index.
+            string headerName = (string)tbReservations.ColumnFromDisplayIndex(colIndex).Header;
+            switch (headerName)
+            {
+                case "Id":
+                    _sortColumnType = ColumnType.ID;
+                    break;
+                case "Reserved by":
+                    _sortColumnType = ColumnType.RESERVED_BY;
+                    break;
+                case "Name":
+                    _sortColumnType = ColumnType.NAME;
+                    break;
+                case "Reserved on":
+                    _sortColumnType = ColumnType.RESERVED_ON;
+                    break;
+                case "People":
+                    _sortColumnType = ColumnType.PEOPLE;
+                    break;
+                case "Paid?":
+                    _sortColumnType = ColumnType.PAID;
+                    break;
+                default:
+                    Console.WriteLine($"WARNING: Unknown column for sorting: {headerName}");
+                    _sortColumnType = (ColumnType)colIndex;
+                    break;
+            }
+
+            _sortAscending ^= true;
+
+            LoadReservations();
+            e.Handled = true;
         }
     }
 }

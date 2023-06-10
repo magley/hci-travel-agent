@@ -30,6 +30,14 @@ namespace YouTravel.View
 
         public ObservableCollection<DateTime> SelectedDates { get; set; } = new();
 
+        private enum ColumnType
+        {
+            TIME_OF_RESERVATION,
+            NAME,
+            STATUS,
+            PEOPLE,
+            PAID
+        }
         private ColumnType _sortColumnType = ColumnType.TIME_OF_RESERVATION;
         private bool _sortAscending = true;
 
@@ -255,15 +263,6 @@ namespace YouTravel.View
             _end = DateTime.MaxValue;
             LoadReservations();
             IsClearableCalendar = false;
-        }
-
-        private enum ColumnType
-        {
-            TIME_OF_RESERVATION,
-            NAME,
-            STATUS,
-            PEOPLE,
-            PAID
         }
 
         private void tbReservations_Sorting(object sender, DataGridSortingEventArgs e)
