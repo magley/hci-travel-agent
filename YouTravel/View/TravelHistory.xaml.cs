@@ -18,6 +18,7 @@ namespace YouTravel.View
     public partial class TravelHistory : Page
     {
         public Paginator<Reservation> Paginator { get; set; } = new(10);
+        public ICommand CmdFocusSearch { get; private set; }
 
         public TravelHistory()
         {
@@ -27,6 +28,8 @@ namespace YouTravel.View
             Paginator.PropertyChanged += SetPageNavButtonsEnabled;
             Paginator.Entities.CollectionChanged += OnReservationCollectionChanged;
             Paginator.EntitiesCurrentPage.CollectionChanged += OnReservationCurrentPageCollectionChanged;
+
+            CmdFocusSearch = new RelayCommand(o => FocusSearch(), o => true);
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -37,6 +40,11 @@ namespace YouTravel.View
         }
 
         private void InitDbContext()
+        {
+            LoadReservations();
+        }
+
+        private void LoadReservations()
         {
             using (var db = new TravelContext())
             {
@@ -50,8 +58,18 @@ namespace YouTravel.View
                     Paginator.Entities.Add(reservation);
                 }
             }
-            tbReservations.DataContext = Paginator.EntitiesCurrentPage;
-            ToggleNoPagesText();
+
+            // SEARCH
+
+            var afterSearch = Paginator.Entities
+                .Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Arrangement.Name))
+                .Reverse()
+                .ToList();
+            Paginator.Entities.Clear();
+            foreach (var v in afterSearch)
+            {
+                Paginator.Entities.Add(v);
+            }
         }
 
         private void OnReservationCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -108,6 +126,31 @@ namespace YouTravel.View
             var arrangement = (Arrangement)button.DataContext;
             // TODO: Navigate to view arrangement
             Console.WriteLine($"TODO: View arrangement with id {arrangement.Id}");
+        }
+
+        private void SearchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                LoadReservations();
+            }
+        }
+
+        private void BtnClearSearch_Click(object sender, RoutedEventArgs e)
+        {
+            searchBox.Text = "";
+            LoadReservations();
+        }
+
+        private void BtnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            LoadReservations();
+        }
+
+        private void FocusSearch()
+        {
+            searchBox.Focus();
+            searchBox.SelectAll();
         }
     }
 }

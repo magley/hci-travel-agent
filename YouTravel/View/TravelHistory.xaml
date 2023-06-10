@@ -12,16 +12,79 @@
     Loaded="Window_Loaded"
     Style="{StaticResource PageDark}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png" />
+    </Page.Resources>
+
+    <Page.InputBindings>
+        <KeyBinding
+            Key="F"
+            Command="{Binding CmdFocusSearch}"
+            Modifiers="Ctrl" />
+    </Page.InputBindings>
 
     <Grid Margin="16">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="15*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
+        <!--  Search  -->
+        <Grid
+            Grid.Row="0"
+            Width="350"
+            Margin="0,10,0,0"
+            HorizontalAlignment="Left">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <TextBox
+                x:Name="searchBox"
+                Grid.Column="0"
+                Grid.ColumnSpan="2"
+                Height="23"
+                VerticalAlignment="Top"
+                KeyDown="SearchBox_KeyDown"
+                ToolTip="Search arrangement name" />
+
+            <Button
+                Grid.Column="1"
+                Height="23"
+                Margin="-10,0,0,0"
+                VerticalAlignment="Top"
+                Click="BtnClearSearch_Click"
+                Content="x"
+                ToolTip="Clear search">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource TransparentStyle}" TargetType="{x:Type Button}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text.Length, ElementName=searchBox, UpdateSourceTrigger=PropertyChanged}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
+            <Button
+                Grid.Column="2"
+                util:HelpProvider.HelpKey="arrangement_filter"
+                Click="BtnSearch_Click"
+                ToolTip="Apply search query">
+                <Image
+                    Height="20"
+                    Margin="5,0,5,0"
+                    Source="{StaticResource IcoMagnifier}" />
+            </Button>
+        </Grid>
+
         <DataGrid
             x:Name="tbReservations"
-            Grid.Row="0"
+            Grid.Row="1"
             Margin="0,16,0,16"
             AutoGenerateColumns="False"
             HeadersVisibility="Column"
@@ -97,7 +160,7 @@
 
         <TextBlock
             x:Name="txtNoReservations"
-            Grid.Row="0"
+            Grid.Row="1"
             Grid.Column="1"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
@@ -106,7 +169,7 @@
             No reservations to show.
         </TextBlock>
         <StackPanel
-            Grid.Row="1"
+            Grid.Row="2"
             Grid.Column="1"
             Margin="10,10,10,10"
             HorizontalAlignment="Right"
