@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:YouTravel.View"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:util="clr-namespace:YouTravel.Util"
     Title="TravelHistory"
     d:DesignHeight="450"
@@ -14,6 +15,7 @@
     mc:Ignorable="d">
     <Page.Resources>
         <BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png" />
+        <BitmapImage x:Key="IcoCalendar" UriSource="../Res/IcoCalendar.png" />
     </Page.Resources>
 
     <Page.InputBindings>
@@ -23,7 +25,7 @@
             Modifiers="Ctrl" />
     </Page.InputBindings>
 
-    <Grid Margin="16">
+    <Grid Margin="16,0,16,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="15*" />
@@ -40,22 +42,23 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <TextBox
                 x:Name="searchBox"
                 Grid.Column="0"
                 Grid.ColumnSpan="2"
-                Height="23"
-                VerticalAlignment="Top"
+                Height="32"
+                VerticalContentAlignment="Center"
                 KeyDown="SearchBox_KeyDown"
                 ToolTip="Search arrangement name" />
 
             <Button
                 Grid.Column="1"
-                Height="23"
+                Height="32"
                 Margin="-10,0,0,0"
-                VerticalAlignment="Top"
+                VerticalContentAlignment="Center"
                 Click="BtnClearSearch_Click"
                 Content="x"
                 ToolTip="Clear search">
@@ -71,7 +74,7 @@
             </Button>
 
             <Button
-                Grid.Column="2"
+                Grid.Column="3"
                 util:HelpProvider.HelpKey="arrangement_filter"
                 Click="BtnSearch_Click"
                 ToolTip="Apply search query">
@@ -80,7 +83,32 @@
                     Margin="5,0,5,0"
                     Source="{StaticResource IcoMagnifier}" />
             </Button>
+            <ToggleButton
+                x:Name="ToggleCalendarButton"
+                Grid.Column="2"
+                Width="32"
+                Height="32"
+                ToolTip="Open calendar">
+                <ToggleButton.Content>
+                    <Grid>
+                        <Image Source="{StaticResource IcoCalendar}" />
+                        <Popup IsOpen="{Binding IsChecked, ElementName=ToggleCalendarButton}" StaysOpen="False">
+                            <Calendar
+                                x:Name="arrangementCalendar"
+                                HorizontalAlignment="Center"
+                                CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}"
+                                CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
+                                IsTodayHighlighted="True"
+                                PreviewMouseUp="ArrangementCalendar_PreviewMouseUp"
+                                SelectedDatesChanged="Calendar_SelectedDatesChanged"
+                                SelectionMode="SingleRange"
+                                ToolTip="Start and end range for day of reservation" />
+                        </Popup>
+                    </Grid>
+                </ToggleButton.Content>
+            </ToggleButton>
         </Grid>
+        <!--  Search  -->
 
         <DataGrid
             x:Name="tbReservations"
@@ -171,7 +199,7 @@
         <StackPanel
             Grid.Row="2"
             Grid.Column="1"
-            Margin="10,10,10,10"
+            Margin="0,0,0,10"
             HorizontalAlignment="Right"
             Orientation="Horizontal">
             <Button

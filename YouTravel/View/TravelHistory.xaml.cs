@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using YouTravel.Model;
 using YouTravel.Util;
@@ -19,6 +20,9 @@ namespace YouTravel.View
     {
         public Paginator<Reservation> Paginator { get; set; } = new(10);
         public ICommand CmdFocusSearch { get; private set; }
+
+        private DateTime _start = DateTime.MinValue;
+        private DateTime _end = DateTime.MaxValue;
 
         public TravelHistory()
         {
@@ -63,6 +67,7 @@ namespace YouTravel.View
 
             var afterSearch = Paginator.Entities
                 .Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Arrangement.Name))
+                .Where(x => x.TimeOfReservation >= _start && x.TimeOfReservation <= _end)
                 .Reverse()
                 .ToList();
             Paginator.Entities.Clear();
@@ -151,6 +156,44 @@ namespace YouTravel.View
         {
             searchBox.Focus();
             searchBox.SelectAll();
+        }
+
+        private void ArrangementCalendar_PreviewMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            base.OnPreviewMouseUp(e);
+            if (Mouse.Captured is Calendar || Mouse.Captured is CalendarItem)
+            {
+                Mouse.Capture(null);
+            }
+        }
+
+        private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Mouse.Capture(null);
+            Calendar calendar = (Calendar)sender;
+
+            try
+            {
+                DateTime d1 = calendar.SelectedDates[0];
+                DateTime d2 = calendar.SelectedDates.Last();
+                SetArrangementDates(d1, d2);
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return;
+            }
+        }
+
+        private void SetArrangementDates(DateTime start, DateTime end)
+        {
+            if (start > end)
+            {
+                SetArrangementDates(end, start);
+                return;
+            }
+
+            _start = start;
+            _end = end;
         }
     }
 }
