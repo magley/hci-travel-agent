@@ -158,5 +158,11 @@ namespace YouTravel.View
             btnPrevMonth.IsEnabled = curYear != minYear || curMonth > minMonth;
             btnNextMonth.IsEnabled = curYear != maxYear || curMonth < maxMonth;
         }
+
+        private void ViewArrangement_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: Navigate to view arrangement
+            Console.WriteLine("TODO: View arrangement");
+        }
     }
 }

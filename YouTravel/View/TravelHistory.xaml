@@ -33,6 +33,7 @@
                 </Style>
                 <util:PaidConverter x:Key="PaidConverter" />
                 <util:ArrangementStatusToStringConverter x:Key="StatusConverter" />
+                <BitmapImage x:Key="IcoArrangement" UriSource="../Res/IcoTravel.png" />
             </DataGrid.Resources>
             <DataGrid.Columns>
                 <DataGridTextColumn
@@ -40,11 +41,22 @@
                     Binding="{Binding TimeOfReservation}"
                     ElementStyle="{StaticResource TextColumnStyle}"
                     Header="Reserved on" />
-                <DataGridTextColumn
-                    Width="2*"
-                    Binding="{Binding Arrangement.Name}"
-                    ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Name" />
+                <DataGridTemplateColumn Width="2*" Header="Name">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+                                <Button
+                                    Width="28"
+                                    Height="28"
+                                    Click="ViewArrangement_Click"
+                                    ToolTip="View arrangement">
+                                    <Image Source="{StaticResource IcoArrangement}" />
+                                </Button>
+                                <Label Content="{Binding Arrangement.Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding Arrangement.Status, Converter={StaticResource StatusConverter}}"

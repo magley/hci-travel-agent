@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -99,6 +100,12 @@ namespace YouTravel.View
         {
             Paginator.PageIndex++;
             LoadReservationsCurrentPage();
+        }
+
+        private void ViewArrangement_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO: Navigate to view arrangement
+            Console.WriteLine("TODO: View arrangement");
         }
     }
 }
