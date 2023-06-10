@@ -68,9 +68,9 @@ namespace YouTravel.View
 
             var afterSearch = Paginator.Entities
                 .Where(x => searchBox.Text == "" || StringUtil.Compare(searchBox.Text, x.Name))
-                .Where(x => (ShowActive && x.IsActive()) ||
-                            (ShowFinished && x.IsFinished()) ||
-                            (ShowUpcoming && x.IsUpcoming())
+                .Where(x => (ShowActive && x.Status == ArrangementStatus.ACTIVE) ||
+                            (ShowFinished && x.Status == ArrangementStatus.FINISHED) ||
+                            (ShowUpcoming && x.Status == ArrangementStatus.UPCOMING)
                 )
                 .Reverse()
                 .ToList();
