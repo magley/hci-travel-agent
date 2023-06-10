@@ -81,7 +81,7 @@
                 Click="ClearCalendar_Click"
                 Content="x"
                 IsEnabled="{Binding Path=IsClearableCalendar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                ToolTip="Cancel calendar filter" />
+                ToolTip="Clear calendar filter" />
             <ToggleButton
                 x:Name="ToggleCalendarButton"
                 Grid.Column="3"
