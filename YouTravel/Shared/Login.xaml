@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:YouTravel.Shared"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:util="clr-namespace:YouTravel.Util"
     Title="Login"
     Width="400"
     Height="350"
@@ -43,6 +44,7 @@
             MinHeight="32"
             Margin="0,0,0,10"
             VerticalContentAlignment="Center"
+            util:HelpProvider.HelpKey="login"
             KeyUp="TbUsername_KeyUp"
             Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ToolTip="Enter username" />
@@ -58,6 +60,7 @@
             MinHeight="32"
             Margin="0,0,0,10"
             VerticalContentAlignment="Center"
+            util:HelpProvider.HelpKey="login"
             KeyUp="TbPassword_KeyUp"
             PasswordChanged="TbPassword_PasswordChanged"
             ToolTip="Enter password" />
@@ -79,11 +82,13 @@
                 MinWidth="80"
                 MinHeight="32"
                 Margin="0,0,10,0"
+                util:HelpProvider.HelpKey="login"
                 Click="Login_Click"
                 Content="Login" />
             <Button
                 MinWidth="80"
                 MinHeight="32"
+                util:HelpProvider.HelpKey="login"
                 Click="Cancel_Click"
                 Content="Cancel" />
         </StackPanel>
