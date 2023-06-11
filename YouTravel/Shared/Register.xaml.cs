@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using YouTravel.Model;
+using YouTravel.Util;
 
 namespace YouTravel.Shared
 {
@@ -224,6 +225,27 @@ namespace YouTravel.Shared
         private void TbPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
             Password = ((PasswordBox)sender).Password;
+        }
+
+        private void CommandBinding_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            IInputElement focusedControl = FocusManager.GetFocusedElement(Application.Current.Windows[0]);
+            if (focusedControl is DependencyObject depObject)
+            {
+                string str = HelpProvider.GetHelpKey(depObject);
+                HelpProvider.ShowHelp(str, this);
+            }
+            else
+            {
+                if (YouTravelContext.User?.Type == UserType.AGENT)
+                {
+                    HelpProvider.ShowHelp("index_agent", this);
+                }
+                else
+                {
+                    HelpProvider.ShowHelp("index_client", this);
+                }
+            }
         }
     }
 }
