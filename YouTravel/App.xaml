@@ -1029,7 +1029,7 @@
             </Style.Triggers>
         </Style>
 
-        <Style TargetType="{x:Type DataGridColumnHeader}">
+        <Style x:Key="columnHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
             <Setter Property="Background" Value="{DynamicResource bg_dark3}" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="MinHeight" Value="30" />

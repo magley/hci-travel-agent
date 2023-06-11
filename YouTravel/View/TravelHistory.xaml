@@ -141,7 +141,13 @@
                     Width="2*"
                     Binding="{Binding TimeOfReservation}"
                     ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Reserved on" />
+                    Header="Reserved on">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style BasedOn="{StaticResource columnHeaderStyle}" TargetType="DataGridColumnHeader">
+                            <Setter Property="ToolTip" Value="Date of arrangement reservation" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
                 <DataGridTemplateColumn
                     Width="2*"
                     Header="Name"
@@ -161,12 +167,23 @@
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style BasedOn="{StaticResource columnHeaderStyle}" TargetType="DataGridColumnHeader">
+                            <Setter Property="ToolTip" Value="Name of arrangement that has been reserved" />
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding Arrangement.Status, Converter={StaticResource StatusConverter}}"
                     ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Status" />
+                    Header="Status">
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style BasedOn="{StaticResource columnHeaderStyle}" TargetType="DataGridColumnHeader">
+                            <Setter Property="ToolTip" Value="Status of reservation" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn
                     Width="*"
                     Binding="{Binding NumOfPeople}"
@@ -177,6 +194,11 @@
                             <Setter Property="TextBlock.TextAlignment" Value="Right" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style BasedOn="{StaticResource columnHeaderStyle}" TargetType="DataGridColumnHeader">
+                            <Setter Property="ToolTip" Value="Number of people on the reservation" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn
                     Width="*"
@@ -195,6 +217,11 @@
                             </Style.Triggers>
                         </Style>
                     </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style BasedOn="{StaticResource columnHeaderStyle}" TargetType="DataGridColumnHeader">
+                            <Setter Property="ToolTip" Value="Payment status of the reservation" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
