@@ -126,8 +126,8 @@
             AutoGenerateColumns="False"
             HeadersVisibility="Column"
             IsReadOnly="True"
-            Sorting="tbReservations_Sorting"
-            ItemsSource="{Binding}">
+            ItemsSource="{Binding}"
+            Sorting="tbReservations_Sorting">
             <DataGrid.Resources>
                 <Style x:Key="TextColumnStyle" TargetType="TextBlock">
                     <Setter Property="Margin" Value="5,5" />
