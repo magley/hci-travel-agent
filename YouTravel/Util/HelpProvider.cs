@@ -7,19 +7,32 @@ namespace YouTravel.Util
     {
         public static string GetHelpKey(DependencyObject obj)
         {
-            return (string)obj.GetValue(HelpKeyProperty);
+            if (YouTravelContext.User?.Type == Model.UserType.AGENT)
+            {
+                return (string)obj.GetValue(HelpKeyPropertyAgent);
+            } else
+            {
+                return (string)obj.GetValue(HelpKeyPropertyClient);
+            }
         }
 
         public static void SetHelpKey(DependencyObject obj, string value)
         {
-            obj.SetValue(HelpKeyProperty, value);
+            obj.SetValue(HelpKeyPropertyAgent, value);
         }
 
-        public static readonly DependencyProperty HelpKeyProperty = DependencyProperty.RegisterAttached(
-            "HelpKey",
+        public static readonly DependencyProperty HelpKeyPropertyAgent = DependencyProperty.RegisterAttached(
+            "HelpKeyAgent",
             typeof(string),
             typeof(HelpProvider),
             new PropertyMetadata("index_agent", HelpKey)
+        );
+
+        public static readonly DependencyProperty HelpKeyPropertyClient = DependencyProperty.RegisterAttached(
+            "HelpKeyClient",
+            typeof(string),
+            typeof(HelpProvider),
+            new PropertyMetadata("index_client", HelpKey)
         );
 
         private static void HelpKey(DependencyObject d, DependencyPropertyChangedEventArgs e)
