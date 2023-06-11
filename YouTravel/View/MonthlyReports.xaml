@@ -33,6 +33,7 @@
             <Button
                 x:Name="btnPrevMonth"
                 MinWidth="30"
+                util:HelpProvider.HelpKey="monthly_reports"
                 Click="BtnPrevMonth_Click"
                 ToolTip="Go back one month">
                 &lt;
@@ -40,9 +41,19 @@
             <Button
                 Width="100"
                 Margin="10,0,10,0"
+                util:HelpProvider.HelpKey="monthly_reports"
                 Click="SelectedDate_Click"
                 Content="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MonthKeyConverter}}"
-                ToolTip="Return to this date">
+                ToolTip="Return to current motnh">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource buttonExtendable}" TargetType="Button">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="TextBlock.FontWeight" Value="Bold" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <ContentPresenter HorizontalAlignment="Center" />
@@ -52,6 +63,7 @@
             <Button
                 x:Name="btnNextMonth"
                 MinWidth="30"
+                util:HelpProvider.HelpKey="monthly_reports"
                 Click="BtnNextMonth_Click"
                 ToolTip="Go forward one month">
                 &gt;
