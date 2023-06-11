@@ -496,7 +496,13 @@ namespace YouTravel.View
             }
             else
             {
-                HelpProvider.ShowHelp("index", this);
+                if (YouTravelContext.User?.Type == UserType.AGENT)
+                {
+                    HelpProvider.ShowHelp("index_agent", this);
+                } else
+                {
+                    HelpProvider.ShowHelp("index_client", this);
+                }
             }
         }
 
