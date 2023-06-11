@@ -14,6 +14,10 @@
     Style="{StaticResource WinDark}"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
+
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Help" Executed="CommandBinding_Executed" />
+    </Window.CommandBindings>
     <Grid Margin="10,0,10,0" VerticalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
@@ -66,6 +70,7 @@
             MinHeight="32"
             Margin="0,0,0,10"
             VerticalContentAlignment="Center"
+            util:HelpProvider.HelpKey="register"
             KeyUp="TbUsername_KeyUp"
             Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ToolTip="Enter username" />
@@ -88,6 +93,7 @@
             MinHeight="32"
             Margin="0,0,0,10"
             VerticalContentAlignment="Center"
+            util:HelpProvider.HelpKey="register"
             KeyUp="TbEmail_KeyUp"
             Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ToolTip="Enter email" />
@@ -110,6 +116,7 @@
             MinHeight="32"
             Margin="0,0,0,25"
             VerticalContentAlignment="Center"
+            util:HelpProvider.HelpKey="register"
             KeyUp="TbPassword_KeyUp"
             PasswordChanged="TbPassword_PasswordChanged"
             ToolTip="Enter password" />
@@ -132,6 +139,7 @@
             MinHeight="32"
             Margin="0,0,0,10"
             VerticalContentAlignment="Center"
+            util:HelpProvider.HelpKey="register"
             KeyUp="TbName_KeyUp"
             Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ToolTip="Enter name" />
@@ -154,6 +162,7 @@
             MinHeight="32"
             Margin="0,0,0,20"
             VerticalContentAlignment="Center"
+            util:HelpProvider.HelpKey="register"
             KeyUp="TbSurname_KeyUp"
             Text="{Binding Surname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             ToolTip="Enter surname" />
@@ -167,12 +176,14 @@
                 MinWidth="80"
                 MinHeight="32"
                 Margin="0,0,10,0"
+                util:HelpProvider.HelpKey="register"
                 Click="Register_Click"
                 Content="Register"
                 IsEnabled="{Binding ValidForm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Button
                 MinWidth="80"
                 MinHeight="32"
+                util:HelpProvider.HelpKey="register"
                 Click="Cancel_Click"
                 Content="Cancel" />
         </StackPanel>

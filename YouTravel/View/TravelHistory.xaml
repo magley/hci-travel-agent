@@ -52,6 +52,7 @@
                 Grid.ColumnSpan="2"
                 Height="32"
                 VerticalContentAlignment="Center"
+                util:HelpProvider.HelpKey="travel_history"
                 KeyDown="SearchBox_KeyDown"
                 ToolTip="Search arrangement name" />
 
@@ -78,6 +79,7 @@
                 Grid.Column="2"
                 Width="20"
                 Height="32"
+                util:HelpProvider.HelpKey="travel_history"
                 Click="ClearCalendar_Click"
                 Content="x"
                 IsEnabled="{Binding Path=IsClearableCalendar, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -87,6 +89,7 @@
                 Grid.Column="3"
                 Width="32"
                 Height="32"
+                util:HelpProvider.HelpKey="travel_history"
                 ToolTip="Open calendar">
                 <ToggleButton.Content>
                     <Grid>
@@ -109,6 +112,7 @@
 
             <Button
                 Grid.Column="4"
+                util:HelpProvider.HelpKey="travel_history"
                 Click="BtnSearch_Click"
                 ToolTip="Apply search query">
                 <Image
