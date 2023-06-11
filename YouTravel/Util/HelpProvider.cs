@@ -19,7 +19,7 @@ namespace YouTravel.Util
             "HelpKey",
             typeof(string),
             typeof(HelpProvider),
-            new PropertyMetadata("index", HelpKey)
+            new PropertyMetadata("index_agent", HelpKey)
         );
 
         private static void HelpKey(DependencyObject d, DependencyPropertyChangedEventArgs e)
