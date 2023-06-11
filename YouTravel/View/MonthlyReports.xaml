@@ -44,7 +44,7 @@
                 util:HelpProvider.HelpKey="monthly_reports"
                 Click="SelectedDate_Click"
                 Content="{Binding SelectedDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource MonthKeyConverter}}"
-                ToolTip="Return to current motnh">
+                ToolTip="Return to current month">
                 <Button.Style>
                     <Style BasedOn="{StaticResource buttonExtendable}" TargetType="Button">
                         <Style.Triggers>
