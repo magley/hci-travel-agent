@@ -88,7 +88,7 @@ namespace YouTravel.Shared
             try
             {
                 var res = int.Parse(Result);
-                if (res < 0) throw new Exception();
+                if (res < 1) throw new Exception();
                 InputError = false;
                 FormValid = true;
             }
