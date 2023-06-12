@@ -99,4 +99,18 @@ namespace YouTravel.Util
             };
         }
     }
+
+    public class CanPayConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            DateTime? date = (DateTime?)value;
+            return (date == null) ? Visibility.Visible : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

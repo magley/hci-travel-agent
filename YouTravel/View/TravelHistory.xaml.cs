@@ -296,5 +296,10 @@ namespace YouTravel.View
             LoadReservations();
             e.Handled = true;
         }
+
+        private void BuyArrangement_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

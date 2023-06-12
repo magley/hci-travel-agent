@@ -113,14 +113,5 @@ namespace YouTravel.View
                 ctx.SaveChanges();
             }
         }
-
-        private void Buy_Click(object sender, RoutedEventArgs e)
-        {
-            if (YouTravelContext.User == null)
-            {
-                new OkBox("Cannot buy arrangement - must be logged in to do that.", "Cannot buy arrangement").ShowDialog();
-                return;
-            }
-        }
     }
 }

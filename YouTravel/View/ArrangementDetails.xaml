@@ -130,11 +130,6 @@
                 Margin="0,0,10,0"
                 Click="Book_Click"
                 Content="Book" />
-            <Button
-                Width="100"
-                Height="32"
-                Click="Buy_Click"
-                Content="Buy" />
         </StackPanel>
     </Grid>
 </Page>
