@@ -3,6 +3,7 @@ using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,6 +44,7 @@ namespace YouTravel.View
             InitializeComponent();
             DataContext = this;
             Arrangement = arrangement;
+            mapBundle.Map = TheMap;
         }
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
@@ -76,7 +78,7 @@ namespace YouTravel.View
         }
         private void LstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            mapBundle.Pins = new List<PlacePinData>(PlacePinData.From(Arrangement.Places));
+            mapBundle.Pins.Clear();
             if (SelectedPlace != null)
             {
                 mapBundle.Pins.Add(new PlacePinData(SelectedPlace));
@@ -86,12 +88,18 @@ namespace YouTravel.View
 
         private void Book_Click(object sender, RoutedEventArgs e)
         {
+            if (YouTravelContext.User == null)
+            {
+                new OkBox("Cannot book arrangement - must be logged in to do that.", "Cannot book arrangement").ShowDialog();
+                return;
+            }
             var box = new ConfirmBox("Book arrangement?", "Book", "Yes", "No", ConfirmBox.ConfirmBoxIcon.QUESTION);
             box.ShowDialog();
             if (box.Result)
             {
                 using var ctx = new TravelContext();
                 var arrangement = ctx.Arrangements.Find(Arrangement.Id);
+                Debug.Assert(arrangement != null);
                 var reservation = new Reservation
                 {
                     TimeOfReservation = DateTime.Now,
@@ -108,7 +116,11 @@ namespace YouTravel.View
 
         private void Buy_Click(object sender, RoutedEventArgs e)
         {
-
+            if (YouTravelContext.User == null)
+            {
+                new OkBox("Cannot buy arrangement - must be logged in to do that.", "Cannot buy arrangement").ShowDialog();
+                return;
+            }
         }
     }
 }
