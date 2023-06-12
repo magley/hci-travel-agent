@@ -119,12 +119,14 @@
                         x:Name="menu_item_login"
                         Click="On_Login"
                         Header="Login"
-                        InputGestureText="F2" />
+                        InputGestureText="F2"
+                        Template="{DynamicResource FinalSubMenuItemTemplate}" />
                     <MenuItem
                         x:Name="menu_item_logout"
                         Click="On_Logout"
                         Header="Logout"
-                        InputGestureText="F4" />
+                        InputGestureText="F4"
+                        Template="{DynamicResource FinalSubMenuItemTemplate}" />
                     <MenuItem
                         x:Name="menu_item_register"
                         Click="On_Register"
@@ -143,7 +145,8 @@
                         x:Name="menu_item_view_arrangements"
                         Click="On_OpenArrangementList"
                         Header="Arrangements"
-                        InputGestureText="Ctrl+A">
+                        InputGestureText="Ctrl+A"
+                        Template="{DynamicResource FinalSubMenuItemTemplate}">
                         <MenuItem.Icon>
                             <Image Source="{StaticResource IcoArrangement}" />
                         </MenuItem.Icon>
