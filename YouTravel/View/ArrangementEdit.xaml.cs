@@ -12,6 +12,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
+using YouTravel.Shared;
 using YouTravel.Util;
 using YouTravel.Util.Api;
 
@@ -166,13 +167,19 @@ namespace YouTravel.View
         private void Btn_SaveDraft_Click(object sender, RoutedEventArgs e)
         {
             UpdateArrangement();
-            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+
+			new ConfirmBox($"Arrangement \"{ArrName}\" updated.", "Edit arrangement", "OK", null, ConfirmBox.ConfirmBoxIcon.INFO).ShowDialog();
+
+			((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void Btn_PublishChanges_Click(object sender, RoutedEventArgs e)
         {
             UpdateArrangement();
-            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+
+			new ConfirmBox($"Arrangement \"{ArrName}\" updated.", "Edit arrangement", "OK", null, ConfirmBox.ConfirmBoxIcon.INFO).ShowDialog();
+
+			((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void UpdateArrangement()
