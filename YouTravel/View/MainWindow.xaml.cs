@@ -355,7 +355,7 @@ namespace YouTravel.View
             {
                 RefreshUser();
                 Debug.Assert(YouTravelContext.User != null);
-                new OkBox($"Welcome {YouTravelContext.User.Username}.", "Welcome").ShowDialog();
+                //new OkBox($"Welcome {YouTravelContext.User.Username}.", "Welcome").ShowDialog();
             }
         }
 

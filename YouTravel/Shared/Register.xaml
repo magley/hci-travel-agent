@@ -179,6 +179,7 @@
                 util:HelpProvider.HelpKey="register"
                 Click="Register_Click"
                 Content="Register"
+				IsDefault="True"
                 IsEnabled="{Binding ValidForm, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             <Button
                 MinWidth="80"
