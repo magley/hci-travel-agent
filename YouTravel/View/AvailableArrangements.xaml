@@ -123,6 +123,8 @@
                             Orientation="Horizontal">
                             <Image Height="24" Source="../Res/IcoBlueBullet.png" />
                             <Label Content="{Binding Name}" />
+                            <Label Content="{Binding DateRange}" />
+                            <Label Content="{Binding PriceRsd}" />
                         </StackPanel>
 
                         <StackPanel
