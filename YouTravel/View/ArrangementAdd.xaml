@@ -1,0 +1,593 @@
+﻿<Page
+    x:Class="YouTravel.View.ArrangementAdd"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:local="clr-namespace:YouTravel.View"
+    xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:sysglb="clr-namespace:System.Globalization;assembly=mscorlib"
+    xmlns:u="clr-namespace:YouTravel.Util"
+    xmlns:util="clr-namespace:YouTravel.Util"
+    x:Name="AddArrangement"
+    d:Height="450"
+    d:Width="800"
+    Loaded="Page_Loaded"
+    Style="{StaticResource PageDark}"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <BitmapImage x:Key="ImgAttraction" UriSource="../Res/IcoAttraction2.png" />
+        <BitmapImage x:Key="ImgRestaurant" UriSource="../Res/IcoRestaurant2.png" />
+        <BitmapImage x:Key="ImgHotel" UriSource="../Res/IcoHotel2.png" />
+        <BitmapImage x:Key="IcoCancel" UriSource="../Res/IcoCross.png" />
+        <util:PlaceConverter x:Key="PlaceConverter" />
+    </Page.Resources>
+
+    <Grid Margin="5">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="6" />
+            <ColumnDefinition Width="10*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <Label FontWeight="Bold">Create an Arrangement.</Label>
+            <StackPanel Margin="8,16,0,0">
+                <Button
+                    x:Name="Step1"
+                    Margin="0,15,0,0"
+                    Click="Step1_Click"
+                    Content="Basic Info">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <ContentPresenter />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button
+                    x:Name="Step2"
+                    Margin="0,15,0,0"
+                    Click="Step1_Click"
+                    Content="Travel Duration">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <ContentPresenter />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button
+                    x:Name="Step3"
+                    Margin="0,15,0,0"
+                    Click="Step1_Click"
+                    Content="Photograph">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <ContentPresenter />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button
+                    x:Name="Step4"
+                    Margin="0,15,0,0"
+                    Click="Step1_Click"
+                    Content="Activities and Hotels">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <ContentPresenter />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button
+                    x:Name="Step5"
+                    Margin="0,15,0,0"
+                    Click="Step1_Click"
+                    Content="Complete">
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <ContentPresenter />
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </StackPanel>
+
+        <Rectangle
+            Grid.Row="0"
+            Grid.Column="1"
+            Width="1"
+            VerticalAlignment="Stretch"
+            Fill="LightGray" />
+
+        <Grid Grid.Row="0" Grid.Column="2">
+            <Grid
+                x:Name="Page1"
+                Grid.Row="0"
+                Visibility="Hidden">
+                <ScrollViewer>
+                    <StackPanel Margin="5">
+                        <Label Margin="0,8,0,0" Content="Name" />
+                        <TextBox
+                            x:Name="textboxName"
+                            Width="250"
+                            MinHeight="32"
+                            HorizontalAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            u:HelpProvider.HelpKey="arrangement_add"
+                            Text="{Binding ArrName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            ToolTip="Arrangement name" />
+
+                        <Label Margin="0,8,0,0" Content="Description" />
+                        <TextBox
+                            Width="500"
+                            Height="150"
+                            HorizontalAlignment="Left"
+                            u:HelpProvider.HelpKey="arrangement_add"
+                            AcceptsReturn="True"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                            ScrollViewer.VerticalScrollBarVisibility="Auto"
+                            Text="{Binding Description, Mode=TwoWay}"
+                            TextWrapping="Wrap"
+                            ToolTip="Arrangement description" />
+
+                        <Label Margin="0,8,0,0" Content="Price (€)" />
+                        <TextBox
+                            x:Name="TextBox_Price"
+                            Width="100"
+                            MinHeight="32"
+                            HorizontalAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            u:HelpProvider.HelpKey="arrangement_add"
+                            Text="{Binding Price, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}"
+                            TextAlignment="Right"
+                            ToolTip="Arrangement price" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+            <Grid
+                x:Name="Page2"
+                Grid.Row="0"
+                Visibility="Hidden">
+                <StackPanel Margin="0,10,0,0" Orientation="Vertical">
+                    <Label Content="Set the duration of this travel." />
+                    <Calendar
+                        x:Name="arrangementCalendar"
+                        Margin="0,30,0,0"
+                        HorizontalAlignment="Center"
+                        u:HelpProvider.HelpKey="arrangement_add"
+                        CalendarButtonStyle="{DynamicResource CalendarCalendarButtonStyle1}"
+                        CalendarDayButtonStyle="{DynamicResource CalendarCalendarDayButtonStyle1}"
+                        DisplayDateStart="{x:Static sys:DateTime.Today}"
+                        IsTodayHighlighted="True"
+                        PreviewMouseUp="ArrangementCalendar_PreviewMouseUp"
+                        SelectedDatesChanged="Calendar_SelectedDatesChanged"
+                        SelectionMode="SingleRange"
+                        ToolTip="Set start and end date for this arrangement" />
+                    <Label HorizontalContentAlignment="Center" Content="{Binding DurationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </Grid>
+            <Grid
+                x:Name="Page3"
+                Grid.Row="0"
+                Visibility="Hidden">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Label Grid.Row="0">Select an image:</Label>
+
+                        <StackPanel Grid.Row="1" Margin="0,30,0,0">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Height="32"
+                                    Margin="10,0,0,0"
+                                    Content="{Binding Filename, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" />
+                                <Button
+                                    x:Name="btn_SelectImage"
+                                    Grid.Row="0"
+                                    Grid.Column="1"
+                                    Height="32"
+                                    Margin="8"
+                                    u:HelpProvider.HelpKey="arrangement_add"
+                                    Click="Btn_SelectImage_Click"
+                                    ToolTip="Select a file">
+                                    Select a file
+                                </Button>
+
+                                <Image
+                                    x:Name="imgImage"
+                                    Grid.Row="1"
+                                    Grid.ColumnSpan="2"
+                                    Margin="30" />
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+
+            </Grid>
+            <Grid
+                x:Name="Page4"
+                Grid.Row="0"
+                Visibility="Visible">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <m:Map
+                        x:Name="TheMap"
+                        Grid.RowSpan="3"
+                        Grid.Column="0"
+                        Margin="5"
+                        CredentialsProvider="(This value is set in the code-behind)"
+                        MouseDoubleClick="TheMap_MouseDoubleClick" />
+
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="10*" />
+                        </Grid.RowDefinitions>
+
+                        <StackPanel
+                            Grid.Row="0"
+                            Margin="5"
+                            Orientation="Horizontal">
+                            <CheckBox
+                                Margin="12,0,0,0"
+                                VerticalContentAlignment="Center"
+                                u:HelpProvider.HelpKey="arrangement_add"
+                                Click="CbActivity_Filter"
+                                Content="Hotel"
+                                IsChecked="{Binding ActivitiesViewHotel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="Toggle hotels" />
+                            <CheckBox
+                                Margin="12,0,0,0"
+                                VerticalContentAlignment="Center"
+                                u:HelpProvider.HelpKey="arrangement_add"
+                                Click="CbActivity_Filter"
+                                Content="Attraction"
+                                IsChecked="{Binding ActivitiesViewAttraction, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="Toggle attractions" />
+                            <CheckBox
+                                Margin="12,0,0,0"
+                                VerticalContentAlignment="Center"
+                                u:HelpProvider.HelpKey="arrangement_add"
+                                Click="CbActivity_Filter"
+                                Content="Restaurant"
+                                IsChecked="{Binding ActivitiesViewRestaurant, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                ToolTip="Toggle restaurants" />
+                        </StackPanel>
+                        <ListBox
+                            x:Name="lstAllPlaces"
+                            Grid.Row="1"
+                            dd:DragDrop.IsDragSource="True"
+                            dd:DragDrop.IsDropTarget="True"
+                            u:HelpProvider.HelpKey="arrangement_add"
+                            ItemsSource="{Binding AllActivities}"
+                            SelectedItem="{Binding SelectedUnassignedActivity, Mode=TwoWay, Converter={StaticResource PlaceConverter}}"
+                            SelectionChanged="LstAllPlaces_SelectionChanged"
+                            ToolTip="Available places">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Left"
+                                        Orientation="Horizontal">
+                                        <!--  Icon  -->
+                                        <Image Width="24" Height="24">
+                                            <Image.Style>
+                                                <Style TargetType="{x:Type Image}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Path=Type}" Value="0">
+                                                            <Setter Property="Source" Value="{StaticResource ImgAttraction}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=Type}" Value="1">
+                                                            <Setter Property="Source" Value="{StaticResource ImgRestaurant}" />
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Path=Type}" Value="2">
+                                                            <Setter Property="Source" Value="{StaticResource ImgHotel}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Image.Style>
+                                        </Image>
+                                        <!--  Name  -->
+                                        <Label Content="{Binding Name}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                        <Label
+                            x:Name="lblNoAllPlaces"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="No places." />
+                    </Grid>
+
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="1"
+                        Margin="6"
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            x:Name="btnAddArr"
+                            Width="30"
+                            Height="30"
+                            Margin="10,0,10,0"
+                            u:HelpProvider.HelpKey="arrangement_add"
+                            Click="BtnAddArr_Click"
+                            Content="v"
+                            ToolTip="Add to arrangement" />
+                        <Button
+                            x:Name="btnRemArr"
+                            Width="30"
+                            Height="30"
+                            u:HelpProvider.HelpKey="arrangement_add"
+                            Click="BtnRemArr_Click"
+                            Content="^"
+                            ToolTip="Remove from arrangement" />
+                    </StackPanel>
+
+                    <ListBox
+                        x:Name="lstArrPlaces"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        Margin="5"
+                        dd:DragDrop.IsDragSource="True"
+                        dd:DragDrop.IsDropTarget="True"
+                        u:HelpProvider.HelpKey="arrangement_add"
+                        ItemsSource="{Binding ArrActivities}"
+                        SelectionChanged="LstArrPlaces_SelectionChanged"
+                        ToolTip="Places included in this arrangement">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+                                    <!--  Icon  -->
+                                    <Image Width="24" Height="24">
+                                        <Image.Style>
+                                            <Style TargetType="{x:Type Image}">
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Path=Type}" Value="0">
+                                                        <Setter Property="Source" Value="{StaticResource ImgAttraction}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Path=Type}" Value="1">
+                                                        <Setter Property="Source" Value="{StaticResource ImgRestaurant}" />
+                                                    </DataTrigger>
+                                                    <DataTrigger Binding="{Binding Path=Type}" Value="2">
+                                                        <Setter Property="Source" Value="{StaticResource ImgHotel}" />
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Image.Style>
+                                    </Image>
+                                    <!--  Name  -->
+                                    <Label Content="{Binding Name}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <Label
+                        x:Name="lblNoArrPlaces"
+                        Grid.Row="2"
+                        Grid.Column="1"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="No places in arrangement." />
+                </Grid>
+            </Grid>
+            <Grid
+                x:Name="Page5"
+                Grid.Row="0"
+                Visibility="Hidden">
+                <ScrollViewer>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Row="0" Grid.Column="0">Name:</Label>
+                        <Label Grid.Row="1" Grid.Column="0">Description:</Label>
+                        <Label Grid.Row="2" Grid.Column="0">Duration:</Label>
+                        <Label Grid.Row="3" Grid.Column="0">Price (€):</Label>
+                        <Label Grid.Row="4" Grid.Column="0">Image:</Label>
+                        <Label Grid.Row="5" Grid.Column="0">Activities:</Label>
+
+						
+						
+						
+                        <Border
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Width="300"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Left"
+                            BorderBrush="Gray"
+                            BorderThickness="1">
+							<ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="200">
+								<TextBlock
+									Width="Auto"
+									Height="Auto"
+									TextWrapping="Wrap"
+									VerticalAlignment="Top"
+                                    Padding="5"
+                                    Text="{Binding ArrName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							</ScrollViewer>
+						</Border>
+                        <Border
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Margin="0,5,0,0"
+                            BorderBrush="Gray"
+                            BorderThickness="1">
+							<ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="200">
+                                <TextBlock
+									Width="Auto"
+									Height="Auto"
+									TextWrapping="Wrap"
+									VerticalAlignment="Top"
+                                    Padding="5"
+                                    Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                            </ScrollViewer>
+                        </Border>
+
+                        <Border
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Margin="0,5,0,0"
+                            BorderBrush="Gray"
+                            BorderThickness="1">
+                            <TextBlock
+                                x:Name="TxtConfirmDate"
+                                Padding="5"
+                                Text="{Binding DurationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </Border>
+
+                        <Border
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Width="100"
+                            Margin="0,5,0,0"
+                            HorizontalAlignment="Left"
+                            BorderBrush="Gray"
+                            BorderThickness="1">
+                            <TextBlock
+                                Padding="5"
+                                HorizontalAlignment="Right"
+                                Text="{Binding Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, StringFormat='#.00', ConverterCulture={x:Static sysglb:CultureInfo.CurrentCulture}}" />
+                        </Border>
+
+                        <Label
+                            x:Name="SummaryNoImage"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            Content="No image added" />
+                        <Image
+                            x:Name="SummaryImage"
+                            Grid.Row="4"
+                            Grid.Column="1"
+                            MaxHeight="600"
+                            Margin="0,5,0,0"
+                            Source="{Binding Filename, Mode=TwoWay}" />
+
+                        <Label
+                            x:Name="SummaryNoPlaces"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            Content="No activities added" />
+                        <ListView
+                            x:Name="SummaryPlaces"
+                            Grid.Row="5"
+                            Grid.Column="1"
+                            MinHeight="32"
+                            Margin="0,5,0,15"
+                            ItemsSource="{Binding ArrActivities, Mode=TwoWay}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Label Content="{Binding Name}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+
+        <Button
+            x:Name="btnCancel"
+            Grid.Row="1"
+            Grid.Column="0"
+            Height="32"
+            Margin="8,0,0,0"
+            HorizontalAlignment="Left"
+            u:HelpProvider.HelpKey="arrangement_add"
+            Click="BtnCancel_Click">
+            <DockPanel HorizontalAlignment="Left">
+                <Image
+                    Height="20"
+                    Margin="5,0,5,0"
+                    Source="{StaticResource IcoCancel}" />
+                <Label Content="Cancel" />
+            </DockPanel>
+        </Button>
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="2">
+            <StackPanel
+                Margin="5"
+                HorizontalAlignment="Right"
+                Orientation="Horizontal">
+                <Button
+                    x:Name="btnPrev"
+                    Width="60"
+                    Height="32"
+                    Margin="8,0,0,0"
+                    u:HelpProvider.HelpKey="arrangement_add"
+                    Click="BtnPrev_Click"
+                    Content="Back" />
+                <Button
+                    x:Name="btnNext"
+                    Width="60"
+                    Height="32"
+                    Margin="8,0,0,0"
+                    u:HelpProvider.HelpKey="arrangement_add"
+                    Click="BtnNext_Click"
+                    Content="Next" />
+                <Button
+                    x:Name="btnFinish"
+                    Width="60"
+                    Height="32"
+                    Margin="8,0,0,0"
+                    u:HelpProvider.HelpKey="arrangement_add"
+                    Click="BtnFinish_Click"
+                    Content="Finish" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

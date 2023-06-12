@@ -1,10 +1,99 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net6.0-windows</TargetFramework>
+      <StartWorkingDirectory>$(MSBuildProjectDirectory)</StartWorkingDirectory>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>Res\IcoAttraction2.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Res\IcoAdd.png" />
+    <None Remove="Res\IcoArrowLeft.png" />
+    <None Remove="Res\IcoArrowRight.png" />
+    <None Remove="Res\IcoAttraction2.png" />
+    <None Remove="Res\IcoAttractionSpeculative.png" />
+    <None Remove="Res\IcoBlueBullet.png" />
+    <None Remove="Res\IcoChart.png" />
+    <None Remove="Res\IcoCross.png" />
+    <None Remove="Res\IcoDisk.png" />
+    <None Remove="Res\IcoHelp.png" />
+    <None Remove="Res\IcoHotel2.png" />
+    <None Remove="Res\IcoHotelSpeculative.png" />
+    <None Remove="Res\IcoInfo.png" />
+    <None Remove="Res\IcoLocation.png" />
+    <None Remove="Res\IcoLocationAdd.png" />
+    <None Remove="Res\IcoMagnifier.png" />
+    <None Remove="Res\IcoPageEdit.png" />
+    <None Remove="Res\IcoPencil.png" />
+    <None Remove="Res\IcoPlanetAdd.png" />
+    <None Remove="Res\IcoRestaurant2.png" />
+    <None Remove="Res\IcoRestaurantSpeculative.png" />
+    <None Remove="Res\IcoTravel.png" />
+    <None Remove="Res\IcoTravelHistory.png" />
+    <None Remove="Res\ImgAttraction.png" />
+    <None Remove="Res\ImgHotel.png" />
+    <None Remove="Res\ImgRestaurant.png" />
+    <None Remove="Res\IcoCalendar.png" />
+    <None Remove="Res\snd_delete.wav" />
+    <None Remove="Res\ImagePlaceholder.png" />
+	<None Remove="Res\IcoDate.png" />
+	<None Remove="Res\IcoMoney.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Res\IcoAttraction2.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.5" />
+    <PackageReference Include="Microsoft.Maps.MapControl.WPF" Version="1.0.0.3" />
+    <PackageReference Include="RestSharp" Version="110.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Res\IcoAdd.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Res\IcoArrowLeft.png" />
+    <Resource Include="Res\IcoArrowRight.png" />
+    <Resource Include="Res\IcoAttraction2.png" />
+    <Resource Include="Res\IcoAttractionSpeculative.png" />
+    <Resource Include="Res\IcoBlueBullet.png" />
+    <Resource Include="Res\IcoChart.png" />
+    <Resource Include="Res\IcoCross.png" />
+    <Resource Include="Res\IcoDisk.png" />
+    <Resource Include="Res\IcoHelp.png" />
+    <Resource Include="Res\IcoHotel2.png" />
+    <Resource Include="Res\IcoHotelSpeculative.png" />
+    <Resource Include="Res\IcoInfo.png" />
+    <Resource Include="Res\IcoLocation.png" />
+    <Resource Include="Res\IcoLocationAdd.png" />
+    <Resource Include="Res\IcoMagnifier.png" />
+    <Resource Include="Res\IcoPageEdit.png" />
+    <Resource Include="Res\IcoPencil.png" />
+    <Resource Include="Res\IcoPlanetAdd.png" />
+    <Resource Include="Res\IcoReport.png" />
+    <Resource Include="Res\IcoRestaurant2.png" />
+    <Resource Include="Res\IcoRestaurantSpeculative.png" />
+    <Resource Include="Res\IcoTravel.png" />
+    <Resource Include="Res\IcoTravelHistory.png" />
+    <Resource Include="Res\ImgAttraction.png" />
+    <Resource Include="Res\ImgHotel.png" />
+    <Resource Include="Res\ImgRestaurant.png" />
+    <Resource Include="Res\IcoCalendar.png" />
+    <Resource Include="Res\snd_delete.wav" />
+	<Resource Include="Res\ImagePlaceholder.png" />
+	<Resource Include="Res\IcoDate.png" />
+	<Resource Include="Res\IcoMoney.png" />
+  </ItemGroup>
 
 </Project>
