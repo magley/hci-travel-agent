@@ -38,6 +38,7 @@
     <None Remove="Res\ImgRestaurant.png" />
     <None Remove="Res\IcoCalendar.png" />
     <None Remove="Res\snd_delete.wav" />
+    <None Remove="Res\ImagePlaceholder.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -88,6 +89,7 @@
     <Resource Include="Res\ImgRestaurant.png" />
     <Resource Include="Res\IcoCalendar.png" />
     <Resource Include="Res\snd_delete.wav" />
+	<Resource Include="Res\ImagePlaceholder.png" />
   </ItemGroup>
 
 </Project>

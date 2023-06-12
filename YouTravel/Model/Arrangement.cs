@@ -14,7 +14,23 @@ namespace YouTravel.Model
         public double Price { get; set; }
         public DateTime Start { get; set; } = DateTime.Now.AddDays(1);
         public DateTime End { get; set; } = DateTime.Now.AddDays(3);
-        public string ImageFname { get; set; } = "";
+        public string ImageFname { get; set; } = "/Res/ImagePlaceholder.png";
+
+        public string DateRange
+        {
+            get
+            {
+                return $"{Start.ToShortDateString()} - {End.ToShortDateString()}";
+            }
+        }
+
+        public string PriceRsd
+        {
+            get
+            {
+                return $"{Price}€";
+            }
+        }
 
         public IList<Place> Places { get; } = new List<Place>();
         public IList<Reservation> Reservations { get; } = new List<Reservation>();

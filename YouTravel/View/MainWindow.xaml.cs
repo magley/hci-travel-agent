@@ -221,7 +221,7 @@ namespace YouTravel.View
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
 
             ToolbarBtn_Arrangement.Clear();
-            ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList, "View Arrangements (Ctrl+A)"));
+            ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravel.png", On_OpenArrangementList, "View available Arrangements (Ctrl+A)"));
             ToolbarBtn_Arrangement.Add(ToolbarButton.NewBtn("IcoTravelHistory.png", On_OpenReservationsList, "Travel History (Ctrl+H)"));
 
             ToolbarBtn_Place.Clear();
@@ -249,7 +249,7 @@ namespace YouTravel.View
             CmdNavigateForward = new RelayCommand(o => PageNext(), o => true);
 
             CmdNewArrangement = new RelayCommand(o => OpenPage(new ArrangementAdd(true)), o => true);
-            CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+            CmdViewArrangements = new RelayCommand(o => OpenArrangementsListForUser(), o => true);
             CmdViewReservationsList = null;
 
             CmdNewPlace = new RelayCommand(o => OpenPage(new LocationAdd(true)), o => true);
@@ -269,7 +269,7 @@ namespace YouTravel.View
             CmdNavigateForward = new RelayCommand(o => PageNext(), o => true);
 
             CmdNewArrangement = null;
-            CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+            CmdViewArrangements = new RelayCommand(o => OpenArrangementsListForUser(), o => true);
             CmdViewReservationsList = new RelayCommand(o => OpenPage(new TravelHistory()), o => true);
 
             CmdNewPlace = null;
@@ -289,7 +289,7 @@ namespace YouTravel.View
             CmdNavigateForward = new RelayCommand(o => PageNext(), o => true);
 
             CmdNewArrangement = null;
-            CmdViewArrangements = new RelayCommand(o => OpenPage(new ArrangementList()), o => true);
+            CmdViewArrangements = new RelayCommand(o => OpenArrangementsListForUser(), o => true);
             CmdViewReservationsList = null;
 
             CmdNewPlace = null;
@@ -306,7 +306,19 @@ namespace YouTravel.View
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            OpenPage(new ArrangementList());
+            OpenArrangementsListForUser();
+        }
+
+        private void OpenArrangementsListForUser()
+        {
+            if (YouTravelContext.User?.Type == UserType.AGENT)
+            {
+                OpenPage(new ArrangementList());
+            }
+            else
+            {
+                OpenPage(new AvailableArrangements());
+            }
         }
 
         public void SetTitle(string title)
@@ -375,7 +387,7 @@ namespace YouTravel.View
             InitWindowForUser();
             // FIXME: Doesn't clear out the last entry for some reason
             ClearNavigationHistory();
-            OpenPage(new ArrangementList());
+            OpenArrangementsListForUser();
         }
 
         private void ClearNavigationHistory()
@@ -414,7 +426,7 @@ namespace YouTravel.View
 
         private void On_OpenArrangementList(object sender, RoutedEventArgs e)
         {
-            OpenPage(new ArrangementList());
+            OpenArrangementsListForUser();
         }
 
         private void On_OpenReservationsList(object sender, RoutedEventArgs e)
