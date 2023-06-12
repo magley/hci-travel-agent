@@ -129,7 +129,7 @@
                             Height="120"
                             Margin="0,0,10,0"
                             Source="{Binding ImageFname}"
-                            Stretch="Uniform" ></Image>
+                            Stretch="Uniform" />
                         <Label
                             Grid.Row="0"
                             Grid.Column="1"
@@ -150,6 +150,7 @@
                             Width="100"
                             Height="35"
                             HorizontalAlignment="Left"
+                            u:HelpProvider.HelpKey="index_client"
                             Click="ViewArrangement_Click"
                             Content="Show more" />
                     </Grid>
