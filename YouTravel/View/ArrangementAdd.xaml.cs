@@ -463,10 +463,19 @@ namespace YouTravel.View
         private void LstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             mapBundle.Pins = new List<PlacePinData>(PlacePinData.From(ArrActivities));
-            if (SelectedUnassignedActivity != null)
+
+            // "Highlight" selected pin
+            foreach (PlacePinData p in mapBundle.Pins)
             {
-                mapBundle.Pins.Add(new PlacePinData(SelectedUnassignedActivity, speculativePin: true));
+                if (p.Place != (Place)lstArrPlaces.SelectedItem)
+                {
+                    p.IsSpeculativePin = false;
+                } else
+                {
+                    p.IsSpeculativePin = true;
+                }
             }
+
             MapUtil.Redraw(mapBundle);
         }
 
