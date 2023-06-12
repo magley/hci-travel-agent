@@ -69,7 +69,7 @@ namespace YouTravel.Util
                         Height = 48,
                         Opacity = pin.IsSpeculativePin ? 1 : 1,
                     };
-                    mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
+                    mapLayer.AddChild(myPushPin, location, PositionOrigin.BottomCenter);
                     bundle.Map.Children.Add(mapLayer);
                 }
             }

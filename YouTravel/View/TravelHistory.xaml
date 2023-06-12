@@ -16,6 +16,7 @@
     <Page.Resources>
         <BitmapImage x:Key="IcoMagnifier" UriSource="../Res/IcoMagnifier.png" />
         <BitmapImage x:Key="IcoCalendar" UriSource="../Res/IcoCalendar.png" />
+        <BitmapImage x:Key="IcoMoney" UriSource="../Res/IcoMoney.png" />
     </Page.Resources>
 
     <Page.InputBindings>
@@ -137,6 +138,7 @@
                     <Setter Property="Margin" Value="5,5" />
                 </Style>
                 <util:PaidConverter x:Key="PaidConverter" />
+                <util:CanPayConverter x:Key="CanPayConverter" />
                 <util:ArrangementStatusToStringConverter x:Key="StatusConverter" />
                 <BitmapImage x:Key="IcoArrangement" UriSource="../Res/IcoTravel.png" />
             </DataGrid.Resources>
@@ -204,29 +206,33 @@
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn
+                <DataGridTemplateColumn
                     Width="*"
-                    Binding="{Binding PaidOn, Converter={StaticResource PaidConverter}}"
-                    ElementStyle="{StaticResource TextColumnStyle}"
-                    Header="Paid?">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding PaidOn, Converter={StaticResource PaidConverter}}" Value="Yes">
-                                    <Setter Property="Background" Value="{StaticResource bg_dark2}" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding PaidOn, Converter={StaticResource PaidConverter}}" Value="No">
-                                    <Setter Property="Background" Value="IndianRed" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                    <DataGridTextColumn.HeaderStyle>
+                    Header="Paid?"
+                    SortMemberPath="Arrangement.PaidOn">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+                                <Label Content="{Binding PaidOn, Converter={StaticResource PaidConverter}}" />
+                                <Button
+                                    Width="28"
+                                    Height="28"
+                                    util:HelpProvider.HelpKey="travel_history"
+                                    Click="BuyArrangement_Click"
+                                    DataContext="{Binding}"
+                                    ToolTip="Buy arrangement"
+                                    Visibility="{Binding PaidOn, Converter={StaticResource CanPayConverter}}">
+                                    <Image Source="{StaticResource IcoMoney}" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                    <DataGridTemplateColumn.HeaderStyle>
                         <Style BasedOn="{StaticResource columnHeaderStyle}" TargetType="DataGridColumnHeader">
                             <Setter Property="ToolTip" Value="Payment status of the reservation" />
                         </Style>
-                    </DataGridTextColumn.HeaderStyle>
-                </DataGridTextColumn>
+                    </DataGridTemplateColumn.HeaderStyle>
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
 

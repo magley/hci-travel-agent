@@ -10,6 +10,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using YouTravel.Model;
+using YouTravel.Shared;
 using YouTravel.Util;
 
 namespace YouTravel.View
@@ -39,7 +40,7 @@ namespace YouTravel.View
             PAID
         }
         private ColumnType _sortColumnType = ColumnType.TIME_OF_RESERVATION;
-        private bool _sortAscending = true;
+        private bool _sortAscending = false;
 
         private bool _isClearableCalendar = false;
         public bool IsClearableCalendar
@@ -188,8 +189,7 @@ namespace YouTravel.View
         {
             var button = (Button)sender;
             var arrangement = (Arrangement)button.DataContext;
-            // TODO: Navigate to view arrangement
-            Console.WriteLine($"TODO: View arrangement with id {arrangement.Id}");
+            ((MainWindow)Window.GetWindow(this)).OpenPage(new ArrangementDetails(arrangement));
         }
 
         private void SearchBox_KeyDown(object sender, KeyEventArgs e)
@@ -296,6 +296,23 @@ namespace YouTravel.View
 
             LoadReservations();
             e.Handled = true;
+        }
+
+        private void BuyArrangement_Click(object sender, RoutedEventArgs e)
+        {
+            var button = (Button)sender;
+            var reservation = (Reservation)button.DataContext;
+            var res = new ConfirmBox("Buy this arrangement?", "Buy arrangement", "Yes", "No", ConfirmBox.ConfirmBoxIcon.QUESTION);
+            res.ShowDialog();
+            if (res.Result)
+            {
+                using var ctx = new TravelContext();
+                var reservation1 = ctx.Reservations.Find(reservation.Id);
+                reservation1.PaidOn = DateTime.Now;
+                ctx.Reservations.Update(reservation1);
+                ctx.SaveChanges();
+                LoadReservations();
+            }
         }
     }
 }

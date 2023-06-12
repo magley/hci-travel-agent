@@ -24,7 +24,7 @@ namespace YouTravel.Model
             }
         }
 
-        public string PriceRsd
+        public string PriceEur
         {
             get
             {

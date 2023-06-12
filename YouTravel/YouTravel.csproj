@@ -39,6 +39,8 @@
     <None Remove="Res\IcoCalendar.png" />
     <None Remove="Res\snd_delete.wav" />
     <None Remove="Res\ImagePlaceholder.png" />
+	<None Remove="Res\IcoDate.png" />
+	<None Remove="Res\IcoMoney.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -90,6 +92,8 @@
     <Resource Include="Res\IcoCalendar.png" />
     <Resource Include="Res\snd_delete.wav" />
 	<Resource Include="Res\ImagePlaceholder.png" />
+	<Resource Include="Res\IcoDate.png" />
+	<Resource Include="Res\IcoMoney.png" />
   </ItemGroup>
 
 </Project>

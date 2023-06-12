@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using YouTravel.Model;
+using YouTravel.Shared;
 using YouTravel.Util;
 
 namespace YouTravel.View
@@ -145,9 +146,7 @@ namespace YouTravel.View
             Button button = (Button)sender;
             Arrangement arr = (Arrangement)button.DataContext;
 
-            // TODO: Open view arrangement
-            Console.WriteLine("TODO: View arrangement");
-            //((MainWindow)Window.GetWindow(this)).OpenPage(new ArrangementView(arr));
+            ((MainWindow)Window.GetWindow(this)).OpenPage(new ArrangementDetails(arr));
         }
 
         private void BookArrangement_Click(object sender, RoutedEventArgs e)
