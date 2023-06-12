@@ -105,6 +105,8 @@ namespace YouTravel.View
             private set { _cmdRegister = value; DoPropertyChanged(nameof(CmdRegister)); }
         }
 
+        private bool _clearBackentry = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -306,6 +308,7 @@ namespace YouTravel.View
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            _clearBackentry = true;
             OpenArrangementsListForUser();
         }
 
@@ -387,6 +390,7 @@ namespace YouTravel.View
             InitWindowForUser();
             // FIXME: Doesn't clear out the last entry for some reason
             ClearNavigationHistory();
+            _clearBackentry = true;
             OpenArrangementsListForUser();
         }
 
@@ -519,6 +523,12 @@ namespace YouTravel.View
 
         private void MyFrame_Navigated(object sender, System.Windows.Navigation.NavigationEventArgs e)
         {
+            if (_clearBackentry)
+            {
+                // kinda unsafe because of threading, but will probably never be an issue
+                _clearBackentry = false;
+                myFrame.RemoveBackEntry();
+            }
             RefreshNavButtonEnabledStatus();
         }
 
