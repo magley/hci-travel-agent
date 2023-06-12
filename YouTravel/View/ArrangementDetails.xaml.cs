@@ -114,9 +114,10 @@ namespace YouTravel.View
                 new OkBox("Cannot book arrangement - must be logged in to do that.", "Cannot book arrangement").ShowDialog();
                 return;
             }
-            var box = new ConfirmBox("Book arrangement?", "Book", "Yes", "No", ConfirmBox.ConfirmBoxIcon.QUESTION);
+            var box = new BookPeople("Book arrangement for how many people?", "Book", "Book", "Cancel");
             box.ShowDialog();
-            if (box.Result)
+            var numOfPeople = box.Result;
+            if (numOfPeople != null)
             {
                 using var ctx = new TravelContext();
                 var arrangement = ctx.Arrangements.Find(Arrangement.Id);
@@ -127,7 +128,7 @@ namespace YouTravel.View
                     ArrangementId = arrangement.Id,
                     Arrangement = arrangement,
                     Username = YouTravelContext.User?.Username,
-                    NumOfPeople = 1,
+                    NumOfPeople = int.Parse(numOfPeople),
                 };
                 ctx.Reservations.Load();
                 ctx.Reservations.Add(reservation);
