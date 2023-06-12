@@ -57,7 +57,8 @@
                     Margin="16,0,0,0"
                     d:Content="Yes"
                     Click="BtnYes_Click"
-                    Content="{Binding YesText}" />
+                    Content="{Binding YesText}"
+					IsDefault="True"/>
                 <Button
                     x:Name="btnNo"
                     Width="100"

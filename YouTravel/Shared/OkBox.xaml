@@ -50,7 +50,8 @@
                 Width="100"
                 Height="32"
                 Click="BtnOk_Click"
-                Content="Ok" />
+                Content="Ok"
+				IsDefault="True"/>
 			</StackPanel>
 		</StackPanel>
 	</Grid>
