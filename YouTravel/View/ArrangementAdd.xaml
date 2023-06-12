@@ -436,6 +436,9 @@
                         <Label Grid.Row="4" Grid.Column="0">Image:</Label>
                         <Label Grid.Row="5" Grid.Column="0">Activities:</Label>
 
+						
+						
+						
                         <Border
                             Grid.Row="0"
                             Grid.Column="1"
@@ -444,20 +447,29 @@
                             HorizontalAlignment="Left"
                             BorderBrush="Gray"
                             BorderThickness="1">
-                            <TextBlock Padding="5" Text="{Binding ArrName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                        </Border>
+							<ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="200">
+								<TextBlock
+									Width="Auto"
+									Height="Auto"
+									TextWrapping="Wrap"
+									VerticalAlignment="Top"
+                                    Padding="5"
+                                    Text="{Binding ArrName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+							</ScrollViewer>
+						</Border>
                         <Border
                             Grid.Row="1"
                             Grid.Column="1"
                             Margin="0,5,0,0"
                             BorderBrush="Gray"
                             BorderThickness="1">
-                            <ScrollViewer>
+							<ScrollViewer VerticalScrollBarVisibility="Auto" MaxHeight="200">
                                 <TextBlock
-                                    Height="170"
+									Width="Auto"
+									Height="Auto"
+									TextWrapping="Wrap"
+									VerticalAlignment="Top"
                                     Padding="5"
-                                    ScrollViewer.CanContentScroll="True"
-                                    ScrollViewer.VerticalScrollBarVisibility="Auto"
                                     Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                             </ScrollViewer>
                         </Border>
