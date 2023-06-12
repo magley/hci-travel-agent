@@ -115,18 +115,11 @@ namespace YouTravel.View
                 return;
             }
             var box = new BookPeople("Book arrangement for how many people?", "Book", "Book", "Cancel");
-            box.ShowDialog();
+            var diagRes = box.ShowDialog();
+            if (diagRes != null && diagRes == false) return;
             var numOfPeople = box.Result;
             if (numOfPeople != null)
             {
-                try
-                {
-                    int.Parse(numOfPeople);
-                }
-                catch(Exception ex) { }
-                {
-                    return;
-                }
                 using var ctx = new TravelContext();
                 var arrangement = ctx.Arrangements.Find(Arrangement.Id);
                 Debug.Assert(arrangement != null);

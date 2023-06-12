@@ -67,6 +67,7 @@ namespace YouTravel.Shared
 
         private void BtnYes_Click(object sender, RoutedEventArgs e)
         {
+            DialogResult = true;
             Close();
         }
 
