@@ -206,20 +206,24 @@
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTemplateColumn Width="*" Header="Paid?">
+                <DataGridTemplateColumn
+                    Width="*"
+                    Header="Paid?"
+                    SortMemberPath="Arrangement.PaidOn">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <StackPanel Margin="10,0,0,0" Orientation="Horizontal">
+                                <Label Content="{Binding PaidOn, Converter={StaticResource PaidConverter}}" />
                                 <Button
                                     Width="28"
                                     Height="28"
+                                    util:HelpProvider.HelpKey="travel_history"
                                     Click="BuyArrangement_Click"
-                                    DataContext="{Binding Arrangement}"
+                                    DataContext="{Binding}"
                                     ToolTip="Buy arrangement"
                                     Visibility="{Binding PaidOn, Converter={StaticResource CanPayConverter}}">
                                     <Image Source="{StaticResource IcoMoney}" />
                                 </Button>
-                                <Label Content="{Binding PaidOn, Converter={StaticResource PaidConverter}}" />
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
