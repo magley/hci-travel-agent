@@ -150,28 +150,6 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button
-                                Margin="6,0,0,0"
-                                Click="BookArrangement_Click"
-                                ToolTip="Book arrangement">
-                                <DockPanel HorizontalAlignment="Stretch">
-                                    <Image
-                                        Height="20"
-                                        Margin="5,0,5,0"
-                                        Source="{StaticResource IcoArrangementBook}" />
-                                </DockPanel>
-
-                                <Button.Style>
-                                    <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
-                                        <Setter Property="Visibility" Value="Hidden" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListViewItem}}, Path=IsMouseOver}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
                         </StackPanel>
                     </Grid>
                 </DataTemplate>
