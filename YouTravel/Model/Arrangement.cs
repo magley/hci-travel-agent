@@ -14,7 +14,7 @@ namespace YouTravel.Model
         public double Price { get; set; }
         public DateTime Start { get; set; } = DateTime.Now.AddDays(1);
         public DateTime End { get; set; } = DateTime.Now.AddDays(3);
-        public string ImageFname { get; set; } = "";
+        public string ImageFname { get; set; } = "/Res/ImagePlaceholder.png";
 
         public string DateRange
         {
