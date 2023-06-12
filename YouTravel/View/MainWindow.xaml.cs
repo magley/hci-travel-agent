@@ -201,8 +201,6 @@ namespace YouTravel.View
         #region InitToolbar
         private void InitAgentToolbar()
         {
-            toolbar_place.Visibility = Visibility.Visible;
-
             ToolbarBtn_Nav.Clear();
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn, "Navigate Backward (Ctrl+Left arrow)"));
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
@@ -218,8 +216,6 @@ namespace YouTravel.View
 
         private void InitClientToolbar()
         {
-            toolbar_place.Visibility = Visibility.Collapsed;
-
             ToolbarBtn_Nav.Clear();
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn, "Navigate Backward (Ctrl+Left arrow)"));
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
@@ -233,8 +229,6 @@ namespace YouTravel.View
 
         private void InitGuestToolbar()
         {
-            toolbar_place.Visibility = Visibility.Collapsed;
-
             ToolbarBtn_Nav.Clear();
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowLeft.png", Back_Btn, "Navigate Backward (Ctrl+Left arrow)"));
             ToolbarBtn_Nav.Add(ToolbarButton.NewBtn("IcoArrowRight.png", Next_Btn, "Navigate Forward (Ctrl+Right arrow)"));
