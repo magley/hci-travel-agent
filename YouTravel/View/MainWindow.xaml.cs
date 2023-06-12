@@ -317,7 +317,7 @@ namespace YouTravel.View
             }
             else
             {
-                OpenPage(new ArrangementListAvailable());
+                OpenPage(new AvailableArrangements());
             }
         }
 

@@ -23,7 +23,7 @@ namespace YouTravel.View
     /// <summary>
     /// Interaction logic for ArrangementListAvailable.xaml
     /// </summary>
-    public partial class ArrangementListAvailable : Page
+    public partial class AvailableArrangements : Page
     {
         public Paginator<Arrangement> Paginator { get; set; } = new();
 
@@ -34,7 +34,7 @@ namespace YouTravel.View
         public ICommand CmdFocusSearch { get; private set; }
 
         private Arrangement? _selectedArrangement = null;
-        public ArrangementListAvailable()
+        public AvailableArrangements()
         {
             InitializeComponent();
             DataContext = this;
