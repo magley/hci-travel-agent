@@ -11,6 +11,7 @@ using System.Windows.Input;
 using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
+using YouTravel.Util.Api;
 
 namespace YouTravel.View
 {
@@ -151,15 +152,12 @@ namespace YouTravel.View
 
         private void InitMapsApi()
         {
-            string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
-            MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
+            MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(MapsAPI.Key);
             MyMap.ZoomLevel = 8;
         }
 
         private void LstPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            PinToSelectedListItem();
-
             try
             {
                 _selectedPlace = Paginator.EntitiesCurrentPage[lstPlaces.SelectedIndex];
@@ -167,19 +165,21 @@ namespace YouTravel.View
             catch (ArgumentOutOfRangeException)
             {
             }
+
+            PinToSelectedListItem();
         }
 
         private void PinToSelectedListItem()
         {
-            MapUtil.DrawPinOnMapBasedOnList(Paginator.Entities, lstPlaces, MyMap, true);
+            MapUtil.DrawPinOnMapBasedOnList(Paginator.EntitiesCurrentPage, lstPlaces, MyMap, true);
         }
 
         private void BtnEditPlace_Click(object sender, RoutedEventArgs e)
         {
             Button btn = (Button)sender;
-            Place place = (Place)btn.DataContext;
+			Place place = (Place)btn.DataContext;
 
-            ((MainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, place));
+			((MainWindow)Window.GetWindow(this)).OpenPage(new LocationAdd(false, place));
         }
 
         private void BtnRemovePlace_Click(object sender, RoutedEventArgs e)
@@ -219,7 +219,7 @@ namespace YouTravel.View
             if (Paginator.Entities.Count == 0)
             {
                 MapUtil.ClearPins(MyMap);
-                MapUtil.DrawPinOnMapBasedOnList(Paginator.Entities, lstPlaces, MyMap, true);
+                MapUtil.DrawPinOnMapBasedOnList(Paginator.EntitiesCurrentPage, lstPlaces, MyMap, true);
             }
         }
 

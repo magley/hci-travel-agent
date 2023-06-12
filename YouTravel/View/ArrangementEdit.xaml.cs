@@ -12,7 +12,9 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using YouTravel.Model;
+using YouTravel.Shared;
 using YouTravel.Util;
+using YouTravel.Util.Api;
 
 namespace YouTravel.View
 {
@@ -108,8 +110,7 @@ namespace YouTravel.View
 
         private void InitMapsApi()
         {
-            string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
-            TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
+            TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(MapsAPI.Key);
             TheMap.ZoomLevel = 8;
             var lat = UserConfig.Instance.StartLocation_Lat;
             var lon = UserConfig.Instance.StartLocation_Long;
@@ -166,13 +167,19 @@ namespace YouTravel.View
         private void Btn_SaveDraft_Click(object sender, RoutedEventArgs e)
         {
             UpdateArrangement();
-            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+
+			new ConfirmBox($"Arrangement \"{ArrName}\" updated.", "Edit arrangement", "OK", null, ConfirmBox.ConfirmBoxIcon.INFO).ShowDialog();
+
+			((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void Btn_PublishChanges_Click(object sender, RoutedEventArgs e)
         {
             UpdateArrangement();
-            ((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
+
+			new ConfirmBox($"Arrangement \"{ArrName}\" updated.", "Edit arrangement", "OK", null, ConfirmBox.ConfirmBoxIcon.INFO).ShowDialog();
+
+			((MainWindow)Window.GetWindow(this)).CloseMostRecentPage();
         }
 
         private void UpdateArrangement()
@@ -226,11 +233,20 @@ namespace YouTravel.View
         private void LstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             mapBundle.Pins = new List<PlacePinData>(PlacePinData.From(ArrActivities));
-            if (SelectedUnassignedActivity != null)
-            {
-                mapBundle.Pins.Add(new PlacePinData(SelectedUnassignedActivity, speculativePin: true));
-            }
-            MapUtil.Redraw(mapBundle);
+			// "Highlight" selected pin
+			foreach (PlacePinData p in mapBundle.Pins)
+			{
+				if (p.Place != (Place)lstArrPlaces.SelectedItem)
+				{
+					p.IsSpeculativePin = false;
+				}
+				else
+				{
+					p.IsSpeculativePin = true;
+				}
+			}
+
+			MapUtil.Redraw(mapBundle);
         }
 
         private void BtnAddArr_Click(object sender, RoutedEventArgs e)

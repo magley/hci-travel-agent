@@ -145,7 +145,7 @@
             VerticalAlignment="Center"
             Orientation="Horizontal">
 
-            <Button Click="BtnNewArrangement_Click" ToolTip="Add a new Arrangement">
+            <Button Click="BtnNewArrangement_Click" ToolTip="New Arrangement (Ctrl+N)">
                 <DockPanel HorizontalAlignment="Stretch">
                     <Image
                         Height="20"

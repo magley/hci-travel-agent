@@ -349,7 +349,7 @@ namespace YouTravel.View
             {
                 RefreshUser();
                 Debug.Assert(YouTravelContext.User != null);
-                new OkBox($"Welcome {YouTravelContext.User.Username}.", "Welcome").ShowDialog();
+                //new OkBox($"Welcome {YouTravelContext.User.Username}.", "Welcome").ShowDialog();
             }
         }
 
@@ -460,13 +460,13 @@ namespace YouTravel.View
         private void On_OpenSettings(object sender, RoutedEventArgs e)
         {
             var win = new Settings(false);
-            win.Show();
+            win.ShowDialog();
         }
 
         private void On_OpenSettings_Toolbar(object sender, RoutedEventArgs e)
         {
             var win = new Settings(true);
-            win.Show();
+            win.ShowDialog();
         }
 
 
@@ -509,5 +509,12 @@ namespace YouTravel.View
         {
             RefreshNavButtonEnabledStatus();
         }
-    }
+
+		private void On_OpenAbout(object sender, RoutedEventArgs e)
+		{
+            var aboutWin = new About();
+            aboutWin.Owner = this;
+            aboutWin.ShowDialog();
+		}
+	}
 }

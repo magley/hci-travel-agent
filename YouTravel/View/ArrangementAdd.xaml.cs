@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
+using YouTravel.Util.Api;
 
 namespace YouTravel.View
 {
@@ -319,8 +320,7 @@ namespace YouTravel.View
 
         private void InitMapsApi()
         {
-            string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
-            TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
+            TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(MapsAPI.Key);
             TheMap.ZoomLevel = 8;
             var lat = UserConfig.Instance.StartLocation_Lat;
             var lon = UserConfig.Instance.StartLocation_Long;
@@ -463,10 +463,19 @@ namespace YouTravel.View
         private void LstArrPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             mapBundle.Pins = new List<PlacePinData>(PlacePinData.From(ArrActivities));
-            if (SelectedUnassignedActivity != null)
+
+            // "Highlight" selected pin
+            foreach (PlacePinData p in mapBundle.Pins)
             {
-                mapBundle.Pins.Add(new PlacePinData(SelectedUnassignedActivity, speculativePin: true));
+                if (p.Place != (Place)lstArrPlaces.SelectedItem)
+                {
+                    p.IsSpeculativePin = false;
+                } else
+                {
+                    p.IsSpeculativePin = true;
+                }
             }
+
             MapUtil.Redraw(mapBundle);
         }
 

@@ -64,10 +64,10 @@ namespace YouTravel.Util
                     MapLayer mapLayer = new();
                     Image myPushPin = new()
                     {
-                        Source = new BitmapImage(new Uri(GetPinIconUriString(pin.Place.Type), UriKind.Absolute)),
+                        Source = new BitmapImage(new Uri(GetPinIconUriString(pin.Place.Type, pin.IsSpeculativePin), UriKind.Absolute)),
                         Width = 48,
                         Height = 48,
-                        Opacity = pin.IsSpeculativePin ? 0.5 : 1,
+                        Opacity = pin.IsSpeculativePin ? 1 : 1,
                     };
                     mapLayer.AddChild(myPushPin, location, PositionOrigin.Center);
                     bundle.Map.Children.Add(mapLayer);
@@ -115,7 +115,7 @@ namespace YouTravel.Util
             MapLayer mapLayer = new();
             Image myPushPin = new()
             {
-                Source = new BitmapImage(new Uri(GetPinIconUriString(place.Type), UriKind.Absolute)),
+                Source = new BitmapImage(new Uri(GetPinIconUriString(place.Type, false), UriKind.Absolute)),
                 Width = 48,
                 Height = 48
             };
@@ -123,21 +123,40 @@ namespace YouTravel.Util
             map.Children.Add(mapLayer);
         }
 
-        private static string GetPinIconUriString(PlaceType type)
+        private static string GetPinIconUriString(PlaceType type, bool speculative)
         {
             string fname = "";
-            switch (type)
+
+            if (speculative)
             {
-                case PlaceType.Attraction:
-                    fname = "ImgAttraction.png";
-                    break;
-                case PlaceType.Restaurant:
-                    fname = "ImgRestaurant.png";
-                    break;
-                case PlaceType.Hotel:
-                    fname = "ImgHotel.png";
-                    break;
-            }
+				switch (type)
+				{
+					case PlaceType.Attraction:
+						fname = "IcoAttractionSpeculative.png";
+						break;
+					case PlaceType.Restaurant:
+						fname = "IcoRestaurantSpeculative.png";
+						break;
+					case PlaceType.Hotel:
+						fname = "IcoHotelSpeculative.png";
+						break;
+				}
+			} 
+            else
+            {
+				switch (type)
+				{
+					case PlaceType.Attraction:
+						fname = "ImgAttraction.png";
+						break;
+					case PlaceType.Restaurant:
+						fname = "ImgRestaurant.png";
+						break;
+					case PlaceType.Hotel:
+						fname = "ImgHotel.png";
+						break;
+				}
+			}
 
             return $"pack://application:,,,/Res/{fname}";
         }

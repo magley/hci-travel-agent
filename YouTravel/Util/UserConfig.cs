@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -36,7 +37,16 @@ namespace YouTravel.Util
 
         private void LoadConfig()
         {
-            var lines = File.ReadAllLines("./Data/UserConfig.preferences").ToList();
+            List<string> lines;
+            try
+            {
+                lines = File.ReadAllLines("./Data/UserConfig.preferences").ToList();
+            }
+            catch (FileNotFoundException)
+            {
+                Save();
+                return;
+			}
 
             foreach (var line in lines)
             {

@@ -25,7 +25,8 @@
             <Button
                 Width="32"
                 Height="32"
-                Click="GoBack">
+                Click="GoBack"
+				ToolTip="Go back">
                 &lt;
             </Button>
             <Button
@@ -33,7 +34,8 @@
                 Width="32"
                 Height="32"
                 Margin="12,0,0,0"
-                Click="GoForward">
+                Click="GoForward"
+				ToolTip="Go forward">
                 &gt;
             </Button>
         </StackPanel>
