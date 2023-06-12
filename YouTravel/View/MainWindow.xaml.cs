@@ -306,7 +306,19 @@ namespace YouTravel.View
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            OpenPage(new ArrangementList());
+            OpenDefaultPageForUser();
+        }
+
+        private void OpenDefaultPageForUser()
+        {
+            if (YouTravelContext.User?.Type == UserType.AGENT)
+            {
+                OpenPage(new ArrangementList());
+            }
+            else
+            {
+                OpenPage(new ArrangementListAvailable());
+            }
         }
 
         public void SetTitle(string title)
@@ -375,7 +387,7 @@ namespace YouTravel.View
             InitWindowForUser();
             // FIXME: Doesn't clear out the last entry for some reason
             ClearNavigationHistory();
-            OpenPage(new ArrangementList());
+            OpenDefaultPageForUser();
         }
 
         private void ClearNavigationHistory()

@@ -37,6 +37,7 @@
     <None Remove="Res\ImgHotel.png" />
     <None Remove="Res\ImgRestaurant.png" />
     <None Remove="Res\IcoCalendar.png" />
+	<None Remove="Res\IcoArrangementBook.png" />
     <None Remove="Res\snd_delete.wav" />
   </ItemGroup>
 
@@ -87,6 +88,7 @@
     <Resource Include="Res\ImgHotel.png" />
     <Resource Include="Res\ImgRestaurant.png" />
     <Resource Include="Res\IcoCalendar.png" />
+	<Resource Include="Res\IcoArrangementBook.png" />
     <Resource Include="Res\snd_delete.wav" />
   </ItemGroup>
 
