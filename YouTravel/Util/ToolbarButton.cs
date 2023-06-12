@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace YouTravel.Util
@@ -17,6 +18,7 @@ namespace YouTravel.Util
                 Height = 24
             };
             Button.Content = img;
+            Button.Cursor = Cursors.Hand;
             Button.Click += onClick;
 
             Button.ToolTip = new Label() { Content = tooltipHelp };
