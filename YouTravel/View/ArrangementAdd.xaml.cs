@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
+using YouTravel.Util.Api;
 
 namespace YouTravel.View
 {
@@ -319,8 +320,7 @@ namespace YouTravel.View
 
         private void InitMapsApi()
         {
-            string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
-            TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
+            TheMap.CredentialsProvider = new ApplicationIdCredentialsProvider(MapsAPI.Key);
             TheMap.ZoomLevel = 8;
             var lat = UserConfig.Instance.StartLocation_Lat;
             var lon = UserConfig.Instance.StartLocation_Long;

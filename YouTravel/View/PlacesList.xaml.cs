@@ -11,6 +11,7 @@ using System.Windows.Input;
 using YouTravel.Model;
 using YouTravel.Shared;
 using YouTravel.Util;
+using YouTravel.Util.Api;
 
 namespace YouTravel.View
 {
@@ -151,8 +152,7 @@ namespace YouTravel.View
 
         private void InitMapsApi()
         {
-            string mapsApiKey = File.ReadAllText("Data/MapsApiKey.apikey");
-            MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(mapsApiKey);
+            MyMap.CredentialsProvider = new ApplicationIdCredentialsProvider(MapsAPI.Key);
             MyMap.ZoomLevel = 8;
         }
 

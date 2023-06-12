@@ -28,11 +28,31 @@ namespace YouTravel.Util.Api
         public IList<ResourceSet>? ResourceSets { get; set; }
     }
 
-    public static class LocationRecognition
+    public class NoMapsAPIException : Exception
     {
 
+    }
+
+    public static class MapsAPI
+    {
+		public static readonly string Key = "";
+
+		static MapsAPI()
+		{
+			try
+			{
+				Key = File.ReadAllText("Data/MapsApiKey.apikey");
+			}
+			catch (FileNotFoundException)
+			{
+				Key = "";
+			}
+		}
+	}
+
+    public static class LocationRecognition
+    {
         private const string urlPath = "https://dev.virtualearth.net/REST/v1/LocationRecog";
-        private static readonly string apiKey = File.ReadAllText("Data/MapsApiKey.apikey");
         private static readonly HttpClient client = new();
         private static readonly JsonSerializerOptions options = new()
         {
@@ -49,11 +69,15 @@ namespace YouTravel.Util.Api
         }
         private static async Task<string> SendRequestAsync(double lat, double lng)
         {
-            var url = Url(Point(lat, lng), apiKey);
-#if DEBUG
-            Console.WriteLine($"GET: {url}");
-#endif
-            return await client.GetStringAsync(url);
+            var url = Url(Point(lat, lng), MapsAPI.Key);
+            try
+            {
+                return await client.GetStringAsync(url);
+            }
+            catch (System.Net.Http.HttpRequestException)
+            {
+                return "{}";
+            }
         }
         private static async Task<ApiResponse?> FetchApiResponse(double lat, double lng)
         {
