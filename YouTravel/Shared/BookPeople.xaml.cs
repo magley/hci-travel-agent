@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Media;
 using System.Text;
@@ -12,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using YouTravel.Model;
 using static YouTravel.Shared.ConfirmBox;
 
 namespace YouTravel.Shared
@@ -19,24 +22,47 @@ namespace YouTravel.Shared
     /// <summary>
     /// Interaction logic for BookPeople.xaml
     /// </summary>
-    public partial class BookPeople : Window
+    public partial class BookPeople : Window, INotifyPropertyChanged
     {
-        public string? Result { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        private string? _result = null;
+        public string? Result
+        {
+            get { return _result; }
+            set { _result = value; DoPropertyChanged(nameof(Result)); }
+        }
         public string MessageBody { get; set; }
         public string? YesText { get; set; }
         public string? NoText { get; set; }
-        private readonly ConfirmBoxIcon icon;
+
+        private bool _formValid = false;
+        public bool FormValid
+        {
+            get { return _formValid; }
+            set { _formValid = value; DoPropertyChanged(nameof(FormValid)); }
+        }
+
+        private bool _inputError = true;
+        public bool InputError
+        {
+            get { return _inputError; }
+            set { _inputError = value; DoPropertyChanged(nameof(InputError)); }
+        }
+
         public BookPeople(string messageBody, string windowTitle, string? yesText, string? noText)
         {
             InitializeComponent();
             DataContext = this;
             MessageBody = messageBody;
             Title = windowTitle;
+            YesText = yesText;
+            NoText = noText;
 
             Application curApp = Application.Current;
             Window mainWindow = curApp.MainWindow;
             this.Owner = mainWindow;
-            this.icon = ConfirmBox.ConfirmBoxIcon.QUESTION;
         }
 
         private void BtnYes_Click(object sender, RoutedEventArgs e)
@@ -48,6 +74,30 @@ namespace YouTravel.Shared
         {
             Result = null;
             Close();
+        }
+
+        private void TextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            Console.Write("DWADA");
+            if (Result == null)
+            {
+                InputError = true;
+                FormValid = false;
+                return;
+            }
+            try
+            {
+                int.Parse(Result);
+                Console.WriteLine("NOT EXCEPTION");
+                InputError = false;
+                FormValid = true;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("EXCEPTION");
+                InputError = true;
+                FormValid = false;
+            }
         }
     }
 }

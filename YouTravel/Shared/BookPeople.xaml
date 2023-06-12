@@ -5,15 +5,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:YouTravel.Shared"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:util="clr-namespace:YouTravel.Util"
     Title="BookPeople"
-    Width="800"
-    Height="450"
+    Width="400"
+    Height="250"
     ResizeMode="NoResize"
     Style="{StaticResource WinDark}"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
     <Window.Resources>
         <BitmapImage x:Key="IcoHelp" UriSource="../Res/IcoHelp.png" />
+        <util:BoolErrorToVisibilityConverter x:Key="BoolErrorToVisibilityConverter" />
         <BitmapImage x:Key="IcoInfo" UriSource="../Res/IcoInfo.png" />
     </Window.Resources>
     <Grid>
@@ -26,33 +28,29 @@
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <Image
-                x:Name="imgIcoQuestion"
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="16,32,0,32"
-                Source="{StaticResource IcoHelp}" />
-            <Image
-                x:Name="imgIconInfo"
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="16,32,0,32"
-                Source="{StaticResource IcoInfo}" />
             <StackPanel
                 Grid.Row="0"
                 Grid.Column="1"
                 VerticalAlignment="Center">
                 <TextBlock
                     Margin="16,0,4,16"
+                    HorizontalAlignment="Center"
                     d:Text="ahdkjshdkhf ewkj hdkjrh3jk fh3jkf3h2jk 3hkrh krh32r jkrh 2krhk 32rhk3 2r"
                     Text="{Binding MessageBody}"
                     TextWrapping="Wrap" />
                 <TextBox
-                    Grid.Row="1"
-                    Grid.Column="1"
+                    Width="250"
                     Margin="16,0,4,0"
                     VerticalAlignment="Center"
-                    Text="{Binding Result}" />
+                    KeyUp="TextBox_KeyUp"
+                    Text="{Binding Result, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Label
+                    Width="250"
+                    Margin="16,0,4,0"
+                    VerticalAlignment="Center"
+                    Content="Input must be number"
+                    Foreground="IndianRed"
+                    Visibility="{Binding InputError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
             </StackPanel>
         </Grid>
         <StackPanel
@@ -72,7 +70,8 @@
                     d:Content="Yes"
                     Click="BtnYes_Click"
                     Content="{Binding YesText}"
-                    IsDefault="True" />
+                    IsDefault="True"
+                    IsEnabled="{Binding FormValid}" />
                 <Button
                     x:Name="btnNo"
                     Width="100"
