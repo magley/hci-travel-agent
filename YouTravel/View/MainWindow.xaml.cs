@@ -515,5 +515,12 @@ namespace YouTravel.View
         {
             RefreshNavButtonEnabledStatus();
         }
-    }
+
+		private void On_OpenAbout(object sender, RoutedEventArgs e)
+		{
+            var aboutWin = new About();
+            aboutWin.Owner = this;
+            aboutWin.ShowDialog();
+		}
+	}
 }

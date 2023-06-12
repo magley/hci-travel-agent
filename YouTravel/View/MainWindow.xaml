@@ -199,7 +199,7 @@
                         Template="{DynamicResource FinalSubMenuItemTemplate}" />
                 </MenuItem>
                 <MenuItem Header="_Help">
-                    <MenuItem Header="About YouTravel" Template="{DynamicResource FinalSubMenuItemTemplate}">
+                    <MenuItem Click="On_OpenAbout" Header="About YouTravel" Template="{DynamicResource FinalSubMenuItemTemplate}">
                         <MenuItem.Icon>
                             <Image Source="{StaticResource IcoInfo}" />
                         </MenuItem.Icon>

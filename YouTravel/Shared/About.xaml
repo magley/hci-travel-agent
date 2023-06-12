@@ -1,0 +1,44 @@
+﻿<Window x:Class="YouTravel.Shared.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YouTravel.Shared"
+        mc:Ignorable="d"
+		Style="{StaticResource WinDark}"
+        Title="About YouTravel" Height="420" Width="480"
+		ResizeMode="NoResize"
+		WindowStartupLocation="CenterOwner">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+
+		<StackPanel Orientation="Vertical" Grid.Row="0" Margin="10 20">
+			<Label FontSize="32" Content="YouTravel"/>
+			<TextBlock FontStyle="Italic">
+					Made by SV 25/2020, SV 20/2020, SV 13/2020 <LineBreak/>
+			</TextBlock>
+			<TextBlock>
+				©2023 All Rights Reserved.
+			</TextBlock>
+			<TextBlock>
+				<Hyperlink Foreground="Teal" RequestNavigate="Hyperlink_RequestNavigate" NavigateUri="https://opensource.org/license/bsd-2-clause/">BSD-2-Clause license</Hyperlink>
+			</TextBlock>
+			<TextBlock Margin="0 20 0 0">
+				Powered by:
+			</TextBlock>
+			<ListBox Height="80" Margin="20 10 20 10">
+				<ListBoxItem>Windows Presentation Foundation</ListBoxItem>
+				<ListBoxItem>WPF Mapcontrol</ListBoxItem>
+				<ListBoxItem>Entity Framework Core</ListBoxItem>
+				<ListBoxItem>gong-wpf-dragdrop</ListBoxItem>
+				<ListBoxItem>RestSharp</ListBoxItem>
+			</ListBox>
+		</StackPanel>
+		<StackPanel Grid.Row="1" VerticalAlignment="Center">
+			<Button IsDefault="True" Width="120" Height="32" Click="Button_Click">Ok</Button>
+		</StackPanel>
+	</Grid>
+</Window>
