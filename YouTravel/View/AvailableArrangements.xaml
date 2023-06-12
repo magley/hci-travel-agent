@@ -113,37 +113,45 @@
                 <DataTemplate>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
-                        <StackPanel
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Image
+                            Grid.RowSpan="4"
                             Grid.Column="0"
-                            HorizontalAlignment="Left"
-                            Orientation="Horizontal">
-                            <Image Height="24" Source="../Res/IcoBlueBullet.png" />
-                            <Label Content="{Binding Name}" />
-                            <Label Content="{Binding DateRange}" />
-                            <Label Content="{Binding PriceRsd}" />
-                        </StackPanel>
-
-                        <StackPanel
+                            Width="120"
+                            Height="120"
+                            Margin="0,0,10,0"
+                            Source="{Binding ImageFname}"
+                            Stretch="Uniform" />
+                        <Label
+                            Grid.Row="0"
                             Grid.Column="1"
-                            HorizontalAlignment="Right"
-                            Orientation="Horizontal">
-                            <Button
-                                Margin="6,0,0,0"
-                                u:HelpProvider.HelpKey="index_client"
-                                Click="ViewArrangement_Click"
-                                ToolTip="View arrangement">
-                                <DockPanel HorizontalAlignment="Stretch">
-                                    <Image
-                                        Height="20"
-                                        Margin="5,0,5,0"
-                                        Source="{StaticResource IcoArrangement}" />
-                                </DockPanel>
-                            </Button>
-                        </StackPanel>
+                            Content="{Binding Name}"
+                            FontSize="20" />
+                        <Label
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            Content="{Binding DateRange}" />
+                        <Label
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            Content="{Binding PriceRsd}"
+                            Foreground="LightGreen" />
+                        <Button
+                            Grid.Row="3"
+                            Grid.Column="1"
+                            Width="100"
+                            Height="35"
+                            HorizontalAlignment="Left"
+                            Click="ViewArrangement_Click"
+                            Content="Show more" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

@@ -28,7 +28,7 @@ namespace YouTravel.Model
         {
             get
             {
-                return $"{Price} RSD";
+                return $"{Price}€";
             }
         }
 
