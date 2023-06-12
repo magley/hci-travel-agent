@@ -86,17 +86,21 @@ namespace YouTravel.View
 
         private void Book_Click(object sender, RoutedEventArgs e)
         {
-            var res = new ConfirmBox("Book arrangement?", "Book", "Yes", "No", ConfirmBox.ConfirmBoxIcon.QUESTION).ShowDialog();
-            if (res ?? false)
+            var box = new ConfirmBox("Book arrangement?", "Book", "Yes", "No", ConfirmBox.ConfirmBoxIcon.QUESTION);
+            box.ShowDialog();
+            if (box.Result)
             {
                 using var ctx = new TravelContext();
+                var arrangement = ctx.Arrangements.Find(Arrangement.Id);
                 var reservation = new Reservation
                 {
                     TimeOfReservation = DateTime.Now,
-                    Arrangement = Arrangement,
-                    Username = YouTravelContext.User?.Name,
+                    ArrangementId = arrangement.Id,
+                    Arrangement = arrangement,
+                    Username = YouTravelContext.User?.Username,
                     NumOfPeople = 1,
                 };
+                ctx.Reservations.Load();
                 ctx.Reservations.Add(reservation);
                 ctx.SaveChanges();
             }
