@@ -31,13 +31,16 @@
                 Grid.Column="0"
                 Margin="16,32,0,32"
                 Source="{StaticResource IcoInfo}" />
-			<TextBlock
-                Grid.Column="1"
-                Margin="16,0,4,0"
-                VerticalAlignment="Center"
-                d:Text="Dummy text"
-                Text="{Binding MessageBody}"
-                TextWrapping="Wrap" />
+			<ScrollViewer Grid.Column="1">
+				<TextBlock
+					 Margin="16,0,4,0"
+					Width="Auto"
+					Height="Auto"
+					VerticalAlignment="Center"
+					d:Text="Dummy text"
+					Text="{Binding MessageBody}"
+					TextWrapping="Wrap" />
+			</ScrollViewer>
 		</Grid>
 		<StackPanel
 			Background="{StaticResource bg_dark2}"

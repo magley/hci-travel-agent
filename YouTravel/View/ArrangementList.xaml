@@ -184,7 +184,9 @@
                             HorizontalAlignment="Left"
                             Orientation="Horizontal">
                             <Image Height="24" Source="../Res/IcoBlueBullet.png" />
-                            <Label Content="{Binding Name}" />
+							<Label MaxWidth="400">
+								<TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis"/>
+							</Label>
                         </StackPanel>
 
                         <StackPanel
