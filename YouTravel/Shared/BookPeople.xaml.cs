@@ -102,6 +102,7 @@ namespace YouTravel.Shared
         {
             if (e.Key == Key.Escape)
             {
+                Result = null;
                 Close();
             }
         }

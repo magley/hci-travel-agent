@@ -119,6 +119,14 @@ namespace YouTravel.View
             var numOfPeople = box.Result;
             if (numOfPeople != null)
             {
+                try
+                {
+                    int.Parse(numOfPeople);
+                }
+                catch(Exception ex) { }
+                {
+                    return;
+                }
                 using var ctx = new TravelContext();
                 var arrangement = ctx.Arrangements.Find(Arrangement.Id);
                 Debug.Assert(arrangement != null);
