@@ -78,7 +78,6 @@ namespace YouTravel.Shared
 
         private void TextBox_KeyUp(object sender, KeyEventArgs e)
         {
-            Console.Write("DWADA");
             if (Result == null)
             {
                 InputError = true;
@@ -87,16 +86,23 @@ namespace YouTravel.Shared
             }
             try
             {
-                int.Parse(Result);
-                Console.WriteLine("NOT EXCEPTION");
+                var res = int.Parse(Result);
+                if (res < 0) throw new Exception();
                 InputError = false;
                 FormValid = true;
             }
             catch (Exception ex)
             {
-                Console.WriteLine("EXCEPTION");
                 InputError = true;
                 FormValid = false;
+            }
+        }
+
+        private void Window_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
             }
         }
     }

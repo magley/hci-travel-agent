@@ -9,6 +9,7 @@
     Title="BookPeople"
     Width="400"
     Height="250"
+    KeyUp="Window_KeyUp"
     ResizeMode="NoResize"
     Style="{StaticResource WinDark}"
     WindowStartupLocation="CenterOwner"
@@ -35,7 +36,7 @@
                 <TextBlock
                     Margin="16,0,4,16"
                     HorizontalAlignment="Center"
-                    d:Text="ahdkjshdkhf ewkj hdkjrh3jk fh3jkf3h2jk 3hkrh krh32r jkrh 2krhk 32rhk3 2r"
+                    d:Text="Test"
                     Text="{Binding MessageBody}"
                     TextWrapping="Wrap" />
                 <TextBox
@@ -44,15 +45,16 @@
                     VerticalAlignment="Center"
                     KeyUp="TextBox_KeyUp"
                     Text="{Binding Result, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-                <Label
-                    Width="250"
-                    Margin="16,0,4,0"
-                    VerticalAlignment="Center"
-                    Content="Input must be number"
-                    Foreground="IndianRed"
-                    Visibility="{Binding InputError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
             </StackPanel>
         </Grid>
+        <Label
+            Grid.Row="1"
+            Width="250"
+            Margin="16,-85,4,0"
+            VerticalAlignment="Center"
+            Content="Input must be a positive number"
+            Foreground="IndianRed"
+            Visibility="{Binding InputError, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolErrorToVisibilityConverter}}" />
         <StackPanel
             Grid.Row="1"
             Grid.ColumnSpan="2"
