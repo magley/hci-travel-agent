@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using YouTravel.Model;
@@ -9,7 +10,11 @@ namespace YouTravel
     {
         public App()
         {
-            FakeMain();
+			if (!Directory.Exists("./Data"))
+            {
+				Directory.CreateDirectory("./Data");
+			}
+			FakeMain();
         }
 
         private static void FakeMain()

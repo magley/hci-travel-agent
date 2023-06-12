@@ -44,7 +44,8 @@ namespace YouTravel.Util.Api
 				Key = File.ReadAllText("Data/MapsApiKey.apikey");
 			}
 			catch (FileNotFoundException)
-			{
+            {
+                File.WriteAllText("Data/MapsApiKey.apikey", "Please enter your Bing Maps API key here (copy-paste)...");
 				Key = "";
 			}
 		}
