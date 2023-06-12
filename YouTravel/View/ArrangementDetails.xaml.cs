@@ -2,6 +2,7 @@
 using Microsoft.Maps.MapControl.WPF;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace YouTravel.View
     /// </summary>
     public partial class ArrangementDetails : Page, INotifyPropertyChanged
     {
+
+        public ObservableCollection<Place> ArrPlaces { get; set; } = new();
         public event PropertyChangedEventHandler? PropertyChanged;
         void DoPropertyChanged(string prop) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
         public Arrangement Arrangement { get; set; }
@@ -70,21 +73,39 @@ namespace YouTravel.View
             ctx.Places.Load();
             // NOTE: This is an issue with lazy loading: you have to explicitly
             // tell the context to fetch the other entity, too.
-            var arrangement = ctx.Arrangements.Include(a => a.Places).Where(a => a.Id == Arrangement.Id).First();
+            Arrangement.Places.Clear();
+            ArrPlaces.Clear();
+			var arrangement = ctx.Arrangements.Include(a => a.Places).Where(a => a.Id == Arrangement.Id).First();
             foreach (var place in arrangement.Places)
             {
                 Arrangement.Places.Add(place);
-            }
+                ArrPlaces.Add(place);
+			}
+
+            if (lstAllPlaces.SelectedIndex == -1 && ArrPlaces.Count > 0)
+            {
+                lstAllPlaces.SelectedIndex = 0;
+			}
         }
         private void LstAllPlaces_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            mapBundle.Pins.Clear();
-            if (SelectedPlace != null)
-            {
-                mapBundle.Pins.Add(new PlacePinData(SelectedPlace));
-            }
-            MapUtil.Redraw(mapBundle);
-        }
+			mapBundle.Pins = new List<PlacePinData>(PlacePinData.From(ArrPlaces));
+
+			// "Highlight" selected pin
+			foreach (PlacePinData p in mapBundle.Pins)
+			{
+				if (p.Place != SelectedPlace)
+				{
+					p.IsSpeculativePin = false;
+				}
+				else
+				{
+					p.IsSpeculativePin = true;
+				}
+			}
+
+			MapUtil.Redraw(mapBundle);
+		}
 
         private void Book_Click(object sender, RoutedEventArgs e)
         {

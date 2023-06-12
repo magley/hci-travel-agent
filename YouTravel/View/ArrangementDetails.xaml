@@ -70,7 +70,7 @@
             MinHeight="100">
             <ListBox
                 x:Name="lstAllPlaces"
-                ItemsSource="{Binding Arrangement.Places}"
+                ItemsSource="{Binding ArrPlaces}"
                 SelectedItem="{Binding SelectedPlace, Mode=TwoWay, Converter={StaticResource PlaceConverter}}"
                 SelectionChanged="LstAllPlaces_SelectionChanged"
                 ToolTip="Available places">
