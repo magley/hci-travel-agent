@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:YouTravel.Shared"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="400"
-    Height="200"
+    Height="210"
     ResizeMode="NoResize"
     Style="{StaticResource WinDark}"
     WindowStartupLocation="CenterOwner"
@@ -45,26 +45,28 @@
                 TextWrapping="Wrap" />
         </Grid>
         <StackPanel
+			Background="{StaticResource bg_dark2}"
             Grid.Row="1"
-            Margin="10,8,10,10"
-            HorizontalAlignment="Center"
-            Orientation="Horizontal">
-            <Button
-                x:Name="btnYes"
-                Width="100"
-                Height="32"
-                Margin="16,0,0,0"
-                d:Content="Yes"
-                Click="BtnYes_Click"
-                Content="{Binding YesText}" />
-            <Button
-                x:Name="btnNo"
-                Width="100"
-                Height="32"
-                Margin="16,0,0,0"
-                d:Content="No"
-                Click="BtnNo_Click"
-                Content="{Binding NoText}" />
-        </StackPanel>
+			Grid.ColumnSpan="2"
+            HorizontalAlignment="Stretch">
+			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="10">
+				<Button
+                    x:Name="btnYes"
+                    Width="100"
+                    Height="32"
+                    Margin="16,0,0,0"
+                    d:Content="Yes"
+                    Click="BtnYes_Click"
+                    Content="{Binding YesText}" />
+                <Button
+                    x:Name="btnNo"
+                    Width="100"
+                    Height="32"
+                    Margin="16,0,0,0"
+                    d:Content="No"
+                    Click="BtnNo_Click"
+                    Content="{Binding NoText}" />
+			</StackPanel>
+		</StackPanel>
     </Grid>
 </Window>
