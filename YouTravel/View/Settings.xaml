@@ -57,6 +57,7 @@
                     VerticalAlignment="Center"
                     VerticalContentAlignment="Center"
                     Content="Show Toolbar"
+					ToolTip="Show or hide toolbar (Ctrl+T)"
                     IsChecked="{Binding ToolbarVisible, Mode=TwoWay}" />
                 <Label>Default Location Coordinates:</Label>
                 <Grid>
@@ -72,12 +73,14 @@
                         Grid.Column="1"
                         HorizontalContentAlignment="Right"
                         VerticalContentAlignment="Center"
+						ToolTip="Default latitude for maps"
                         Text="{Binding Latitude, Mode=TwoWay, StringFormat=N4}" />
                     <Label Grid.Column="2" Content="Longitude:" />
                     <TextBox
                         Grid.Column="30"
                         HorizontalContentAlignment="Right"
                         VerticalContentAlignment="Center"
+						ToolTip="Default longitude for maps"
                         Text="{Binding Longitude, Mode=TwoWay, StringFormat=N4}" />
                 </Grid>
             </StackPanel>
@@ -101,18 +104,21 @@
                     VerticalAlignment="Center"
                     VerticalContentAlignment="Center"
                     Content="Navigation"
+					ToolTip="Toggle navigation buttons on the toolbar"
                     IsChecked="{Binding ToolbarShowNav, Mode=TwoWay}" />
                 <CheckBox
                     x:Name="toolbar_cb_arrangement"
                     VerticalAlignment="Center"
                     VerticalContentAlignment="Center"
                     Content="Arrangement"
+					ToolTip="Toggle arrangement buttons on the toolbar"
                     IsChecked="{Binding ToolbarShowArrangement, Mode=TwoWay}" />
                 <CheckBox
                     x:Name="toolbar_cb_place"
                     VerticalAlignment="Center"
                     VerticalContentAlignment="Center"
                     Content="Place"
+					ToolTip="Toggle place buttons on the toolbar"
                     IsChecked="{Binding ToolbarShowPlace, Mode=TwoWay}" />
             </StackPanel>
         </Grid>

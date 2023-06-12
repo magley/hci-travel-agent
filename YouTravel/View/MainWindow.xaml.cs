@@ -466,13 +466,13 @@ namespace YouTravel.View
         private void On_OpenSettings(object sender, RoutedEventArgs e)
         {
             var win = new Settings(false);
-            win.Show();
+            win.ShowDialog();
         }
 
         private void On_OpenSettings_Toolbar(object sender, RoutedEventArgs e)
         {
             var win = new Settings(true);
-            win.Show();
+            win.ShowDialog();
         }
 
 
