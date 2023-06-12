@@ -40,7 +40,7 @@ namespace YouTravel.View
             PAID
         }
         private ColumnType _sortColumnType = ColumnType.TIME_OF_RESERVATION;
-        private bool _sortAscending = true;
+        private bool _sortAscending = false;
 
         private bool _isClearableCalendar = false;
         public bool IsClearableCalendar
