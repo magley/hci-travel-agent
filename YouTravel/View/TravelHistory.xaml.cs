@@ -188,8 +188,7 @@ namespace YouTravel.View
         {
             var button = (Button)sender;
             var arrangement = (Arrangement)button.DataContext;
-            // TODO: Navigate to view arrangement
-            Console.WriteLine($"TODO: View arrangement with id {arrangement.Id}");
+            ((MainWindow)Window.GetWindow(this)).OpenPage(new ArrangementDetails(arrangement));
         }
 
         private void SearchBox_KeyDown(object sender, KeyEventArgs e)

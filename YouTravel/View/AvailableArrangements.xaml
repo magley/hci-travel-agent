@@ -142,7 +142,7 @@
                         <Label
                             Grid.Row="2"
                             Grid.Column="1"
-                            Content="{Binding PriceRsd}"
+                            Content="{Binding PriceEur}"
                             Foreground="LightGreen" />
                         <Button
                             Grid.Row="3"
