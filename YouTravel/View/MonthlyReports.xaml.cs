@@ -211,7 +211,7 @@ namespace YouTravel.View
         {
             var button = (Button)sender;
             var arrangement = (Arrangement)button.DataContext;
-            ((MainWindow)Window.GetWindow(this)).OpenPage(new ArrangementDetails(arrangement));
+            ((MainWindow)Window.GetWindow(this)).OpenPage(new ArrangementEdit(arrangement));
         }
 
         private void tbReservations_Sorting(object sender, DataGridSortingEventArgs e)

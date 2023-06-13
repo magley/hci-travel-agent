@@ -290,7 +290,7 @@
                 Grid.Row="0"
                 Navigated="MyFrame_Navigated"
                 NavigationUIVisibility="Hidden"
-                Source="ArrangementList.xaml" />
+                Source="AvailableArrangements.xaml" />
         </Grid>
     </Grid>
 </Window>
